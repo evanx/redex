@@ -18,25 +18,25 @@ An exporter task will pop a message from a Redis queue and export to an external
 A router task will pop a message from a Redis queue, and dispatch this message internally 
 
 
-### Examples: importers
+## Examples: importers
 
-#### Redis importer
+### Redis importer
 
 Import a message from a Redis queue.
 
-#### HTTP importer
+### HTTP importer
 
 Import a message from an HTTP request. 
 
-### Examples: exporters
+## Examples: exporters
 
-#### Redis exporter
+### Redis exporter
 
 Export a message to a Redis queue.
 
-### Examples: routers
+## Examples: routers
 
-#### Multiplexer
+### Multiplexer
 
 A router which dispatches each message to multiple queues.
 
