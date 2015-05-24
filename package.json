@@ -1,0 +1,11 @@
+{
+  "name": "redswitch",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Evan Summers <evan.summers@gmail.com> (https://github.com/evanx)",
+  "license": "ISC"
+}
