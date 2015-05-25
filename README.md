@@ -16,7 +16,7 @@ The rationale and use-case we need is as follows:
 
 The above leads to a reliable message queue for multiple consumers, where if the consumer is busy, or crashed, its messages are delivered when it restarts.
 
-Also note that multiple workers can operate of a consumer queue for scalability.
+Also note that multiple workers can operate off a consumer queue for scalability.
 
 A "processor" is a component that processes messages.
 
