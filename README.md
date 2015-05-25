@@ -5,9 +5,10 @@ Redis-based switch to route messages for reactive microservices.
 
 ## Overivew 
 
-Redswitch keys on the local Redis instance are called "internal." Other keys or systems are "external."
+Redswitch keys on its Redis instance are called "internal." Other keys or systems are "external."
 
 Metadata is attached to messages e.g. for routing and processing purposes.
+
 
 ### Importers
 
