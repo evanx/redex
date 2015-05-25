@@ -81,7 +81,7 @@ Export a message via an HTTP request.
 Config: `HttpClient.default.yaml`
 ```yaml
 message:
-- method // e.g. GET, POST
+- method # e.g. GET, POST
 - url
 ```
 
@@ -97,8 +97,8 @@ Import an HTTP request message from an "external" Redis queue.
 
 Config: `RedisHttpRequestImporter.default.yaml`
 ```yaml
-queue: test:http // the redis key for the queue (list)
+queue: test:http # the redis key for the queue (list)
 message:
-- method // e.g. GET, POST
+- method # e.g. GET, POST
 - url
 ```
