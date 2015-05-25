@@ -5,7 +5,7 @@ Redis-based switch to route messages between Redis queues e.g. for reactive micr
 
 ## Overview
 
-Redix keys on its Redis instance are called "internal." Other keys or systems are "external."
+Messages might be imported and exported, and otherwise routed between processors, using Redis queues for our concurrency model.
 
 Metadata is attached to messages e.g. for routing and processing purposes.
 
@@ -22,15 +22,18 @@ Also note that multiple workers can operate off a consumer queue for scalability
 
 A "processor" is a component that processes messages.
 
+Redix keys (e.g. queues) on its Redis instance are called "internal." Other keys or systems are "external."
+
 Processors might be classified as follows:
-- importer - accepts a message from a external source and pushes it into a Redis queue.
-- exporter - exports a message to an external source.
-- router - dispatches a message (internally).
+- importer - import a message from a external source.
+- exporter - export a message to an external source.
+- router - dispatch a message (internally).
 - enqueuer - dispatch a message into a Redis queue.
-- dequeuer - pops a message from a Redis queue, and dispatches this message internally.
+- dequeuer - pop a message from a Redis queue, and dispatch this message.
 - compacter - eliminate messages from a queue.
 
 We implement a number of generally useful built-in processors, but the idea is that custom ones can be implemented and used in your deployment.
+
 
 ## Configuration
 
