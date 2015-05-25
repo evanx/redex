@@ -34,7 +34,9 @@ We implement a number of generally useful built-in processors, but the idea is t
 
 Each processor is configured via a YAML file in the Redix `configDir`
 
-The naming convention of the processor e.g. `FileImporter.default` is: its class, dot, its distinguishing name, to allow multiple instances of the same processor, configured for different purposes.
+The naming convention of the processor e.g. `FileImporter.default` is: its class, dot, its distinguishing name.
+
+This allows multiple instances of the same processor class, configured for different purposes.
 
 ## Examples
 
