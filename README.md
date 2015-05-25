@@ -67,7 +67,7 @@ Reply: `fileImporter/export/1.json`
 ```json
 {
   "id": 1862764,
-  "link": "http://www.iol.co.za/sport/soccer/platini-won-t-vote-for-blatter-1.1862764",
+  "link": "http://www.iol.co.za/sport/soccer/platini-won-t-vote-for-blatter",
   "published": "2015-05-25T09:03:19.000Z",
   "title": "Platini won’t vote for Blatter",
 }
