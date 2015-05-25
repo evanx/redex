@@ -15,7 +15,7 @@ The rationale and use-case we need is as follows:
 - push each incoming message onto multiple consumer queues
 - consumer microservices then pop messages off their consumer queues
 
-The above enables reliable messaging for multiple reactive consumers, where if the consumer is busy, or crashed, its messages are delivered when it restarts, via a blocking pop operation on the Redis queue it uses as its message source.
+The above enables reliable messaging for multiple reactive consumers. If a consumer is busy, or crashed, its messages are effectively delivered when it is available again, via a blocking pop operation on its Redis queue.
 
 Also note that multiple workers can operate off a single consumer queue for scalability and resilience.
 
