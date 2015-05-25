@@ -96,7 +96,7 @@ Import an HTTP request message from an "external" Redis queue.
 
 Config: `RedisHttpRequestImporter.default.yaml`
 ```yaml
-queue: test:http
+queue: test:http // the redis key for the queue (list)
 message:
 - method // e.g. GET, POST
 - url
