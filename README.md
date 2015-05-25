@@ -36,11 +36,6 @@ Processors might be classified as follows:
 
 We will implement a number of generally useful built-in processors, but the idea is that custom and third-party processors can be used in your deployment.
 
-The structure of different message types can be defined i.e. which properties are mandatory/optional, and their types e.g. string/int/boolean, for assertions during testing, and automated error handling.
-
-Transformative processors can be used to coerce messages into the expected format.
-
-
 ## Configuration
 
 Each processor is configured via a YAML file in the Redix `configDir.`
@@ -52,6 +47,12 @@ This is the module, JavaScript class, and its distinguishing instance name.
 The "module" enables custom and third-party processors e.g. a `myredix:FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes.
+
+## Messages
+
+The structure of different message types can be defined i.e. which properties are mandatory/optional, and their types e.g. string/int/boolean, for assertions during testing, and automated error handling.
+
+Transformative processors can be used to coerce messages into the expected format.
 
 
 ## Examples
