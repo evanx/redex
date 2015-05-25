@@ -14,11 +14,13 @@ The rationale and use-case we need is as follows:
 - push each incoming message onto multiple consumer queues
 - consumer microservices then pop messages off their consumer queues
 
-The above leads to a reliable message queue for multiple consumers, where if the consumer is busy, or crashed, its messages are delivered when it is available e.g. restarts.
+The above leads to a reliable message queue for multiple consumers, where if the consumer is busy, or crashed, its messages are delivered when it restarts.
 
 Also note that multiple workers can operate of a consumer queue for scalability.
 
-We call a component that processes messages, a "processor."
+A "processor" is a component that processes messages.
+
+We implement a number of generally useful ones as built-ins, but the idea is that custom ones can be implemented and used in your deployment.
 
 Processors might be classified as follows:
 - importer - accepts a message from a external source and pushes it into a Redis queue.
@@ -40,18 +42,24 @@ The naming convention of the processor is its class, dot, its distinguishing nam
 
 Import a message from a directory.
 
-```json
+`config/FileImporter.default.yaml`
+```yaml
 watchDir: tmp/fileImporter/import/
 replyDir: tmp/fileImporter/export/
 route:
 - HttpClient.default
 ```
 
+Sample message:
+```yaml
+```
+
 ### HttpClient exporter
 
 Export a message via an HTTP request.
 
-```json
+`config/HttpClient.default.yaml`
+```yaml
 message:
 - method // e.g. GET, POST
 - url
