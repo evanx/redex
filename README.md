@@ -3,6 +3,7 @@
 
 Redis-based switch and stream processing framework to route messages between processors and Redis queues e.g. for reactive microservices.
 
+
 ## Overview
 
 Messages might be imported and exported, and otherwise routed between processors, using Redis queues for our concurrency model.
@@ -17,6 +18,7 @@ The rationale and use-case we need is as follows:
 The above enables reliable messaging for multiple reactive consumers, where if the consumer is busy, or crashed, its messages are delivered when it restarts, via a blocking pop operation on the Redis queue it uses as its message source.
 
 Also note that multiple workers can operate off a single consumer queue for scalability and resilience.
+
 
 ## Processors
 
@@ -34,7 +36,10 @@ Processors might be classified as follows:
 
 We will implement a number of generally useful built-in processors, but the idea is that custom and third-party processors can be used in your deployment.
 
-Similarly the structure of different message types can be defined i.e. which properties are mandatory/optional, and their types e.g. string/int/boolean, for assertions during testing, and automated error handling.
+The structure of different message types can be defined i.e. which properties are mandatory/optional, and their types e.g. string/int/boolean, for assertions during testing, and automated error handling.
+
+Transformative processors can be used to coerce messages into the expected format.
+
 
 ## Configuration
 
@@ -43,6 +48,7 @@ Each processor is configured via a YAML file in the Redix `configDir`
 The naming convention of the processor e.g. `FileImporter.default` is: its class, dot, its distinguishing name.
 
 This allows multiple instances of the same processor class, configured for different purposes.
+
 
 ## Examples
 
