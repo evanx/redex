@@ -22,7 +22,7 @@ Also note that multiple workers can operate off a consumer queue for scalability
 
 A "processor" is a component that processes messages.
 
-Redix keys (e.g. queues) on its Redis instance are called "internal." Other keys or systems are "external."
+Redix keys (e.g. queues) on its Redis instance are called "internal." Other queues and systems are "external."
 
 Processors might be classified as follows:
 - importer - import a message from a external source.
