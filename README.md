@@ -42,7 +42,7 @@ The naming convention of the processor e.g. `FileImporter.default` is: its class
 
 Import a message from a directory.
 
-`config/FileImporter.default.yaml`
+Example config: `FileImporter.default.yaml`
 ```yaml
 watchDir: tmp/fileImporter/import/
 replyDir: tmp/fileImporter/export/
@@ -50,26 +50,19 @@ route:
 - HttpClient.default
 ```
 
-Sample incoming message: `tmp/fileImporter/import/1.yaml`
+Example incoming message: `fileImporter/import/1.yaml`
 ```yaml
 method: GET
 url: http://data.iol.io/s/frontage
 ```
 
-Sample reply: `tmp/fileImporter/export/1.json`
+Reply: `fileImporter/export/1.json`
 ```json
 {
   "id": 1862764,
   "link": "http://www.iol.co.za/sport/soccer/platini-won-t-vote-for-blatter-1.1862764",
-  "dataLink": "http://data.iol.io/a/1862764",
   "published": "2015-05-25T09:03:19.000Z",
   "title": "Platini won’t vote for Blatter",
-  "description": "Uefa president Michel Platini has thrown his weight behind Jordan's Prince Ali bin al Hussein in his bid to unseat Sepp Blatter as Fifa president.",
-  "category": "sport/soccer",
-  "image": "http://www.iol.co.za/polopoly_fs/iol-spt-may25-blatter-1.1862763!/image/1572973040.jpg_gen/derivatives/box_300/1572973040.jpg",
-  "largeImage": "http://www.iol.co.za/polopoly_fs/iol-spt-may25-blatter-1.1862763!/image/1572973040.jpg",
-  "caption": "Fifa president Sepp Blatter.",
-  "credit": "AFP"
 }
 ```
 
@@ -77,7 +70,7 @@ Sample reply: `tmp/fileImporter/export/1.json`
 
 Export a message via an HTTP request.
 
-`config/HttpClient.default.yaml`
+Sample config: `HttpClient.default.yaml`
 ```yaml
 message:
 - method // e.g. GET, POST
