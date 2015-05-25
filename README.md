@@ -1,7 +1,7 @@
 
 ## Redix Router
 
-Redis-based switch to route messages between Redis queues e.g. for reactive microservices.
+Redis-based switch and stream processing framework to route messages between Redis queues e.g. for reactive microservices.
 
 ## Overview
 
