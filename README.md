@@ -43,11 +43,15 @@ Transformative processors can be used to coerce messages into the expected forma
 
 ## Configuration
 
-Each processor is configured via a YAML file in the Redix `configDir`
+Each processor is configured via a YAML file in the Redix `configDir.`
 
-The naming convention of the processor e.g. `FileImporter.default` is: its class, dot, its distinguishing name.
+The naming convention of the processor is a colon notation e.g. `builtin:FileImporter:default.`
 
-This allows multiple instances of the same processor class, configured for different purposes.
+This is the module, JavaScript class, and its distinguishing instance name.
+
+The "module" enables custom and third-party processors e.g. a `myredix:FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
+
+The distinguishing name enables multiple instances of the same processor class, configured for different purposes.
 
 
 ## Examples
