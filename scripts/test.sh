@@ -3,7 +3,7 @@ mkdir -p tmp/fileImporter/import
 mkdir -p tmp/fileImporter/export
 
 c0run() {
-  baseDir=tests/httpRequest nodejs index.js | bunyan
+  baseDir=tests/httpRequest nodejs index.js | bunyan -o short
 }
 
 c0client() {
