@@ -90,6 +90,14 @@ method: GET
 url: http://data.iol.io/s/frontage
 ```
 
-### RedisImporter
+### RedisHttpRequestImporter
 
-Import a message from a Redis queue.
+Import an HTTP request message from an "external" Redis queue.
+
+Config: `RedisHttpRequestImporter.default.yaml`
+```yaml
+queue: test:http
+message:
+- method // e.g. GET, POST
+- url
+```
