@@ -6,7 +6,7 @@ Redis-based switch and stream processing framework to route messages between pro
 
 ## Overview
 
-Messages might be imported and exported, and otherwise routed between processors, using Redis queues for our concurrency model.
+Messages might be imported and exported, and otherwise routed between processors, e.g. using Redis queues for their concurrency model.
 
 Metadata is attached to messages e.g. for routing and processing purposes.
 
@@ -23,8 +23,6 @@ Also note that multiple workers can operate off a single consumer queue for scal
 ## Processors
 
 A "processor" is a component that processes messages.
-
-Redix keys (e.g. queues) on its Redis instance are called "internal." Other queues and systems are "external."
 
 Processors might be classified as follows:
 - importer - import a message from a external source.
@@ -51,16 +49,22 @@ The distinguishing name enables multiple instances of the same processor class, 
 
 Note that `npm` enables versioning via `package.json.`
 
+We wish to support immutable processors through a versioning mechanism.
+
 
 ## Messages
 
 The following is envisaged for messages, but is yet to be implemented.
 
-Messages can be versioned to enable new features, and deprecate old ones. Processors should specify the message versions they can handle, and reject newer messages if they have not been correctly updated.
-
 The structure of different message types (and supported versions) can be defined i.e. which properties are mandatory/optional, and their types e.g. `string/int/boolean.` This is useful for assertions during testing, and automated error handling.
 
+Messages can be versioned to enable new features, and deprecate old ones.
+
 Transformative processors can be used to coerce messages into the expected format, or required version.
+
+Processors should specify the message versions they can handle, and otherwise reject messages.
+
+We wish to support "immutable" processors to "let sleeping dogs lie" so to speak, whereby the version of the message is used to invoke the appropriate version of the required processor.
 
 
 ## Examples
