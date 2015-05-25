@@ -18,6 +18,8 @@ The above leads to a reliable message queue for multiple consumers, where if the
 
 Also note that multiple workers can operate off a consumer queue for scalability.
 
+## Processors
+
 A "processor" is a component that processes messages.
 
 Processors might be classified as follows:
