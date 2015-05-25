@@ -20,8 +20,6 @@ Also note that multiple workers can operate of a consumer queue for scalability.
 
 A "processor" is a component that processes messages.
 
-We implement a number of generally useful ones as built-ins, but the idea is that custom ones can be implemented and used in your deployment.
-
 Processors might be classified as follows:
 - importer - accepts a message from a external source and pushes it into a Redis queue.
 - exporter - exports a message to an external source.
@@ -30,11 +28,13 @@ Processors might be classified as follows:
 - dequeuer - pops a message from a Redis queue, and dispatches this message internally.
 - compacter - eliminate messages from a queue.
 
+We implement a number of generally useful built-in processors, but the idea is that custom ones can be implemented and used in your deployment.
+
 ## Configuration
 
 Each processor is configured via a YAML file in the Redix `configDir`
 
-The naming convention of the processor is its class, dot, its distinguishing name e.g. `FileImporter.default`
+The naming convention of the processor e.g. `FileImporter.default` is: its class, dot, its distinguishing name, to allow multiple instances of the same processor, configured for different purposes.
 
 ## Examples
 
@@ -50,8 +50,27 @@ route:
 - HttpClient.default
 ```
 
-Sample message:
+Sample incoming message: `tmp/fileImporter/import/1.yaml`
 ```yaml
+method: GET
+url: http://data.iol.io/s/frontage
+```
+
+Sample reply: `tmp/fileImporter/export/1.json`
+```json
+{
+  "id": 1862764,
+  "link": "http://www.iol.co.za/sport/soccer/platini-won-t-vote-for-blatter-1.1862764",
+  "dataLink": "http://data.iol.io/a/1862764",
+  "published": "2015-05-25T09:03:19.000Z",
+  "title": "Platini won’t vote for Blatter",
+  "description": "Uefa president Michel Platini has thrown his weight behind Jordan's Prince Ali bin al Hussein in his bid to unseat Sepp Blatter as Fifa president.",
+  "category": "sport/soccer",
+  "image": "http://www.iol.co.za/polopoly_fs/iol-spt-may25-blatter-1.1862763!/image/1572973040.jpg_gen/derivatives/box_300/1572973040.jpg",
+  "largeImage": "http://www.iol.co.za/polopoly_fs/iol-spt-may25-blatter-1.1862763!/image/1572973040.jpg",
+  "caption": "Fifa president Sepp Blatter.",
+  "credit": "AFP"
+}
 ```
 
 ### HttpClient exporter
@@ -63,6 +82,12 @@ Export a message via an HTTP request.
 message:
 - method // e.g. GET, POST
 - url
+```
+
+Sample incoming message: `tmp/fileImporter/import/1.yaml`
+```yaml
+method: GET
+url: http://data.iol.io/s/frontage
 ```
 
 ### RedisImporter
