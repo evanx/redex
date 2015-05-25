@@ -42,7 +42,7 @@ The naming convention of the processor e.g. `FileImporter.default` is: its class
 
 Import a message from a directory.
 
-Example config: `FileImporter.default.yaml`
+Config: `FileImporter.default.yaml`
 ```yaml
 watchDir: tmp/fileImporter/import/
 replyDir: tmp/fileImporter/export/
@@ -50,7 +50,7 @@ route:
 - HttpClient.default
 ```
 
-Example incoming message: `fileImporter/import/1.yaml`
+Incoming message: `fileImporter/import/1.yaml`
 ```yaml
 method: GET
 url: http://data.iol.io/s/frontage
@@ -70,14 +70,14 @@ Reply: `fileImporter/export/1.json`
 
 Export a message via an HTTP request.
 
-Sample config: `HttpClient.default.yaml`
+Config: `HttpClient.default.yaml`
 ```yaml
 message:
 - method // e.g. GET, POST
 - url
 ```
 
-Sample incoming message: `tmp/fileImporter/import/1.yaml`
+Incoming message: `tmp/fileImporter/import/1.yaml`
 ```yaml
 method: GET
 url: http://data.iol.io/s/frontage
