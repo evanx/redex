@@ -6,7 +6,7 @@ Redis-based switch and stream processing framework to route messages between pro
 
 ## Overview
 
-Messages might be imported and exported, and otherwise routed between processors, e.g. using Redis queues for their concurrency model.
+Messages might be imported and exported, and otherwise routed between processors.
 
 Metadata is attached to messages e.g. for routing and processing purposes.
 
@@ -65,6 +65,13 @@ Transformative processors can be used to coerce messages into the expected forma
 Processors should specify the message versions they can handle, and otherwise reject messages.
 
 We wish to support "immutable" processors to "let sleeping dogs lie" so to speak, whereby the version of the message is used to invoke the appropriate version of the required processor.
+
+
+## Concurrency 
+
+We use Redis for "shared memory" accessed by Node processors. Both Redis and Node have single-threaded event loops, which simplifies concurrency.
+
+We use Redis queues for our "concurrency model" where processors are "actors" which avoid concurrent operations on shared memory. 
 
 
 ## Examples

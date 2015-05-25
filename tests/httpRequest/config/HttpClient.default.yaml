@@ -1,2 +1,4 @@
 
-label: HTTP Client
+message:
+- method // e.g. GET, POST
+- url
