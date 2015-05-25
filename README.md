@@ -34,6 +34,7 @@ Processors might be classified as follows:
 
 We will implement a number of generally useful built-in processors, but the idea is that custom and third-party processors can be used in your deployment.
 
+Similarly the structure of different message types can be defined i.e. which properties are mandatory/optional, and their types e.g. string/int/boolean, for assertions during testing, and automated error handling.
 
 ## Configuration
 
