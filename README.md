@@ -16,7 +16,7 @@ The rationale and use-case we need is as follows:
 
 The above enables reliable messaging for multiple reactive consumers, where if the consumer is busy, or crashed, its messages are delivered when it restarts, via a blocking pop operation on the Redis queue it uses as its message source.
 
-Also note that multiple workers can operate off a consumer queue for scalability and resilience.
+Also note that multiple workers can operate off a single consumer queue for scalability and resilience.
 
 ## Processors
 
