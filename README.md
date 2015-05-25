@@ -3,7 +3,7 @@
 
 Redis-based switch to route messages between Redis queues e.g. for reactive microservices.
 
-## Overivew
+## Overview
 
 Redix keys on its Redis instance are called "internal." Other keys or systems are "external."
 
