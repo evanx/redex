@@ -3,22 +3,23 @@
 
 Redis-based switch and stream processing framework to route messages between Redix processors, and Redis queues e.g. for reactive microservices.
 
+Redix is essentially a configurable logic layer for messaging between collaborating microservices.
+
 
 ## Overview
 
-Messages might be imported and exported, and otherwise routed between processors.
+Messages are imported from external sources (including Redis queues and other Redix instances) and similarly exported. Otherwise they are routed between internal Redix processors.
 
 Metadata is attached to messages e.g. for routing and processing purposes.
 
-The first use-case we need is a reliable queue for multiple consumers, implemented as follows:
+The first use-case we wish to fulfil is a reliable queue for multiple consumers, implemented as follows:
 - pop incoming messages from a Redis producer queue
 - push each incoming message onto multiple consumer queues
-- consumer microservices then pop messages off their consumer queues
+- microservices consume messages, and might reply later, or feedback error information.
 
-The above enables reliable messaging for multiple reactive consumers. If a consumer is busy, or crashed, its messages are delivered when it is available again, via its blocking pop operation on its Redis queue.
+The above enables reliable messaging for multiple reactive consumers. If a consumer is busy, or crashed, its messages are delivered when it is available again, via its dedicated persistent Redis queue.
 
 Also note that multiple workers can operate off a single consumer queue for scalability and resilience.
-
 
 ## Processors
 
@@ -34,16 +35,20 @@ Processors might be classified as follows:
 
 We will implement a number of generally useful built-in processors, but the idea is that custom and third-party processors can be used in your deployment.
 
+Messaging passing between processors is preferrably via Redix message queues to improve resilence and management.
+
+Metrics should be published by processors, for performance monitoring and management.
+
 
 ## Configuration
 
-Each processor is configured via a YAML file in the Redix `configDir.`
+Currently each processor is configured via a YAML file in the Redix `config` directory. This should be managed using a private git repository, which then provides versioning.
 
-The naming convention of the processor is a colon notation e.g. `builtin:FileImporter:default.`
+The a naming convention for each processor (and its configuration file) has a colon-delimited notation e.g. `builtin:FileImporter:default.`
 
-This is its Node module, JavaScript class, and finally its distinguishing instance name.
+This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
 
-The "module" enables custom and third-party processors e.g. a `myredix:FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
+The "module" name enables custom and third-party processors e.g. a `myredix:FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes.
 
@@ -52,13 +57,11 @@ Note that `npm` enables version dependency via `package.json.` Also, multiple ve
 
 ## Messages
 
-The following is envisaged for messages, but is yet to be implemented.
+The following design is recommended for messages.
 
-The interface of different message types can be defined, and for multiple versions. We define the mandatory and optional properties, and their types e.g. string, int, boolean. This is useful for assertions during testing, and automated error handling.
+The interface of different message types should be defined, and versioned. We should define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for assertions during testing, and automated error handling.
 
-Processors should specify the message versions they can handle, and otherwise reject messages.
-
-Transformative processors can be used to coerce messages into the expected format or required version.
+Otherwise transformative processors can be used to coerce messages into the expected format or required version.
 
 However, we expect multiple versions of processors will be installed to support older messages, for some period.
 
