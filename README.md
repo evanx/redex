@@ -36,6 +36,7 @@ Processors might be classified as follows:
 
 We will implement a number of generally useful built-in processors, but the idea is that custom and third-party processors can be used in your deployment.
 
+
 ## Configuration
 
 Each processor is configured via a YAML file in the Redix `configDir.`
@@ -48,12 +49,18 @@ The "module" enables custom and third-party processors e.g. a `myredix.FancyProc
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes.
 
+Note that `npm` enables versioning via `package.json.`
+
 
 ## Messages
 
-The structure of different message types can be defined i.e. which properties are mandatory/optional, and their types e.g. string/int/boolean, for assertions during testing, and automated error handling.
+The following is envisaged for messages, but is yet to be implemented.
 
-Transformative processors can be used to coerce messages into the expected format.
+Messages can be versioned to enable new features, and deprecate old ones. Processors should specify the message versions they can handle, and reject newer messages if they have not been correctly updated.
+
+The structure of different message types (and supported versions) can be defined i.e. which properties are mandatory/optional, and their types e.g. `string/int/boolean.` This is useful for assertions during testing, and automated error handling.
+
+Transformative processors can be used to coerce messages into the expected format, or required version.
 
 
 ## Examples
