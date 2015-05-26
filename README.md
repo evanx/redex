@@ -35,7 +35,7 @@ Processors might be classified as follows:
 - dequeuer - pop a message from a Redis queue, and dispatch this message.
 - compacter - eliminate messages from a queue.
 
-Messaging passing between processors is preferrably via Redix message queues to improve resilence and management.
+Messaging passing between processors is preferrably via Redix message queues, to improve resilence and management.
 
 We will implement a number of built-in processors for our own requirements, and accept contributions.
 
