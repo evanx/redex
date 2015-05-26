@@ -39,7 +39,7 @@ Messaging passing between processors is preferrably via Redix message queues, to
 
 We will implement a number of built-in processors for our own requirements, and accept contributions.
 
-We enable custom and third-party processors as "plugins" installed via `npm.` Otherwise Redix would not be particularly useful.
+We enable custom and third-party processors as "plugins" installed via `npm.` Otherwise Redix would not be particularly useful to others.
 
 Metrics should be published by processors, for performance monitoring and management.
 
