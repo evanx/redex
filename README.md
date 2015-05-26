@@ -1,25 +1,25 @@
 
 ## Redix Router
 
-Node and Redis-based message router and stream processing framework to route messages between Redix processors, and Redis queues e.g. for reactive microservices.
+Node and Redis-based message router built with configurable Redix "processors," e.g. for managing Redis queues, for reactive microservices.
 
-Redix is essentially a configurable logic layer for managing messaging between collaborating microservices.
+In other words, Redix is a configurable logic layer for managing messaging between collaborating microservices.
 
 
 ## Overview
 
-Messages are imported from external sources (including Redis queues and other Redix instances) and similarly exported. Otherwise they are routed between internal Redix processors.
+Messages are imported from external sources (including Redis queues and other Redix instances) and conversely exported. Otherwise they are routed between Redix processors, which are actors of this Redix instance.
 
-Metadata is attached to messages e.g. for routing and processing purposes.
+Metadata is attached to messages e.g. for routing and processing purposes. This metadata distinguishes a Redix-managed queue from a "naked" Redis queue.
 
-The first use-case we wish to fulfil is a reliable queue for multiple consumers, implemented as follows:
+A simple use-case we wish to fulfil is a reliable queue for multiple consumers, implemented as follows:
 - pop incoming messages from a Redis producer queue
-- push each incoming message onto multiple consumer queues
-- microservices consume messages, and might reply later, or feedback error information.
+- push each incoming message onto multiple queues, one for each consumer.
 
-The above enables reliable messaging for multiple reactive consumers. If a consumer is busy, or crashed, its messages are delivered when it is available again, via its dedicated persistent Redis queue.
+Application microservices can then consume their messages reliably. They might reply later, or feedback error information e.g. a timeout. If a consumer is busy, or crashed, its messages are delivered when it is available again, via its dedicated persistent Redis queue.
 
 Also note that multiple workers can operate off a single consumer queue for scalability and resilience.
+
 
 ## Processors
 
