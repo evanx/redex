@@ -1,7 +1,7 @@
 
 ## Redix Router
 
-Node and Redis-based message router built with configurable Redix "processors," e.g. for managing Redis queues, for reactive microservices.
+Node and Redis-based modular message router built with configurable Redix "processors," e.g. for managing Redis queues, for reactive microservices.
 
 In other words, Redix is a configurable logic layer for managing messaging between collaborating microservices.
 
