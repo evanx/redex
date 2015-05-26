@@ -50,7 +50,7 @@ Currently each processor is configured via a YAML file in the Redix `config` dir
 
 The naming convention for each processor (and its configuration file) is a path e.g. `builtin/FileImporter.singleton.json`
 
-This name is comprised of its Node module (and version), JavaScript class, and finally its distinguishing instance name.
+This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise we name the instance as `singleton.`
 
