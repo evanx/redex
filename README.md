@@ -89,6 +89,7 @@ Import a message from a directory.
 
 Config: `FileImporter.singleton.yaml`
 ```yaml
+startup: 50 # startup priority number
 watchedDir: fileImporter/watched/
 replyDir: fileImporter/reply/
 route:
