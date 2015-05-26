@@ -63,7 +63,7 @@ Note that `npm` enables version dependency via `package.json.` Also, multiple ve
 
 The following design is recommended for messages.
 
-The interface for each message type can be defined, and should be versioned. We define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for assertions during testing, and automated error handling.
+The interface for each message type can be defined, and should be versioned. We define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for automated error handling, and assertions during testing i.e. to fail-fast.
 
 Otherwise transformative processors can be used to coerce messages into the expected format or required version.
 
