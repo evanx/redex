@@ -10,7 +10,7 @@ In other words, Redix is a configurable logic layer for managing messaging betwe
 
 Messages are imported from external sources (including Redis queues and other Redix instances) and conversely exported. Otherwise they are routed between Redix processors, which are actors of this Redix instance.
 
-Metadata is attached to messages e.g. for routing and processing purposes. This metadata distinguishes a Redix-managed queue from a "naked" Redis queue.
+Metadata is attached to messages e.g. for routing and processing purposes. This metadata distinguishes a Redix-managable queue from a "naked" Redis queue.
 
 A simple use-case we wish to fulfil is a reliable queue for multiple consumers, implemented as follows:
 - pop incoming messages from a Redis producer queue
