@@ -1,0 +1,5 @@
+
+message:
+- startup
+- method # e.g. GET, POST
+- url

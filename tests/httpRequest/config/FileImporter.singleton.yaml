@@ -1,0 +1,5 @@
+
+watchDir: tmp/fileImporter/watched/
+replyDir: tmp/fileImporter/reply/
+route:
+- HttpClient.singleton

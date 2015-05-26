@@ -23,8 +23,8 @@ export default class HttpClient {
          } else if (response.statusCode !== 200) {
             log.warn('process', { statusCode: response.statusCode });
          } else {
-            log.info('process', reply[0].title);
-            this.dispatchReply(message, reply[0]);
+            log.info('process', reply);
+            this.dispatchReply(message, reply);
          }
       });
    }

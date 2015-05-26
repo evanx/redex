@@ -1,5 +1,0 @@
-
-watchDir: tmp/fileImporter/import/
-replyDir: tmp/fileImporter/export/
-route:
-- HttpClient.default
