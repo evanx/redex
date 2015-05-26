@@ -48,15 +48,15 @@ Metrics should be published by processors, for performance monitoring and manage
 
 Currently each processor is configured via a YAML file in the Redix `config` directory. This should be managed using a private git repository, which then provides versioning.
 
-The a naming convention for each processor (and its configuration file) is a path e.g. `builtin/FileImporter.singleton.json`
+The naming convention for each processor (and its configuration file) is a path e.g. `builtin/FileImporter.singleton.json`
 
-This name is comprised of its Node module, version, JavaScript class, and finally its distinguishing instance name.
+This name is comprised of its Node module (and version), JavaScript class, and finally its distinguishing instance name.
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise we name the instance as `singleton.`
 
 The "module" name enables custom and third-party processors e.g. a `myredix/FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
-Note that `npm` enables version dependency via `package.json.` Also, multiple versions of the same module can be installed as differently named modules, e.g. `myredix-2.0.0/FancyProcessor.`
+Note that `npm` enables version dependency via `package.json.` Also, multiple versions of the same module can be installed as differently named modules, e.g. `myredix-1.0.0/FancyProcessor.`
 
 
 ## Messages
