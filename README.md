@@ -3,7 +3,7 @@
 
 Node and Redis-based message router and stream processing framework to route messages between Redix processors, and Redis queues e.g. for reactive microservices.
 
-Redix is essentially a configurable logic layer for messaging between collaborating microservices.
+Redix is essentially a configurable logic layer for managing messaging between collaborating microservices.
 
 
 ## Overview
