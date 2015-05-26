@@ -48,7 +48,7 @@ Metrics should be published by processors, for performance monitoring and manage
 
 Currently each processor is configured via a YAML file in the Redix `config` directory. This should be managed using a private git repository, which then provides versioning.
 
-The a naming convention for each processor (and its configuration file) has a colon-delimited notation e.g. `builtin:FileImporter:default.`
+The a naming convention for each processor (and its configuration file) has a colon-delimited notation e.g. `builtin:FileImporter:singleton.`
 
 This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
 
@@ -87,12 +87,12 @@ Our processors are message-passing "actors," and otherwise must use Redis transa
 
 Import a message from a directory.
 
-Config: `FileImporter.default.yaml`
+Config: `FileImporter.singleton.yaml`
 ```yaml
 watchDir: tmp/fileImporter/import/
 replyDir: tmp/fileImporter/export/
 route:
-- HttpClient.default
+- HttpClient.singleton
 ```
 
 Incoming message: `fileImporter/import/1.yaml`
@@ -115,7 +115,7 @@ Reply: `fileImporter/export/1.json`
 
 Export a message via an HTTP request.
 
-Config: `HttpClient.default.yaml`
+Config: `HttpClient.singleton.yaml`
 ```yaml
 message:
 - method # e.g. GET, POST
@@ -132,7 +132,7 @@ url: http://data.iol.io/s/frontage
 
 Import an HTTP request message from an "external" Redis queue.
 
-Config: `RedisHttpRequestImporter.default.yaml`
+Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
 queue: test:http # the redis key for the queue (list)
 message:
