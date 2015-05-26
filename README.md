@@ -76,12 +76,12 @@ We use message queues to avoid concurrent operations.
 
 Both Redis and Node have single-threaded event loops, which simplifies concurrency.
 
-We use Redis for message queues and "shared memory" accessed by Redix processors, and our microservices.
+We use Redis for message queues and "shared memory" accessed by Redix processors, and our application's microservices.
 
 Our processors are message-passing "actors," and otherwise must use Redis transactions.
 
 
-## Examples
+## Basic examples
 
 ### FileImporter
 
