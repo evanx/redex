@@ -20,6 +20,8 @@ Application microservices can then consume their messages reliably. They might r
 
 Also note that multiple workers can operate off a single consumer queue for scalability and resilience.
 
+Redix processors are themselves a class of microservices. However, the difference between Redix processors and the application microservices they support, is that they are just the plumbing for those microservices.
+
 
 ## Processors
 
@@ -61,7 +63,7 @@ Note that `npm` enables version dependency via `package.json.` Also, multiple ve
 
 The following design is recommended for messages.
 
-The interface for each message types can be defined, and should be versioned. We define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for assertions during testing, and automated error handling.
+The interface for each message type can be defined, and should be versioned. We define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for assertions during testing, and automated error handling.
 
 Otherwise transformative processors can be used to coerce messages into the expected format or required version.
 
