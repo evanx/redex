@@ -1,7 +1,7 @@
 
 ## Redix Router
 
-Redis-based switch and stream processing framework to route messages between Redix processors, and Redis queues e.g. for reactive microservices.
+Node and Redis-based message router and stream processing framework to route messages between Redix processors, and Redis queues e.g. for reactive microservices.
 
 Redix is essentially a configurable logic layer for messaging between collaborating microservices.
 
@@ -61,11 +61,11 @@ Note that `npm` enables version dependency via `package.json.` Also, multiple ve
 
 The following design is recommended for messages.
 
-The interface of different message types should be defined, and versioned. We should define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for assertions during testing, and automated error handling.
+The interface for each message types can be defined, and should be versioned. We define the mandatory and optional properties, their types e.g. string, int, boolean, and their contracts. This is useful for assertions during testing, and automated error handling.
 
 Otherwise transformative processors can be used to coerce messages into the expected format or required version.
 
-However, we expect multiple versions of processors will be installed to support older messages, for some period.
+However, we expect multiple versions of processors will be installed e.g. to support older messages for some period.
 
 
 ## Concurrency
@@ -74,7 +74,7 @@ We use message queues to avoid concurrent operations.
 
 Both Redis and Node have single-threaded event loops, which simplifies concurrency.
 
-We use Redis for queues and "shared memory" accessed by Node processors.
+We use Redis for message queues and "shared memory" accessed by Redix processors, and our microservices.
 
 Our processors are message-passing "actors," and otherwise must use Redis transactions.
 
