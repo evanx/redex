@@ -67,8 +67,9 @@ The interface for each message type can be defined, and should be versioned. We 
 
 Otherwise transformative processors can be used to coerce messages into the expected format or required version.
 
-However, we expect multiple versions of processors will be installed e.g. to support older messages for some period.
+Alternatively, multiple versions of processors can be installed e.g. to support older messages for some period.
 
+However, we should facilitate a "canary release" of a Redix instance which handles an increasing number of incoming messages in parallel with the old release, in order to compare metrics and retire the old release.
 
 ## Concurrency
 
