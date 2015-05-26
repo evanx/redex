@@ -35,11 +35,11 @@ Processors might be classified as follows:
 - dequeuer - pop a message from a Redis queue, and dispatch this message.
 - compacter - eliminate messages from a queue.
 
-We will implement a number of generally useful built-in processors, and accept contributions.
-
-We enable custom and third-party processors as "plugins."
-
 Messaging passing between processors is preferrably via Redix message queues to improve resilence and management.
+
+We will implement a number of built-in processors for our own requirements, and accept contributions.
+
+We enable custom and third-party processors as "plugins" installed via `npm.` Otherwise Redix would not be particularly useful.
 
 Metrics should be published by processors, for performance monitoring and management.
 
