@@ -52,9 +52,9 @@ The a naming convention for each processor (and its configuration file) has a co
 
 This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
 
-The "module" name enables custom and third-party processors e.g. a `myredix:FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
+The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise designate it as a `singleton.`
 
-The distinguishing name enables multiple instances of the same processor class, configured for different purposes.
+The "module" name enables custom and third-party processors e.g. a `myredix:FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
 Note that `npm` enables version dependency via `package.json.` Also, multiple versions of the same module can be installed as differently named modules, e.g. `myredix-2.0.0:FancyProcessor.`
 
