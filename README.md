@@ -89,6 +89,7 @@ Import a message from a directory.
 
 Config: `FileImporter.singleton.yaml`
 ```yaml
+description: Read a message from a file
 startup: 50 # startup priority number
 watchedDir: fileImporter/watched/
 replyDir: fileImporter/reply/
@@ -122,8 +123,9 @@ Export a message via an HTTP request.
 
 Config: `HttpClient.singleton.yaml`
 ```yaml
+description: Perform an HTTP request
 startup: 10 # startup priority number
-message:
+messageInterface: # for automatic validation
 - method # e.g. GET, POST
 - url
 ```
@@ -142,7 +144,7 @@ Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
 startup: 20 # startup priority number
 queue: test:http # the redis key for the queue (list)
-message:
+messageInterface: # for automatic validation
 - method # e.g. GET, POST
 - url
 ```
