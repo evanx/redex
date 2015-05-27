@@ -138,10 +138,11 @@ url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 
 ### RedisHttpRequestImporter
 
-Import an HTTP request message from an "external" Redis queue.
+Import an HTTP request message from a Redis queue.
 
 Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
+description: Import an HTTP request message from a Redis queue
 startup: 20 # startup priority number
 queue: test:http # the redis key for the queue (list)
 messageInterface: # for automatic validation
