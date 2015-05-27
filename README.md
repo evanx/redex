@@ -130,7 +130,7 @@ messageInterface: # for automatic validation
 - url
 ```
 
-Incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
+Incoming message: `fileImporter/watched/hn160705.yaml`
 ```yaml
 method: GET
 url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
