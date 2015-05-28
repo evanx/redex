@@ -97,8 +97,9 @@ route:
 
 Incoming message: `fileImporter/watched/hn160705.yaml`
 ```yaml
-type: HttpRequest@1
-props:
+redix:
+  type: HttpRequest@1
+data:
   method: GET
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 ```
@@ -129,8 +130,9 @@ protocol: HttpRequestExchange@1
 
 Incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
 ```yaml
-type: HttpRequest@1
-props:
+redix:
+  type: HttpRequest@1
+data:
   method: GET
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 ```
