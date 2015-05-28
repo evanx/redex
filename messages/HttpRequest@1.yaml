@@ -1,0 +1,10 @@
+description: An HTTP request
+interface: # for automatic validation
+  method: # e.g. GET, POST
+    type: string
+    matches: ^(GET|POST)$
+  url:
+    type: string
+    validator: url
+  json:
+    type: boolean

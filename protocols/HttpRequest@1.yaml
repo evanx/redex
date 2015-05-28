@@ -1,0 +1,10 @@
+version: 1
+messages:
+- HttpRequest.1
+exchanges:
+- receive: HttpRequest
+  dispatch: HttpRequest
+  reply: string|HttpResponse|Error
+- receive: HttpRequest
+  dispatch: HttpGetRequest
+  reply: string|JsonResponse|Error
