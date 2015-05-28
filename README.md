@@ -49,7 +49,7 @@ The name of each processor (and its configuration file) is an "instance URI" e.g
 
 This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
 
-The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise we name the instance as `singleton.`
+The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise we name the instance as `singleton` by default.
 
 The "module" name enables custom and third-party processors e.g. a `myredix/FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
@@ -90,7 +90,8 @@ watched: fileImporter/watched/
 reply: fileImporter/reply/
 protocol: HttpRequestExchange@1
 route:
-- HttpClient.singleton
+- HttpRequestValidator
+- HttpClient
 ```
 
 Incoming message: `fileImporter/watched/hn160705.yaml`
