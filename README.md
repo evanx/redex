@@ -144,5 +144,5 @@ Config: `RedisHttpRequestImporter.singleton.yaml`
 description: Import an HTTP request message from a Redis queue
 startup: 20 # startup priority number
 queue: test:http # the redis key for the queue (list)
-protocol: HttpRequestExchange@1
+protocol: HttpRequest@1
 ```
