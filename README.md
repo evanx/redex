@@ -86,10 +86,8 @@ Config: `FileImporter.singleton.yaml`
 ```yaml
 description: Read a message from a file
 startup: 50 # startup priority number
-watched:
-   dir: fileImporter/watched/
-reply:
-   dir: fileImporter/reply/
+watched: fileImporter/watched/
+reply: fileImporter/reply/
 protocol: HttpRequestExchange@1
 route:
 - HttpClient.singleton
