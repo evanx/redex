@@ -124,7 +124,6 @@ Config: `HttpClient.singleton.yaml`
 ```yaml
 description: Perform an HTTP request
 startup: 10 # startup priority number
-protocol: HttpRequestExchange@1
 ```
 
 Incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
