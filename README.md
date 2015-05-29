@@ -1,49 +1,39 @@
 
-## Redix Router
+# Redix Router
 
 Redix is a Node-based message router for a Redis-based message hub.
 
-It can used to compose plumbing for collaborating microservices.
-
-## Overview
-
-Messages are imported from external sources (including Redis queues and other Redix instances) and conversely exported. Otherwise they are routed between Redix processors. These are "actors" configured for a Redix instance.
-
-Metadata is attached to messages e.g. for routing and processing purposes. It includes routing information for replies and error feedback e.g. in the event of a timeout. Additionally, it might include state for further processing purposes.
-
-The first simple use-case we wish to fulfil is a reliable queue for multiple consumers, implemented as follows:
-- pop an incoming message from an external Redis producer queue
-- push each incoming message onto multiple external queues, one for each logical consumer.
-
-Application microservices can then consume their messages reliably. They might reply later, or feedback error information e.g. a timeout. If a consumer is busy, or crashed, its messages are delivered when it is available again, via its dedicated persistent Redis queue.
-
-Also note that multiple "workers" can operate off a single "consumer" queue, for scalability and resilience.
-
+It can be used to compose plumbing for Redis queues for collaborating microservices.
 
 ## Processors
 
-A "processor" is a component that processes messages.
+A "processor" is a configurable component that processes messages.
 
 Processors might be classified as follows:
-- importer - import a message from a external source.
-- exporter - export a message to an external source.
-- router - dispatch a message (internally).
-- enqueuer - dispatch a message into a Redis queue.
-- dequeuer - pop a message from a Redis queue, and dispatch this message.
-- compacter - eliminate messages from a queue.
+- importer - import a message from an "external" source e.g. a Redis queue
+- router - logically dispatch a message internally
+- filter - logically eliminate messages
+- exporter - export a message e.g. push to a Redis queue
 
-Messaging passing between processors is preferrably via Redix message queues, to improve resilence and management.
+## Example  
 
-We will implement a number of built-in processors as for own requirements or as an exercise, and accept contributions.
+The first simple use-case we wish to fulfil is a reliable pubsub, implemented as follows:
+- pop an incoming message from a Redis producer queue
+- push each incoming message onto multiple parallel consumer queues.
 
-We enable custom and third-party processors as "plugins" installed via `npm.` Otherwise Redix would not be particularly useful to others.
+If a consumer is busy, or crashed, its messages are still delivered when it is available again, via its dedicated persistent Redis queue.
 
-Performance metrics should be published by processors. Those metrics might be used for a load balancer, for example.
+This process is implemented by composing basic processors, as follows:
+- an importer to pop incoming messages
+- a fan-out processor
+- multiple exporters to push to Redis queues
+
+This approach enables configuration of this plumbing as an operational concern.
 
 
 ## Configuration
 
-Currently each processor is configured via a YAML file in the Redix `config` directory. This should be managed using a private git repository, which then provides versioning.
+Currently each processor is configured via a YAML file in the Redix `config` directory. (This should be managed using a private git repository, for configuration versioning.)
 
 The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/FileImporter.singleton.json`
 
@@ -53,30 +43,15 @@ The distinguishing name enables multiple instances of the same processor class, 
 
 The "module" name enables custom and third-party processors e.g. a `myredix/FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
-Note that `npm` enables version dependency via `package.json.` Also, multiple versions of the same module can be installed as differently named modules, e.g. `myredix-1.0.0/FancyProcessor.`
-
-
-## Messages
-
-The following is recommended for messages.
-
-The validator for each message type can be defined, and should be versioned. This checks mandatory and optional properties, their types e.g. string, int, boolean, and their contracts, to fail-fast.
-
-Transformative processors can be implemented to coerce messages into the expected format, and migrate messages to a required version.
-
-Alternatively, multiple versions of a processor can be installed e.g. to support older messages for some period.
-
-We should facilitate a "canary release" for a Redix instance. This handles a variable portion of incoming messages in parallel with the incumbent release. We compare metrics in order to retire the incumbent, if so indicated.
-
 
 ## Concurrency
 
 We use Redis-backed message queues to avoid concurrent operations.
 
-Redix processors and application microservices are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
+Redix processors (and the application microservices they serve) are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
 
 
-## Basic examples
+## Examples
 
 ### FileImporter
 
