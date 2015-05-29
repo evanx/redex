@@ -6,7 +6,7 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 
 import app from '../lib/app';
-import Messages from '../lib/Messages';
+import Processors from '../lib/Processors';
 
 const log = global.bunyan.createLogger({name: 'FileImporter', level: 'debug'});
 
