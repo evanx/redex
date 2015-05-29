@@ -5,7 +5,8 @@ import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 
-const app = require('../lib/app');
+import app from '../lib/app';
+import Messages from '../lib/Messages';
 
 const log = global.bunyan.createLogger({name: 'FileImporter', level: 'debug'});
 
@@ -43,13 +44,7 @@ export default class FileImporter {
    }
 
    dispatchMessage(message) {
-      let processorName = this.config.route[0];
-      message.meta.routed.push(this.config.processorName);
-      message.meta.routed.push(processorName);
-      message.meta.route = this.config.route.slice(1);
-      let processor = app.getProcessor(processorName);
-      log.info('process', message, message.meta.route, processorName);
-      processor.processMessage(message);
+      Processors.dispatchMessage(this.config, message);
    }
 
    processReply(reply) {
