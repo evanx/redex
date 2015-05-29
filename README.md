@@ -3,17 +3,19 @@
 
 Redix is a Node-based message router for a Redis-based message hub.
 
-It can be used to compose plumbing for Redis queues for collaborating microservices.
+It can be used to compose runtime plumbing for collaborating microservices.
+
 
 ## Processors
 
 A "processor" is a configurable component that processes messages.
 
-Processors might be classified as follows:
+They are classified as follows:
 - importer - import a message from an "external" source e.g. a Redis queue
 - router - logically dispatch a message internally
 - filter - logically eliminate messages
 - exporter - export a message e.g. push to a Redis queue
+
 
 ## Example  
 
@@ -23,7 +25,7 @@ The first simple use-case we wish to fulfil is a reliable pubsub, implemented as
 
 If a consumer is busy, or crashed, its messages are still delivered when it is available again, via its dedicated persistent Redis queue.
 
-This process is implemented by composing basic processors, as follows:
+This process is implemented by composing basic processors as follows:
 - an importer to pop incoming messages
 - a fan-out processor
 - multiple exporters to push to Redis queues
