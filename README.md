@@ -20,15 +20,15 @@ They are classified as follows:
 ## Example  
 
 The first simple use-case we wish to fulfil is a reliable pubsub, implemented as follows:
-- pop an incoming message from a Redis producer queue
-- push each incoming message onto multiple parallel consumer queues.
+- pop an incoming message from a Redis "producer queue"
+- push each incoming message onto multiple parallel "consumer queues"
 
 If a consumer is busy, or crashed, its messages are still delivered when it is available again, via its queue, courtesy of Redis.
 
 This process is implemented by composing basic processors as follows:
-- an importer to pop incoming messages
+- an importer to pop incoming messages from the "producer queue"
 - a fan-out processor
-- multiple exporters to push to Redis queues
+- multiple exporters, each pushing to a different "consumer queue"
 
 This approach enables configuration of this plumbing as an operational concern.
 
