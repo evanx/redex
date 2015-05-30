@@ -158,7 +158,7 @@ processMessage(message) {
       url: message.data.url,
       json: true
    }, (err, response, reply) => {
-      if (!err && response.statusCode !== 200) {
+      if (!err && response.statusCode == 200) {
          this.dispatchReply(message, reply);
       }
    });
