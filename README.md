@@ -1,9 +1,9 @@
 
 # Redix Router
 
-Redix is a Node-based message router.
+<b>"Duct-tape for microservices"</b>
 
-We tout Redix as "duct-tape for microservices."
+Redix is a Node-based message router.
 
 It can be used to compose runtime plumbing for decoupled microservices.
 
