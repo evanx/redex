@@ -79,6 +79,33 @@ We note that Node itself is designed to be asychronous infrastructure for concur
 
 ## Processor examples
 
+Say we pull an HTTP GET request message with specified URL:
+```yaml
+url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+```
+
+We import this request message using a file importer, or from a Redis queue.
+
+For example, we push this message onto the Redis queue using `redis-cli` as follows:
+```shell
+redis-cli lpush redix:test:http:in '{
+  "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
+}'
+```
+
+We expect the following reply to be routed back to the importer:
+```json
+{
+"by": "pg",
+"id": 160705,
+"parent": 160704,
+"score": 335,
+"text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
+"time": 1207886576,
+"type": "pollopt"
+}
+```
+
 ### FileImporter
 
 Import a message from a directory.
@@ -223,12 +250,3 @@ dispatch() {
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
-
-
-## Process examples
-
-### HTTP GET request
-
-- We pull an HTTP GET request message with specified URL:
-`## Processor examples
-`
