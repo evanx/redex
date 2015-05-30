@@ -131,22 +131,21 @@ fs.readFile(this.config.watchDir + fileName, (err, content) => {
 });
 ```
 
-### HttpClient exporter
+### HttpGet exporter
 
-Export a message via an HTTP request.
+Export a message via an HTTP GET request.
 
-Config: `HttpClient.singleton.yaml`
+Config: `HttpGet.singleton.yaml`
 ```yaml
 description: Perform an HTTP request
 startup: 10 # startup priority number
 ```
 
-Incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
+Sample incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
 ```yaml
 redix:
-  type: HttpRequest@1
+  messageId: hn160705
 data:
-  method: GET
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 ```
 
@@ -155,7 +154,7 @@ Implementation snippet: `processors/HttpClient.js`
 processMessage(message) {
    logger.info('process', message);
    request({
-      url: message.url,
+      url: message.data.url,
       json: true
    }, (err, response, reply) => {
       if (!err && response.statusCode !== 200) {
@@ -206,5 +205,14 @@ route:
 
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
-
+dispatch() {
+   redis.brpop(this.config.queue, this.config.popTimeout || 0).then(string => {
+      let message = JSON.parse(string);
+      redix.dispatchMessage(this.config, message, this.config.route);
+      this.dispatch();
+   }).catch(error => {
+      logger.error('error:', error);
+   });
+}
 ```
+where we use a "promisified" Redis client e.g. to use ES7 async/await.

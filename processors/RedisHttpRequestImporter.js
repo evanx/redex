@@ -14,7 +14,7 @@ export default class RedisHttpRequestImporter {
          let message = JSON.parse(string);
          logger.info('pop:', message);
          redix.dispatchMessage(this.config, message, this.config.route);
-         pop();
+         this.dispatch();
       }).catch(error => {
          logger.error('error:', error);
          setTimeout(pop, config.errorWaitMillis || 1000);
