@@ -1,5 +1,9 @@
 
 description: Import an HTTP request message from a Redis queue
 startup: 20 # startup priority number
-queue: test:http # the redis key for the queue (list)
+queue:
+  in: redix:test:http:in # the redis key for the incoming queue (list)
+  out: redix:test:http:out # the redis queue for replies
 protocol: HttpRequest@1
+route:
+- HttpClient.singleton

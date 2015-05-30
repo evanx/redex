@@ -7,23 +7,24 @@ const log = global.bunyan.createLogger({name: 'HttpClient', level: 'debug'});
 const { redix } = global;
 
 export default class HttpClient {
+
    constructor(config) {
       this.config = config;
-      log.info('constructor', this.config);
+      logger.info('constructor', this.constructor.name, this.config);
    }
 
    processMessage(message) {
-      log.info('process', message);
+      logger.info('process', message);
       request({
          url: message.url,
          json: true
       }, (err, response, reply) => {
          if (err) {
-            log.warn('process', {err});
+            logger.warn('process', {err});
          } else if (response.statusCode !== 200) {
-            log.warn('process', { statusCode: response.statusCode });
+            logger.warn('process', { statusCode: response.statusCode });
          } else {
-            log.info('process', reply);
+            logger.info('process', reply);
             this.dispatchReply(message, reply);
          }
       });
@@ -32,12 +33,12 @@ export default class HttpClient {
    dispatchReply(message, data) {
       let reply = {
          data: data,
-         meta: message.meta
+         redix: message.redix
       }
-      reply.meta.route = message.meta.routed.slice(0).reverse().slice(1);
-      let processorName = reply.meta.route[0];
-      log.info('dispatchReply', reply);
-      let processor = redix.getProcessor(processorName);
+      reply.redix.route = message.redix.routed.slice(0).reverse().slice(1);
+      logger.info('dispatchReply', reply);
+      let nextProcessorName = reply.redix.route[0];
+      let processor = redix.getProcessor(nextProcessorName);
       processor.processReply(reply);
    }
 

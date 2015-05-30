@@ -1,0 +1,4 @@
+
+description: Limit number of messages
+startup: 10 # startup priority number
+limit: 1 # only route first message

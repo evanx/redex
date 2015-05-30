@@ -14,9 +14,10 @@ export default class FileImporter {
    constructor(config) {
       this.config = config;
       this.files = fs.readdirSync(config.watchDir);
-      log.info('constructor', this.config, this.files);
+      this.count = 0;
+      logger.info('constructor', this.constructor.name, this.config, this.files);
       this.files.forEach(file => {
-         log.info('watch', file);
+         logger.info('watch', file);
       });
       this.watcher = fs.watch(config.watchDir, (event, fileName) =>
          this.fileEvent(event, fileName)
@@ -24,32 +25,29 @@ export default class FileImporter {
    }
 
    fileEvent(event, fileName) {
-      log.info('fileEvent', event, fileName);
+      logger.info('fileEvent', event, fileName);
       if (event === 'change' && lodash.endsWith(fileName, '.yaml')) {
-         log.info('fileChanged', fileName, this.config.route);
+         logger.info('fileChanged', fileName, this.config.route);
          fs.readFile(this.config.watchDir + fileName, (err, content) => {
             if (err) {
-               log.warn('watchListener', err);
+               logger.warn('watchListener', err);
             } else {
                let message = yaml.safeLoad(content);
-               message.meta = {
-                  fileName: path.basename(fileName, '.yaml'),
+               this.count += 1;
+               message.redix = {
+                  messageId: path.basename(fileName, '.yaml') + '-' + this.count,
                   routed: []
                };
-               this.dispatchMessage(message);
+               redix.dispatchMessage(this.config, message, this.config.route);
             }
          });
       }
    }
 
-   dispatchMessage(message) {
-      redix.dispatchMessage(this.config, message);
-   }
-
    processReply(reply) {
-      log.info('processReply', reply);
+      logger.info('processReply', reply);
       let content = JSON.stringify(reply.data, null, 2) + '\n';
-      let fileName = this.config.replyDir + reply.meta.fileName + '.json';
+      let fileName = this.config.replyDir + reply.redix.messageId + '.json';
       fs.writeFile(fileName, content, err => {
          if (err) {
 
