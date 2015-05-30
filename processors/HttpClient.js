@@ -4,7 +4,7 @@ import request from 'request';
 
 const log = global.bunyan.createLogger({name: 'HttpClient', level: 'debug'});
 
-const app = require('../lib/app');
+const { redix } = global;
 
 export default class HttpClient {
    constructor(config) {
@@ -37,7 +37,7 @@ export default class HttpClient {
       reply.meta.route = message.meta.routed.slice(0).reverse().slice(1);
       let processorName = reply.meta.route[0];
       log.info('dispatchReply', reply);
-      let processor = app.getProcessor(processorName);
+      let processor = redix.getProcessor(processorName);
       processor.processReply(reply);
    }
 

@@ -1,23 +1,39 @@
 
-# Redix Router
+# Redix Router - "duct-tape for microservices"
 
-Redix is a Node-based message router for a Redis-based message hub.
+Redix is a Node-based message router.
 
-It can be used to compose runtime plumbing for collaborating microservices.
+It can be used to compose runtime plumbing for decoupled microservices.
+
+We implement basic processors for HTTP, Redis-backed queues and WebSockets.
+
+It is non-perscriptive and might be used for other messaging mechanisms e.g. TCP/IP sockets, REST, ZeroMQ and RabbitMQ.
 
 
 ## Processors
 
+A Redix instance is composed with collaborating "processors."
+
 A Redix "processor" is a configurable component that processes messages for routing purposes.
 
 They are classified as follows:
-- importer - import a message from an "external" source e.g. a Redis queue
-- router - logically dispatch a message internally
-- filter - logically eliminate messages
-- exporter - export a message e.g. push to a Redis queue
+- importer: import a message from an "external" source e.g. a Redis queue
+- router: logically dispatch a message internally
+- fan out: duplicate messages
+- filter: eliminate messages
+- exporter: export a message e.g. push to a Redis queue
 
 
-## Example  
+## Use-cases
+
+Redix can be used to compose the following infrastructure:
+- Reliable pubsub, pipeline and synchronous messaging using HTTP, Redis et al
+- Proxy
+- Load balancer
+- API gateway
+
+
+## User-case example  
 
 The first simple use-case we wish to fulfil is a reliable pubsub, implemented as follows:
 - pop an incoming message from a Redis "producer queue"
@@ -27,17 +43,17 @@ If a consumer is busy, or crashed, its messages are still delivered when it is a
 
 This process is implemented by composing basic processors as follows:
 - an importer to pop incoming messages from the "producer queue"
-- a fan-out processor
-- multiple exporters, each pushing to a different "consumer queue"
+- a fan-out processor to multiple exporters
+- each exporter pushes to its "consumer queue"
 
-This approach enables configuration of this plumbing as an operational concern.
+Assuming the required processors are available in the Redix deployment, this approach then enables assembling such plumbing via runtime configuration, to "duct-tape" our application microservices together.
 
 
 ## Configuration
 
-Currently each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning.)
+Each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning.)
 
-The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/FileImporter.singleton.json`
+The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/FileImporter.singleton.json.`
 
 This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
 
@@ -45,12 +61,16 @@ The distinguishing name enables multiple instances of the same processor class, 
 
 The "module" name enables custom and third-party processors e.g. a `myredix/FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
+We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json,` to enable instances to be dynamically created by so messaging the factory.
+
 
 ## Concurrency
 
-We use Redis-backed message queues to avoid concurrent operations.
+We use Redis message queues to avoid concurrent operations.
 
-Redix processors (and the application microservices they serve) are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
+Application microservices, and Redix processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
+
+We note that Node itself is designed to be asychronous infrastructure for concurrent apps, driven by a single-threaded event loop.
 
 
 ## Examples

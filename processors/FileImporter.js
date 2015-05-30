@@ -5,8 +5,7 @@ import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 
-import app from '../lib/app';
-import Processors from '../lib/Processors';
+const { redix } = global;
 
 const log = global.bunyan.createLogger({name: 'FileImporter', level: 'debug'});
 
@@ -44,7 +43,7 @@ export default class FileImporter {
    }
 
    dispatchMessage(message) {
-      Processors.dispatchMessage(this.config, message);
+      redix.dispatchMessage(this.config, message);
    }
 
    processReply(reply) {
