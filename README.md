@@ -23,7 +23,7 @@ The first simple use-case we wish to fulfil is a reliable pubsub, implemented as
 - pop an incoming message from a Redis "producer queue"
 - push each incoming message onto multiple parallel "consumer queues"
 
-If a consumer is busy, or crashed, its messages are still delivered when it is available, again via its Redis queue.
+If a consumer is busy, or crashed, its messages are still delivered when it is available again, via its Redis queue.
 
 This process is implemented by composing basic processors as follows:
 - an importer to pop incoming messages from the "producer queue"
@@ -35,7 +35,7 @@ This approach enables configuration of this plumbing as an operational concern.
 
 ## Configuration
 
-Currently each processor is configured via a YAML file in the Redix `config` directory. (This should be managed using a private git repository, for configuration versioning.)
+Currently each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning.)
 
 The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/FileImporter.singleton.json`
 
