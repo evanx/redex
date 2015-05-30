@@ -77,7 +77,9 @@ Application microservices, and Redix processors, are ideally message-passing "ac
 We note that Node itself is designed to be asychronous infrastructure for concurrent apps, driven by a single-threaded event loop.
 
 
-## Processor examples
+## Examples
+
+### HTTP GET
 
 Say we pull an HTTP GET request message with specified URL:
 ```yaml
@@ -106,7 +108,7 @@ We expect the following reply to be routed back to the importer:
 }
 ```
 
-### FileImporter
+#### FileImporter
 
 Import a message from a directory.
 
@@ -157,7 +159,7 @@ fs.readFile(this.config.watchDir + fileName, (err, content) => {
 });
 ```
 
-### HttpGet exporter
+#### HttpGet exporter
 
 Export a message via an HTTP GET request.
 
@@ -196,7 +198,7 @@ processMessage(message) {
 }
 ```
 
-### RateLimitFilter
+#### RateLimitFilter
 
 Limit the rate of messages that are processed.
 
@@ -221,7 +223,7 @@ processMessage(message) {
 }
 ```
 
-### RedisHttpRequestImporter
+#### RedisHttpRequestImporter
 
 Import an HTTP request message from a Redis queue.
 
