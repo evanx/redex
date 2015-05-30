@@ -158,7 +158,12 @@ processMessage(message) {
       url: message.data.url,
       json: true
    }, (err, response, reply) => {
-      if (!err && response.statusCode == 200) {
+      if (err) {
+         redix.dispatchErrorReply(this.config, message, err);
+      } else if (response.statusCode != 200) {
+         redix.dispatchErrorReply(this.config, message,
+            {statusCode: response.statusCode});
+      } else {
          this.dispatchReply(message, reply);
       }
    });
@@ -181,9 +186,10 @@ Implementation snippet: `processors/LimitFilter.js`
 processMessage(message) {
    if (this.count < this.limit) {
       this.count += 1;
-      redix.dispatchMessage(this.config, message, message.redix.route);
+      redix.dispatchMessage(this.config, message);
    } else {
-      logger.info('drop:', message.redix.messageId);
+      redix.dispatchErrorReply(this.config, message,
+         { message: 'limit exceeded' });
    }
 }
 ```
@@ -212,7 +218,7 @@ dispatch() {
       redix.dispatchMessage(this.config, message, this.config.route);
       this.dispatch();
    }).catch(error => {
-      logger.error('error:', error);
+      redix.dispatchErrorReply(this.config, message, error);
    });
 }
 ```

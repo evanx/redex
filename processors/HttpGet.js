@@ -2,11 +2,11 @@
 import lodash from 'lodash';
 import request from 'request';
 
-const log = global.bunyan.createLogger({name: 'HttpClient', level: 'debug'});
+const log = global.bunyan.createLogger({name: 'HttpGet', level: 'debug'});
 
 const { redix } = global;
 
-export default class HttpClient {
+export default class HttpGet {
 
    constructor(config) {
       this.config = config;
@@ -21,25 +21,15 @@ export default class HttpClient {
       }, (err, response, reply) => {
          if (err) {
             logger.warn('process', {err});
+            redix.dispatchErrorReply(message, err);
          } else if (response.statusCode !== 200) {
-            logger.warn('process', { statusCode: response.statusCode });
+            err = { statusCode: response.statusCode };
+            logger.warn('process', err);
+            redix.dispatchErrorReply(message, err);
          } else {
             logger.info('process', reply);
-            this.dispatchReply(message, reply);
+            redix.dispatchReply(message, reply);
          }
       });
    }
-
-   dispatchReply(message, data) {
-      let reply = {
-         data: data,
-         redix: message.redix
-      }
-      reply.redix.route = message.redix.routed.slice(0).reverse().slice(1);
-      logger.info('dispatchReply', reply);
-      let nextProcessorName = reply.redix.route[0];
-      let processor = redix.getProcessor(nextProcessorName);
-      processor.processReply(reply);
-   }
-
 }
