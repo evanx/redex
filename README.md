@@ -100,8 +100,8 @@ Incoming message: `fileImporter/watched/hn160705.yaml`
 redix:
   type: HttpRequest@1
 data:
-  method: GET
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+  method: GET
 ```
 
 Reply: `fileImporter/reply/hn160705.json`
@@ -147,6 +147,7 @@ redix:
   messageId: hn160705
 data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+  method: GET
 ```
 
 Implementation snippet: `processors/HttpGet.js`
