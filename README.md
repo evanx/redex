@@ -212,7 +212,7 @@ route:
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
 dispatch() {
-   redis.brpop(this.config.queue, this.config.popTimeout || 0).then(string => {
+   redis.brpop(this.config.queue.in, this.config.popTimeout || 0).then(string => {
       let message = JSON.parse(string);
       redix.dispatchMessage(this.config, message, this.config.route);
       this.dispatch();

@@ -10,7 +10,7 @@ export default class RedisHttpRequestImporter {
    }
 
    dispatch() {
-      redis.brpop(this.config.queue, this.config.popTimeout || 0).then(string => {
+      redis.brpop(this.config.queue.in, this.config.popTimeout || 0).then(string => {
          let data = JSON.parse(string);
          let message = { data };
          logger.info('pop:', message);
