@@ -20,9 +20,9 @@ export default class LimitFilter {
       }
    }
 
-   processReply(message) {
-      logger.debug('reply:', message, message.redixInfo.route);
-      redix.dispatchMessage(this.config, message, message.redixInfo.route);
+   processReply(reply) {
+      logger.debug('reply:', reply, reply.redixInfo.route);
+      redix.dispatchMessage(this.config, reply, reply.redixInfo.route);
    }
 
 }
