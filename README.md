@@ -149,7 +149,7 @@ data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 ```
 
-Implementation snippet: `processors/HttpClient.js`
+Implementation snippet: `processors/HttpGet.js`
 ```JavaScript
 processMessage(message) {
    logger.info('process', message);
