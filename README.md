@@ -77,7 +77,7 @@ Application microservices, and Redix processors, are ideally message-passing "ac
 We note that Node itself is designed to be asychronous infrastructure for concurrent apps, driven by a single-threaded event loop.
 
 
-## Examples
+## Processor examples
 
 ### FileImporter
 
@@ -169,18 +169,19 @@ processMessage(message) {
 }
 ```
 
-### LimitFilter
+### RateLimitFilter
 
-Limit the number of messages ever processed.
+Limit the rate of messages that are processed.
 
-Config: `RedisHttpRequestImporter.singleton.yaml`
+Config: `RateLimitFilter.singleton.yaml`
 ```yaml
-description: Limit number of messages
+description: Limit the rate of messages
 startup: 10 # startup priority number
-limit: 1 # only route the first message
+periodMillis: 1000 # 1 second
+limit: 1 # only route one message per second
 ```
 
-Implementation snippet: `processors/LimitFilter.js`
+Implementation snippet: `processors/RateLimitFilter.js`
 ```JavaScript
 processMessage(message) {
    if (this.count < this.limit) {
@@ -222,3 +223,12 @@ dispatch() {
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
+
+
+## Process examples
+
+### HTTP GET request
+
+- We pull an HTTP GET request message with specified URL:
+`## Processor examples
+`

@@ -1,7 +1,7 @@
 
-const logger = bunyan.createLogger({name: 'LimitFilter', level: 'debug'});
+const logger = bunyan.createLogger({name: 'RateLimitFilter', level: 'debug'});
 
-export default class LimitFilter {
+export default class RateLimitFilter {
 
    constructor(config) {
       this.config = config;

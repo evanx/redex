@@ -32,7 +32,7 @@ c0redisImporter() {
 
 c0client() {
   c0fileImporter
-  #c0redisImporter
+  c0redisImporter
 }
 
 c0client & c0run
