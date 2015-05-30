@@ -37,7 +37,7 @@ Redix can be used to compose the following infrastructure:
 - API gateway
 
 
-## User-case example  
+## Use-case example  
 
 The first simple use-case we wish to fulfil is a reliable pubsub, implemented as follows:
 - pop an incoming message from a Redis "producer queue"
