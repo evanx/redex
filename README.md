@@ -11,7 +11,7 @@ We implement basic processors for HTTP and Redis-backed queues.
 
 We wish to implement processors for WebSockets too, in order to push messages into the browser.
 
-It is not prescriptive and might be used for other messaging mechanisms e.g. TCP/IP sockets (e.g. for legacy systems), ZeroMQ and RabbitMQ.
+It is not prescriptive and might be used for other messaging mechanisms e.g. ZeroMQ, RabbitMQ and TCP/IP sockets e.g. for legacy systems.
 
 
 ## Processors
