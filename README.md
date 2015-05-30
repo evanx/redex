@@ -39,7 +39,7 @@ Redix can be used to compose the following infrastructure:
 
 ## Use-case example  
 
-The first simple use-case we wish to fulfil is a reliable pubsub, implemented as follows:
+A simple use-case we wish to fulfil is a reliable pubsub, implemented as follows:
 - pop an incoming message from a Redis "producer queue"
 - push each incoming message onto multiple parallel "consumer queues"
 
