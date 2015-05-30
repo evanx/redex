@@ -164,7 +164,7 @@ processMessage(message) {
          redix.dispatchErrorReply(this.config, message,
             {statusCode: response.statusCode});
       } else {
-         this.dispatchReply(message, reply);
+         redix.dispatchReply(message, reply);
       }
    });
 }
