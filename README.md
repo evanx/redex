@@ -1,7 +1,7 @@
 
 # Redix Router
 
-<b>"Duct-tape for microservices"</b>
+<b>Redix is "Duct-tape for microservices" ;)</b>
 
 Redix is a Node-based message router.
 
