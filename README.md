@@ -88,7 +88,17 @@ url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 
 We import this request message using a file importer, or from a Redis queue.
 
-For example, we push this message onto the Redis queue using `redis-cli` as follows:
+See `scripts/test.sh`
+
+In the case of a file importer, we create the request as follows:
+```shell
+echo '
+  method: GET
+  url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+' > tmp/fileImporter/watched/hn160705.yaml
+```
+
+Alternatively, we push this message onto the Redis queue using `redis-cli` as follows:
 ```shell
 redis-cli lpush redix:test:http:in '{
   "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
@@ -108,13 +118,13 @@ We expect the following reply to be routed back to the importer:
 }
 ```
 
-The reply to the file importer:
+We check the reply to the file importer:
 ```shell
 evans@boromir:~/redixrouter$ grep Valleywag tmp/fileImporter/reply/hn160705.json
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
 
-The reply to the Redis importer:
+Finally, we check the reply to the Redis importer:
 ```shell
 evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
   python -mjson.tool | grep '"text":'
