@@ -11,7 +11,8 @@ export default class RedisHttpRequestImporter {
 
    dispatch() {
       redis.brpop(this.config.queue, this.config.popTimeout || 0).then(string => {
-         let message = JSON.parse(string);
+         let data = JSON.parse(string);
+         let message = { data };
          logger.info('pop:', message);
          redix.dispatchMessage(this.config, message, this.config.route);
          this.dispatch();

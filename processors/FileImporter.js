@@ -32,12 +32,11 @@ export default class FileImporter {
             if (err) {
                logger.warn('watchListener', err);
             } else {
-               let message = yaml.safeLoad(content);
+               let data = yaml.safeLoad(content);
                this.count += 1;
-               message.redix = {
-                  messageId: path.basename(fileName, '.yaml') + '-' + this.count,
-                  routed: []
-               };
+               let messageId = path.basename(fileName, '.yaml') + '-' + this.count;
+               let redixInfo = { messageId };
+               let message = { data, redixInfo };
                redix.dispatchMessage(this.config, message, this.config.route);
             }
          });
@@ -47,7 +46,7 @@ export default class FileImporter {
    processReply(reply) {
       logger.info('processReply', reply);
       let content = JSON.stringify(reply.data, null, 2) + '\n';
-      let fileName = this.config.replyDir + reply.redix.messageId + '.json';
+      let fileName = this.config.replyDir + reply.redixInfo.messageId + '.json';
       fs.writeFile(fileName, content, err => {
          if (err) {
 

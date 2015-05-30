@@ -121,11 +121,10 @@ Implementation snippet: `processors/FileImporter.js`
 ```JavaScript
 fs.readFile(this.config.watchDir + fileName, (err, content) => {
    if (!err) {
-      let message = yaml.safeLoad(content);
-      message.redix = {
-         messageId: path.basename(fileName, '.yaml'),
-         routed: []
-      };
+      let data = yaml.safeLoad(content);
+      let messageId = path.basename(fileName, '.yaml');
+      let redixInfo = { messageId };
+      let message = { data, redixInfo };
       redix.dispatchMessage(this.config, message, this.config.route);
    }
 });

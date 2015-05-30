@@ -16,7 +16,7 @@ export default class HttpGet {
    processMessage(message) {
       logger.info('process', message);
       request({
-         url: message.url,
+         url: message.data.url,
          json: true
       }, (err, response, reply) => {
          if (err) {
