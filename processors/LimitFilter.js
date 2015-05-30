@@ -22,7 +22,7 @@ export default class LimitFilter {
 
    processReply(reply) {
       logger.debug('reply:', reply, reply.redixInfo.route);
-      redix.dispatchMessage(this.config, reply, reply.redixInfo.route);
+      redix.dispatchReplyMessage(this.config, reply, reply.redixInfo.route);
    }
 
 }
