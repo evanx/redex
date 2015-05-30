@@ -117,6 +117,20 @@ Reply: `fileImporter/reply/hn160705.json`
 }
 ```
 
+Implementation snippet: `processors/FileImporter.js`
+```JavaScript
+fs.readFile(this.config.watchDir + fileName, (err, content) => {
+   if (!err) {
+      let message = yaml.safeLoad(content);
+      message.redix = {
+         messageId: path.basename(fileName, '.yaml'),
+         routed: []
+      };
+      redix.dispatchMessage(this.config, message, this.config.route);
+   }
+});
+```
+
 ### HttpClient exporter
 
 Export a message via an HTTP request.
@@ -136,6 +150,33 @@ data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 ```
 
+Implementation snippet: `processors/FileImporter.js`
+```JavaScript
+```
+
+### LimitFilter
+
+Limit the number of messages ever processed.
+
+Config: `RedisHttpRequestImporter.singleton.yaml`
+```yaml
+description: Limit number of messages
+startup: 10 # startup priority number
+limit: 1 # only route the first message
+```
+
+Implementation snippet: `processors/LimitFilter.js`
+```JavaScript
+processMessage(message) {
+   if (this.count < this.limit) {
+      this.count += 1;
+      redix.dispatchMessage(this.config, message, message.redix.route);
+   } else {
+      logger.info('drop:', message.redix.messageId);
+   }
+}
+```
+
 ### RedisHttpRequestImporter
 
 Import an HTTP request message from a Redis queue.
@@ -144,6 +185,15 @@ Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
 description: Import an HTTP request message from a Redis queue
 startup: 20 # startup priority number
-queue: test:http # the redis key for the queue (list)
+queue:
+  in: redix:test:http:in # the redis key for the incoming queue (list)
+  out: redix:test:http:out # the redis queue for replies
 protocol: HttpRequest@1
+route:
+- HttpClient.singleton
+```
+
+Implementation snippet: `processors/RedisHttpRequestImporter.js`
+```JavaScript
+
 ```
