@@ -2,7 +2,7 @@
 import lodash from 'lodash';
 import request from 'request';
 
-const log = global.bunyan.createLogger({name: 'HttpGet', level: 'debug'});
+const logger = global.bunyan.createLogger({name: 'HttpGet', level: 'debug'});
 
 const { redix } = global;
 
@@ -25,10 +25,10 @@ export default class HttpGet {
          } else if (response.statusCode !== 200) {
             err = { statusCode: response.statusCode };
             logger.warn('process', err);
-            redix.dispatchErrorReply(message, err);
+            redix.dispatchErrorReply(this.config, message, err);
          } else {
             logger.info('process', reply);
-            redix.dispatchReply(message, reply);
+            redix.dispatchReply(this.config, message, reply);
          }
       });
    }

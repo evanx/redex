@@ -1,5 +1,5 @@
 
-const log = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: 'debug'});
+const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: 'debug'});
 
 export default class RedisHttpRequestImporter {
 
@@ -10,14 +10,15 @@ export default class RedisHttpRequestImporter {
    }
 
    dispatch() {
-      redis.brpop(this.config.queue.in, this.config.popTimeout || 0).then(string => {
-         let data = JSON.parse(string);
+      redis.brpop(this.config.queue.in, this.config.popTimeout || 0).then(redisReply => {
+         logger.debug('redisReply:', redisReply);
+         let data = JSON.parse(redisReply[1]);
          let message = { data };
          logger.info('pop:', message);
          redix.dispatchMessage(this.config, message, this.config.route);
          this.dispatch();
       }).catch(error => {
-         logger.error('error:', error);
+         logger.error('error:', error, error.stack);
          setTimeout(pop, config.errorWaitMillis || 1000);
       });
    }
