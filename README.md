@@ -32,9 +32,9 @@ They are classified as follows:
 
 Redix can be used to compose the following infrastructure:
 - Reliable pubsub, pipeline and synchronous messaging using HTTP, Redis et al
-- Proxy
-- Load balancer
 - API gateway
+- Load balancer
+- Caching proxy
 
 
 ## Use-case example  
@@ -106,6 +106,19 @@ We expect the following reply to be routed back to the importer:
 "time": 1207886576,
 "type": "pollopt"
 }
+```
+
+The reply to the file importer:
+```shell
+evans@boromir:~/redixrouter$ grep Valleywag tmp/fileImporter/reply/hn160705.json
+  "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
+```
+
+The reply to the Redis importer:
+```shell
+evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
+  python -mjson.tool | grep '"text":'
+    "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",```
 ```
 
 #### FileImporter

@@ -16,6 +16,7 @@ c0fileImporter() {
   ' > tmp/fileImporter/watched/$item.yaml
   sleep 4
   ls -l tmp/fileImporter/reply/${item}*
+  echo "grep Valleywag tmp/fileImporter/reply/${item}*"
   grep Valleywag tmp/fileImporter/reply/${item}*
 }
 
@@ -28,6 +29,9 @@ c0redisImporter() {
   }'
   echo "redis-cli lpush redix:test:http:in '$message'"
   redis-cli lpush redix:test:http:in "$message"
+  sleep 4
+  echo 'redis-cli lrange redix:test:http:out 0 -1'
+  redis-cli lrange redix:test:http:out 0 -1 | cat
 }
 
 c0client() {
@@ -35,4 +39,13 @@ c0client() {
   c0redisImporter
 }
 
+c0clear() {
+   for key in `redis-cli keys 'redix:test:*'`
+   do
+     echo "redis-cli del $key"
+     redis-cli del $key
+   done
+}
+
+c0clear
 c0client & c0run
