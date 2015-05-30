@@ -152,6 +152,17 @@ data:
 
 Implementation snippet: `processors/FileImporter.js`
 ```JavaScript
+processMessage(message) {
+   logger.info('process', message);
+   request({
+      url: message.url,
+      json: true
+   }, (err, response, reply) => {
+      if (!err && response.statusCode !== 200) {
+         this.dispatchReply(message, reply);
+      }
+   });
+}
 ```
 
 ### LimitFilter
