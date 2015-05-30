@@ -92,7 +92,7 @@ reply: fileImporter/reply/
 protocol: HttpRequestExchange@1
 route:
 - HttpRequestValidator.singleton
-- HttpClient.singleton
+- HttpGet.singleton
 ```
 
 Incoming message: `fileImporter/watched/hn160705.yaml`
@@ -201,7 +201,7 @@ queue:
   out: redix:test:http:out # the redis queue for replies
 protocol: HttpRequest@1
 route:
-- HttpClient.singleton
+- HttpGet.singleton
 ```
 
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
