@@ -50,7 +50,7 @@ This process is implemented by composing basic processors as follows:
 - a fan-out processor to multiple exporters
 - each exporter pushes to its "consumer queue"
 
-Assuming the required processors are available in the Redix deployment, this approach then enables assembling such plumbing via runtime configuration, to "duct-tape" our application microservices together.
+Assuming the required processors are available in the Redix deployment, this approach then enables assembling such plumbing via runtime configuration, to integrate our application microservices.
 
 
 ## Configuration
