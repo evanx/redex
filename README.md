@@ -7,7 +7,9 @@ It is a Node-based message router.
 
 It can be used to compose runtime plumbing for decoupled microservices.
 
-We implement basic processors for HTTP and Redis-backed queues. We wish to implement processors for WebSockets too.
+We implement basic processors for HTTP and Redis-backed queues.
+
+We wish to implement processors for WebSockets too, in order to push messages into the browser.
 
 It is not prescriptive and might be used for other messaging mechanisms e.g. TCP/IP sockets (e.g. for legacy systems), ZeroMQ and RabbitMQ.
 
