@@ -5,7 +5,7 @@ We tout Redix as "duct-tape for microservices."
 
 It is a Node-based message router.
 
-It can be used to compose runtime plumbing for decoupled microservices.
+It can be used to compose runtime plumbing for reactive microservices.
 
 We implement basic processors for HTTP and Redis-backed queues.
 
