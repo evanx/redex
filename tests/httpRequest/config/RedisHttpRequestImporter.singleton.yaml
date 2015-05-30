@@ -6,4 +6,4 @@ queue:
   out: redix:test:http:out # the redis queue for replies
 protocol: HttpRequest@1
 route:
-- HttpClient.singleton
+- HttpGet.singleton
