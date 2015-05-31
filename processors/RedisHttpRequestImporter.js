@@ -4,8 +4,8 @@ import bunyan from 'bunyan';
 
 const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: 'debug'});
 
-const redis = global.redisPromisified;
-const { redisClient } = global.redisPromisified;
+const redis = global.redisPromised;
+const redisClient = redis.redisClient;
 
 export default class RedisHttpRequestImporter {
 
@@ -31,18 +31,13 @@ export default class RedisHttpRequestImporter {
 
    processReply(reply) {
       let data = JSON.stringify(reply.data);
-      logger.info('lpush', this.config.queue.out, data);
-      if (true) {
-         redisClient.lpush(this.config.queue.out, data, function(err, reply) {
-            logger.debug('redis callback:', err, reply);
-         });
-      }
-      redis.lpush(this.config.queue.out, data).then(
-         redisReply => {
-         logger.debug('redisReply:', redisReply);
+      logger.info('processReply lpush:', this.config.queue.out, data);
+      redis.lpush(this.config.queue.out, data).then(reply => {
+         logger.info('processReply lpush reply:', reply);
+      }, error => {
+         logger.warn('processReply lpush error:', error);
       }).catch(error => {
-         logger.error('error:', error, error.stack);
+         logger.error('processReply lpush error:', error.stack);
       });
    }
-
 }

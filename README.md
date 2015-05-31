@@ -317,3 +317,5 @@ dispatch() {
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
+
+See 

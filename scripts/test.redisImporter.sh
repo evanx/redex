@@ -13,8 +13,11 @@ c0redisImporter() {
   echo "redis-cli lpush redix:test:http:in '$message'"
   redis-cli lpush redix:test:http:in "$message"
   sleep 4
+  echo 'redis-cli llen redix:test:http:out'
+  redis-cli llen redix:test:http:out
+  sleep 1
   echo 'redis-cli lrange redix:test:http:out 0 -1'
-  redis-cli lrange redix:test:http:out 0 -1 | cat
+  redis-cli lrange redix:test:http:out 0 -1
 }
 
 c0client() {
@@ -27,6 +30,7 @@ c0clear() {
      echo "redis-cli del $key"
      redis-cli del $key
    done
+   sleep 1
 }
 
 c0clear
