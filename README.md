@@ -163,7 +163,7 @@ Finally, we check the reply to the Redis importer:
 evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
   python -mjson.tool | grep '"text":'
 
-  "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",```
+  "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
 
 #### FileImporter
@@ -245,12 +245,12 @@ processMessage(message) {
       json: true
    }, (err, response, reply) => {
       if (err) {
-         redix.dispatchErrorReply(this.config, message, err);
+         redix.dispatchReverseErrorReply(this.config, message, err);
       } else if (response.statusCode != 200) {
-         redix.dispatchErrorReply(this.config, message,
+         redix.dispatchReverseErrorReply(this.config, message,
             {statusCode: response.statusCode});
       } else {
-         redix.dispatchReply(message, reply);
+         redix.dispatchReverseReply(message, reply);
       }
    });
 }
@@ -290,7 +290,7 @@ export default class RateLimitFilter {
          this.count += 1;
          redix.dispatchMessage(this.config, message);
       } else {
-         redix.dispatchErrorReply(this.config, message,
+         redix.dispatchReverseErrorReply(this.config, message,
             { errorMessage: 'limit exceeded' });
       }
    }
@@ -320,11 +320,12 @@ dispatch() {
       redix.dispatchMessage(this.config, message, this.config.route);
       this.dispatch();
    }).catch(error => {
-      redix.dispatchErrorReply(this.config, message, error);
+      redix.dispatchReverseErrorReply(this.config, message, error);
    });
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
 See `redisPromised.js:` https://github.com/evanx/redixrouter/blob/master/lib/redisPromised.js
-<br>and its test: https://github.com/evanx/redixrouter/blob/master/test/redisPromised.js
+<br>
+and its test: https://github.com/evanx/redixrouter/blob/master/test/redisPromised.js

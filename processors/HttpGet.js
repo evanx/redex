@@ -22,14 +22,14 @@ export default class HttpGet {
       }, (err, response, reply) => {
          if (err) {
             logger.warn('process', {err});
-            redix.dispatchErrorReply(message, err);
+            redix.dispatchReverseErrorReply(message, err);
          } else if (response.statusCode !== 200) {
             err = { statusCode: response.statusCode };
             logger.warn('process', err);
-            redix.dispatchErrorReply(this.config, message, err);
+            redix.dispatchReverseErrorReply(this.config, message, err);
          } else {
             logger.info('process', reply);
-            redix.dispatchReply(this.config, message, reply);
+            redix.dispatchReverseReply(this.config, message, reply);
          }
       });
    }

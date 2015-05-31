@@ -32,7 +32,7 @@ export default class RateLimitFilter {
 
    processReply(reply) {
       logger.debug('reply:', reply, reply.redixInfo.route);
-      redix.dispatchReplyMessage(this.config, reply, reply.redixInfo.route);
+      redix.dispatchReply(this.config, reply, reply.redixInfo.route);
    }
 
 }
