@@ -24,10 +24,9 @@ c0client() {
   redis-cli llen redix:test:http:out
   echo "redis-cli lpush redix:test:http:in '$message'"
   redis-cli lpush redix:test:http:in "$message"
-  sleep 4
+  sleep 1
   echo 'redis-cli llen redix:test:http:out'
   redis-cli llen redix:test:http:out
-  sleep 1
   echo 'redis-cli lrange redix:test:http:out 0 -1'
   redis-cli lrange redix:test:http:out 0 -1 | grep "$message" && echo "$testName: OK"
   rm -f $pidFile

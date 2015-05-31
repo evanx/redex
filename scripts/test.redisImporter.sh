@@ -31,7 +31,6 @@ c0client() {
   sleep 4
   echo 'redis-cli llen redix:test:http:out'
   redis-cli llen redix:test:http:out
-  sleep 1
   echo 'redis-cli lrange redix:test:http:out 0 -1'
   redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
   rm -f $pidFile
