@@ -32,7 +32,7 @@ Node is a superb platform for wiring network services, and indeed for the implem
 
 Redis is a high-performance server for persistent data structures, "shared memory" and reliable queues.
 
-Combining Node and Redis for microservices, is an exciting proposition for building high-performance, reactive systems.
+Combining Node and Redis for microservices, is a compelling proposition for building high-performance, reactive systems.
 
 We wish to decouple our microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
