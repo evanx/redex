@@ -132,7 +132,9 @@ echo '
 Alternatively, we push this message onto the Redis queue using `redis-cli` as follows:
 ```shell
 redis-cli lpush redix:test:http:in '{
-  "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
+  "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty",
+  "method": "GET",
+  "jsonReply": true
 }'
 ```
 
@@ -159,7 +161,8 @@ Finally, we check the reply to the Redis importer:
 ```shell
 evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
   python -mjson.tool | grep '"text":'
-    "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",```
+
+  "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",```
 ```
 
 #### FileImporter
