@@ -1,7 +1,8 @@
 
-const logger = bunyan.createLogger({name: 'RateLimitFilter', level: 'debug'});
-
 import assert from 'assert';
+import bunyan from 'bunyan';
+
+const logger = bunyan.createLogger({name: 'RateLimitFilter', level: 'debug'});
 
 export default class RateLimitFilter {
 

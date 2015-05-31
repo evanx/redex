@@ -7,7 +7,7 @@ import lodash from 'lodash';
 
 const { redix } = global;
 
-const logger = global.bunyan.createLogger({name: 'FileImporter', level: 'debug'});
+const logger = bunyan.createLogger({name: 'FileImporter', level: 'debug'});
 
 export default class FileImporter {
 

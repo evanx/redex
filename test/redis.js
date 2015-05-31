@@ -4,6 +4,8 @@ import bunyan from 'bunyan';
 
 const logger = bunyan.createLogger({name: 'test.redis', level: 'info'});
 
+const redis = global.redisPromisified;
+
 function testKey() {
    redis.set('redix:test:key', 42).then(() => {
       redis.get('redix:test:key').then(value => {

@@ -1,8 +1,9 @@
 
+import bunyan from 'bunyan';
 import lodash from 'lodash';
 import request from 'request';
 
-const logger = global.bunyan.createLogger({name: 'HttpGet', level: 'debug'});
+const logger = bunyan.createLogger({name: 'HttpGet', level: 'debug'});
 
 const { redix } = global;
 
