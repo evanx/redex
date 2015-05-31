@@ -112,8 +112,9 @@ Say we pull an HTTP GET request message with specified URL:
 ```yaml
 url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 method: GET
+jsonReply: true
 ```
-where the `method` is superflous since we only support `GET` in this example. 
+where the `method` and `json` props are superflous since we only support `GET` and assume a JSON reply, in this example implementation.
 
 We import this request message using a file importer, or from a Redis queue.
 
@@ -124,6 +125,7 @@ In the case of a file importer, we create the request as follows:
 echo '
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
   method: GET
+  jsonReply: true
 ' > tmp/fileImporter/watched/hn160705.yaml
 ```
 
@@ -183,6 +185,7 @@ redix:
 data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
   method: GET
+  jsonReply: true
 ```
 
 Reply: `fileImporter/reply/hn160705.json`
@@ -228,6 +231,7 @@ redix:
 data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
   method: GET
+  jsonReply: true
 ```
 
 Implementation snippet: `processors/HttpGet.js`
