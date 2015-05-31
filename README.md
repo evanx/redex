@@ -101,7 +101,7 @@ We use Redis message queues to avoid concurrent operations.
 
 Application microservices, and Redix processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
 
-We note that Node itself is designed to be asychronous infrastructure for concurrent apps, driven by a single-threaded event loop.
+We note that Node itself is designed to be asynchronous infrastructure for concurrent apps, driven by a single-threaded event loop.
 
 
 ## Examples
