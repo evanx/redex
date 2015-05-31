@@ -1,18 +1,27 @@
 
 const logger = bunyan.createLogger({name: 'RateLimitFilter', level: 'debug'});
 
+import assert from 'assert';
+
 export default class RateLimitFilter {
 
    constructor(config) {
       this.config = config;
-      this.limit = this.config.limit || 1;
+      assert.ok(this.config.limit >= 0);
       logger.info('constructor', this.config);
+      this.count = 0;
+      if (this.config.periodMillis) {
+         setTimeout(this.resetCount, this.periodMillis);
+      }
+   }
+
+   resetCount() {
       this.count = 0;
    }
 
    processMessage(message) {
       logger.debug('incoming:', message.redixInfo.messageId, message.redixInfo.route);
-      if (this.count < this.limit) {
+      if (this.count < this.config.limit) {
          this.count += 1;
          redix.dispatchMessage(this.config, message, message.redixInfo.route);
       } else {

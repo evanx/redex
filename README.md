@@ -262,15 +262,30 @@ limit: 1 # only route one message per second
 
 Implementation snippet: `processors/RateLimitFilter.js`
 ```JavaScript
-processMessage(message) {
-   if (this.count < this.limit) {
-      this.count += 1;
-      redix.dispatchMessage(this.config, message);
-   } else {
-      redix.dispatchErrorReply(this.config, message,
-         { message: 'limit exceeded' });
+export default class RateLimitFilter {
+
+   constructor(config) {
+      this.config = config;
+      assert.ok(this.config.limit >= 0);
+      this.count = 0;
+      if (this.config.periodMillis) {
+         setTimeout(this.resetCount, this.periodMillis);
+      }
    }
-}
+
+   resetCount() {
+      this.count = 0;
+   }
+
+   processMessage(message) {
+      if (this.count < this.limit) {
+         this.count += 1;
+         redix.dispatchMessage(this.config, message);
+      } else {
+         redix.dispatchErrorReply(this.config, message,
+            { message: 'limit exceeded' });
+      }
+   }
 ```
 
 #### RedisHttpRequestImporter
