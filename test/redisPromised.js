@@ -26,6 +26,20 @@ var tests = {
          });
       });
    },
+   getEmpty(cb) {
+      let key = 'redix:test:empty:key';
+      redis.get(key).then(value => {
+         logger.info('tests:getEmpty', key, value);
+         assert.equal(value, null);
+         cb(null, 'ok');
+      }, err => {
+         logger.info('tests:getEmpty err', key, err);
+         cb(err);
+      }).catch(error => {
+         logger.error('tests:getEmpty', error);
+         cb(error);
+      });
+   },
    lpush(cb) {
       let key = 'redix:test:list';
       logger.info('tests:lpush1', key);

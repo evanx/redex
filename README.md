@@ -214,8 +214,6 @@ fs.readFile(this.config.watchDir + fileName, (err, content) => {
       let redixInfo = { messageId };
       let message = { data, redixInfo };
       redix.dispatchMessage(this.config, message, this.config.route);
-   }
-});
 ```
 
 #### HttpGet exporter
@@ -293,7 +291,7 @@ export default class RateLimitFilter {
          redix.dispatchMessage(this.config, message);
       } else {
          redix.dispatchErrorReply(this.config, message,
-            { message: 'limit exceeded' });
+            { errorMessage: 'limit exceeded' });
       }
    }
 ```
