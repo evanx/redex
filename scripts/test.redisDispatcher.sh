@@ -1,23 +1,9 @@
 
-testName=httpRequest
-
-export pidFile=tmp/redix.$testName.pid
-
 c0run() {
-  configDir=test/config/httpRequest nodejs index.js | bunyan -o short
+  configDir=test/config/redisDispatcher nodejs index.js | bunyan -o short
 }
 
-c0clear() {
-   for key in `redis-cli keys 'redix:test:*'`
-   do
-     echo "redis-cli del $key"
-     redis-cli del $key
-   done
-   sleep 1
-}
-
-c0client() {
-  c0clear
+c0redisImporter() {
   sleep 2
   echo :
   message='{
@@ -33,8 +19,21 @@ c0client() {
   redis-cli llen redix:test:http:out
   sleep 1
   echo 'redis-cli lrange redix:test:http:out 0 -1'
-  redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
-  rm -f $pidFile
+  redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool
 }
 
+c0client() {
+  c0redisImporter
+}
+
+c0clear() {
+   for key in `redis-cli keys 'redix:test:*'`
+   do
+     echo "redis-cli del $key"
+     redis-cli del $key
+   done
+   sleep 1
+}
+
+c0clear
 c0client & c0run

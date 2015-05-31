@@ -3,12 +3,13 @@ import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
+import Redis from '../lib/Redis';
 
 const logger = bunyan.createLogger({name: 'test.redis', level: 'info'});
 
-const redis = require('../lib/redisPromised');
+const redis = new Redis();
 
-const redisClient = redis.redisClient;
+const redisClient = redis.client;
 
 logger.info('redis', Object.keys(redis));
 
@@ -136,8 +137,11 @@ function done(err, replies) {
    logger.info('test:', err || 'ok', replies);
    redis.end();
    setTimeout(() => {
-      logger.info('tests completed:', err || 'ok');
-      //redis.end();
+      if (err) {
+         process.stdout.write('redisPromised: FAIL\n');
+      } else {
+         process.stdout.write('redisPromised: OK\n');
+      }
    }, 1000);
 }
 

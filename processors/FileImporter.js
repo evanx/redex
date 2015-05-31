@@ -12,6 +12,9 @@ const logger = bunyan.createLogger({name: 'FileImporter', level: 'debug'});
 export default class FileImporter {
 
    constructor(config) {
+      redix.assert(config.watchDir, 'watchDir');
+      redix.assert(config.replyDir, 'replyDir');
+      redix.assert(config.route, 'route');
       this.config = config;
       this.files = fs.readdirSync(config.watchDir);
       this.count = 0;

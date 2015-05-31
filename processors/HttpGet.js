@@ -10,6 +10,7 @@ const { redix } = global;
 export default class HttpGet {
 
    constructor(config) {
+      redix.assert(!config.route, 'route');
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
    }
