@@ -2,76 +2,135 @@
 import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
+import lodash from 'lodash';
 
 const logger = bunyan.createLogger({name: 'test.redis', level: 'info'});
 
 const redis = require('../lib/redisPromised');
 
+const redisClient = redis.redisClient;
+
 logger.info('redis', Object.keys(redis));
 
-function testKey(cb) {
-   let key = 'redix:test:key';
-   redis.set(key, 42).then(() => {
-      redis.get(key).then(value => {
-         logger.info('testKey', key, value);
-         assert.equal(value, 42);
-         cb();
-      }, err => cb(err)).catch(error => {
-         logger.error(error);
-         cb(error);
+var tests = {
+   key(cb) {
+      let key = 'redix:test:key';
+      redis.set(key, 42).then(() => {
+         redis.get(key).then(value => {
+            logger.info('tests:key', key, value);
+            assert.equal(value, 42);
+            cb(null, 'ok');
+         }, err => cb(err)).catch(error => {
+            logger.error('tests:key', error);
+            cb(error);
+         });
       });
-   });
+   },
+   lpush(cb) {
+      let key = 'redix:test:list';
+      logger.info('tests:lpush1', key);
+      redis.lpush(key, 42).then(() => {
+         logger.info('tests:lpush2', key);
+         setTimeout(() => {
+            logger.info('tests:lpush3', key);
+            redis.lpop(key).then(value => {
+               logger.info('tests:lpush4', key, value);
+               assert.equal(value, 42);
+               cb(null, 'ok');
+            }, err => cb(err)).catch(error => {
+               logger.error('tests:lpush', error);
+               cb(error);
+            });
+         }, 0);
+      });
+   },
+   rpush(cb) {
+      let key = 'redix:test:list';
+      logger.info('rpush1', key);
+      redis.rpush(key, 42).then(() => {
+         logger.info('rpush2', key);
+         setTimeout(() => {
+            logger.info('rpush3', key);
+            redis.lpop(key).then(value => {
+               logger.info('rpush4', key, value);
+               assert.equal(value, 42);
+               cb(null, 'ok');
+            }, err => cb(err)).catch(error => {
+               logger.error('rpush', error);
+               cb(error);
+            });
+         }, 0);
+      });
+   },
+   multiStandard(cb) {
+      let multi = redisClient.multi();
+      assert.ok(multi._client === redisClient);
+      multi.set('redix:test:multi:key', 43);
+      multi.get('redix:test:multi:key');
+      multi.lpush('redix:test:multi:list', 44);
+      multi.llen('redix:test:multi:list');
+      multi.lpop('redix:test:multi:list');
+      multi.exec((err, replies) => {
+         logger.info('exec', err || 'ok', replies);
+         assert.equal(replies[0], 'OK');
+         assert.equal(replies[1], 43);
+         assert.equal(replies[2], 1);
+         assert.equal(replies[3], 1);
+         assert.equal(replies[4], 44);
+         cb(err, replies);
+      });
+   },
+   multiCallback(cb) {
+      let multi = redis.multi();
+      assert.ok(multi._client === redisClient);
+      multi.set('redix:test:multi:key', 43);
+      multi.get('redix:test:multi:key');
+      multi.lpush('redix:test:multi:list', 44);
+      multi.llen('redix:test:multi:list');
+      multi.lpop('redix:test:multi:list');
+      multi.execCallback((err, replies) => {
+         logger.info('exec', err || 'ok', replies);
+         assert.equal(replies[0], 'OK');
+         assert.equal(replies[1], 43);
+         assert.equal(replies[2], 1);
+         assert.equal(replies[3], 1);
+         assert.equal(replies[4], 44);
+         cb(err, replies);
+      });
+   },
+   multiPromise(cb) {
+      let multi = redis.multi();
+      assert.ok(multi._client === redisClient);
+      multi.set('redix:test:multi:key', 43);
+      multi.get('redix:test:multi:key');
+      multi.lpush('redix:test:multi:list', 44);
+      multi.llen('redix:test:multi:list');
+      multi.lpop('redix:test:multi:list');
+      multi.execPromise().then(replies => {
+         logger.info('exec', replies);
+         assert.equal(replies[0], 'OK');
+         assert.equal(replies[1], 43);
+         assert.equal(replies[2], 1);
+         assert.equal(replies[3], 1);
+         assert.equal(replies[4], 44);
+         cb(null, replies);
+      }, err => cb(err)).catch(error => cb(error));
+   }
 }
 
-function testList(cb) {
-   let key = 'redix:test:list';
-   logger.info('testList1', key);
-   redis.lpush(key, 42).then(() => {
-      logger.info('testList2', key);
-      setTimeout(() => {
-         logger.info('testList3', key);
-         redis.lpop(key).then(value => {
-            logger.info('testList4', key, value);
-            assert.equal(value, 42);
-            cb();
-         }, err => cb(err)).catch(error => {
-            logger.error(error);
-            cb(error);
-         });
-      }, 0);
-   });
-}
-
-function rpush(cb) {
-   let key = 'redix:test:list';
-   logger.info('rpush1', key);
-   redis.rpush(key, 42).then(() => {
-      logger.info('rpush2', key);
-      setTimeout(() => {
-         logger.info('rpush3', key);
-         redis.lpop(key).then(value => {
-            logger.info('rpush4', key, value);
-            assert.equal(value, 42);
-            cb();
-         }, err => cb(err)).catch(error => {
-            logger.error(error);
-            cb(error);
-         });
-      }, 0);
-   });
-}
-
-function testMulti() {
-   let multi = redis.multi();
-   assert.ok(multi._client === redisClient);
-   multi.exec();
+function done(err, replies) {
+   logger.info('test:', err || 'ok', replies);
+   redis.end();
+   setTimeout(() => {
+      logger.info('tests completed:', err || 'ok');
+   }, 1000);
 }
 
 function test() {
-   logger.info('exports', Object.keys(redis));
-   async.series([testKey, testList, rpush], (err, replies) => {
-      logger.info('test', err, replies);
-   });
+   logger.info('redis commands:', Object.keys(redis));
+   logger.info('tests:', Object.keys(tests));
+   let array = Object.keys(tests).map(name => tests[name]);
+   async.series(array, done);
 }
 
 test();
