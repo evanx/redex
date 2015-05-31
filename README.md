@@ -315,7 +315,7 @@ route:
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
 dispatch() {
-   redisBlocking.brpop(this.config.queue.in, this.config.popTimeout || 0).then(string => {
+   this.redisBlocking.brpop(this.config.queue.in, 0).then(redisReply => {
       let message = JSON.parse(string);
       redix.dispatchMessage(this.config, message, this.config.route);
       this.dispatch();
@@ -326,7 +326,7 @@ dispatch() {
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
-Note that the `brpop` blocks this Redis client instance, which can then not be used concurrently, so we create its own Redis client instance, named `redisBlocking.`
+Note that the Redis `brpop` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
 
 See `redisPromised.js:` https://github.com/evanx/redixrouter/blob/master/lib/redisPromised.js
 <br>

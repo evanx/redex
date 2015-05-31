@@ -6,19 +6,20 @@ import Redis from '../lib/Redis';
 const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: 'debug'});
 
 const redis = new Redis();
-const redisBlocking = new Redis();
 
 export default class RedisHttpRequestImporter {
 
    constructor(config) {
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
-      this.dispatch();
       this.seq = 0;
+      this.popTimeout = this.config.popTimeout || 0;
+      this.redisBlocking = new Redis();
+      this.dispatch();
    }
 
    dispatch() {
-      redisBlocking.brpop(this.config.queue.in, this.config.popTimeout || 0).then(redisReply => {
+      this.redisBlocking.brpop(this.config.queue.in, this.popTimeout).then(redisReply => {
          this.seq += 1;
          logger.debug('redisReply:', redisReply);
          let data = JSON.parse(redisReply[1]);
