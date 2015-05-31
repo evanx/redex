@@ -111,7 +111,9 @@ We note that Node itself is designed to be asynchronous infrastructure for concu
 Say we pull an HTTP GET request message with specified URL:
 ```yaml
 url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+method: GET
 ```
+where the `method` is superflous since we only support `GET` in this example. 
 
 We import this request message using a file importer, or from a Redis queue.
 
@@ -120,8 +122,8 @@ See `scripts/test.sh`
 In the case of a file importer, we create the request as follows:
 ```shell
 echo '
-  method: GET
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+  method: GET
 ' > tmp/fileImporter/watched/hn160705.yaml
 ```
 
