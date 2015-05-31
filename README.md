@@ -1,17 +1,44 @@
 
 # Redix Router
 
-We tout Redix as "duct-tape for microservices."
-
 It is a Node-based message router.
 
-It can be used to compose runtime plumbing for reactive microservices.
+We tout Redix as "duct-tape for reactive microservices."
 
-We implement basic processors for HTTP and Redis-backed queues.
+More generally speaking, it is "glue for network services."
 
-We wish to implement processors for WebSockets too, in order to push messages into the browser.
+Its characteristics are:
+- a generic framework for custom message processors
+- composable via runtime configuration
 
-It is not prescriptive and might be used for other messaging mechanisms e.g. ZeroMQ, RabbitMQ and TCP/IP sockets e.g. for legacy systems.
+Use-cases:
+- compose runtime plumbing for collaborating services
+- wire together network services
+- integration with legacy systems
+- a manager for Redis queues
+
+We implement basic processors for HTTP, Redis queues and file-based messages, as an exercise, and for our own limited requirements.
+
+However it is not prescriptive and might be used for other messaging mechanisms e.g. ZeroMQ, RabbitMQ, Protocol Buffers and TCP/IP sockets e.g. for legacy systems.
+
+We intend to implement processors for WebSockets too, in order to push messages into the browser, for our own requirements.
+
+Additionally as an exercise, we intend to demonstrate its application for ZeroMQ, RabbitMQ, Protocol Buffers and TCP/IP sockets in the coming months.
+
+
+# Rationale
+
+Node is a superb platform for wiring network services, and indeed for the implementation of reactive microservices.
+
+Redis is a high-performance server for persistent data structures, "shared memory" and reliable queues.
+
+Combining Node and Redis for reactive microservices, is an exciting proposition for building high-performance, reactive systems.
+
+We wish to decouple our microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
+
+In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
+
+The name "Redix" can be interpreted as "Redis-based message eXchange." Actually this is a misnomer, because it  it is a minimal non-prescriptive message-processing framework. It so happens that we intend to apply it to our own microservices which favour Redis.
 
 
 ## Processors
