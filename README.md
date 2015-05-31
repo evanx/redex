@@ -153,14 +153,14 @@ We expect the following reply to be routed back to the importer:
 
 We check the reply to the file importer:
 ```shell
-evans@boromir:~/redixrouter$ echo; grep Valleywag tmp/fileImporter/reply/hn160705.json
+evans@boromir:~/redixrouter$ grep Valleywag tmp/fileImporter/reply/hn160705.json
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
 
 Finally, we check the reply to the Redis importer:
 ```shell
-evans@boromir:~/redixrouter$ echo; redis-cli lrange redix:test:http:out 0 -1 |
+evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
   python -mjson.tool | grep '"text":'
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",```
