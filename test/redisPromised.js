@@ -69,7 +69,7 @@ function testMulti() {
 
 function test() {
    logger.info('exports', Object.keys(redis));
-   async.mapSeries([testKey, testList, rpush], (err, replies) => {
+   async.series([testKey, testList, rpush], (err, replies) => {
       logger.info('test', err, replies);
    });
 }
