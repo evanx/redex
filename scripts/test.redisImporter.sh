@@ -10,14 +10,16 @@ c0redisImporter() {
     "method": "GET",
     "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
   }'
+  echo 'redis-cli llen redix:test:http:out'
+  redis-cli llen redix:test:http:out
   echo "redis-cli lpush redix:test:http:in '$message'"
   redis-cli lpush redix:test:http:in "$message"
-  sleep 4
+  sleep 2
   echo 'redis-cli llen redix:test:http:out'
   redis-cli llen redix:test:http:out
   sleep 1
   echo 'redis-cli lrange redix:test:http:out 0 -1'
-  redis-cli lrange redix:test:http:out 0 -1
+  redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool 
 }
 
 c0client() {
