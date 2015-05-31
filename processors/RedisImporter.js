@@ -17,14 +17,18 @@ export default class RedisImporter {
       logger.info('constructor', this.constructor.name, this.config);
       this.seq = 0;
       this.redisBlocking = new Redis();
+      this.popTimeout = config.popTimeout || 0;
       this.dispatch();
    }
 
    dispatch() {
       this.redisBlocking.brpop(this.config.queue.in, this.popTimeout).then(redisReply => {
          this.seq += 1;
-         logger.debug('redisReply:', redisReply);
-         let data = JSON.parse(redisReply[1]);
+         let data = redisReply[1];
+         if (this.config.json) {
+            data = JSON.parse(data);
+         }
+         logger.debug('data:', data);
          let messageId = this.seq;
          let redixInfo = { messageId };
          let message = { data, redixInfo };

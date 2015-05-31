@@ -16,7 +16,12 @@ export default class RedisExporter {
    }
 
    processMessage(message) {
-      let data = JSON.stringify(message.data);
+      let data = message.data;
+      if (this.config.json) {
+         data = JSON.stringify(data);
+      } else {
+         data = data.toString();
+      }
       logger.info('processMessage lpush:', this.config.queue.out, data);
       redis.lpush(this.config.queue.out, data).then(reply => {
          logger.info('processMessage lpush reply:', reply);
@@ -30,5 +35,5 @@ export default class RedisExporter {
    processReply(reply) {
       logger.warn('processReply not implemented:', reply);
    }
-   
+
 }

@@ -26,4 +26,3 @@ c0client() {
 }
 
 c0client & c0run
-

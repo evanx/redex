@@ -1,19 +1,19 @@
 
-testName=httpRequest
+testName=redisImporter
 
-export pidFile=tmp/redix.$testName.pid
+export configDir=test/config/httpRequest 
+export pidFile=tmp/redix.${testName}.pid
 
 c0run() {
-  configDir=test/config/httpRequest nodejs index.js | bunyan -o short
+  nodejs index.js | bunyan -o short
 }
 
 c0clear() {
-   for key in `redis-cli keys 'redix:test:*'`
-   do
-     echo "redis-cli del $key"
-     redis-cli del $key
-   done
-   sleep 1
+  for key in `redis-cli keys 'redix:test:*'`
+  do
+    echo "redis-cli del $key"
+    redis-cli del $key
+  done
 }
 
 c0client() {
