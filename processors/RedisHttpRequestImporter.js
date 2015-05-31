@@ -5,6 +5,7 @@ import bunyan from 'bunyan';
 const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: 'debug'});
 
 const redis = global.redisPromisified;
+const { redisClient } = global.redisPromisified;
 
 export default class RedisHttpRequestImporter {
 
