@@ -19,7 +19,7 @@ c0redisImporter() {
   redis-cli llen redix:test:http:out
   sleep 1
   echo 'redis-cli lrange redix:test:http:out 0 -1'
-  redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool 
+  redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool
 }
 
 c0client() {
