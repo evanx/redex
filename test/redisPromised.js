@@ -137,6 +137,7 @@ function done(err, replies) {
    redis.end();
    setTimeout(() => {
       logger.info('tests completed:', err || 'ok');
+      //redis.end();
    }, 1000);
 }
 

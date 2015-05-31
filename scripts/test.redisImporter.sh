@@ -14,7 +14,7 @@ c0redisImporter() {
   redis-cli llen redix:test:http:out
   echo "redis-cli lpush redix:test:http:in '$message'"
   redis-cli lpush redix:test:http:in "$message"
-  sleep 2
+  sleep 4
   echo 'redis-cli llen redix:test:http:out'
   redis-cli llen redix:test:http:out
   sleep 1
