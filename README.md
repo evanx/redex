@@ -318,5 +318,5 @@ dispatch() {
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
-See `redisPromised.js`: https://github.com/evanx/redixrouter/blob/master/lib/redisPromised.js
+See `redisPromised.js:` https://github.com/evanx/redixrouter/blob/master/lib/redisPromised.js
 <br>and its test: https://github.com/evanx/redixrouter/blob/master/test/redisPromised.js
