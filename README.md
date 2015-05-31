@@ -154,6 +154,7 @@ We expect the following reply to be routed back to the importer:
 We check the reply to the file importer:
 ```shell
 evans@boromir:~/redixrouter$ grep Valleywag tmp/fileImporter/reply/hn160705.json
+
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
 
