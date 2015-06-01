@@ -343,7 +343,9 @@ async pop() {
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
-Note that the Redis `brpop` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
+See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched.
+
+Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
 
 See `Redis.js:` https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 <br>

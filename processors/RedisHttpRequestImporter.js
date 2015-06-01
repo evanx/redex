@@ -38,6 +38,7 @@ export default class RedisHttpRequestImporter {
          this.pop();
       } catch(error) {
          logger.error('error:', error, error.stack);
+         this.redisBlocking.lpush(this.config.queue.error, JSON.stringify(error));
          setTimeout(this.pop, config.errorWaitMillis || 1000);
       } finally {
          this.removePending(redisReply);
