@@ -112,10 +112,8 @@ Say we pull an HTTP GET request message with specified URL:
 ```yaml
 url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
 method: GET
-jsonReply: true
+json: true
 ```
-where the `method` and `json` props are superflous since we only support `GET` and assume a JSON reply, in this example implementation.
-
 We import this request message using a file importer, or from a Redis queue.
 
 See `scripts/test.sh`
@@ -125,7 +123,7 @@ In the case of a file importer, we create the request as follows:
 echo '
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
   method: GET
-  jsonReply: true
+  json: true
 ' > tmp/fileImporter/watched/hn160705.yaml
 ```
 
@@ -134,7 +132,7 @@ Alternatively, we push this message onto the Redis queue using `redis-cli` as fo
 redis-cli lpush redix:test:http:in '{
   "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty",
   "method": "GET",
-  "jsonReply": true
+  "json": true
 }'
 ```
 
@@ -189,7 +187,7 @@ redix:
 data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
   method: GET
-  jsonReply: true
+  json: true
 ```
 
 Reply: `fileImporter/reply/hn160705.json`
@@ -235,7 +233,7 @@ redix:
 data:
   url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
   method: GET
-  jsonReply: true
+  json: true
 ```
 
 Implementation snippet: `processors/HttpGet.js`
@@ -247,8 +245,9 @@ async processMessage(message) {
          1, 'sadd');
       redix.dispatchReverseReply(this.config, message,
          await request({
+            method: message.data.method || 'GET',
             url: message.data.url,
-            json: message.data.jsonReply || true
+            json: message.data.json || true
          }));
    } catch (err) {
       redix.dispatchReverseErrorReply(message, err);

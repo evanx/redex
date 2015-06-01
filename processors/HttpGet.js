@@ -30,8 +30,9 @@ export default class HttpGet {
          }
          redix.dispatchReverseReply(this.config, message,
             await request({
+               method: message.data.method || 'GET',
                url: message.data.url,
-               json: message.data.jsonReply || true
+               json: message.data.json || true
             }));
       } catch (err) {
          logger.error('processMessage', err.stack);
