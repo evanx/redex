@@ -328,16 +328,13 @@ async pop() {
          this.config.queue.pending, this.popTimeout);
       this.addedPending(redisReply);
       this.seq += 1;
-      logger.debug('redisReply:', redisReply);
       let data = JSON.parse(redisReply[1]);
       let messageId = this.seq;
       let redixInfo = { messageId };
       let message = { data, redixInfo };
-      logger.info('pop:', message);
       redix.dispatchMessage(this.config, message, this.config.route);
       this.pop();
    } catch(error) {
-      logger.error('error:', error, error.stack);
       setTimeout(this.pop, config.errorWaitMillis || 1000);
    } finally {
       this.removePending(redisReply);
