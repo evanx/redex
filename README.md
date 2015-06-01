@@ -264,7 +264,7 @@ See that before sending the request, we put the message into a Redis set of pend
 
 #### RateLimitFilter
 
-This processor limits the rate of messages that are processed.
+This processor limits the rate of messages that are processed, e.g. 1 per second in this example configuration.
 
 Config: `RateLimitFilter.singleton.yaml`
 ```yaml
