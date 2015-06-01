@@ -342,12 +342,8 @@ async pop() {
    }
 }
 ```
-where we use a "promisified" Redis client e.g. to use ES7 async/await.
+where we use a "promisified" Redis client ([Redis.js](https://github.com/evanx/redixrouter/blob/master/lib/Redis.js)) e.g. to use ES7 async/await.
 
 See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, otherwise this processor is not fail-safe.
 
 Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
-
-See `Redis.js:` https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
-<br>
-and its test: https://github.com/evanx/redixrouter/blob/master/test/redisPromised.js
