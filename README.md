@@ -258,7 +258,7 @@ async processMessage(message) {
    }
 }
 ```
-where we enable ES7 async/await via Babel.
+where we use ES7 async/await. (We enable this via Babel.)
 
 See that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
 
