@@ -334,6 +334,6 @@ where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
 Note that the Redis `brpop` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
 
-See `redisPromised.js:` https://github.com/evanx/redixrouter/blob/master/lib/redisPromised.js
+See `Redis.js:` https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 <br>
 and its test: https://github.com/evanx/redixrouter/blob/master/test/redisPromised.js
