@@ -258,7 +258,9 @@ async processMessage(message) {
    }
 }
 ```
-See that before sending the request, we put the message into a Redis set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
+where we enable ES7 async/await via Babel.
+
+See that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
 
 
 #### RateLimitFilter
