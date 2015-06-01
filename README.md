@@ -254,7 +254,7 @@ Implementation snippet: `processors/HttpGet.js`
       }
    });
 ```
-Actually before sending the request, we put the message into a set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
+Actually before sending the request, we put the message into a Redis set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
 
 
 #### RateLimitFilter
