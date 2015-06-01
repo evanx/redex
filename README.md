@@ -257,7 +257,7 @@ async processMessage(message) {
    }
 }
 ```
-where we use ES7 async/await. (We enable this via Babel.)
+where we use ES7 async/await, to eliminate callbacks and use try/catch for error handling. (We enable this via Babel.) The facilitate this via ES6 promise wrappers for the Redis client and HTTP `request` libraries, so that we can `await` them.
 
 See that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
 
