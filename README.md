@@ -251,7 +251,6 @@ async processMessage(message) {
             json: message.data.jsonReply || true
          }));
    } catch (err) {
-      logger.error('processMessage', err.stack);
       redix.dispatchReverseErrorReply(message, err);
    } finally {
       assert.equals(await redis.srem(this.config.queue.pending, messageString),
@@ -259,7 +258,7 @@ async processMessage(message) {
    }
 }
 ```
-Actually before sending the request, we put the message into a Redis set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
+See that before sending the request, we put the message into a Redis set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
 
 
 #### RateLimitFilter
