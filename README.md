@@ -314,7 +314,8 @@ startup: 20 # startup priority number
 queue:
   in: redix:test:http:in # the redis key for the incoming queue (list)
   out: redix:test:http:out # the redis queue for replies
-  pending: redix:test:http:pending # the redis queue for pending requests
+  pending: redix:test:http:pending # the internal redis queue for pending requests
+  error: redix:test:http:error # the external redis queue for failed requests
 protocol: HttpRequest@1
 route:
 - HttpGet.singleton
@@ -333,17 +334,17 @@ async pop() {
       let redixInfo = { messageId };
       let message = { data, redixInfo };
       redix.dispatchMessage(this.config, message, this.config.route);
+      this.removePending(redisReply);
       this.pop();
    } catch(error) {
+      this.restorePending(redisReply);
       setTimeout(this.pop, config.errorWaitMillis || 1000);
-   } finally {
-      this.removePending(redisReply);
    }
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
-See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched.
+See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we restore the message
 
 Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
 
