@@ -329,22 +329,22 @@ async pop() {
          this.config.queue.pending, this.popTimeout);
       this.addedPending(redisReply);
       this.seq += 1;
-      let data = JSON.parse(redisReply[1]);
+      let data = JSON.parse(redisReply);
       let messageId = this.seq;
       let redixInfo = { messageId };
       let message = { data, redixInfo };
       redix.dispatchMessage(this.config, message, this.config.route);
       this.removePending(redisReply);
       this.pop();
-   } catch(error) {
-      this.restorePending(redisReply);
+   } catch (error) {
+      this.revertPending(redisReply);
       setTimeout(this.pop, config.errorWaitMillis || 1000);
    }
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
 
-See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we restore the message
+See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, otherwise this processor is not fail-safe.
 
 Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
 
