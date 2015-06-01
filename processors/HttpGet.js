@@ -20,7 +20,7 @@ export default class HttpGet {
       logger.info('constructor', this.constructor.name, this.config);
    }
 
-   processMessage(message) {
+   async processMessage(message) {
       logger.info('process', message);
       redis.sadd(this.config.queue.pending, JSON.stringify(message)).then(reply => {
          if (reply !== 1) {
