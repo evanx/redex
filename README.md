@@ -280,8 +280,8 @@ export default class RateLimitFilter {
 
    constructor(config) {
       this.config = config;
-      redix.assert(this.config.limit >= 0, 'limit');
-      redix.assert(this.config.periodMillis >= 0, 'periodMillis');
+      assert(this.config.limit >= 0, 'limit');
+      assert(this.config.periodMillis >= 0, 'periodMillis');
       this.count = 0;
       if (this.config.periodMillis > 0) {
          setTimeout(this.resetCount, this.periodMillis);
