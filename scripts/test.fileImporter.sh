@@ -17,6 +17,7 @@ c0client() {
   echo '
     method: GET
     url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+    json: true
   ' > tmp/fileImporter/watched/$item.yaml
   sleep 4
   ls -l tmp/fileImporter/reply/${item}*

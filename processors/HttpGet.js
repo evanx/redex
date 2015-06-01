@@ -1,7 +1,7 @@
 
 import bunyan from 'bunyan';
 import lodash from 'lodash';
-import request from 'request';
+import { request } from '../lib/Requests';
 
 import Redis from '../lib/Redis';
 
@@ -21,32 +21,26 @@ export default class HttpGet {
    }
 
    async processMessage(message) {
-      logger.info('process', message);
-      redis.sadd(this.config.queue.pending, JSON.stringify(message)).then(reply => {
-         if (reply !== 1) {
-            logger.warn('process sadd', reply);
+      try {
+         const messageString = JSON.stringify(message);
+         logger.info('processMessage', messageString);
+         let addedCount = await redis.sadd(this.config.queue.pending, messageString);
+         if (addedCount !== 1) {
+            logger.warn('processMessage sadd', addedCount);
          }
-         request({
-            url: message.data.url,
-            json: true
-         }, (err, response, reply) => {
-            if (err) {
-               logger.warn('process', {err});
-               redix.dispatchReverseErrorReply(message, err);
-            } else if (response.statusCode !== 200) {
-               err = { statusCode: response.statusCode };
-               logger.warn('process', err);
-               redix.dispatchReverseErrorReply(this.config, message, err);
-            } else {
-               logger.info('process', reply);
-               redix.dispatchReverseReply(this.config, message, reply);
-            }
-            redis.srem(this.config.queue.pending, message).then(reply => {
-               if (reply !== 1) {
-                  logger.warn('process sadd', reply);
-               }
-            });
-         });
-      });
+         redix.dispatchReverseReply(this.config, message,
+            await request({
+               url: message.data.url,
+               json: message.data.jsonReply || true
+            }));
+      } catch (err) {
+         logger.error('processMessage', err.stack);
+         redix.dispatchReverseErrorReply(message, err);
+      } finally {
+         let removedCount = await redis.srem(this.config.queue.pending, messageString);
+         if (removedCount !== 1) {
+            logger.warn('processMessage srem', removedCount);
+         }
+      }
    }
 }

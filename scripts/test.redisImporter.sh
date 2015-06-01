@@ -22,7 +22,8 @@ c0client() {
   echo :
   message='{
     "method": "GET",
-    "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
+    "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty",
+    "json": true
   }'
   echo 'redis-cli llen redix:test:http:out'
   redis-cli llen redix:test:http:out

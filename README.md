@@ -240,19 +240,24 @@ data:
 
 Implementation snippet: `processors/HttpGet.js`
 ```JavaScript
-   request({
-      url: message.data.url,
-      json: true
-   }, (err, response, reply) => {
-      if (err) {
-         redix.dispatchReverseErrorReply(this.config, message, err);
-      } else if (response.statusCode != 200) {
-         redix.dispatchReverseErrorReply(this.config, message,
-            {statusCode: response.statusCode});
-      } else {
-         redix.dispatchReverseReply(message, reply);
-      }
-   });
+async processMessage(message) {
+   try {
+      const messageString = JSON.stringify(message);
+      assert.equals(await redis.sadd(this.config.queue.pending, messageString),
+         1, 'sadd');
+      redix.dispatchReverseReply(this.config, message,
+         await request({
+            url: message.data.url,
+            json: message.data.jsonReply || true
+         }));
+   } catch (err) {
+      logger.error('processMessage', err.stack);
+      redix.dispatchReverseErrorReply(message, err);
+   } finally {
+      assert.equals(await redis.srem(this.config.queue.pending, messageString),
+         1, 'srem');
+   }
+}
 ```
 Actually before sending the request, we put the message into a Redis set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
 
