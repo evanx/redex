@@ -330,7 +330,7 @@ async pop() {
       this.addedPending(redisReply);
       this.seq += 1;
       let data = JSON.parse(redisReply);
-      let messageId = this.seq;
+      let messageId = [this.processorId, this.seq].join(':');
       let redixInfo = { messageId };
       let message = { data, redixInfo };
       redix.dispatchMessage(this.config, message, this.config.route);
