@@ -3,3 +3,5 @@ message:
 - startup
 - method # e.g. GET, POST
 - url
+queue:
+  pending: redix:test:http:pending # Redis key for set for pending requests

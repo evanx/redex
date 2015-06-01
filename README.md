@@ -224,6 +224,8 @@ Config: `HttpGet.singleton.yaml`
 ```yaml
 description: Perform an HTTP request
 startup: 10 # startup priority number
+queue:
+  pending: redix:test:http:pending # Redis key for set for pending requests
 ```
 
 Sample incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
@@ -238,8 +240,6 @@ data:
 
 Implementation snippet: `processors/HttpGet.js`
 ```JavaScript
-processMessage(message) {
-   logger.info('process', message);
    request({
       url: message.data.url,
       json: true
@@ -253,8 +253,9 @@ processMessage(message) {
          redix.dispatchReverseReply(message, reply);
       }
    });
-}
 ```
+Actually before sending the request, we put the message into a set of pending requests. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart, for logging purposes if nothing else.
+
 
 #### RateLimitFilter
 
