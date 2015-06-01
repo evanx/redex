@@ -314,6 +314,7 @@ startup: 20 # startup priority number
 queue:
   in: redix:test:http:in # the redis key for the incoming queue (list)
   out: redix:test:http:out # the redis queue for replies
+  pending: redix:test:http:pending # the redis queue for pending requests
 protocol: HttpRequest@1
 route:
 - HttpGet.singleton
@@ -321,14 +322,26 @@ route:
 
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
-dispatch() {
-   this.redisBlocking.brpop(this.config.queue.in, 0).then(redisReply => {
-      let message = JSON.parse(string);
+async pop() {
+   try {
+      const redisReply = await this.redisBlocking.brpoplpush(this.config.queue.in,
+         this.config.queue.pending, this.popTimeout);
+      this.addedPending(redisReply);
+      this.seq += 1;
+      logger.debug('redisReply:', redisReply);
+      let data = JSON.parse(redisReply[1]);
+      let messageId = this.seq;
+      let redixInfo = { messageId };
+      let message = { data, redixInfo };
+      logger.info('pop:', message);
       redix.dispatchMessage(this.config, message, this.config.route);
-      this.dispatch();
-   }).catch(error => {
-      redix.dispatchReverseErrorReply(this.config, message, error);
-   });
+      this.pop();
+   } catch(error) {
+      logger.error('error:', error, error.stack);
+      setTimeout(this.pop, config.errorWaitMillis || 1000);
+   } finally {
+      this.removePending(redisReply);
+   }
 }
 ```
 where we use a "promisified" Redis client e.g. to use ES7 async/await.
