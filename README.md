@@ -166,7 +166,7 @@ evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
 
 #### FileImporter
 
-Import a message from a directory.
+This processor imports a message from a directory.
 
 Config: `FileImporter.singleton.yaml`
 ```yaml
@@ -216,7 +216,7 @@ fs.readFile(this.config.watchDir + fileName, (err, content) => {
 
 #### HttpGet exporter
 
-Export a message via an HTTP GET request.
+This processor exports a message via an HTTP GET request.
 
 Config: `HttpGet.singleton.yaml`
 ```yaml
@@ -264,7 +264,7 @@ See that before sending the request, we put the message into a Redis set of pend
 
 #### RateLimitFilter
 
-Limit the rate of messages that are processed.
+This processor limits the rate of messages that are processed.
 
 Config: `RateLimitFilter.singleton.yaml`
 ```yaml
@@ -304,7 +304,7 @@ export default class RateLimitFilter {
 
 #### RedisHttpRequestImporter
 
-Import an HTTP request message from a Redis queue.
+This processor imports an HTTP request message from a Redis queue.
 
 Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
