@@ -56,12 +56,12 @@ A Redix instance is composed with collaborating "processors."
 
 A Redix "processor" is a configurable component that processes messages for routing purposes.
 
-Their classification includes:
+Example classifications:
 - importer: import a message from an "external" source e.g. a Redis queue
 - router: logically dispatch a message internally
 - translator: translate messages between different protocols
 - filter: eliminate messages
-- aggregator: aggregate multiple sources
+- aggregator: aggregate multiple messages into a new aggregated message
 - exporter: export a message e.g. push to a Redis queue
 
 
