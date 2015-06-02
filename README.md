@@ -7,8 +7,9 @@ Redix is:
 - a generic framework for custom message processors and messaging patterns
 
 We tout Redix as:
-- duct-tape for reactive microservices
+- duct-tape for microservices
 - opensource software for reliable messaging that builds on Redis
+- an integration tool for reactive systems
 
 Its goals are:
 - scalable and reliable via a similarly configured instances running off the same Redis instance
