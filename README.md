@@ -1,32 +1,33 @@
 
 # Redix Router
 
-Redix is a Node-based message router.
+Redix is:
+- a Node-based message broker
+- a generic tool for composing message routers via the configuration of basic processors
+- a generic framework for custom message processors and messaging patterns
 
-We tout Redix as "duct-tape for reactive microservices."
+We tout Redix as:
+- duct-tape for reactive microservices
+- opensource software for reliable messaging that builds on Redis
 
-More generally speaking, it is a clusterable message broker that builds on Redis.
-
-Its characteristics are:
-- a generic framework for custom message processors
-- runtime composition and configuration of basic processors
-- clusterable for scalability and reliability
-- enjoys the reliability, performance and persistence characteristics of Redis
+Its goals are:
+- scalable and reliable via a similarly configured instances running off the same Redis instance 
+- support for message streams, and streaming data 
 
 Use-cases:
-- compose runtime plumbing for collaborating services
-- wire together network services
+- compose runtime plumbing for collaborating microservices
+- wire together network services, etc
 - integrate legacy systems
 - manage Redis queues
 
-We implement basic processors for HTTP, Redis queues and file-based messages, as an exercise, and for our own limited requirements.
+We are implementing:
+- basic processors for HTTP, Redis queues and file-based messages
+- sample configuration for reliable pubsub, parallel worker queues, etc
 
-However Redix is not prescriptive and can be integrated with other messaging mechanisms which have Node client libraries, e.g. ZeroMQ, RabbitMQ, Protocol Buffers.
-
-We intend to implement processors and demonstrate the following patterns:
+We intend to implement processors to support the following patterns:
 - a load balancer
 - an HTTP caching proxy
-- a logging server using TCP/IP sockets
+- a centralised logging server using TCP/IP sockets
 - an outgoing email server using SMTP over TCP/IP sockets 
 - a WebSocket server to push notications into the browser
 - integration with ZeroMQ, RabbitMQ, Protocol Buffers
