@@ -16,22 +16,23 @@ Its goals are:
 - support for message streams, and streaming data
 
 Use-cases:
-- compose runtime plumbing for collaborating microservices
-- wire together network services, etc
-- integrate legacy systems
-- manage Redis queues
+- plumbing for collaborating microservices
+- glue for network services
+- legacy systems integration
+- managing Redis queues
 
 We are implementing:
-- basic processors for HTTP, Redis queues and file-based messages
-- sample configuration for reliable pubsub, parallel worker queues, etc
+- basic processors for HTTP and Redis queues
+- sample configuration for reliable pubsub and work queues
 
-We intend to implement processors to support the following patterns:
+We intend to implement processors to demonstrate:
 - a load balancer
 - an HTTP caching proxy
 - a centralised logging server using TCP/IP sockets
 - an outgoing email server using SMTP over TCP/IP sockets
 - a WebSocket server to push notications into the browser
 - integration with ZeroMQ, RabbitMQ, Protocol Buffers
+- API gateway with authentication and authorisation
 
 
 # Rationale
@@ -58,18 +59,9 @@ A Redix "processor" is a configurable component that processes messages for rout
 They are classified as follows:
 - importer: import a message from an "external" source e.g. a Redis queue
 - router: logically dispatch a message internally
-- fan out: duplicate messages
 - filter: eliminate messages
+- fan out: duplicate messages
 - exporter: export a message e.g. push to a Redis queue
-
-
-## Use-cases
-
-Redix can be used to compose the following infrastructure:
-- Reliable pubsub, pipeline and synchronous messaging using HTTP, Redis et al
-- API gateway
-- Load balancer
-- Caching proxy
 
 
 ## Use-case example  
@@ -114,7 +106,7 @@ We note that Node itself is designed to be asynchronous infrastructure for concu
 
 ## Examples
 
-### HTTP GET
+### HTTP request
 
 Say we pull an HTTP GET request message with specified URL:
 ```yaml
