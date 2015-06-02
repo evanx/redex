@@ -59,8 +59,9 @@ A Redix "processor" is a configurable component that processes messages for rout
 They are classified as follows:
 - importer: import a message from an "external" source e.g. a Redis queue
 - router: logically dispatch a message internally
+- translator: translate messages between different protocols
 - filter: eliminate messages
-- fan out: duplicate messages
+- aggregator: aggregate multiple messages into new messages
 - exporter: export a message e.g. push to a Redis queue
 
 
