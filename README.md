@@ -11,8 +11,8 @@ We tout Redix as:
 - opensource software for reliable messaging that builds on Redis
 
 Its goals are:
-- scalable and reliable via a similarly configured instances running off the same Redis instance 
-- support for message streams, and streaming data 
+- scalable and reliable via a similarly configured instances running off the same Redis instance
+- support for message streams, and streaming data
 
 Use-cases:
 - compose runtime plumbing for collaborating microservices
@@ -28,7 +28,7 @@ We intend to implement processors to support the following patterns:
 - a load balancer
 - an HTTP caching proxy
 - a centralised logging server using TCP/IP sockets
-- an outgoing email server using SMTP over TCP/IP sockets 
+- an outgoing email server using SMTP over TCP/IP sockets
 - a WebSocket server to push notications into the browser
 - integration with ZeroMQ, RabbitMQ, Protocol Buffers
 
@@ -184,7 +184,7 @@ reply: fileImporter/reply/
 protocol: HttpRequestExchange@1
 route:
 - HttpRequestValidator.singleton
-- HttpGet.singleton
+- HttpExporter.singleton
 ```
 
 Incoming message: `fileImporter/watched/hn160705.yaml`
@@ -221,11 +221,11 @@ fs.readFile(this.config.watchDir + fileName, (err, content) => {
       redix.dispatchMessage(this.config, message, this.config.route);
 ```
 
-#### HttpGet exporter
+#### HttpExporter
 
 This processor exports a message via an HTTP GET request.
 
-Config: `HttpGet.singleton.yaml`
+Config: `HttpExporter.singleton.yaml`
 ```yaml
 description: Perform an HTTP request
 startup: 10 # startup priority number
@@ -243,7 +243,7 @@ data:
   json: true
 ```
 
-Implementation snippet: `processors/HttpGet.js`
+Implementation snippet: `processors/HttpExporter.js`
 ```JavaScript
 async processMessage(message) {
    try {
@@ -325,7 +325,7 @@ queue:
   error: redix:test:http:error # the external redis queue for failed requests
 protocol: HttpRequest@1
 route:
-- HttpGet.singleton
+- HttpExporter.singleton
 ```
 
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
