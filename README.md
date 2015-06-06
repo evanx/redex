@@ -8,13 +8,13 @@ Redix is:
 - integration tool for reactive systems
 - orchestration tool for microservices
 
-Its goals are:
+Goals:
 - distributable via replicas running against the same Redis server
 - scalable and reliable, especially when using Redis Cluster
 - commit to ES7 async functions i.e. await and try/catch
 - release version 1.0 in 2016 when ES7 is standardised
 
-Its stretch goals are:
+Stretch goals:
 - a stream processing framework for streaming data
 
 Use-cases:
@@ -23,24 +23,29 @@ Use-cases:
 - glue for network services
 - managing Redis queues
 
-We are implementing:
+
+### Road map
+
+July 2014:
 - basic processors for HTTP and Redis queues
 - sample configuration for reliable pubsub and work queues
 
-We intend to implement processors to demonstrate:
-- HTTPS termination
+January 2016:
 - HTTP proxy
 - web server
-- response caching
 - load balancer
-- auto scaler
-- API gateway with authentication and authorisation
-- analytics server for web apps
+- response caching
 - Redis query server
-- centralised logging server using TCP/IP sockets
+- analytics server for web apps
 - outgoing email server using SMTP over TCP/IP sockets
 - WebSocket server to push notications into the browser
+
+June 2016:
+- HTTPS termination
+- API gateway with authentication and authorisation
 - integration with ZeroMQ, RabbitMQ, Protobuf
+- centralised logging server using TCP/IP sockets
+- auto scaler
 
 
 ## Rationale
