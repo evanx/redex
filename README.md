@@ -2,28 +2,26 @@
 # Redix Router
 
 Redix is:
-- a Node-based message broker
-- a orchestration tool for microservices
-- a tool for building messaging middleware
-- a generic framework for custom message processing
-
-We tout Redix as:
-- duct-tape for microservices
-- an integration tool for reactive systems
+- Node message broker leveraging Redis
+- orchestration tool for microservices
+- integration tool for reactive systems
 - opensource software for reliable messaging through Redis
+- tool for building custom messaging middleware
+- generic framework for custom message processing
 
 Its goals are:
-- scalable and reliable messaging via multiple stateless instances on the same Redis
-- a scalable distributed switch running on Redis Cluster
-- an orchestrator for distributed systems
+- distributable via replicas running against the same Redis server
+- scalable and reliable, especially when using Redis Cluster
+- release version 1.0 in 2016 when ES7 is standardised
+- use ES7 async functions i.e. await and try/catch
 
 Its stretch goals are:
 - a stream processing framework for streaming data
 
 Use-cases:
 - plumbing for collaborating microservices
-- glue for network services
 - legacy systems integration
+- glue for network services
 - managing Redis queues
 
 We are implementing:
@@ -50,9 +48,9 @@ Node is a popular platform for wiring network services.
 
 Redis is a high-performance server for persistent data structures.
 
-ES6 and ES7 promote JavaScript's aesthetics for asynchronous services.
-
 Combining Node and Redis is a compelling proposition for building reactive systems.
+
+ES6 promises and ES7 async functions promote JavaScript's aesthetics for asynchronous tasks.
 
 
 ## Solution
@@ -70,7 +68,7 @@ We use Redis message queues to avoid concurrent operations.
 
 Application microservices, and Redix processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
 
-We note that Node itself is designed to be asynchronous infrastructure for concurrent apps, driven by a single-threaded event loop.
+We note that Node itself is designed to be "asynchronous infrastructure for concurrent apps," driven by a single-threaded event loop.
 
 
 ## Processors

@@ -28,15 +28,15 @@ export default class HttpGet {
          if (addedCount !== 1) {
             logger.warn('processMessage sadd', addedCount);
          }
-         redix.dispatchReverseReply(this.config, message,
-            await request({
+         //redix.dispatchReverseReply(this.config, message,
+         return await request({
                method: message.data.method || 'GET',
                url: message.data.url,
                json: message.data.json || true
             }));
       } catch (err) {
          logger.error('processMessage', err.stack);
-         redix.dispatchReverseErrorReply(message, err);
+         return err;
       } finally {
          let removedCount = await redis.srem(this.config.queue.pending, messageString);
          if (removedCount !== 1) {
