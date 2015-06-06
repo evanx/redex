@@ -164,7 +164,7 @@ export default class RateLimitFilter {
    }
 ```
 
-where the `redix.processMessage()` utility function routes a message to the next processor in the `route:`
+where the `redix.processMessage()` utility function routes a message to the next processor in the `route,` returning a chained promise.
 
 ```javascript
 export default class Redix {
