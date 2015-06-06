@@ -52,11 +52,11 @@ June 2016:
 
 ## Rationale
 
+Leveraging ES7, Node and Redis is a compelling proposition for building reactive systems:
 - Node is a popular platform for wiring network services.
 - ES7 eases the synchronisation of asynchronous co-routines.
 - Redis is a high-performance server for persistent data structures.
 
-Leveraging ES7, Node and Redis is a compelling proposition for building reactive systems.
 
 We wish to apply similar patterns of distributed asynchronous decoupling to:
 - Redix processors
