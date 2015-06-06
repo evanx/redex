@@ -13,8 +13,12 @@ We tout Redix as:
 - opensource software for reliable messaging through Redis
 
 Its goals are:
-- scalable and reliable via multiple stateless instances on the same Redis
-- support for message streams, and streaming data
+- scalable and reliable messaging via multiple stateless instances on the same Redis
+- a scalable distributed switch running on Redis Cluster
+- an orchestrator for distributed systems
+
+Its stretch goals are:
+- a stream processing framework for streaming data
 
 Use-cases:
 - plumbing for collaborating microservices
@@ -36,7 +40,7 @@ We intend to implement processors to demonstrate:
 - centralised logging server using TCP/IP sockets
 - outgoing email server using SMTP over TCP/IP sockets
 - WebSocket server to push notications into the browser
-- integration with ZeroMQ, RabbitMQ, Protocol Buffers
+- integration with ZeroMQ, RabbitMQ, Protobuf
 
 
 # Rationale
