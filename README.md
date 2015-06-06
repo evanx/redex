@@ -58,6 +58,8 @@ Combining Node and Redis is a compelling proposition for building reactive syste
 
 ES6 promises and ES7 async functions promote JavaScript's aesthetics for asynchronous tasks.
 
+Apply patterns of asynchronous decoupling to Redix processors, application microservices, and reactive systems.
+
 
 ## Solution
 
