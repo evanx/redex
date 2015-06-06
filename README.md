@@ -213,7 +213,7 @@ echo '
 ' > tmp/fileImporter/watched/hn160705.yaml
 ```
 
-https://github.com/evanx/redixrouter/blob/master/scripts/test.fileImporter.sh
+See: https://github.com/evanx/redixrouter/blob/master/scripts/test.fileImporter.sh
 
 Alternatively, we push this message onto the Redis queue using `redis-cli` as follows:
 ```shell
