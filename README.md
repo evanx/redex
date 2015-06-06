@@ -1,6 +1,8 @@
 
 # Redix Router
 
+The name "Redix" can be interpreted as "Redis-based message eXchange."
+
 Redix is:
 - opensource Node software for reliable messaging through Redis
 - orchestration tool for collaborating microservices
@@ -50,6 +52,13 @@ June 2016:
 - auto scaler
 
 
+## Solution
+
+We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
+
+In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
+
+
 ## Rationale
 
 Leveraging ES7, Node and Redis for building reactive systems:
@@ -61,15 +70,6 @@ We wish to apply similar patterns of distributed asynchronous decoupling to:
 - Redix processors
 - application microservices
 - disparate legacy applications
-
-
-## Solution
-
-We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
-
-In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
-
-The name "Redix" can be interpreted as "Redis-based message eXchange."
 
 
 ### Concurrency
