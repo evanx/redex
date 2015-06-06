@@ -1,4 +1,6 @@
 
+cd ~/redixrouter || exit 1
+
 testName=redisDispatcher
 
 export configDir=test/${testName}/config

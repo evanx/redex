@@ -1,4 +1,6 @@
 
+cd ~/redixrouter || exit 1
+
 testName=redisImporter
 
 export configDir=test/httpRequest/config

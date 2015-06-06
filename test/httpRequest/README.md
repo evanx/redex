@@ -18,8 +18,6 @@ echo '
 ' > tmp/fileImporter/watched/hn160705.yaml
 ```
 
-See: https://github.com/evanx/redixrouter/blob/master/scripts/test.fileImporter.sh
-
 Alternatively, we push this message onto the Redis queue using `redis-cli` as follows:
 ```shell
 redis-cli lpush redix:test:http:in '{
@@ -28,8 +26,6 @@ redis-cli lpush redix:test:http:in '{
   "json": true
 }'
 ```
-
-See: https://github.com/evanx/redixrouter/blob/master/scripts/test.redisImporter.sh
 
 We expect the following reply to be routed back to the importer:
 ```json
@@ -58,5 +54,7 @@ evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
+
+See test scripts: https://github.com/evanx/redixrouter/blob/master/test/scripts
 
 See processors: https://github.com/evanx/redixrouter/tree/master/processors
