@@ -224,6 +224,8 @@ redis-cli lpush redix:test:http:in '{
 }'
 ```
 
+See: https://github.com/evanx/redixrouter/blob/master/scripts/test.redisImporter.sh
+
 We expect the following reply to be routed back to the importer:
 ```json
 {
