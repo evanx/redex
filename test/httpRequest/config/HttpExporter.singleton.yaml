@@ -1,7 +1,5 @@
 
-message:
-- startup
-- method # e.g. GET, POST
-- url
+description: Perform an HTTP request
+startup: 10 # startup priority number
 queue:
   pending: redix:test:http:pending # Redis key for set for pending requests
