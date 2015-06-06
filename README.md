@@ -194,7 +194,7 @@ where we push the reply or the error into output queues.
 Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully. Depending on the type of exception, we might revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
 
-### HTTP request
+### Example: HTTP request
 
 Say we pull an HTTP GET request message with specified URL:
 ```yaml
