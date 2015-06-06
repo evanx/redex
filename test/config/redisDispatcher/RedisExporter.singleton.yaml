@@ -2,7 +2,5 @@
 description: Export a message to a Redis queue
 startup: 50 # startup priority number
 queue:
-  out: redix:test:http:out # the redis queue
+  out: redix:test:dispatcher:out # the redis queue
 json: false
-route:
-- RedisExporter.singleton

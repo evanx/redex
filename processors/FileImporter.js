@@ -1,4 +1,5 @@
 
+import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
 import bunyan from 'bunyan';
@@ -20,70 +21,57 @@ export default class FileImporter {
       redix.assert(config.route, 'route');
       this.config = config;
       this.files = fs.readdirSync(config.watchDir);
-      this.count = 0;
+      this.count = new Date().getTime();
       logger.info('constructor', this.constructor.name, this.config, this.files);
       this.files.forEach(file => {
          logger.info('watch', file);
       });
+      logger.info('watch', this.config.watchDir);
       this.watch();
    }
 
    async watch() {
+      logger.info('watch', this.config.watchDir);
       try {
-         let { fileEvent, fileName } = Files.watch(config.watchDir);
+         logger.info('watch', this.config, Files);
+         let [ fileEvent, fileName ] = await Files.watch(this.config.watchDir);
          if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
             logger.info('File changed:', fileEvent, fileName, this.config.route);
-            this.fileEvent(event, fileName);
+            this.fileChanged(fileName);
          } else {
             logger.info('Ignore file event:', fileEvent, fileName);
          }
-         this.watch();
+         setTimeout(() => this.watch(), 0);
       } catch (err) {
-         logger.warn('watch error:', err);
-         setTimeout(this.watch, 1000);
+         logger.warn('watch error:', err.stack);
+         setTimeout(() => this.watch(), 1000);
       }
    }
 
-   formatFileName(messageId) {
+   formatReplyFilePath(messageId) {
       return this.config.replyDir + messageId + '.json';
    }
 
-   formatContent(object) {
-      return JSON.stringify(object), null, 2) + '\n';
+   formatJsonContent(object) {
+      return JSON.stringify(object, null, 2) + '\n';
    }
 
-   async fileEvent(event, fileName) {
-      logger.info('fileEvent', event, fileName);
-         try {
-            let data = yaml.safeLoad(await Files.readFile(this.config.watchDir + fileName));
-            this.count += 1;
-            let messageId = path.basename(fileName, '.yaml') + '-' + this.count;
-            let redixInfo = { messageId };
-            let message = { data, redixInfo };
-            let fileName = formatFileName(messageId);
-            assert.equal(await Files.exists(fileName, false, 'File already exists: ' + fileName);
-            processReply(messageId, redix.dispatchMessage(this.config, message, this.config.route));
-         } catch (err) {
-            processErrorReply(messageId, err);
-         }
-      }
-   }
-
-   processReply(messageId, reply) {
-      logger.info('processReply', messageId, reply);
+   async fileChanged(fileName) {
+      let filePath = this.config.watchDir + fileName;
+      this.count += 1;
+      let messageId = path.basename(fileName, '.yaml') + '-' + this.count;
+      logger.info('fileChanged', filePath, messageId);
       try {
-         Files.writeFile(formatFileName(messageId), formatContent(reply.data));
+         let message = yaml.safeLoad(await Files.readFile(filePath));
+         logger.debug('message:', filePath, message);
+         var replyFilePath = this.formatReplyFilePath(messageId);
+         let exists = await Files.exists(replyFilePath);
+         logger.info('replyFilePath', replyFilePath);
+         assert.equal(exists, false, 'File already exists: ' + replyFilePath);
+         let reply = await redix.processMessage(messageId, this.config.route, message);
+         Files.writeFile(replyFilePath, this.formatJsonContent(reply));
       } catch (err) {
-         logger.info('processReply write error:', messageId, err);
-      }
-   }
-
-   processReplyError(messageId, error) {
-      logger.info('processErrorReply', messageId, error);
-      try {
-         Files.writeFile(formatFileName(messageId), formatContent(error));
-      } catch (err) {
-         logger.info('processReplyError write error:', messageId, err);
+         Files.writeFile(replyFilePath, this.formatJsonContent(error));
       }
    }
 

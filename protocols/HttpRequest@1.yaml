@@ -6,5 +6,5 @@ exchanges:
   dispatch: HttpRequest
   reply: string|HttpResponse|Error
 - receive: HttpRequest
-  dispatch: HttpGetRequest
+  dispatch: HttpRequest
   reply: string|JsonResponse|Error

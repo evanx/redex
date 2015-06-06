@@ -22,49 +22,39 @@ export default class RedisHttpRequestImporter {
       this.pop();
    }
 
-   addedPending(redisReply) {
-
+   addedPending(messageId, redisReply) {
+      logger.debug('addPending', messageId, redisReply);
    }
 
-   removePending(redisReply) {
-
+   removePending(messageId, redisReply) {
+      logger.debug('removePending');
    }
 
-   revertPending(redisReply) {
-
+   revertPending(messageId, redisReply) {
+      logger.debug('revertPending');
    }
 
    async pop() {
       try {
-         const redisReply = await this.redisBlocking.brpoplpush(this.config.queue.in,
+         logger.debug('pop', this.config.queue.in);
+         var redisReply = await this.redisBlocking.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout || 0);
-         this.addedPending(redisReply);
          this.seq += 1;
-         logger.debug('redisReply:', redisReply);
-         let data = JSON.parse(redisReply);
-         let messageId = this.seq;
-         let redixInfo = { messageId };
-         let message = { data, redixInfo };
+         var messageId = this.seq;
+         this.addedPending(messageId, redisReply);
+         let message = JSON.parse(redisReply);
          logger.info('pop:', message);
-         redix.dispatchMessage(this.config, message, this.config.route);
-         this.removePending(redisReply);
+         let reply = await redix.processMessage(messageId, this.config.route, message);
+         logger.info('reply:', reply);
+         await this.redisBlocking.lpush(this.config.queue.out, JSON.stringify(reply));
+         this.removePending(messageId, redisReply);
+         //throw new Error('test');
          this.pop();
       } catch (error) {
          logger.error('error:', error, error.stack);
-         this.revertPending(redisReply);
+         this.revertPending(messageId, redisReply);
          this.redisBlocking.lpush(this.config.queue.error, JSON.stringify(error));
-         setTimeout(this.pop, config.errorWaitMillis || 1000);
-      }
-   }
-
-   async processReply(reply) {
-      try {
-         let data = JSON.stringify(reply);
-         logger.info('processReply lpush:', this.config.queue.out, data);
-         let redisReply = await redis.lpush(this.config.queue.out, data);
-         logger.info('processReply lpush reply:', redisReply);
-      } catch(error) {
-         logger.error('processReply lpush error:', error.stack);
+         setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
       }
    }
 }

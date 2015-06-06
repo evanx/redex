@@ -7,11 +7,11 @@ import Redis from '../lib/Redis';
 
 const redis = new Redis();
 
-const logger = bunyan.createLogger({name: 'HttpGet', level: 'debug'});
+const logger = bunyan.createLogger({name: 'HttpExporter', level: 'debug'});
 
 const { redix } = global;
 
-export default class HttpGet {
+export default class HttpExporter {
 
    constructor(config) {
       redix.assert(!config.route, 'route');
@@ -20,20 +20,19 @@ export default class HttpGet {
       logger.info('constructor', this.constructor.name, this.config);
    }
 
-   async processMessage(message) {
+   async processMessage(messageId, route, message) {
+      const messageString = JSON.stringify(message);
       try {
-         const messageString = JSON.stringify(message);
-         logger.info('processMessage', messageString);
+         logger.info('processMessage', messageId, route, messageString);
          let addedCount = await redis.sadd(this.config.queue.pending, messageString);
          if (addedCount !== 1) {
             logger.warn('processMessage sadd', addedCount);
          }
-         //redix.dispatchReverseReply(this.config, message,
-         return await request({
-               method: message.data.method || 'GET',
-               url: message.data.url,
-               json: message.data.json || true
-            }));
+         return request({
+            method: message.method || 'GET',
+            url: message.url,
+            json: message.json || true
+         });
       } catch (err) {
          logger.error('processMessage', err.stack);
          return err;

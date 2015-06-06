@@ -21,19 +21,13 @@ export default class RateLimitFilter {
       this.count = 0;
    }
 
-   processMessage(message) {
-      logger.debug('incoming:', message.redixInfo.messageId, message.redixInfo.route);
+   async processMessage(messageId, route, message) {
+      logger.debug('incoming:', messageId, route);
       if (this.count < this.config.limit) {
          this.count += 1;
-         redix.dispatchMessage(this.config, message, message.redixInfo.route);
+         return redix.processMessage(messageId, route, message);
       } else {
-         logger.info('drop:', message.redixInfo.messageId);
+         logger.info('drop:', messageId);
       }
    }
-
-   processReply(reply) {
-      logger.debug('reply:', reply, reply.redixInfo.route);
-      redix.dispatchReply(this.config, reply, reply.redixInfo.route);
-   }
-
 }

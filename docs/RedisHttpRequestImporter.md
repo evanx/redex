@@ -13,7 +13,7 @@ queue:
   error: redix:test:http:error # the external redis queue for failed requests
 protocol: HttpRequest@1
 route:
-- HttpGet.singleton
+- HttpExporter.singleton
 ```
 
 Implementation snippet: `processors/RedisHttpRequestImporter.js`
@@ -42,4 +42,3 @@ where we use a "promisified" Redis client ([Redis.js](https://github.com/evanx/r
 See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, to be fail-safe.
 
 Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
-

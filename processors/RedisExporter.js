@@ -1,4 +1,5 @@
 
+import assert from 'assert';
 import bunyan from 'bunyan';
 import Redis from '../lib/Redis';
 
@@ -9,31 +10,25 @@ const redis = new Redis();
 export default class RedisExporter {
 
    constructor(config) {
-      redix.assert(config.queue.out, 'queue.out');
-      redix.assert(!config.queue.in, 'queue.in');
+      assert(config.queue.out, 'queue.out');
+      assert(!config.queue.in, 'queue.in');
+      assert(!config.route, 'route');
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
    }
 
-   processMessage(message) {
-      let data = message.data;
+   formatMessage(message) {
       if (this.config.json) {
-         data = JSON.stringify(data);
+         return JSON.stringify(message);
       } else {
-         data = data.toString();
+         return message.toString();
       }
-      logger.info('processMessage lpush:', this.config.queue.out, data);
-      redis.lpush(this.config.queue.out, data).then(reply => {
-         logger.info('processMessage lpush reply:', reply);
-      }, error => {
-         logger.warn('processMessage lpush error:', error);
-      }).catch(error => {
-         logger.error('processMessage lpush error:', error.stack);
-      });
    }
 
-   processReply(reply) {
-      logger.warn('processReply not implemented:', reply);
+   async processMessage(messageId, route, message) {
+      let string = this.formatMessage(message);
+      logger.info('processMessage lpush:', messageId, this.config.queue.out, string);
+      await redis.lpush(this.config.queue.out, string);
+      return;
    }
-
 }
