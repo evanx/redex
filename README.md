@@ -26,23 +26,25 @@ Use-cases:
 
 ### Road map
 
-July 2014:
+July 2015:
 - basic processors for HTTP and Redis queues
 - sample configuration for reliable pubsub and work queues
+- outgoing email server using SMTP over TCP/IP sockets
 
-January 2016:
+September 2015:
 - HTTP proxy
 - web server
-- load balancer
 - response caching
-- Redis query server
 - analytics server for web apps
-- outgoing email server using SMTP over TCP/IP sockets
 - WebSocket server to push notications into the browser
 
-June 2016:
+January 2016:
+- load balancer
+- Redis query server
 - HTTPS termination
 - API gateway with authentication and authorisation
+
+June 2016:
 - integration with ZeroMQ, RabbitMQ, Protobuf
 - centralised logging server using TCP/IP sockets
 - auto scaler
