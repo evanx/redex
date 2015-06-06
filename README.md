@@ -170,8 +170,8 @@ where the `redix.processMessage()` utility function routes a message to the next
 export default class Redix {
 
    async processMessage(messageId, route, message) {
-      let processor = this.processors.get(route[0]);
-      return processor.processMessage(messageId, route.slice(1), message);
+      let nextProcessor = this.processors.get(route[0]);
+      return nextProcessor.processMessage(messageId, route.slice(1), message);
    }
 ```
 
