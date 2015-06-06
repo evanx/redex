@@ -34,7 +34,7 @@ export default class RateLimitFilter {
       logger.debug('incoming:', messageId, route);
       this.count += 1;
       if (this.count > this.config.limit) {
-         throw new Error('Limit exceeded';
+         throw new Error('Limit exceeded: ' + this.formatExceeded());
       } else {
          return redix.processMessage(messageId, route, message);
       }
