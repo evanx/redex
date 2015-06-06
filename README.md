@@ -155,11 +155,11 @@ Alternatively they return a promise to reply later:
 export default class RateLimitFilter {
 
    async processMessage(messageId, route, message) {
-      if (this.count < this.config.limit) {
-         this.count += 1;
-         return redix.processMessage(messageId, route, message);
-      } else {
+      this.count += 1;
+      if (this.count > this.config.limit) {
          throw new Error('Limit exceeded: ' + this.formatExceeded());
+      } else {
+         return redix.processMessage(messageId, route, message);
       }
    }
 ```
