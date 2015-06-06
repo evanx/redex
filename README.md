@@ -32,11 +32,12 @@ We are implementing:
 
 We intend to implement processors to demonstrate:
 - HTTPS termination
-- API gateway with authentication and authorisation
 - HTTP proxy
+- web server
 - response caching
 - load balancer
 - auto scaler
+- API gateway with authentication and authorisation
 - centralised logging server using TCP/IP sockets
 - outgoing email server using SMTP over TCP/IP sockets
 - WebSocket server to push notications into the browser
@@ -45,13 +46,16 @@ We intend to implement processors to demonstrate:
 
 # Rationale
 
-Node is a superb platform for wiring network services, and indeed for the implementation of reactive microservices.
+Node is a popular platform for wiring network services.
 
-Redis is a high-performance server for persistent data structures, "shared memory" and reliable queues.
+Redis is a high-performance server for persistent data structures.
 
-Combining Node and Redis for microservices, is a compelling proposition for building reactive systems.
+Combining Node and Redis is a compelling proposition for building reactive systems.
 
-We wish to decouple our microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
+
+# Solution
+
+We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
 In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
 
