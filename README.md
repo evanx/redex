@@ -296,6 +296,10 @@ async fileChanged(fileName) {
 }
 ```
 
+where we use ES7 async/await, to eliminate callbacks and use try/catch for error handling. (We enable this via Babel.) Since ES7 async functions work with ES6 promises, we introduce wrapper libraries to return promises:
+- https://github.com/evanx/redixrouter/blob/master/lib/Requests.js
+- https://github.com/evanx/redixrouter/blob/master/lib/Files.js
+
 #### HttpExporter
 
 This processor exports a message via an HTTP GET request.
@@ -334,9 +338,7 @@ async processMessage(messageId, route, message) {
    }
 }
 ```
-where we use ES7 async/await, to eliminate callbacks and use try/catch for error handling. (We enable this via Babel.) The use ES6 promise wrappers for the Redis client ([Redis.js](https://github.com/evanx/redixrouter/blob/master/lib/Redis.js)) and HTTP `request` ([Requests.js](https://github.com/evanx/redixrouter/blob/master/lib/Requests.js)) libraries, so that we can `await` them.
-
-See that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
+Note that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
 
 
 #### RateLimitFilter
