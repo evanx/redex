@@ -457,3 +457,5 @@ https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 Depending on the type of exception, we revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
 Incidently that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.
+
+See processors: https://github.com/evanx/redixrouter/tree/master/processors

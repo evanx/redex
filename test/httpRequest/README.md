@@ -58,3 +58,5 @@ evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
+
+See processors: https://github.com/evanx/redixrouter/tree/master/processors
