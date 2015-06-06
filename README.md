@@ -49,15 +49,10 @@ In practice we need to reconfigure such wiring at runtime as an operational conc
 
 ## Rationale
 
-We wish to leverage ES7, Node and Redis for building reactive systems, because:
+We wish to leverage ES7, Node and Redis because:
 - Redis is a high-performance server for persistent data structures
 - Node is a popular platform for network programming
 - ES7 eases the synchronisation of asynchronous co-routines
-
-We are interested in distributed asynchronous decoupling across:
-- Redix processors
-- application microservices
-- disparate legacy applications
 
 
 ### Concurrency
