@@ -2,18 +2,17 @@
 # Redix Router
 
 Redix is:
-- Node message broker leveraging Redis
-- orchestration tool for microservices
-- integration tool for reactive systems
-- opensource software for reliable messaging through Redis
-- tool for building custom messaging middleware
+- opensource Node software for reliable messaging through Redis
 - generic framework for custom message processing
+- tool for building custom messaging middleware
+- integration tool for reactive systems
+- orchestration tool for microservices
 
 Its goals are:
 - distributable via replicas running against the same Redis server
 - scalable and reliable, especially when using Redis Cluster
+- commit to ES7 async functions i.e. await and try/catch
 - release version 1.0 in 2016 when ES7 is standardised
-- use ES7 async functions i.e. await and try/catch
 
 Its stretch goals are:
 - a stream processing framework for streaming data
