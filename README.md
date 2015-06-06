@@ -51,10 +51,10 @@ In practice we need to reconfigure such wiring at runtime as an operational conc
 
 We wish to leverage ES7, Node and Redis for building reactive systems, because:
 - Redis is a high-performance server for persistent data structures
-- ES7 eases the synchronisation of asynchronous co-routines
 - Node is a popular platform for network programming
+- ES7 eases the synchronisation of asynchronous co-routines
 
-We wish to apply similar patterns of distributed asynchronous decoupling to:
+We wish to apply patterns of distributed asynchronous decoupling to:
 - Redix processors
 - application microservices
 - disparate legacy applications
