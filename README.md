@@ -52,11 +52,9 @@ June 2016:
 
 ## Rationale
 
-Node is a popular platform for wiring network services.
-
-ES7 eases the synchronisation of asynchronous co-routines.
-
-Redis is a high-performance server for persistent data structures.
+- Node is a popular platform for wiring network services.
+- ES7 eases the synchronisation of asynchronous co-routines.
+- Redis is a high-performance server for persistent data structures.
 
 Leveraging ES7, Node and Redis is a compelling proposition for building reactive systems.
 
