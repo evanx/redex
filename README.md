@@ -36,6 +36,8 @@ We intend to implement processors to demonstrate:
 - load balancer
 - auto scaler
 - API gateway with authentication and authorisation
+- analytics server for web apps
+- Redis query server
 - centralised logging server using TCP/IP sockets
 - outgoing email server using SMTP over TCP/IP sockets
 - WebSocket server to push notications into the browser
