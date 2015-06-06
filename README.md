@@ -198,8 +198,6 @@ See processors: https://github.com/evanx/redixrouter/tree/master/processors
 
 ### Example: HTTP request
 
-See: https://github.com/evanx/redixrouter/tree/master/test/httpRequest/
-
 Say we pull an HTTP GET request message with specified URL:
 ```yaml
 url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
@@ -257,6 +255,8 @@ evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
+
+See this test: https://github.com/evanx/redixrouter/tree/master/test/httpRequest/
 
 
 #### FileImporter
