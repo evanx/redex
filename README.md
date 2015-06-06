@@ -264,10 +264,8 @@ This processor imports a message from a directory.
 Config: `FileImporter.singleton.yaml`
 ```yaml
 description: Read a message from a file
-startup: 50 # startup priority number
 watched: fileImporter/watched/
 reply: fileImporter/reply/
-protocol: HttpRequestExchange@1
 route:
 - RateLimitFilter.singleton
 - HttpExporter.singleton
@@ -275,12 +273,9 @@ route:
 
 Incoming message: `fileImporter/watched/hn160705.yaml`
 ```yaml
-redix:
-  type: HttpRequest@1
-data:
-  url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
-  method: GET
-  json: true
+url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+method: GET
+json: true
 ```
 
 Reply: `fileImporter/reply/hn160705.json`
@@ -329,7 +324,6 @@ This processor exports a message via an HTTP GET request.
 Config: `HttpExporter.singleton.yaml`
 ```yaml
 description: Perform an HTTP request
-startup: 10 # startup priority number
 queue:
   pending: redix:test:http:pending # Redis key for set for pending requests
 ```
@@ -376,7 +370,6 @@ This processor limits the rate of messages that are processed, e.g. 1 per second
 Config: `RateLimitFilter.singleton.yaml`
 ```yaml
 description: Limit the rate of messages
-startup: 10 # startup priority number
 periodMillis: 1000 # 1 second
 limit: 1 # only route one message per second
 ```
@@ -417,7 +410,6 @@ This processor imports an HTTP request message from a Redis queue.
 Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
 description: Import an HTTP request message from a Redis queue
-startup: 20 # startup priority number
 queue:
   in: redix:test:http:in # the redis key for the incoming queue (list)
   out: redix:test:http:out # the redis queue for replies

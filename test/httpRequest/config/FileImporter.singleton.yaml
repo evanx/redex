@@ -1,6 +1,9 @@
 
+description: Read a message from a file
+startup: 50 # startup priority number
 watchDir: tmp/fileImporter/watched/
 replyDir: tmp/fileImporter/reply/
+protocol: HttpRequestExchange@1
 route:
 - RateLimitFilter.singleton
 - HttpExporter.singleton
