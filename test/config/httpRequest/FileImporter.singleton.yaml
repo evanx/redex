@@ -3,4 +3,4 @@ watchDir: tmp/fileImporter/watched/
 replyDir: tmp/fileImporter/reply/
 route:
 - RateLimitFilter.singleton
-- HttpGet.singleton
+- HttpExporter.singleton
