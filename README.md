@@ -309,12 +309,9 @@ queue:
 
 Sample incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
 ```yaml
-redix:
-  messageId: hn160705
-data:
-  url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
-  method: GET
-  json: true
+url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
+method: GET
+json: true
 ```
 
 Implementation snippet: `processors/HttpExporter.js`
