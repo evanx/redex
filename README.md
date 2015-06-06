@@ -191,6 +191,8 @@ In the event of a timeout or some other error, an exception is thrown. The excep
 ```
 where we push the reply or the error into output queues.
 
+Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully. Depending on the type of exception, we might revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
+
 
 ### HTTP request
 
@@ -445,6 +447,6 @@ async pop() {
 where we use a "promisified" Redis client for ES7 async functions:
 https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 
-Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully. Depending on the type of exception, we might revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
+Depending on the type of exception, we revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
 Incidently that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.
