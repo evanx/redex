@@ -30,9 +30,10 @@ export default class RedisHttpRequestImporter {
       logger.debug('removePending');
    }
 
-   revertPending(messageId, redisReply) {
-      logger.debug('revertPending');
+   revertPending(messageId, redisReply, error) {
+      logger.warn('revertPending:', messageId, error.stack);
    }
+
 
    async pop() {
       try {
@@ -51,9 +52,8 @@ export default class RedisHttpRequestImporter {
          //throw new Error('test');
          this.pop();
       } catch (error) {
-         logger.error('error:', error, error.stack);
-         this.revertPending(messageId, redisReply);
          this.redis.lpush(this.config.queue.error, JSON.stringify(error));
+         this.revertPending(messageId, redisReply, error);
          setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
       }
    }
