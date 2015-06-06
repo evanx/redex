@@ -3,10 +3,10 @@
 
 Redix is:
 - opensource Node software for reliable messaging through Redis
+- orchestration tool for collaborating microservices
 - generic framework for custom message processing
+- integration tool for building reactive systems
 - tool for building custom messaging middleware
-- integration tool for reactive systems
-- orchestration tool for microservices
 
 Goals:
 - distributable via replicas running against the same Redis server
