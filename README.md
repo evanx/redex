@@ -44,7 +44,7 @@ We intend to implement processors to demonstrate:
 - integration with ZeroMQ, RabbitMQ, Protobuf
 
 
-# Rationale
+## Rationale
 
 Node is a popular platform for wiring network services.
 
@@ -53,7 +53,7 @@ Redis is a high-performance server for persistent data structures.
 Combining Node and Redis is a compelling proposition for building reactive systems.
 
 
-# Solution
+## Solution
 
 We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
