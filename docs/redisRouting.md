@@ -32,7 +32,9 @@ export default class RateLimitFilter {
       }
    }
 ```
-where we throw an exception to reject the message. Otherwise we invoke the `redix.processMessage` utility function to forward the message to the next processor in the `route,` returning a chained promise.
+where we throw an exception to reject the message. This is equivalent to the promise being rejected.
+
+Otherwise we invoke the `redix.processMessage` utility function to forward the message to the next processor in the `route,` returning a chained promise.
 
 ```javascript
 export default class Redix {
@@ -43,7 +45,7 @@ export default class Redix {
    }
 ```
 
-In the event of a timeout or some other error, an exception is thrown. This is equivalent to the promise being rejected. The exception is caught typically by the importer, e.g. as follows:
+In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:
 ```javascript
    try {
       var redisReply = await this.redis.brpoplpush(this.config.queue.in,
