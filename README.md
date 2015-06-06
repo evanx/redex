@@ -50,6 +50,8 @@ Node is a popular platform for wiring network services.
 
 Redis is a high-performance server for persistent data structures.
 
+ES6 and ES7 promote JavaScript's aesthetics for asynchronous services.
+
 Combining Node and Redis is a compelling proposition for building reactive systems.
 
 
@@ -60,6 +62,15 @@ We wish to decouple our systems and microservices and enable their collaboration
 In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
 
 The name "Redix" can be interpreted as "Redis-based message eXchange."
+
+
+### Concurrency
+
+We use Redis message queues to avoid concurrent operations.
+
+Application microservices, and Redix processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
+
+We note that Node itself is designed to be asynchronous infrastructure for concurrent apps, driven by a single-threaded event loop.
 
 
 ## Processors
@@ -95,7 +106,7 @@ Assuming the required processors are available in the Redix deployment, this app
 
 ## Configuration
 
-Each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning.)
+Each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning, with Redix as a dependency.)
 
 The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/FileImporter.singleton.json.`
 
@@ -106,15 +117,6 @@ The distinguishing name enables multiple instances of the same processor class, 
 The "module" name enables custom and third-party processors e.g. a `myredix/FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
 
 We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json,` to enable instances to be dynamically created by so messaging the factory.
-
-
-## Concurrency
-
-We use Redis message queues to avoid concurrent operations.
-
-Application microservices, and Redix processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
-
-We note that Node itself is designed to be asynchronous infrastructure for concurrent apps, driven by a single-threaded event loop.
 
 
 ## Examples
