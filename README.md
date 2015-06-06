@@ -54,13 +54,13 @@ June 2016:
 
 Node is a popular platform for wiring network services.
 
+ES7 eases the synchronisation of asynchronous co-routines.
+
 Redis is a high-performance server for persistent data structures.
 
-Combining Node and Redis is a compelling proposition for building reactive systems.
+Combining ES7, Node and Redis is a compelling proposition for building reactive systems.
 
-ES6 promises and ES7 async functions promote JavaScript's aesthetics for asynchronous tasks.
-
-Apply patterns of asynchronous decoupling to Redix processors, application microservices, and reactive systems.
+Apply patterns of asynchronous decoupling to Redix processors, application microservices, and distributed systems.
 
 
 ## Solution
