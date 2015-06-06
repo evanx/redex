@@ -3,16 +3,17 @@
 
 Redix is:
 - a Node-based message broker
-- a generic tool for composing message routers via the configuration of basic processors
-- a generic framework for custom message processors and messaging patterns
+- a orchestration tool for microservices
+- a tool for building messaging middleware
+- a generic framework for custom message processing
 
 We tout Redix as:
 - duct-tape for microservices
-- opensource software for reliable messaging that builds on Redis
 - an integration tool for reactive systems
+- opensource software for reliable messaging through Redis
 
 Its goals are:
-- scalable and reliable via a similarly configured instances running off the same Redis instance
+- scalable and reliable via multiple stateless instances on the same Redis
 - support for message streams, and streaming data
 
 Use-cases:
@@ -26,13 +27,16 @@ We are implementing:
 - sample configuration for reliable pubsub and work queues
 
 We intend to implement processors to demonstrate:
-- a load balancer
-- an HTTP caching proxy
-- a centralised logging server using TCP/IP sockets
-- an outgoing email server using SMTP over TCP/IP sockets
-- a WebSocket server to push notications into the browser
-- integration with ZeroMQ, RabbitMQ, Protocol Buffers
+- HTTPS termination
 - API gateway with authentication and authorisation
+- HTTP proxy
+- response caching
+- load balancer
+- auto scaler
+- centralised logging server using TCP/IP sockets
+- outgoing email server using SMTP over TCP/IP sockets
+- WebSocket server to push notications into the browser
+- integration with ZeroMQ, RabbitMQ, Protocol Buffers
 
 
 # Rationale
@@ -47,7 +51,7 @@ We wish to decouple our microservices and enable their collaboration through mes
 
 In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
 
-The name "Redix" can be interpreted as "Redis-based message eXchange." Actually this is a misnomer, because it  it is a minimal non-prescriptive message-processing framework. It so happens that we intend to apply it to our own microservices which favour Redis.
+The name "Redix" can be interpreted as "Redis-based message eXchange."
 
 
 ## Processors
@@ -58,7 +62,7 @@ A Redix "processor" is a configurable component that processes messages for rout
 
 Example classifications:
 - importer: import a message from an "external" source e.g. a Redis queue
-- router: logically dispatch a message internally
+- router: dispatch a message to other internal processors
 - translator: translate messages between different protocols
 - filter: eliminate messages
 - aggregator: aggregate multiple messages into a new aggregated message
