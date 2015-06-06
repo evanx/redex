@@ -104,7 +104,7 @@ A simple use-case we wish to fulfil is a reliable pubsub, implemented as follows
 
 If a consumer is busy, or crashed, its messages are still delivered when it is available again, via its Redis queue.
 
-This process is implemented by composing basic processors as follows:
+We compose basic processors to implement this process as follows:
 - an importer to pop incoming messages from the "producer queue"
 - a fan-out processor to multiple exporters
 - each exporter pushes to its "consumer queue"
@@ -445,6 +445,6 @@ async pop() {
 where we use a "promisified" Redis client for ES7 async functions:
 https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 
-Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully. In event of an unexpected exception, we might revert the pending message, to be fail-safe.
+Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully. Depending on the type of exception, we might revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
 Incidently that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.
