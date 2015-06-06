@@ -3,27 +3,17 @@
 
 The name "Redix" can be interpreted as "Redis-based message eXchange."
 
-Redix is:
-- opensource Node software for reliable messaging through Redis
-- orchestration tool for collaborating microservices
-- generic framework for custom message processing
+Redix is a Node framework and tool for:
+- reliable messaging through Redis queues
+- plumbing for collaborating microservices
 - integration tool for building reactive systems
-- tool for building custom messaging middleware
+- framework for custom messaging middleware
 
 Goals:
 - distributable via replicas running against the same Redis server
 - scalable and reliable, especially when using Redis Cluster
 - commit to ES7 async functions i.e. await and try/catch
 - release version 1.0 in 2016 when ES7 is standardised
-
-Stretch goals:
-- a stream processing framework for streaming data
-
-Use-cases:
-- plumbing for collaborating microservices
-- legacy systems integration
-- glue for network services
-- managing Redis queues
 
 
 ### Road map
