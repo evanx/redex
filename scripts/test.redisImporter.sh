@@ -1,7 +1,7 @@
 
 testName=redisImporter
 
-export configDir=test/config/httpRequest
+export configDir=test/httpRequest/config
 export pidFile=tmp/redix.${testName}.pid
 
 c0run() {

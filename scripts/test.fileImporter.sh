@@ -4,10 +4,11 @@ mkdir -p tmp/fileImporter/reply
 
 testName=fileImporter
 
+export configDir=test/httpRequest/config 
 export pidFile=tmp/redix.$testName.pid
 
 c0run() {
-  configDir=test/config/httpRequest nodejs index.js | bunyan -o short
+  nodejs index.js | bunyan -o short
 }
 
 c0client() {

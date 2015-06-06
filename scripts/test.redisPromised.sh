@@ -1,2 +1,2 @@
 
-babel-node test/redisPromised.js | bunyan
+  babel-node test/redisPromised.js | bunyan

@@ -1,7 +1,7 @@
 
 testName=redisDispatcher
 
-export configDir=test/config/${testName}
+export configDir=test/${testName}/config
 export pidFile=tmp/redix.${testName}.pid
 
 c0run() {
