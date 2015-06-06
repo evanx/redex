@@ -54,7 +54,7 @@ We wish to leverage ES7, Node and Redis for building reactive systems, because:
 - Node is a popular platform for network programming
 - ES7 eases the synchronisation of asynchronous co-routines
 
-We wish to apply patterns of distributed asynchronous decoupling to:
+We are interested in distributed asynchronous decoupling across:
 - Redix processors
 - application microservices
 - disparate legacy applications
