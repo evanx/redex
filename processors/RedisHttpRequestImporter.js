@@ -18,7 +18,7 @@ export default class RedisHttpRequestImporter {
       logger.info('constructor', this.constructor.name, this.config);
       this.seq = 0;
       this.popTimeout = this.config.popTimeout || 0;
-      this.redisBlocking = new Redis();
+      this.redis = new Redis();
       this.pop();
    }
 
@@ -37,8 +37,8 @@ export default class RedisHttpRequestImporter {
    async pop() {
       try {
          logger.debug('pop', this.config.queue.in);
-         var redisReply = await this.redisBlocking.brpoplpush(this.config.queue.in,
-            this.config.queue.pending, this.popTimeout || 0);
+         var redisReply = await this.redis.brpoplpush(this.config.queue.in,
+            this.config.queue.pending, this.popTimeout);
          this.seq += 1;
          var messageId = this.seq;
          this.addedPending(messageId, redisReply);
@@ -46,14 +46,14 @@ export default class RedisHttpRequestImporter {
          logger.info('pop:', message);
          let reply = await redix.processMessage(messageId, this.config.route, message);
          logger.info('reply:', reply);
-         await this.redisBlocking.lpush(this.config.queue.out, JSON.stringify(reply));
+         await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
          this.removePending(messageId, redisReply);
          //throw new Error('test');
          this.pop();
       } catch (error) {
          logger.error('error:', error, error.stack);
          this.revertPending(messageId, redisReply);
-         this.redisBlocking.lpush(this.config.queue.error, JSON.stringify(error));
+         this.redis.lpush(this.config.queue.error, JSON.stringify(error));
          setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
       }
    }

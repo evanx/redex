@@ -8,4 +8,5 @@ queue:
   error: redix:test:http:error # the external redis queue for failed requests
 protocol: HttpRequest@1
 route:
+- RateLimitFilter.singleton
 - HttpExporter.singleton

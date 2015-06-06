@@ -228,13 +228,28 @@ Reply: `fileImporter/reply/hn160705.json`
 
 Implementation snippet: `processors/FileImporter.js`
 ```JavaScript
-fs.readFile(this.config.watchDir + fileName, (err, content) => {
-   if (!err) {
-      let data = yaml.safeLoad(content);
-      let messageId = path.basename(fileName, '.yaml');
-      let redixInfo = { messageId };
-      let message = { data, redixInfo };
-      redix.dispatchMessage(this.config, message, this.config.route);
+formatReplyFilePath(messageId) {
+   return this.config.replyDir + messageId + '.json';
+}
+
+formatJsonContent(object) {
+   return JSON.stringify(object, null, 2) + '\n';
+}
+
+async fileChanged(fileName) {
+   let filePath = this.config.watchDir + fileName;
+   let messageId = path.basename(fileName, '.yaml');
+   try {
+      let message = yaml.safeLoad(await Files.readFile(filePath));
+      var replyFilePath = this.formatReplyFilePath(messageId);
+      let exists = await Files.exists(replyFilePath);
+      assert.equal(exists, false, 'Reply file already exists: ' + replyFilePath);
+      let reply = await redix.processMessage(messageId, this.config.route, message);
+      Files.writeFile(replyFilePath, this.formatJsonContent(reply));
+   } catch (err) {
+      Files.writeFile(replyFilePath, this.formatJsonContent(error));
+   }
+}
 ```
 
 #### HttpExporter
@@ -261,21 +276,20 @@ data:
 
 Implementation snippet: `processors/HttpExporter.js`
 ```JavaScript
-async processMessage(message) {
+async processMessage(messageId, route, message) {
    try {
-      const messageString = JSON.stringify(message);
-      assert.equals(await redis.sadd(this.config.queue.pending, messageString),
+      var messageString = JSON.stringify(message);
+      assert.equal(await redis.sadd(this.config.queue.pending, messageString),
          1, 'sadd');
-      redix.dispatchReverseReply(this.config, message,
-         await request({
-            method: message.data.method || 'GET',
-            url: message.data.url,
-            json: message.data.json || true
-         }));
+      return request({
+         method: message.method || 'GET',
+         url: message.url,
+         json: message.json || true
+      });
    } catch (err) {
-      redix.dispatchReverseErrorReply(message, err);
+      return err;
    } finally {
-      assert.equals(await redis.srem(this.config.queue.pending, messageString),
+      assert.equal(await redis.srem(this.config.queue.pending, messageString),
          1, 'srem');
    }
 }
@@ -307,7 +321,7 @@ export default class RateLimitFilter {
       assert(this.config.periodMillis >= 0, 'periodMillis');
       this.count = 0;
       if (this.config.periodMillis > 0) {
-         setTimeout(this.resetCount, this.periodMillis);
+         setTimeout(() => this.resetCount(), this.periodMillis);
       }
    }
 
@@ -315,15 +329,15 @@ export default class RateLimitFilter {
       this.count = 0;
    }
 
-   processMessage(message) {
-      if (this.count < this.limit) {
+   async processMessage(messageId, route, message) {
+      if (this.count < this.config.limit) {
          this.count += 1;
-         redix.dispatchMessage(this.config, message);
+         return redix.processMessage(messageId, route, message);
       } else {
-         redix.dispatchReverseErrorReply(this.config, message,
-            { errorMessage: 'limit exceeded' });
+         throw new Error('Limit exceeded');
       }
    }
+}
 ```
 
 #### RedisHttpRequestImporter
@@ -348,20 +362,20 @@ Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
 async pop() {
    try {
-      const redisReply = await this.redisBlocking.brpoplpush(this.config.queue.in,
+      var redisReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
-      this.addedPending(redisReply);
       this.seq += 1;
-      let data = JSON.parse(redisReply);
-      let messageId = [this.processorId, this.seq].join(':');
-      let redixInfo = { messageId };
-      let message = { data, redixInfo };
-      redix.dispatchMessage(this.config, message, this.config.route);
-      this.removePending(redisReply);
+      var messageId = this.seq;
+      this.addedPending(messageId, redisReply);
+      let message = JSON.parse(redisReply);
+      let reply = await redix.processMessage(messageId, this.config.route, message);
+      await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
+      this.removePending(messageId, redisReply);
       this.pop();
    } catch (error) {
-      this.revertPending(redisReply);
-      setTimeout(this.pop, config.errorWaitMillis || 1000);
+      this.revertPending(messageId, redisReply);
+      this.redis.lpush(this.config.queue.error, JSON.stringify(error));
+      setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
    }
 }
 ```
@@ -370,4 +384,4 @@ https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 
 See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, to be fail-safe.
 
-Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
+Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.

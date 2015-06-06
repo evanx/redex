@@ -13,11 +13,20 @@ export default class RateLimitFilter {
       logger.info('constructor', this.config);
       this.count = 0;
       if (this.config.periodMillis) {
-         setTimeout(this.resetCount, this.periodMillis);
+         setTimeout(() => this.resetCount(), this.periodMillis);
       }
    }
 
+   formatRate() {
+      return this.config.limit + ' in ' + this.config.periodMillis + 'ms';
+   }
+
+   formatExceeded() {
+      return this.count + ' exceeds ' + this.formatRate();
+   }
+
    resetCount() {
+      logger.debug('resetCount', this.count);
       this.count = 0;
    }
 
@@ -27,7 +36,7 @@ export default class RateLimitFilter {
          this.count += 1;
          return redix.processMessage(messageId, route, message);
       } else {
-         logger.info('drop:', messageId);
+         throw new Error('Limit exceeded: ' + this.formatExceeded());
       }
    }
 }

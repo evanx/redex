@@ -1,6 +1,8 @@
 
+import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
+
 import { request } from '../lib/Requests';
 
 import Redis from '../lib/Redis';
@@ -21,13 +23,11 @@ export default class HttpExporter {
    }
 
    async processMessage(messageId, route, message) {
-      const messageString = JSON.stringify(message);
       try {
+         var messageString = JSON.stringify(message);
          logger.info('processMessage', messageId, route, messageString);
-         let addedCount = await redis.sadd(this.config.queue.pending, messageString);
-         if (addedCount !== 1) {
-            logger.warn('processMessage sadd', addedCount);
-         }
+         assert.equal(await redis.sadd(this.config.queue.pending, messageString),
+            1, 'sadd');
          return request({
             method: message.method || 'GET',
             url: message.url,
@@ -37,10 +37,8 @@ export default class HttpExporter {
          logger.error('processMessage', err.stack);
          return err;
       } finally {
-         let removedCount = await redis.srem(this.config.queue.pending, messageString);
-         if (removedCount !== 1) {
-            logger.warn('processMessage srem', removedCount);
-         }
+         assert.equal(await redis.srem(this.config.queue.pending, messageString),
+            1, 'srem');
       }
    }
 }
