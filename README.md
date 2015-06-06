@@ -445,6 +445,6 @@ async pop() {
 where we use a "promisified" Redis client for ES7 async functions:
 https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
 
-See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, to be fail-safe.
+Note that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, to be fail-safe.
 
-Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.
+Incidently that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.

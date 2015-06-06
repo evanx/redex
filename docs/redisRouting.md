@@ -59,3 +59,5 @@ In the event of a timeout or some other error, an exception is thrown. The excep
       this.redis.lpush(this.config.queue.error, JSON.stringify(error));
 ```
 where we push the reply or the error into output queues.
+
+Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully. In event of an error, we revert the pending message, to be fail-safe.
