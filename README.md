@@ -150,7 +150,7 @@ Importers `await` a reply as follows:
 let reply = await redix.processMessage(messageId, this.config.route, message);
 ```
 
-Alternatively they return a promise to reply:
+Alternatively they return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
