@@ -298,7 +298,7 @@ async fileChanged(fileName) {
 
 where we use ES7 async/await (via Babel) to eliminate callbacks and use try/catch for error handling.
 
-Since ES7 async functions work with ES6 promises, we introduce wrapper libraries to return promises:
+Note that since ES7 async functions work with ES6 promises, we introduce wrapper libraries to return promises:
 - https://github.com/evanx/redixrouter/blob/master/lib/Requests.js
 - https://github.com/evanx/redixrouter/blob/master/lib/Files.js
 
