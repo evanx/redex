@@ -58,9 +58,9 @@ ES7 eases the synchronisation of asynchronous co-routines.
 
 Redis is a high-performance server for persistent data structures.
 
-Combining ES7, Node and Redis is a compelling proposition for building reactive systems.
+Leveraging ES7, Node and Redis is a compelling proposition for building reactive systems.
 
-Apply patterns of asynchronous decoupling to Redix processors, application microservices, and distributed systems.
+We wish to apply patterns of asynchronous decoupling for disparate applications, collaborating microservices, and Redix plumbing.
 
 
 ## Solution
