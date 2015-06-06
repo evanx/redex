@@ -60,7 +60,7 @@ Redis is a high-performance server for persistent data structures.
 
 Leveraging ES7, Node and Redis is a compelling proposition for building reactive systems.
 
-We wish to apply patterns of distributed asynchronous decoupling to:
+We wish to apply similar patterns of distributed asynchronous decoupling to:
 - Redix processors
 - application microservices
 - disparate legacy applications
