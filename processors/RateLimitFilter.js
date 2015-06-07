@@ -5,7 +5,7 @@
 import assert from 'assert';
 import bunyan from 'bunyan';
 
-const logger = bunyan.createLogger({name: 'RateLimitFilter', level: 'debug'});
+const logger = bunyan.createLogger({name: 'RateLimitFilter', level: global.redixLoggerLevel});
 
 export default class RateLimitFilter {
 

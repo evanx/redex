@@ -52,6 +52,7 @@ June 2016 - integration:
 - integration with ZeroMQ, RabbitMQ, Protobuf
 
 Unscheduled:
+- scheduler
 - auto scaler
 - analytics server for web apps
 - centralised logging server using TCP/IP sockets

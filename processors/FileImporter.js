@@ -13,7 +13,7 @@ import Files from '../lib/Files';
 
 const { redix } = global;
 
-const logger = bunyan.createLogger({name: 'FileImporter', level: 'debug'});
+const logger = bunyan.createLogger({name: 'FileImporter', level: global.redixLoggerLevel});
 
 
 export default class FileImporter {

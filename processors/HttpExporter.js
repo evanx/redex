@@ -12,7 +12,7 @@ import Redis from '../lib/Redis';
 
 const redis = new Redis();
 
-const logger = bunyan.createLogger({name: 'HttpExporter', level: 'debug'});
+const logger = bunyan.createLogger({name: 'HttpExporter', level: global.redixLoggerLevel});
 
 const { redix } = global;
 

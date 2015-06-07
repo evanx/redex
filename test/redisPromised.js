@@ -2,13 +2,15 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redixrouter/LICENSE
 
+global.redixLoggerLevel = 'debug';
+
 import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 import Redis from '../lib/Redis';
 
-const logger = bunyan.createLogger({name: 'test.redis', level: 'info'});
+const logger = bunyan.createLogger({name: 'test.redis', level: global.redixLoggerLevel});
 
 const redis = new Redis();
 
