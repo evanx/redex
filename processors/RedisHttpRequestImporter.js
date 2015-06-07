@@ -35,8 +35,9 @@ export default class RedisHttpRequestImporter {
    }
 
    revertPending(messageId, redisReply, error) {
-      logger.warn('revertPending:', messageId, error.stack);
+      logger.warn('revertPending:', messageId, error, error.stack);
    }
+
 
    async pop() {
       try {
