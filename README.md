@@ -164,7 +164,7 @@ export default class Redix {
          setTimeout(() => {
             reject({
                name: 'Timeout',
-               message: meta.importer + ' timeout ' + ' (' + timeout + 'ms)'
+               message: util.format('%s timeout (%dms)', meta.importer, time)
             });
          }, options.timeout);
       });

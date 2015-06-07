@@ -18,12 +18,11 @@ Importers `await` a reply as follows:
 ```javascript
 export default class RedisImporter {
    async pop() {
-      let messageId;
+      this.seq += 1;
+      let messageId = this.seq;
       try {
          let message = await this.redis.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
-         this.seq += 1;
-         messageId = this.seq;
          this.addedPending(messageId, message);
          let reply = await redix.importMessage(message, {messageId}, this.config);
          if (reply) {
@@ -47,7 +46,7 @@ export default class Redix {
          setTimeout(() => {
             reject({
                name: 'Timeout',
-               message: meta.importer + ' timeout ' + ' (' + timeout + 'ms)'
+               message: util.format('%s timeout (%dms)', meta.importer, time)
             });
          }, options.timeout);
       });
