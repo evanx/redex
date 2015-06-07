@@ -26,27 +26,28 @@ export default class RedisImporter {
       this.pop();
    }
 
-   addedPending(messageId, message) {
+   addedPending(popReply, messageId) {
       logger.debug('addPending', messageId);
    }
 
-   removePending(messageId, reply) {
+   removePending(popReply, messageId, reply) {
       logger.debug('removePending', messageId);
    }
 
-   revertPending(messageId, error) {
+   revertPending(popReply, messageId, error) {
       logger.warn('revertPending:', messageId, error, error.stack);
    }
 
    async pop() {
       this.seq += 1;
       let messageId = this.seq;
-      const message = await this.redis.brpoplpush(this.config.queue.in,
+      const popReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
       try {
-         this.addedPending(messageId, message);
+         this.addedPending(popReply, messageId);
+         let message = popReply;
          if (this.config.json) {
-            message = JSON.parse(message);
+            message = JSON.parse(popReply);
          }
          logger.debug('pop:', message);
          let reply = await redix.importMessage(message, {messageId}, this.config);
@@ -54,9 +55,9 @@ export default class RedisImporter {
          if (reply) {
             this.redis.lpush(this.config.queue.reply, reply);
          }
-         this.removePending(messageId, reply);
+         this.removePending(popReply, messageId, reply);
       } catch (err) {
-         this.revertPending(messageId, err);
+         this.revertPending(popReply, messageId, err);
          throw err;
       }
    }
