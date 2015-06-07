@@ -131,5 +131,8 @@ To improve resilience and promote fail-safe canary releases, we should move fail
 
 ## Learn more
 
+Redix processor implementations:
+- https://github.com/evanx/redixrouter/blob/master/processors/
+
 HTTP request example:
 - https://github.com/evanx/redixrouter/blob/master/test/httpRequest/
