@@ -251,5 +251,5 @@ Incidently that the Redis `brpoplpush` command blocks its Redis client instance,
 
 ### Learn more
 
-See processors:
+Processor implementations:
 - https://github.com/evanx/redixrouter/tree/master/processors
