@@ -248,8 +248,3 @@ where we use a "promisified" Redis client for ES7 async functions:
 Depending on the type of exception, we revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
 Incidently that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.
-
-### Learn more
-
-Processor implementations:
-- https://github.com/evanx/redixrouter/tree/master/processors
