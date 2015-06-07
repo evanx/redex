@@ -14,7 +14,7 @@ Goals:
 - release version 1.0 in 2016 when ES7 is standardised
 
 
-### Road map
+## Road map
 
 We intend to implement processors to demonstate the following use-cases.
 
@@ -305,11 +305,11 @@ ES7 async functions work with ES6 promises, and so we introduce wrapper librarie
 - https://github.com/evanx/redixrouter/blob/master/lib/Requests.js
 - https://github.com/evanx/redixrouter/blob/master/lib/Files.js
 
-#### HttpExporter
+### HttpExporter
 
 This processor exports a message via an HTTP GET request.
 
-Config: `HttpExporter.singleton.yaml`
+#### Config: `HttpExporter.singleton.yaml`
 ```yaml
 description: Perform an HTTP request
 queue:
@@ -346,7 +346,7 @@ async processMessage(messageId, route, message) {
 Note that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
 
 
-#### RateLimitFilter
+### RateLimitFilter
 
 This processor limits the rate of messages that are processed, e.g. 1 per second in this example configuration.
 
@@ -386,7 +386,7 @@ export default class RateLimitFilter {
 }
 ```
 
-#### RedisHttpRequestImporter
+### RedisHttpRequestImporter
 
 This processor imports an HTTP request message from a Redis queue.
 
