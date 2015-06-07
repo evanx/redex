@@ -83,10 +83,10 @@ export default class Redix {
    }
 ```
 
+The importer therefore gets a chain of promises, from its own timeout promise, through to an exporters promise.
+
 
 #### Reply and error handling
-
-The importer gets an exporter's promise, or a chain of promises, and chains this within a timeout promise.
 
 In the event of a timeout or some other error, this exception is caught by the importer as follows:
 ```javascript
