@@ -134,7 +134,24 @@ where `route` is an array of processor names.
 
 Importers `await` a reply as follows:
 ```javascript
-   let reply = await redix.importMessage(message, {messageId}, this.config);
+export default class RedisImporter {
+   async pop() {
+      try {
+         let message = await this.redisBlocking.brpoplpush(this.config.queue.in,
+            this.config.queue.pending, this.popTimeout);
+         this.seq += 1;
+         let messageId = this.seq;
+         this.addedPending(messageId, message);
+         let reply = await redix.importMessage(message, {messageId}, this.config);
+         if (reply) {
+            this.redisBlocking.lpush(this.config.queue.reply, reply);
+         }
+         this.removePending(messageId, reply);
+         setTimeout(() => this.pop(), 0);
+      } catch (err) {
+         this.revertPending(messageId, err);
+         setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
+      }
 ```
 where the `redix.importMessage` utility chains a timeout promise:
 ```javascript
