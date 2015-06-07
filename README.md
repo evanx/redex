@@ -200,6 +200,8 @@ export default class Redix {
    }
 ```
 
+#### Timeout
+
 The importer gets an exporter's promise, or a chain of promises, and chains that within a timeout promise.
 
 In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:
