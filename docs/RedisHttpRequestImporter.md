@@ -12,6 +12,7 @@ queue:
   pending: redix:test:http:pending # the internal redis queue for pending requests
   error: redix:test:http:error # the external redis queue for failed requests
 protocol: HttpRequest@1
+timeout: 8000 # ms
 route:
 - HttpExporter.singleton
 ```
@@ -28,7 +29,7 @@ async pop() {
       let messageId = [this.processorId, this.seq].join(':');
       let redixInfo = { messageId };
       let message = { data, redixInfo };
-      redix.dispatchMessage(this.config, message, this.config.route);
+      redix.importMessage(this.config, message, this.config);
       this.removePending(redisReply);
       this.pop();
    } catch (error) {

@@ -16,7 +16,23 @@ where `route` is an array of processor names.
 
 Importers `await` a reply as follows:
 ```javascript
-let reply = await redix.importMessage(message, {messageId}, this.config);
+   let reply = await redix.importMessage(message, {messageId}, this.config);
+```
+where the `redix.importMessage` utility chains a timeout promise:
+```javascript
+export default class Redix {
+   async importMessage(message, meta, options) {
+      meta.expires = new Date().getTime() + options.timeout;
+      let promise = this.dispatchMessage(message, meta, options.route);
+      return new Promise((resolve, reject) => {
+         promise.then(resolve, reject);
+         setTimeout(() => {
+            reject({
+               name: 'Timeout',
+               message: meta.importer + ' timeout ' + ' (' + timeout + 'ms)'
+            });
+         }, options.timeout);
+      });
 ```
 
 Alternatively processors return a promise to reply later:
