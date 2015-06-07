@@ -138,17 +138,17 @@ Importers `await` a reply as follows:
 export default class RedisImporter {
 
    async pop() {
-      this.seq += 1;
-      let messageId = this.seq;
+      const message = await this.redis.brpoplpush(this.config.queue.in,
+         this.config.queue.pending, this.popTimeout);
+      const messageId = this.getNextMessageId();
       try {
-         let message = await this.redis.brpoplpush(this.config.queue.in,
-            this.config.queue.pending, this.popTimeout);
-         this.addedPending(messageId, message);
+         this.addedPending(message, messageId);
          let reply = await redix.importMessage(message, {messageId}, this.config);
-         this.redis.lpush(this.config.queue.reply, reply);
-         this.removePending(messageId, reply);
+         await this.redis.lpush(this.config.queue.reply, reply);
+         this.removePending(message, messageId, reply);
       } catch (err) {
-         this.revertPending(messageId, err);
+         await this.redis.lpush(this.config.queue.error, message);
+         this.revertPending(message, messageId, err);
          throw err;
       }
 ```
@@ -217,6 +217,7 @@ In the event of a timeout or some other error, this exception is caught by the i
       await this.redis.lpush(this.config.queue.out, this.stringifyReply(reply));
       this.removePending(message, messageId, reply);
    } catch (err) {
+      await this.redis.lpush(this.config.queue.error, message);
       this.revertPending(message, messageId, err);
       throw err;
 ```
