@@ -200,7 +200,8 @@ export default class Redix {
    }
 ```
 
-#### Timeout
+
+#### Reply and error handling
 
 The importer gets an exporter's promise, or a chain of promises, and chains that within a timeout promise.
 

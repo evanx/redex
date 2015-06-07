@@ -82,11 +82,12 @@ export default class Redix {
    }
 ```
 
-#### Timeout
+
+#### Reply and error handling
 
 The importer gets an exporter's promise, or a chain of promises, and chains that within a timeout promise.
 
-In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:
+In the event of a timeout or some other error, this exception is caught by the importer as follows:
 ```javascript
    try {
       var message = await this.redis.brpoplpush(this.config.queue.in,
