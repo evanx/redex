@@ -52,20 +52,24 @@ export default class Redix {
          }, options.timeout);
       });
 ```
+where ES7 `async` functions always return an ES6 `Promise.`
 
-Alternatively processors return a promise to reply later:
+Other processors return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
    async processMessage(messageId, route, message) {
       this.count += 1;
-      assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
-      return redix.dispatchMessage(message, meta, route);
+      if (this.count > this.config.limit) {
+         throw new Error('Limit exceeded');
+      } else {
+         return redix.dispatchMessage(message, meta, route);
+      }
    }
 ```
 where we throw an exception to reject the message. This is equivalent to the promise being rejected.
 
-Otherwise we invoke the `redix.processMessage` utility function to forward the message to the next processor in the `route,` returning a chained promise:
+Otherwise we invoke the `redix.dispatchMessage` utility function to invoke the next processor in the route and return its promise.
 
 ```javascript
 export default class Redix {
@@ -77,6 +81,7 @@ export default class Redix {
       return nextProcessor.processMessage(message, meta, route.slice(1));
    }
 ```
+
 The importer gets the exporters promise, or a chain of promises, and chains that within a timeout promise.
 
 In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:

@@ -154,8 +154,9 @@ export default class Redix {
          }, options.timeout);
       });
 ```
+where ES7 `async` functions always return an ES6 `Promise.`
 
-Alternatively processors return a promise to reply later:
+Other processors return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
@@ -182,6 +183,7 @@ export default class Redix {
       return nextProcessor.processMessage(message, meta, route.slice(1));
    }
 ```
+
 The importer gets the exporters promise, or a chain of promises, and chains that within a timeout promise.
 
 In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:
