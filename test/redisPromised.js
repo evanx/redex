@@ -1,4 +1,7 @@
 
+// Copyright (c) 2015, Evan Summers (@evanxsummers)
+// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+
 import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
