@@ -23,7 +23,7 @@ export default class RateLimitFilter {
 
    formatExceeded() {
       return util.format('%d exceeds %d in %sms',
-         this.count, this.config.limit, this.config.periodMillis));
+         this.count, this.config.limit, this.config.periodMillis);
    }
 
    resetCount() {
