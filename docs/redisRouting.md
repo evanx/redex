@@ -101,6 +101,7 @@ In the event of a timeout or some other error, this exception is caught by the i
       await this.redis.lpush(this.config.queue.error, message);
       this.revertPending(message, messageId, err);
       throw err;
+   }
 ```
 where we push the reply or the error into output queues.
 

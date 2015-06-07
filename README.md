@@ -220,6 +220,7 @@ In the event of a timeout or some other error, this exception is caught by the i
       await this.redis.lpush(this.config.queue.error, message);
       this.revertPending(message, messageId, err);
       throw err;
+   }
 ```
 where we push a JSON reply, or an error, into output queues.
 
