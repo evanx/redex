@@ -200,7 +200,7 @@ export default class Redix {
    }
 ```
 
-The importer gets the exporters promise, or a chain of promises, and chains that within a timeout promise.
+The importer gets an exporter's promise, or a chain of promises, and chains that within a timeout promise.
 
 In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:
 ```javascript
@@ -345,6 +345,7 @@ where we use ES7 async/await (via Babel) to eliminate callbacks and use try/catc
 ES7 async functions work with ES6 promises, and so we introduce wrapper libraries to return promises:
 - https://github.com/evanx/redixrouter/blob/master/lib/Requests.js
 - https://github.com/evanx/redixrouter/blob/master/lib/Files.js
+
 
 ### HttpExporter
 
