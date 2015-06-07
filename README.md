@@ -190,6 +190,7 @@ Otherwise we invoke the `redix.dispatchMessage` utility function to forward the 
 
 ```javascript
 export default class Redix {
+
    async dispatchMessage(message, meta, route) {
       let nextProcessorName = route[0];
       let nextProcessor = this.processors.get(nextProcessorName);

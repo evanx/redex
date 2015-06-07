@@ -18,6 +18,7 @@ where `route` is an array of processor names.
 Importers `await` a reply as follows:
 ```javascript
 export default class RedisImporter {
+
    async pop() {
       this.seq += 1;
       let messageId = this.seq;
@@ -39,6 +40,7 @@ export default class RedisImporter {
 where the `redix.importMessage` utility chains a timeout promise:
 ```javascript
 export default class Redix {
+
    async importMessage(message, meta, options) {
       meta.expires = new Date().getTime() + options.timeout;
       let promise = this.dispatchMessage(message, meta, options.route);
