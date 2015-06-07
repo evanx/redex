@@ -189,9 +189,10 @@ Depending on the type of exception, we revert the pending message, to be fail-sa
 
 Incidently that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance.
 
+
 ## Learn more
 
-Redix routing implementation:
+Redix routing:
 - https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
 
 HTTP request example:

@@ -116,7 +116,7 @@ We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json
 
 ## Learn more
 
-Redix routing implementation:
+Redix routing:
 - https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
 
 HTTP request example:

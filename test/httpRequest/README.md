@@ -57,7 +57,7 @@ evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
 
 ## Learn more
 
-Redix routing doc:
+Redix routing:
 - https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
 
 Redix processor implementations:
