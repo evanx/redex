@@ -26,16 +26,16 @@ export default class RedisImporter {
          let message = await this.redis.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
          this.addedPending(messageId, message);
-         await redix.importMessage(message, {messageId}, this.config);
+         let reply = await redix.importMessage(message, {messageId}, this.config);
          this.redis.lpush(this.config.queue.reply, reply);
          this.removePending(messageId, reply);
-         setTimeout(() => this.pop(), 0);
       } catch (err) {
          this.revertPending(messageId, err);
-         setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
+         throw err;
       }
 ```
-where the `redix.importMessage` utility chains a timeout promise:
+
+Our `redix.importMessage` utility chains a timeout promise:
 ```javascript
 export default class Redix {
 
