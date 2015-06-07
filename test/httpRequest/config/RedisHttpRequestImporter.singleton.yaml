@@ -2,10 +2,10 @@
 description: Import an HTTP request message from a Redis queue
 startup: 20 # startup priority number
 queue:
-  in: redix:test:http:in # the redis key for the incoming queue (list)
-  out: redix:test:http:out # the redis queue for replies
-  pending: redix:test:http:pending:list # the internal redis queue for pending requests
-  error: redix:test:http:error # the external redis queue for failed requests
+  in: redix:test:redishttp:in # the redis key for the incoming queue (list)
+  reply: redix:test:redishttp:reply # the redis queue for replies
+  pending: redix:test:redishttp:pending # the internal redis queue for pending requests
+  error: redix:test:redishttp:error # to recover failed messages
 protocol: HttpRequest@1
 timeout: 8000 # ms
 route:

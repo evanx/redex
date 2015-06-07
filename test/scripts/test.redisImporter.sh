@@ -13,8 +13,8 @@ c0run() {
 c0clear() {
   for key in `redis-cli keys 'redix:test:*'`
   do
-    echo "redis-cli del $key"
-    redis-cli del $key
+    echo "redis-cli del '$key'"
+    redis-cli del "$key"
   done
 }
 
@@ -27,15 +27,15 @@ c0client() {
     "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty",
     "json": true
   }'
-  echo 'redis-cli llen redix:test:http:out'
-  redis-cli llen redix:test:http:out
-  echo "redis-cli lpush redix:test:http:in '$message'"
-  redis-cli lpush redix:test:http:in "$message"
+  echo 'redis-cli llen redix:test:redishttp:reply'
+  redis-cli llen redix:test:redishttp:reply
+  echo "redis-cli lpush redix:test:redishttp:in '$message'"
+  redis-cli lpush redix:test:redishttp:in "$message"
   sleep 4
-  echo 'redis-cli llen redix:test:http:out'
-  redis-cli llen redix:test:http:out
-  echo 'redis-cli lrange redix:test:http:out 0 -1'
-  redis-cli lrange redix:test:http:out 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
+  echo 'redis-cli llen redix:test:redishttp:reply'
+  redis-cli llen redix:test:redishttp:reply
+  echo 'redis-cli lrange redix:test:redishttp:reply 0 -1'
+  redis-cli lrange redix:test:redishttp:reply 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
   rm -f $pidFile
 }
 

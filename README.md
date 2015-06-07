@@ -144,7 +144,7 @@ export default class RedisImporter {
       try {
          this.addedPending(message, messageId);
          let reply = await redix.importMessage(message, {messageId}, this.config);
-         await this.redis.lpush(this.config.queue.reply, reply);
+         await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
          this.removePending(message, messageId, reply);
       } catch (err) {
          await this.redis.lpush(this.config.queue.error, message);
@@ -214,7 +214,7 @@ In the event of a timeout or some other error, this exception is caught by the i
    try {
       this.addedPending(message, messageId);
       let reply = await redix.importMessage(message, {messageId}, this.config);
-      await this.redis.lpush(this.config.queue.out, this.stringifyReply(reply));
+      await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
       this.removePending(message, messageId, reply);
    } catch (err) {
       await this.redis.lpush(this.config.queue.error, message);

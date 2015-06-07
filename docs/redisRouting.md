@@ -7,6 +7,7 @@ queue:
   in: redix:test:dispatcher:in # the redis key for the incoming queue
   reply: redix:test:dispatcher:reply # the redis key for reply reque
   pending: redix:test:dispatcher:pending # the queue for pending requests
+  
 timeout: 8000 # ms
 route:
 - HttpRequestValidator.singleton
@@ -26,7 +27,7 @@ export default class RedisImporter {
       try {
          this.addedPending(message, messageId);
          let reply = await redix.importMessage(message, {messageId}, this.config);
-         this.redis.lpush(this.config.queue.reply, reply);
+         await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
          this.removePending(message, messageId, reply);
       } catch (err) {
          await this.redis.lpush(this.config.queue.error, message);
@@ -59,12 +60,16 @@ Other processors return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
-   async processMessage(messageId, route, message) {
+   async processMessage(message, meta, route) {
+      logger.debug('processMessage:', meta);
       this.count += 1;
       if (this.count > this.config.limit) {
          throw new Error('Limit exceeded');
       } else {
-         return redix.dispatchMessage(message, meta, route);
+         return redix.dispatchMessage(message, meta, route).then(reply => {
+            logger.debug('processMessage reply:', meta);
+            return reply;
+         });
       }
    }
 ```
@@ -75,7 +80,7 @@ Otherwise we invoke the `redix.dispatchMessage` utility function to invoke the n
 ```javascript
 export default class Redix {
 
-   async dispatchMessage(messageId, route, message) {
+   async dispatchMessage(message, meta, route) {
       let nextProcessorName = route[0];
       let nextProcessor = this.processors.get(nextProcessorName);
       assert(nextProcessor, 'Invalid processor: ' + nextProcessorName);
@@ -96,7 +101,7 @@ In the event of a timeout or some other error, this exception is caught by the i
    try {
       this.addedPending(message, messageId);
       let reply = await redix.importMessage(message, {messageId}, this.config);
-      await this.redis.lpush(this.config.queue.out, this.stringifyReply(reply));
+      await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
       this.removePending(message, messageId);
    } catch (err) {
       await this.redis.lpush(this.config.queue.error, message);

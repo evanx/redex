@@ -14,7 +14,7 @@ export default class RedisHttpRequestImporter {
 
    constructor(config) {
       assert(config.queue.in, 'queue.in');
-      assert(config.queue.out, 'queue.out');
+      assert(config.queue.reply, 'queue.reply');
       assert(config.queue.pending, 'queue.pending');
       assert(config.timeout, 'timeout');
       assert(config.route, 'route');
@@ -52,7 +52,7 @@ export default class RedisHttpRequestImporter {
          logger.info('pop:', message);
          let reply = await redix.importMessage(message, {messageId}, this.config);
          logger.info('reply:', reply);
-         await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
+         await this.redis.lpush(this.config.queue.reply, JSON.stringify(reply));
          this.removePending(messageId, redisReply);
          //throw new Error('test');
          this.pop();
