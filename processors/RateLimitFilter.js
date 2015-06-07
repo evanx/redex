@@ -34,7 +34,7 @@ export default class RateLimitFilter {
    async processMessage(message, meta, route) {
       logger.debug('processMessage:', meta, route);
       this.count += 1;
-      assert(this.count <= this.config.limit, 'Limit exceeded: ' +
+      assert(this.count <= this.config.limit, 'Limit exceeded: ' + formatExceeded());
       return redix.dispatchMessage(message, meta, route);
    }
 }
