@@ -158,6 +158,7 @@ Our `redix.importMessage` utility chains a timeout promise:
 export default class Redix {
 
    async importMessage(message, meta, options) {
+      let importer = options.processorName;
       meta.expires = new Date().getTime() + options.timeout;
       let promise = this.dispatchMessage(message, meta, options.route);
       return new Promise((resolve, reject) => {
@@ -165,7 +166,7 @@ export default class Redix {
          setTimeout(() => {
             reject({
                name: 'Timeout',
-               message: util.format('%s timeout (%dms)', meta.importer, time)
+               message: util.format('%s timeout (%dms)', importer, options.timeout)
             });
          }, options.timeout);
       });
