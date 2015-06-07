@@ -16,28 +16,31 @@ Goals:
 
 ### Road map
 
-July 2015:
+We intend to implement processors to demonstate the following use-cases.
+
+July 2015 - PoC:
 - basic processors for HTTP and Redis queues
 - sample configuration for reliable pubsub and work queues
-- outgoing email server using SMTP over TCP/IP sockets
-
-September 2015:
 - HTTP proxy
+
+September 2015 - web:
 - web server
 - response caching
-- analytics server for web apps
-- WebSocket server to push notications into the browser
+- simple HTTP load balancer
 
-January 2016:
-- load balancer
-- Redis query server
+January 2016 - auth:
 - HTTPS termination
 - API gateway with authentication and authorisation
+- WebSocket server to push notications into the browser
 
-June 2016:
+June 2016 - integration:
 - integration with ZeroMQ, RabbitMQ, Protobuf
-- centralised logging server using TCP/IP sockets
+
+Unscheduled:
 - auto scaler
+- analytics server for web apps
+- centralised logging server using TCP/IP sockets
+- outgoing email server using SMTP over TCP/IP sockets
 
 
 ## Solution
