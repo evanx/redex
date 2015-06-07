@@ -36,6 +36,7 @@ export default class RedisImporter {
 ```
 
 Our `redix.importMessage` utility chains a timeout promise:
+```javascript
 export default class Redix {
 
    async importMessage(message, meta, options) {
