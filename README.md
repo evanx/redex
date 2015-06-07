@@ -139,12 +139,12 @@ export default class RedisImporter {
       this.seq += 1;
       let messageId = this.seq;
       try {
-         let message = await this.redisBlocking.brpoplpush(this.config.queue.in,
+         let message = await this.redis.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
          this.addedPending(messageId, message);
          let reply = await redix.importMessage(message, {messageId}, this.config);
          if (reply) {
-            this.redisBlocking.lpush(this.config.queue.reply, reply);
+            this.redis.lpush(this.config.queue.reply, reply);
          }
          this.removePending(messageId, reply);
          setTimeout(() => this.pop(), 0);

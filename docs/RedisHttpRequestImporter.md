@@ -21,7 +21,7 @@ Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
 async pop() {
    try {
-      const redisReply = await this.redisBlocking.brpoplpush(this.config.queue.in,
+      const redisReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
       this.addedPending(redisReply);
       this.seq += 1;
@@ -42,4 +42,4 @@ where we use a "promisified" Redis client ([Redis.js](https://github.com/evanx/r
 
 See that we add the pending request to a collection in Redis, and remove it once the message has been dispatched. In event of an error, we revert the pending message, to be fail-safe.
 
-Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redisBlocking.`
+Note that the Redis `brpoplpush` command blocks its Redis client instance, which can then not be used concurrently, so we create its own Redis client instance named `redis.`

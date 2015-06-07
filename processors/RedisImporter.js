@@ -21,7 +21,7 @@ export default class RedisImporter {
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
       this.seq = 0;
-      this.redisBlocking = new Redis();
+      this.redis = new Redis();
       this.popTimeout = config.popTimeout || 0;
       this.pop();
    }
@@ -42,7 +42,7 @@ export default class RedisImporter {
       this.seq += 1;
       let messageId = this.seq;
       try {
-         var message = await this.redisBlocking.brpoplpush(this.config.queue.in,
+         var message = await this.redis.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
          this.addedPending(messageId, message);
          if (this.config.json) {
@@ -52,7 +52,7 @@ export default class RedisImporter {
          let reply = await redix.importMessage(message, {messageId}, this.config);
          logger.debug('ok', messageId, reply);
          if (reply) {
-            this.redisBlocking.lpush(this.config.queue.reply, reply);
+            this.redis.lpush(this.config.queue.reply, reply);
          }
          this.removePending(messageId, reply);
          setTimeout(() => this.pop(), 0);
