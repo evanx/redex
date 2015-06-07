@@ -105,6 +105,6 @@ where we push the reply or the error into output queues.
 
 Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully.
 
-To improve resilience and promote fail-safe canary releases, we should move failed messages into a recovery queue in the event of certain systematic errors e.g. to be reprocessed by other instances.
+To improve resilience and promote fail-safe canary releases, we should move failed messages into a recovery queue in the event of certain errors e.g. to be reprocessed by other instances.
 
 Learn more: https://github.com/evanx/redixrouter/blob/master/README.md
