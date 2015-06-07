@@ -7,6 +7,7 @@ queue:
   in: redix:test:dispatcher:in # the redis key for the incoming queue
   reply: redix:test:dispatcher:reply # the redis key for reply reque
   pending: redix:test:dispatcher:pending # the queue for pending requests
+timeout: 8000 # ms
 route:
 - HttpRequestValidator.singleton
 - RateLimitFilter.singleton
