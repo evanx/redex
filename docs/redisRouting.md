@@ -67,7 +67,7 @@ export default class RateLimitFilter {
       }
    }
 ```
-where we throw an exception to reject the message. This is equivalent to the promise being rejected.
+where we throw an exception to reject the message. (This is equivalent to the promise being rejected.)
 
 Otherwise we invoke the `redix.dispatchMessage` utility function to invoke the next processor in the route and return its promise.
 
