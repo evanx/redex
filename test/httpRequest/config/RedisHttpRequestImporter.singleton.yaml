@@ -7,6 +7,7 @@ queue:
   pending: redix:test:http:pending:list # the internal redis queue for pending requests
   error: redix:test:http:error # the external redis queue for failed requests
 protocol: HttpRequest@1
+timeout: 8000 # ms
 route:
 - RateLimitFilter.singleton
 - HttpExporter.singleton

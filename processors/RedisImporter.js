@@ -16,16 +16,17 @@ export default class RedisImporter {
       assert(config.queue.in, 'queue.in');
       assert(config.queue.pending, 'queue.pending');
       assert(config.queue.reply, 'queue.reply');
+      assert(config.timeout, 'timeout');
       assert(config.route, 'route');
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
       this.seq = 0;
       this.redisBlocking = new Redis();
       this.popTimeout = config.popTimeout || 0;
-      this.dispatch();
+      this.pop();
    }
 
-   async dispatch() {
+   async pop() {
       try {
          let message = await this.redisBlocking.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
@@ -33,17 +34,17 @@ export default class RedisImporter {
          if (this.config.json) {
             message = JSON.parse(message);
          }
-         logger.debug('pop:', message);
+         logger.debug('pop:', message, this.config.route);
          let messageId = this.seq;
-         let reply = await redix.processMessage(messageId, this.config.route, message);
+         let reply = await redix.importMessage(message, {messageId}, this.config);
          logger.debug('ok', messageId, reply);
          if (reply) {
             this.redisBlocking.lpush(this.config.queue.reply, reply);
          }
-         //setTimeout(() => this.dispatch(), 0);
+         setTimeout(() => this.pop(), 0);
       } catch(err) {
          logger.error('error:', err, err.stack);
-         setTimeout(() => this.dispatch(), config.errorWaitMillis || 1000);
+         setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
       }
    }
 }

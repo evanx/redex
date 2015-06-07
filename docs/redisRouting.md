@@ -16,20 +16,17 @@ where `route` is an array of processor names.
 
 Importers `await` a reply as follows:
 ```javascript
-let reply = await redix.processMessage(messageId, this.config.route, message);
+let reply = await redix.importMessage(message, {messageId}, this.config);
 ```
 
-Alternatively they return a promise to reply later:
+Alternatively processors return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
    async processMessage(messageId, route, message) {
       this.count += 1;
-      if (this.count > this.config.limit) {
-         throw new Error('Limit exceeded');
-      } else {
-         return redix.processMessage(messageId, route, message);
-      }
+      assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
+      return redix.dispatchMessage(message, meta, route);
    }
 ```
 where we throw an exception to reject the message. This is equivalent to the promise being rejected.
@@ -39,9 +36,11 @@ Otherwise we invoke the `redix.processMessage` utility function to forward the m
 ```javascript
 export default class Redix {
 
-   async processMessage(messageId, route, message) {
-      let nextProcessor = this.processors.get(route[0]);
-      return nextProcessor.processMessage(messageId, route.slice(1), message);
+   async dispatchMessage(messageId, route, message) {
+      let nextProcessorName = route[0];
+      let nextProcessor = this.processors.get(nextProcessorName);
+      assert(nextProcessor, 'Invalid processor: ' + nextProcessorName);
+      return nextProcessor.processMessage(message, meta, route.slice(1));
    }
 ```
 
@@ -51,7 +50,7 @@ In the event of a timeout or some other error, an exception is thrown. The excep
       var redisReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
       this.addedPending(messageId, redisReply);
-      let reply = await redix.processMessage(messageId, this.config.route, message);
+      let reply = await redix.importMessage(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
       this.removePending(messageId, redisReply);
    } catch (error) {

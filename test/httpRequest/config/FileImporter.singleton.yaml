@@ -4,6 +4,7 @@ startup: 50 # startup priority number
 watchDir: tmp/fileImporter/watched/
 replyDir: tmp/fileImporter/reply/
 protocol: HttpRequestExchange@1
+timeout: 8000 # ms
 route:
 - RateLimitFilter.singleton
 - HttpExporter.singleton

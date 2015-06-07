@@ -134,32 +134,34 @@ where `route` is an array of processor names.
 
 Importers `await` a reply as follows:
 ```javascript
-let reply = await redix.processMessage(messageId, this.config.route, message);
+let reply = await redix.importMessage(message, {messageId}, this.config);
 ```
 
-Alternatively they return a promise to reply later:
+Alternatively processors return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
-   async processMessage(messageId, route, message) {
+   async processMessage(message, meta, route) {
       this.count += 1;
       if (this.count > this.config.limit) {
          throw new Error('Limit exceeded');
       } else {
-         return redix.processMessage(messageId, route, message);
+         return redix.dispatchMessage(message, meta, route);
       }
    }
 ```
 where we throw an exception to reject the message. This is equivalent to the promise being rejected.
 
-Otherwise we invoke the `redix.processMessage` utility function to forward the message to the next processor in the `route,` returning a chained promise:
+Otherwise we invoke the `redix.dispatchMessage` utility function to forward the message to the next processor in the `route,` returning a chained promise:
 
 ```javascript
 export default class Redix {
 
-   async processMessage(messageId, route, message) {
-      let nextProcessor = this.processors.get(route[0]);
-      return nextProcessor.processMessage(messageId, route.slice(1), message);
+   async dispatchMessage(message, meta, route) {
+      let nextProcessorName = route[0];
+      let nextProcessor = this.processors.get(nextProcessorName);
+      assert(nextProcessor, 'Invalid processor: ' + nextProcessorName);
+      return nextProcessor.processMessage(message, meta, route.slice(1));
    }
 ```
 
@@ -169,7 +171,7 @@ In the event of a timeout or some other error, an exception is thrown. The excep
       var redisReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
       this.addedPending(messageId, redisReply);
-      let reply = await redix.processMessage(messageId, this.config.route, message);
+      let reply = await redix.importMessage(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
       this.removePending(messageId, redisReply);
    } catch (error) {
@@ -249,6 +251,7 @@ Config: `FileImporter.singleton.yaml`
 description: Read a message from a file
 watched: fileImporter/watched/
 reply: fileImporter/reply/
+timeout: 8000 # ms
 route:
 - RateLimitFilter.singleton
 - HttpExporter.singleton
@@ -292,7 +295,7 @@ async fileChanged(fileName) {
       var replyFilePath = this.formatReplyFilePath(messageId);
       let exists = await Files.exists(replyFilePath);
       assert.equal(exists, false, 'Reply file already exists: ' + replyFilePath);
-      let reply = await redix.processMessage(messageId, this.config.route, message);
+      let reply = await redix.importMessage(message, {messageId}, this.config);
       Files.writeFile(replyFilePath, this.formatJsonContent(reply));
    } catch (err) {
       Files.writeFile(replyFilePath, this.formatJsonContent(error));
@@ -326,7 +329,7 @@ json: true
 
 Implementation snippet: `processors/HttpExporter.js`
 ```JavaScript
-async processMessage(messageId, route, message) {
+async processMessage(message, meta, route) {
    try {
       var messageString = JSON.stringify(message);
       assert.equal(await redis.sadd(this.config.queue.pending, messageString),
@@ -376,13 +379,10 @@ export default class RateLimitFilter {
       this.count = 0;
    }
 
-   async processMessage(messageId, route, message) {
-      if (this.count < this.config.limit) {
-         this.count += 1;
-         return redix.processMessage(messageId, route, message);
-      } else {
-         throw new Error('Limit exceeded');
-      }
+   async processMessage(message, meta, route) {
+      this.count += 1;
+      assert(this.count <= this.config.limit, 'Limit exceeded');
+      return redix.dispatchMessage(message, meta, route);
    }
 }
 ```
@@ -399,7 +399,7 @@ queue:
   out: redix:test:http:out # the redis queue for replies
   pending: redix:test:http:pending # the internal redis queue for pending requests
   error: redix:test:http:error # the external redis queue for failed requests
-protocol: HttpRequest@1
+timeout: 8000 # ms
 route:
 - HttpExporter.singleton
 ```
@@ -414,7 +414,7 @@ async pop() {
       var messageId = this.seq;
       this.addedPending(messageId, redisReply);
       let message = JSON.parse(redisReply);
-      let reply = await redix.processMessage(messageId, this.config.route, message);
+      let reply = await redix.importMessage(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
       this.removePending(messageId, redisReply);
       this.pop();

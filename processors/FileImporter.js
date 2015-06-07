@@ -19,9 +19,10 @@ const logger = bunyan.createLogger({name: 'FileImporter', level: global.redixLog
 export default class FileImporter {
 
    constructor(config) {
-      redix.assert(config.watchDir, 'watchDir');
-      redix.assert(config.replyDir, 'replyDir');
-      redix.assert(config.route, 'route');
+      assert(config.watchDir, 'watchDir');
+      assert(config.replyDir, 'replyDir');
+      assert(config.timeout, 'timeout');
+      assert(config.route, 'route');
       this.config = config;
       this.files = fs.readdirSync(config.watchDir);
       this.count = new Date().getTime();
@@ -71,7 +72,7 @@ export default class FileImporter {
          let exists = await Files.exists(replyFilePath);
          logger.info('replyFilePath', replyFilePath);
          assert.equal(exists, false, 'File already exists: ' + replyFilePath);
-         let reply = await redix.processMessage(messageId, this.config.route, message);
+         let reply = await redix.importMessage(message, {messageId}, this.config);
          Files.writeFile(replyFilePath, this.formatJsonContent(reply));
       } catch (err) {
          Files.writeFile(replyFilePath, this.formatJsonContent(error));

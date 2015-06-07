@@ -6,5 +6,6 @@ queue:
   reply: redix:test:dispatcher:reply # the redis key for reply reque
   pending: redix:test:dispatcher:pending # the queue for pending requests
 json: false
+timeout: 8000 # ms
 route:
 - RedisExporter.singleton

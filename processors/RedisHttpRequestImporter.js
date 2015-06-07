@@ -16,6 +16,7 @@ export default class RedisHttpRequestImporter {
       assert(config.queue.in, 'queue.in');
       assert(config.queue.out, 'queue.out');
       assert(config.queue.pending, 'queue.pending');
+      assert(config.timeout, 'timeout');
       assert(config.route, 'route');
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
@@ -26,17 +27,16 @@ export default class RedisHttpRequestImporter {
    }
 
    addedPending(messageId, redisReply) {
-      logger.debug('addPending', messageId, redisReply);
+      logger.debug('addPending', messageId);
    }
 
    removePending(messageId, redisReply) {
-      logger.debug('removePending');
+      logger.debug('removePending', messageId);
    }
 
    revertPending(messageId, redisReply, error) {
       logger.warn('revertPending:', messageId, error.stack);
    }
-
 
    async pop() {
       try {
@@ -45,10 +45,11 @@ export default class RedisHttpRequestImporter {
             this.config.queue.pending, this.popTimeout);
          this.seq += 1;
          var messageId = this.seq;
+         var expiryTime = new Date().getTime() + this.config.timeout;
          this.addedPending(messageId, redisReply);
          let message = JSON.parse(redisReply);
          logger.info('pop:', message);
-         let reply = await redix.processMessage(messageId, this.config.route, message);
+         let reply = await redix.importMessage(message, {messageId}, this.config);
          logger.info('reply:', reply);
          await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
          this.removePending(messageId, redisReply);

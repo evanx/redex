@@ -4,5 +4,6 @@ startup: 50 # startup priority number
 queue:
   in: redix:test:http:in # the redis key for the incoming queue (list)
   out: redix:test:http:out # the redis queue for replies
+timeout: 8000 # ms
 route:
 - RedisExporter.singleton
