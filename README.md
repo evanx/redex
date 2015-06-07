@@ -136,11 +136,11 @@ Importers `await` a reply as follows:
 ```javascript
 export default class RedisImporter {
    async pop() {
+      this.seq += 1;
+      let messageId = this.seq;
       try {
          let message = await this.redisBlocking.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
-         this.seq += 1;
-         var messageId = this.seq;
          this.addedPending(messageId, message);
          let reply = await redix.importMessage(message, {messageId}, this.config);
          if (reply) {

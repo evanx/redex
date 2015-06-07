@@ -39,11 +39,11 @@ export default class RedisImporter {
    }
 
    async pop() {
+      this.seq += 1;
+      let messageId = this.seq;
       try {
          var message = await this.redisBlocking.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
-         this.seq += 1;
-         var messageId = this.seq;
          this.addedPending(messageId, message);
          if (this.config.json) {
             message = JSON.parse(message);
