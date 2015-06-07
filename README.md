@@ -208,23 +208,22 @@ The importer therefore gets a chain of promises, from its own timeout promise, t
 
 In the event of a timeout or some other error, this exception is caught by the importer as follows:
 ```javascript
+   let message = await this.redis.brpoplpush(this.config.queue.in,
+      this.config.queue.pending, this.popTimeout);
    try {
-      var message = await this.redis.brpoplpush(this.config.queue.in,
-         this.config.queue.pending, this.popTimeout);
       this.addedPending(messageId, message);
       let reply = await redix.importMessage(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
       this.removePending(messageId);
    } catch (error) {
-      this.revertPending(messageId);
-      await this.redis.lpush(this.config.queue.error, JSON.stringify(error));
+      await this.redis.lpush(this.config.queue.error, message);
+      this.revertPending(messageId, error);
 ```
 where we push the reply or the error into output queues.
 
 Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully.
 
-To promote fail-safe canary releases, we should revert messages back onto the incoming queue in the event of systematic errors.
-
+To promote fail-safe canary releases, we should revert failed messages back onto the incoming queue in the event of certain systematic errors.
 
 ### Example: HTTP request
 

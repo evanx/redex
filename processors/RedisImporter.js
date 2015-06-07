@@ -35,15 +35,15 @@ export default class RedisImporter {
    }
 
    revertPending(messageId, error) {
-      logger.warn('revertPending:', messageId, error.stack);
+      logger.warn('revertPending:', messageId, error, error.stack);
    }
 
    async pop() {
       this.seq += 1;
       let messageId = this.seq;
+      const message = await this.redis.brpoplpush(this.config.queue.in,
+         this.config.queue.pending, this.popTimeout);
       try {
-         var message = await this.redis.brpoplpush(this.config.queue.in,
-            this.config.queue.pending, this.popTimeout);
          this.addedPending(messageId, message);
          if (this.config.json) {
             message = JSON.parse(message);
@@ -55,11 +55,9 @@ export default class RedisImporter {
             this.redis.lpush(this.config.queue.reply, reply);
          }
          this.removePending(messageId, reply);
-         setTimeout(() => this.pop(), 0);
       } catch (err) {
-         logger.error('error:', err, err.stack);
          this.revertPending(messageId, err);
-         setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
+         throw err;
       }
    }
 }
