@@ -7,7 +7,7 @@ queue:
   in: redix:test:dispatcher:in # the redis key for the incoming queue
   reply: redix:test:dispatcher:reply # the redis key for reply reque
   pending: redix:test:dispatcher:pending # the queue for pending requests
-  
+
 timeout: 8000 # ms
 route:
 - HttpRequestValidator.singleton
@@ -66,10 +66,7 @@ export default class RateLimitFilter {
       if (this.count > this.config.limit) {
          throw new Error('Limit exceeded');
       } else {
-         return redix.dispatchMessage(message, meta, route).then(reply => {
-            logger.debug('processMessage reply:', meta);
-            return reply;
-         });
+         return redix.dispatchMessage(message, meta, route);
       }
    }
 ```
@@ -90,6 +87,21 @@ export default class Redix {
 
 The importer therefore gets a chain of promises, from its own timeout promise, through to an exporters promise.
 
+Incidently, we can intercept the reply via `then` as follows:
+
+```javascript
+export default class RateLimitFilter {
+
+   async processMessage(message, meta, route) {
+      logger.debug('processMessage:', meta, route);
+      this.count += 1;
+      assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
+      return redix.dispatchMessage(message, meta, route).then(reply => {
+         logger.debug('processMessage reply:', meta);
+         return reply;
+      });
+   }
+```
 
 #### Reply and error handling
 
