@@ -31,7 +31,7 @@ We wish to leverage ES7, Node and Redis because:
 
 ## Road map
 
-We intend to implement processors to demonstate the following use-cases.
+We intend to implement processors to demonstrate various use-cases.
 
 July 2015 - PoC:
 - basic processors for HTTP and Redis queues
