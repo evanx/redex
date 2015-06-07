@@ -4,6 +4,7 @@
 
 import assert from 'assert';
 import bunyan from 'bunyan';
+import util from 'util';
 
 const logger = bunyan.createLogger({name: 'RateLimitFilter', level: global.redixLoggerLevel});
 
@@ -20,12 +21,9 @@ export default class RateLimitFilter {
       }
    }
 
-   formatRate() {
-      return this.config.limit + ' in ' + this.config.periodMillis + 'ms';
-   }
-
    formatExceeded() {
-      return this.count + ' exceeds ' + this.formatRate();
+      return util.format('%d exceeds %d in %sms',
+         this.count, this.config.limit, this.config.periodMillis));
    }
 
    resetCount() {
@@ -36,7 +34,7 @@ export default class RateLimitFilter {
    async processMessage(message, meta, route) {
       logger.debug('processMessage:', meta, route);
       this.count += 1;
-      assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
+      assert(this.count <= this.config.limit, 'Limit exceeded: ' +
       return redix.dispatchMessage(message, meta, route);
    }
 }
