@@ -26,10 +26,8 @@ export default class RedisImporter {
          let message = await this.redis.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
          this.addedPending(messageId, message);
-         let reply = await redix.importMessage(message, {messageId}, this.config);
-         if (reply) {
-            this.redis.lpush(this.config.queue.reply, reply);
-         }
+         await redix.importMessage(message, {messageId}, this.config);
+         this.redis.lpush(this.config.queue.reply, reply);
          this.removePending(messageId, reply);
          setTimeout(() => this.pop(), 0);
       } catch (err) {
@@ -79,19 +77,20 @@ export default class Redix {
       return nextProcessor.processMessage(message, meta, route.slice(1));
    }
 ```
+The importer gets the exporters promise, or a chain of promises, and chains that within a timeout promise.
 
 In the event of a timeout or some other error, an exception is thrown. The exception is caught typically by the importer, e.g. as follows:
 ```javascript
    try {
-      var redisReply = await this.redis.brpoplpush(this.config.queue.in,
+      var message = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
-      this.addedPending(messageId, redisReply);
+      this.addedPending(messageId, message);
       let reply = await redix.importMessage(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
-      this.removePending(messageId, redisReply);
+      this.removePending(messageId);
    } catch (error) {
-      this.redis.lpush(this.config.queue.error, JSON.stringify(error));
-      this.revertPending(messageId, redisReply, error);
+      this.revertPending(messageId);
+      await this.redis.lpush(this.config.queue.error, JSON.stringify(error));
 ```
 where we push the reply or the error into output queues.
 
