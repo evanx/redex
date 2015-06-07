@@ -113,11 +113,13 @@ The "module" name enables custom and third-party processors e.g. a `myredix/Fanc
 
 We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json,` to enable instances to be dynamically created by so messaging the factory.
 
-## Technical docs
+
+## Learn more
+
+### Redix routing
 
 - https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
 
-
-## Examples
+### Example: HTTP Request
 
 - https://github.com/evanx/redixrouter/blob/master/test/httpRequest/
