@@ -214,10 +214,11 @@ In the event of a timeout or some other error, this exception is caught by the i
    try {
       this.addedPending(message, messageId);
       let reply = await redix.importMessage(message, {messageId}, this.config);
-      await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
+      await this.redis.lpush(this.config.queue.out, this.stringifyReply(reply));
       this.removePending(message, messageId, reply);
-   } catch (error) {
-      this.revertPending(message, messageId, error);
+   } catch (err) {
+      this.revertPending(message, messageId, err);
+      throw err;
 ```
 where we push a JSON reply, or an error, into output queues.
 

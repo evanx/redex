@@ -21,22 +21,22 @@ export default class RedisImporter {
 
    async pop() {
       this.seq += 1;
+      let message = await this.redis.brpoplpush(this.config.queue.in,
+         this.config.queue.pending, this.popTimeout);
       let messageId = this.seq;
       try {
-         let message = await this.redis.brpoplpush(this.config.queue.in,
-            this.config.queue.pending, this.popTimeout);
-         this.addedPending(messageId, message);
+         this.addedPending(message, messageId);
          let reply = await redix.importMessage(message, {messageId}, this.config);
          this.redis.lpush(this.config.queue.reply, reply);
-         this.removePending(messageId, reply);
+         this.removePending(message, messageId, reply);
       } catch (err) {
-         this.revertPending(messageId, err);
+         await this.redis.lpush(this.config.queue.error, message);
+         this.revertPending(message, messageId, err);
          throw err;
       }
 ```
 
 Our `redix.importMessage` utility chains a timeout promise:
-```javascript
 export default class Redix {
 
    async importMessage(message, meta, options) {
@@ -90,18 +90,21 @@ The importer therefore gets a chain of promises, from its own timeout promise, t
 
 In the event of a timeout or some other error, this exception is caught by the importer as follows:
 ```javascript
+   const message = await this.redis.brpoplpush(this.config.queue.in,
+      this.config.queue.pending, this.popTimeout);
+   const messageId = ++this.seq;
    try {
-      var message = await this.redis.brpoplpush(this.config.queue.in,
-         this.config.queue.pending, this.popTimeout);
       this.addedPending(messageId, message);
       let reply = await redix.importMessage(message, {messageId}, this.config);
-      await this.redis.lpush(this.config.queue.out, stringify(reply));
-      this.removePending(messageId);
-   } catch (error) {
-      this.revertPending(messageId, error);
-      await this.redis.lpush(this.config.queue.error, JSON.stringify(error));
+      await this.redis.lpush(this.config.queue.out, this.stringifyReply(reply));
+      this.removePending(message, messageId);
+   } catch (err) {
+      await this.redis.lpush(this.config.queue.error, message);
+      this.revertPending(message, messageId, err);
+      throw err;
 ```
 where we push the reply or the error into output queues.
+
 
 Note that we add the pending request to a collection in Redis, and remove it once the message has been processed successfully.
 
