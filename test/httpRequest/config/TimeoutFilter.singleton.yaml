@@ -1,4 +1,4 @@
 
 description: Reject messages whose reply exceeds a specified timeout
 startup: 50 # startup priority number
-timeout: 800 # ms
+timeout: 8000 # ms
