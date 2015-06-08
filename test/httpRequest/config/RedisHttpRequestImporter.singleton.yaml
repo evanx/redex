@@ -9,5 +9,6 @@ queue:
 protocol: HttpRequest@1
 timeout: 8000 # ms
 route:
+- ExpiredFilter.singleton
 - RateLimitFilter.singleton
 - HttpExporter.singleton

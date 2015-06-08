@@ -6,19 +6,25 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
-const logger = bunyan.createLogger({name: 'RateLimitFilter', level: global.redixLoggerLevel});
-
 export default class RateLimitFilter {
 
    constructor(config) {
       redix.assertNumber(config.limit, 'limit');
       redix.assertNumber(config.periodMillis, 'periodMillis');
       this.config = config;
-      logger.info('constructor', this.config);
-      this.count = 0;
-      if (this.config.periodMillis) {
-         setTimeout(() => this.resetCount(), this.periodMillis);
-      }
+      this.logger = bunyan.createLogger({
+        name: config.processorName,
+        level: global.redixLoggerLevel
+      });
+      this.start();
+   }
+
+   start() {
+     this.count = 0;
+     if (this.config.periodMillis) {
+        setTimeout(() => this.resetCount(), this.periodMillis);
+     }
+     this.logger.info('started');
    }
 
    formatExceeded() {
@@ -27,16 +33,16 @@ export default class RateLimitFilter {
    }
 
    resetCount() {
-      logger.debug('resetCount', this.count);
+      this.logger.debug('resetCount', this.count);
       this.count = 0;
    }
 
    async processMessage(message, meta, route) {
-      logger.debug('processMessage:', meta, route);
+      this.logger.debug('processMessage:', meta, route);
       this.count += 1;
       assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
       return redix.dispatchMessage(message, meta, route).then(reply => {
-         logger.debug('processMessage reply:', meta);
+         this.logger.debug('processMessage reply:', meta);
          return reply;
       });
    }

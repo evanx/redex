@@ -2,6 +2,9 @@
 cd ~/redixrouter || exit 1
 
 testName=redisImporter
+ 
+mkdir -p tmp/fileImporter/watched
+mkdir -p tmp/fileImporter/reply
 
 export configDir=test/httpRequest/config
 export pidFile=tmp/redix.${testName}.pid
