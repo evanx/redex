@@ -6,11 +6,10 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
-export default class TimeoutFilter {
+export default class DurationMonitor {
 
    constructor(config) {
       this.config = config;
-      assert(this.config.timeout);
       this.logger = bunyan.createLogger({
         name: config.processorName,
         level: global.redixLoggerLevel

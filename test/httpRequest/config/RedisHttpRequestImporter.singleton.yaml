@@ -11,5 +11,6 @@ timeout: 8000 # ms
 route:
 - ExpiredFilter.singleton
 - RateLimitFilter.singleton
+- DurationMonitor.singleton
 - TimeoutFilter.singleton
 - HttpExporter.singleton

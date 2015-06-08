@@ -10,7 +10,7 @@ export default class TimeoutFilter {
 
    constructor(config) {
       this.config = config;
-      assert(this.config.timeout);
+      assert(this.config.timeout, 'timeout');
       this.logger = bunyan.createLogger({
         name: config.processorName,
         level: global.redixLoggerLevel
@@ -24,8 +24,7 @@ export default class TimeoutFilter {
 
    formatDuration(millis) {
      if (millis > 1000) {
-       let seconds = millis/1000;
-       return '' + seconds.toFixed(3) + 's';
+       return '' + (millis/1000).toFixed(3) + 's';
      } else {
        return util.format('%dms', millis);
      }
