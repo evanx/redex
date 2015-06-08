@@ -64,7 +64,7 @@ export default class RateLimitFilter {
       logger.debug('processMessage:', meta);
       this.count += 1;
       if (this.count > this.config.limit) {
-         throw new Error('Limit exceeded');
+         throw {message: 'Limit exceeded'};
       } else {
          return redix.dispatchMessage(message, meta, route);
       }
@@ -95,11 +95,15 @@ export default class RateLimitFilter {
    async processMessage(message, meta, route) {
       logger.debug('processMessage:', meta, route);
       this.count += 1;
-      assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
-      return redix.dispatchMessage(message, meta, route).then(reply => {
-         logger.debug('processMessage reply:', meta);
-         return reply;
-      });
+      if (this.count > this.config.limit) {
+         await this.redis.lpush(this.config.queue.drop, JSON.stringify(message);
+         throw {message: 'Limit exceeded'};
+      } else {
+         return redix.dispatchMessage(message, meta, route).then(reply => {
+            logger.debug('processMessage reply:', meta);
+            return reply;
+         });
+      }
    }
 ```
 
