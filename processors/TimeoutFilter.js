@@ -24,7 +24,8 @@ export default class TimeoutFilter {
 
    formatDuration(millis) {
      if (millis > 1000) {
-       return util.format('%ds', millis/1000);
+       let seconds = millis/1000;
+       return '' + seconds.toFixed(3) + 's';
      } else {
        return util.format('%dms', millis);
      }
@@ -37,7 +38,7 @@ export default class TimeoutFilter {
       return redix.dispatchMessage(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
-         this.logger.debug('processMessage reply:', meta, this.formatDuration(duration));
+         this.logger.debug('processMessage duration:', this.formatDuration(duration));
          assert(duration < this.config.timeout, 'Expired reply');
          return reply;
       });

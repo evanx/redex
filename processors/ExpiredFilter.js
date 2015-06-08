@@ -23,7 +23,7 @@ export default class ExpiredFilter {
 
    formatDuration(millis) {
      if (millis > 1000) {
-       return util.format('%ds', millis/1000);
+       return '' + (millis/1000).toFixed(3) + 's';
      } else {
        return util.format('%dms', millis);
      }
@@ -39,7 +39,7 @@ export default class ExpiredFilter {
       return redix.dispatchMessage(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
-         this.logger.debug('processMessage reply:', meta, this.formatDuration(duration));
+         this.logger.debug('processMessage duration:', this.formatDuration(duration));
          if (meta.expires) {
            assert(meta.expires > replyTime, 'Expired reply');
          }
