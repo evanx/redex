@@ -22,7 +22,6 @@ export default class TimeoutFilter {
      this.logger.info('started');
    }
 
-
    formatDuration(millis) {
      if (millis > 1000) {
        let seconds = millis/1000;
