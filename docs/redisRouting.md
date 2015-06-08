@@ -100,7 +100,7 @@ export default class RateLimitFilter {
          throw {message: 'Limit exceeded'};
       } else {
          return redix.dispatchMessage(message, meta, route).then(reply => {
-            logger.debug('processMessage reply:', meta);
+            logger.debug('processMessage reply:', meta); // intercept reply
             return reply;
          });
       }
