@@ -24,26 +24,21 @@ export default class FileImporter {
       assert(config.timeout, 'timeout');
       assert(config.route, 'route');
       this.config = config;
-      this.files = fs.readdirSync(config.watchDir);
-      this.count = new Date().getTime();
-      logger.info('constructor', this.constructor.name, this.config, this.files);
-      this.files.forEach(file => {
-         logger.info('watch', file);
-      });
+      this.seq = new Date().getTime();
+      logger.info('constructor', this.constructor.name, this.config);
       logger.info('watch', this.config.watchDir);
       this.watch();
    }
 
    async watch() {
-      logger.info('watch', this.config.watchDir);
+      logger.debug('watch', this.config.watchDir);
       try {
-         logger.info('watch', this.config, Files);
          let [ fileEvent, fileName ] = await Files.watch(this.config.watchDir);
          if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
-            logger.info('File changed:', fileEvent, fileName, this.config.route);
+            logger.debug('File changed:', fileEvent, fileName, this.config.route);
             this.fileChanged(fileName);
          } else {
-            logger.info('Ignore file event:', fileEvent, fileName);
+            logger.debug('Ignore file event:', fileEvent, fileName);
          }
          setTimeout(() => this.watch(), 0);
       } catch (err) {
@@ -62,19 +57,20 @@ export default class FileImporter {
 
    async fileChanged(fileName) {
       let filePath = this.config.watchDir + fileName;
-      this.count += 1;
-      let messageId = path.basename(fileName, '.yaml') + '-' + this.count;
-      logger.info('fileChanged', filePath, messageId);
+      this.seq += 1;
+      let messageId = path.basename(fileName, '.yaml') + '-' + this.seq;
+      logger.debug('fileChanged', filePath, messageId);
       try {
          let message = yaml.safeLoad(await Files.readFile(filePath));
          logger.debug('message:', filePath, message);
          var replyFilePath = this.formatReplyFilePath(messageId);
          let exists = await Files.exists(replyFilePath);
-         logger.info('replyFilePath', replyFilePath);
          assert.equal(exists, false, 'File already exists: ' + replyFilePath);
          let reply = await redix.importMessage(message, {messageId}, this.config);
          Files.writeFile(replyFilePath, this.formatJsonContent(reply));
+         logger.debug('replyFilePath', replyFilePath);
       } catch (err) {
+        logger.warn('fileChanged error:', err);
          Files.writeFile(replyFilePath, this.formatJsonContent(error));
       }
    }
