@@ -24,6 +24,7 @@ export default function httpImporter(config) { // trying processor constructor w
    var seq = new Date().getTime();
 
    logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+
    logger.info('start', config);
 
    app = express();
