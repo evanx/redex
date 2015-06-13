@@ -13,7 +13,7 @@ import Files from '../lib/Files';
 
 const { redix } = global;
 
-export default function httpImporter(config) {
+export default function httpImporter(config) { // trying processor constructor without class
 
    const that = {}; // internal state
 
