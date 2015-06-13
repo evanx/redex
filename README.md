@@ -3,7 +3,11 @@
 
 The name "Redix" can be interpreted as "Redis-based message eXchange."
 
-Redix is a Node framework and tool for:
+Redix is a tool for:
+- systems integration
+- orchestration of microservices
+
+Redix is a Node framework for:
 - reliable messaging through Redis queues
 - custom messaging middleware
 

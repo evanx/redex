@@ -1,6 +1,6 @@
 
 mkdir -p tmp/fileImporter/import
-mkdir tmp/fileImporter/export
+mkdir -p tmp/fileImporter/export
 
-baseDir=tests/httpRequest nodejs index.js | bunyan
+baseDir=test/httpRequest nodejs index.js | bunyan
 
