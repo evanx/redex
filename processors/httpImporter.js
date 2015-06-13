@@ -15,19 +15,16 @@ const { redix } = global;
 
 export default function httpImporter(config) { // trying processor constructor without class
 
-   const that = {}; // internal state
+   assert(config.port, 'port');
+   assert(config.timeout, 'timeout');
+   assert(config.route, 'route');
+   assert(config.loggerLevel, 'loggerLevel');
 
    var logger, app;
    var seq = new Date().getTime();
 
-   function construct() {
-      assert(config.port, 'port');
-      assert(config.timeout, 'timeout');
-      assert(config.route, 'route');
-      assert(config.loggerLevel, 'loggerLevel');
-      logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
-      logger.info('constructor', that.config);
-   }
+   logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   logger.info('constructor', config);
 
    function start() {
       logger.debug('start', that.config.port);
@@ -35,10 +32,10 @@ export default function httpImporter(config) { // trying processor constructor w
       app.listen(that.config.port);
    }
 
-   construct();
-
    const service = { // public methods
-
+      getState() {
+         return { config, seq };
+      }
    };
 
    return service;
