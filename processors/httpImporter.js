@@ -24,13 +24,10 @@ export default function httpImporter(config) { // trying processor constructor w
    var seq = new Date().getTime();
 
    logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
-   logger.info('constructor', config);
+   logger.info('start', config);
 
-   function start() {
-      logger.debug('start', that.config.port);
-      app = express();
-      app.listen(that.config.port);
-   }
+   app = express();
+   app.listen(config.port);
 
    const service = { // public methods
       getState() {
