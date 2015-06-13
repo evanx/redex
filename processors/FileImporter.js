@@ -26,7 +26,6 @@ export default class FileImporter {
       this.config = config;
       this.seq = new Date().getTime();
       logger.info('constructor', this.constructor.name, this.config);
-      logger.info('watch', this.config.watchDir);
       this.watch();
    }
 

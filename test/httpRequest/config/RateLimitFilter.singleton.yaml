@@ -1,5 +1,5 @@
 
 description: Limit the rate of messages
-startup: 10 # startup priority number
+type: filter
 periodMillis: 500 # ms
 limit: 1 # only route one message per 500ms

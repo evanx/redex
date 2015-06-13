@@ -1,5 +1,5 @@
 
 description: Perform an HTTP request
-startup: 10 # startup priority number
+type: exporter
 queue:
   pending: redix:test:http:pending # Redis key for set for pending requests

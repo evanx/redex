@@ -1,6 +1,6 @@
 
 description: Read a message from a file
-startup: 50 # startup priority number
+type: importer
 watchDir: tmp/fileImporter/watched/
 replyDir: tmp/fileImporter/reply/
 protocol: HttpRequestExchange@1

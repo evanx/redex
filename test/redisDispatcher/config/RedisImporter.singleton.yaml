@@ -1,6 +1,6 @@
 
 description: Import a message from a Redis queue
-startup: 50 # startup priority number
+type: importer
 queue:
   in: redix:test:dispatcher:in # the redis key for the incoming queue
   reply: redix:test:dispatcher:reply # the redis key for reply reque

@@ -1,6 +1,6 @@
 
 description: Import an HTTP request message from a Redis queue
-startup: 20 # startup priority number
+type: importer
 queue:
   in: redix:test:redishttp:in # the redis key for the incoming queue (list)
   reply: redix:test:redishttp:reply # the redis queue for replies

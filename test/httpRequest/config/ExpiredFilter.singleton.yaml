@@ -1,4 +1,4 @@
 
 description: Reject expired messages
-startup: 50 # startup priority number
+type: filter
 timeout: 800 # ms

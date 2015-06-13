@@ -1,6 +1,6 @@
 
 description: Export a message to a Redis queue
-startup: 50 # startup priority number
+type: exporter
 queue:
   out: redix:test:dispatcher:out # the redis queue
 json: false
