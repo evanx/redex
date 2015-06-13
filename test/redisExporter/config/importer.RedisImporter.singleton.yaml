@@ -1,6 +1,5 @@
 
 description: Import a message from a Redis queue
-type: importer
 queue:
   in: redix:test:exporter:in # the redis key for the incoming queue (list)
   reply: redix:test:exporter:reply # the redis queue for replies
@@ -8,4 +7,4 @@ queue:
   error: redix:test:exporter:error # to recover failed messages
 timeout: 8000 # ms
 route:
-- RedisExporter.singleton
+- exporter.RedisExporter.singleton

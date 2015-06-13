@@ -1,8 +1,7 @@
 
 description: Read a message from a file
-type: importer
 loggerLevel: debug
 port: 8888
-timeout: 8000 # ms
+timeout: 2000 # ms
 route:
-- RedisExporter.singleton
+- FileServer.singleton

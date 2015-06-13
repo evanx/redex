@@ -4,7 +4,8 @@
 
 import assert from 'assert';
 import bunyan from 'bunyan';
-import Redis from '../lib/Redis';
+
+import Redis from '../../lib/Redis';
 
 const logger = bunyan.createLogger({name: 'RedisExporter', level: global.redixLoggerLevel});
 

@@ -1,5 +1,4 @@
 
 description: Limit the rate of messages
-type: filter
 periodMillis: 500 # ms
 limit: 1 # only route one message per 500ms

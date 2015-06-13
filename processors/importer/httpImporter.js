@@ -9,7 +9,8 @@ import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
-import Files from '../lib/Files';
+
+import Files from '../../lib/Files';
 
 const { redix } = global;
 

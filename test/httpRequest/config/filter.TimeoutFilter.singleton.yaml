@@ -1,4 +1,3 @@
 
 description: Reject messages whose reply exceeds a specified timeout
-type: filter
 timeout: 8000 # ms

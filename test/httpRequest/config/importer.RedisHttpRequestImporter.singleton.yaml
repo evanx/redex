@@ -1,6 +1,5 @@
 
 description: Import an HTTP request message from a Redis queue
-type: importer
 queue:
   in: redix:test:redishttp:in # the redis key for the incoming queue (list)
   reply: redix:test:redishttp:reply # the redis queue for replies
@@ -9,8 +8,8 @@ queue:
 protocol: HttpRequest@1
 timeout: 8000 # ms
 route:
-- ExpiredFilter.singleton
-- RateLimitFilter.singleton
-- DurationMonitor.singleton
-- TimeoutFilter.singleton
-- HttpExporter.singleton
+- filter.ExpiredFilter.singleton
+- filter.RateLimitFilter.singleton
+- filter.DurationMonitor.singleton
+- filter.TimeoutFilter.singleton
+- exporter.HttpExporter.singleton

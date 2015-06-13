@@ -1,6 +1,5 @@
 
 description: Import a message from a Redis queue
-type: importer
 queue:
   in: redix:test:dispatcher:in # the redis key for the incoming queue
   reply: redix:test:dispatcher:reply # the redis key for reply reque
@@ -9,5 +8,5 @@ queue:
 json: false
 timeout: 8000 # ms
 route:
-- RateLimitFilter.singleton
-- RedisExporter.singleton
+- filter.RateLimitFilter.singleton
+- exporter.RedisExporter.singleton

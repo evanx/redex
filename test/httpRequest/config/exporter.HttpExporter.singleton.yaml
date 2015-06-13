@@ -1,5 +1,4 @@
 
 description: Perform an HTTP request
-type: exporter
 queue:
   pending: redix:test:http:pending # Redis key for set for pending requests

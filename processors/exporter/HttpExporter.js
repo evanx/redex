@@ -6,9 +6,8 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-import { request } from '../lib/Requests';
-
-import Redis from '../lib/Redis';
+import { request } from '../../lib/Requests';
+import Redis from '../../lib/Redis';
 
 const redis = new Redis();
 
