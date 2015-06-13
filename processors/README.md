@@ -86,7 +86,7 @@ json: true
 
 Implementation snippet: `processors/HttpExporter.js`
 ```JavaScript
-async processMessage(message, meta, route) {
+async process(message, meta, route) {
    try {
       var messageString = JSON.stringify(message);
       assert.equal(await redis.sadd(this.config.queue.pending, messageString),
@@ -136,7 +136,7 @@ export default class RateLimitFilter {
       this.count = 0;
    }
 
-   async processMessage(message, meta, route) {
+   async process(message, meta, route) {
       this.count += 1;
       assert(this.count <= this.config.limit, 'Limit exceeded');
       return redix.dispatchMessage(message, meta, route);

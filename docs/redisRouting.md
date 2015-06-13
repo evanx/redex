@@ -60,8 +60,8 @@ Other processors return a promise to reply later:
 ```javascript
 export default class RateLimitFilter {
 
-   async processMessage(message, meta, route) {
-      logger.debug('processMessage:', meta);
+   async process(message, meta, route) {
+      logger.debug('promise:', meta);
       this.count += 1;
       if (this.count > this.config.limit) {
          throw {message: 'Limit exceeded'};
@@ -81,7 +81,7 @@ export default class Redix {
       let nextProcessorName = route[0];
       let nextProcessor = this.processors.get(nextProcessorName);
       assert(nextProcessor, 'Invalid processor: ' + nextProcessorName);
-      return nextProcessor.processMessage(message, meta, route.slice(1));
+      return nextProcessor.process(message, meta, route.slice(1));
    }
 ```
 
@@ -92,15 +92,15 @@ Incidently, we can intercept the reply via `then` as follows:
 ```javascript
 export default class RateLimitFilter {
 
-   async processMessage(message, meta, route) {
-      logger.debug('processMessage:', meta, route);
+   async process(message, meta, route) {
+      logger.debug('promise:', meta, route);
       this.count += 1;
       if (this.count > this.config.limit) {
          await this.redis.lpush(this.config.queue.drop, JSON.stringify(message));
          throw {message: 'Limit exceeded'};
       } else {
          return redix.dispatchMessage(message, meta, route).then(reply => {
-            logger.debug('processMessage reply:', meta); // intercept reply
+            logger.debug('promise reply:', meta); // intercept reply
             return reply;
          });
       }

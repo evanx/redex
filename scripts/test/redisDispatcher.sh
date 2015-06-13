@@ -3,7 +3,7 @@ cd ~/redixrouter || exit 1
 
 testName=redisDispatcher
 
-export baseDir=test/${testName}
+export baseDir=test/case/${testName}
 export pidFile=tmp/redix.${testName}.pid
 
 c0run() {

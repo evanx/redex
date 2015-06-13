@@ -6,7 +6,7 @@ testName=redisImporter
 mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 
-export configDir=test/httpRequest/config
+export configDir=test/case/httpRequest/config
 export pidFile=tmp/redix.${testName}.pid
 
 c0run() {

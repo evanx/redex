@@ -4,7 +4,7 @@ mkdir -p tmp/fileImporter/reply
 
 testName=fileImporter
 
-export baseDir=test/httpRequest
+export baseDir=test/case/httpRequest
 export pidFile=tmp/redix.$testName.pid
 
 c0run() {

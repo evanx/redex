@@ -10,11 +10,11 @@ c0clear() {
 }
 
 c0clear
-for test in redisPromised redisDispatcher fileImporter redisImporter 
+for test in redisDispatcher fileImporter redisImporter redisPromised redisPromisedAsync
 do 
   out=tmp/test.${test}.out
   echo; echo -n "$test: "
-  sh test/scripts/test.${test}.sh | sed -e 1b -e '$!d' | tee $out
+  sh scripts/test/${test}.sh | sed -e 1b -e '$!d' | tee $out
   tail -1 $out | grep -q OK$ || echo "$test: FAILED"
 done
 

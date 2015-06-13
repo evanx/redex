@@ -14,28 +14,23 @@ import Files from '../../lib/Files';
 
 const { redix } = global;
 
-export default function httpImporter(config) { // trying processor constructor without class
+export default function fileServer(config) { // trying processor constructor without class
 
-   assert(config.port, 'port');
-   assert(config.timeout, 'timeout');
-   assert(config.route, 'route');
-
-   var logger, app;
+   assert(config.root, 'root');
+   if (!config.index) {
+      config.index = 'index.html';
+   }
    var seq = new Date().getTime();
 
    logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
 
-   logger.info('start', config);
-
-   app = express();
-   app.listen(config.port);
-   app.get('/', (req, res) => {
-         logger.info('req', req.url);
-   });
-
    const service = { // public methods
       getState() {
          return { config, seq };
+      },
+      async process(req) {
+         logger.info('req', req);
+         throw {message: 'not implemented'};
       }
    };
 

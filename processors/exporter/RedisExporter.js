@@ -29,9 +29,9 @@ export default class RedisExporter {
       }
    }
 
-   async processMessage(message, meta, route) {
+   async process(message, meta, route) {
       let string = this.formatMessage(message);
-      logger.info('processMessage lpush:', meta, this.config.queue.out, string);
+      logger.info('promise lpush:', meta, this.config.queue.out, string);
       await redis.lpush(this.config.queue.out, string);
       return;
    }

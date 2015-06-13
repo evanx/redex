@@ -29,17 +29,17 @@ export default class ExpiredFilter {
      }
    }
 
-   async processMessage(message, meta, route) {
+   async process(message, meta, route) {
       this.count += 1;
       let time = new Date().getTime();
-      this.logger.debug('processMessage:', meta, route);
+      this.logger.debug('promise:', meta, route);
       if (meta.expires) {
         assert(meta.expires > time, 'Expired message');
       }
       return redix.dispatchMessage(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
-         this.logger.debug('processMessage duration:', this.formatDuration(duration));
+         this.logger.debug('promise duration:', this.formatDuration(duration));
          if (meta.expires) {
            assert(meta.expires > replyTime, 'Expired reply');
          }

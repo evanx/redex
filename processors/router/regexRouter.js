@@ -14,7 +14,7 @@ import Files from '../../lib/Files';
 
 const { redix } = global;
 
-export default function httpImporter(config) { // trying processor constructor without class
+export default function regexRouter(config) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');

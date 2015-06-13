@@ -24,10 +24,10 @@ export default class HttpExporter {
       logger.info('constructor', this.constructor.name, this.config);
    }
 
-   async processMessage(message, meta, route) {
+   async process(message, meta, route) {
       try {
          var messageString = JSON.stringify(message);
-         logger.info('processMessage', meta, route, messageString);
+         logger.info('promise', meta, route, messageString);
          assert.equal(await redis.sadd(this.config.queue.pending, messageString),
             1, 'sadd');
          return request({
@@ -36,7 +36,7 @@ export default class HttpExporter {
             json: message.json || true
          });
       } catch (err) {
-         logger.error('processMessage', err.stack);
+         logger.error('promise', err.stack);
          return err;
       } finally {
          assert.equal(await redis.srem(this.config.queue.pending, messageString),
