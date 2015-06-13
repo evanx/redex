@@ -29,6 +29,9 @@ export default function httpImporter(config) { // trying processor constructor w
 
    app = express();
    app.listen(config.port);
+   app.get('/', (req, res) => {
+         logger.info('req', req.url);
+   });
 
    const service = { // public methods
       getState() {
