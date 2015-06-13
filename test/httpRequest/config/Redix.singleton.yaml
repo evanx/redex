@@ -1,6 +1,8 @@
 
 description: Configuration for the Redix instance
 loggerLevel: debug
+webserver: # for state introspection
+  port: 8880
 redis:
   host: localhost
   port: 6379
