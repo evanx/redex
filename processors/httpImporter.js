@@ -16,8 +16,9 @@ const { redix } = global;
 export default function httpImporter(config) {
 
    const that = {}; // internal state
-   var logger, app,
-      seq = new Date().getTime();
+
+   var logger, app;
+   var seq = new Date().getTime();
 
    function construct() {
       assert(config.port, 'port');
