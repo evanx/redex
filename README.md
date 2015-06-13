@@ -107,9 +107,10 @@ Assuming the required processors are available in the Redix deployment, this app
 
 Each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning, with Redix as a dependency.)
 
-The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/FileImporter.singleton.json.`
+The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/importer.FileImporter.singleton.json.`
 
 This name is comprised of its Node module, JavaScript class, and finally its distinguishing instance name.
+The above class is located in `lib/importer/FileImporter.js.`
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise we name the instance as `singleton.`
 
