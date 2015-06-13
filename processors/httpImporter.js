@@ -15,29 +15,28 @@ const { redix } = global;
 
 export default function httpImporter(config) {
 
-   const that = {};
+   const that = {}; // internal state
+   var logger, app,
+      seq = new Date().getTime();
 
    function construct() {
       assert(config.port, 'port');
       assert(config.timeout, 'timeout');
       assert(config.route, 'route');
       assert(config.loggerLevel, 'loggerLevel');
-      that.logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
-      that.config = config;
-      that.seq = new Date().getTime();
-      that.logger.info('constructor', that.constructor.name, that.config);
+      logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+      logger.info('constructor', that.config);
    }
 
    function start() {
-      that.logger.debug('start', that.config.port);
-      that.app = express();
-      logger.info('config', exports.config);
-      that.app.listen(that.config.port);
+      logger.debug('start', that.config.port);
+      app = express();
+      app.listen(that.config.port);
    }
 
    construct();
 
-   const service = {
+   const service = { // public methods
 
    };
 
