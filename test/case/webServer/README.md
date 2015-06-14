@@ -1,6 +1,11 @@
 
 ## Example: static web server
 
+As an exercise, we compose a basic static web server using the following components:
+- ExpressJS HTTP importer
+- RegExp router
+- file server for a specific root directory
+
 ### ExpressJS HTTP importer
 
 We "import" an HTTP request from an Express server via the `httpImporter` processor:
@@ -12,7 +17,7 @@ timeout: 2000 # ms
 route:
 - router.regexpRouter.testpaths
 ```
-where since we expect to serve static files, the timeout is relatively low.
+where since we expect to serve local files, the timeout is relatively low.
 
 Code snippet from the `httpImporter.js` implementation:
 ```javascript
@@ -38,9 +43,9 @@ This listens on port `8888,` accepts an HTTP request, and produces a message as 
 where this mirrors the ExpressJS `req.`
 
 
-### URL path router
+### RegExp router for URL paths
 
-We forward the request to a `regexpRouter.testpaths` for our web server:
+We forward the request to a `regexpRouter.paths` for our web server:
 ```yaml
 description: Route HTTP messages
 rules:
@@ -70,9 +75,9 @@ The `translator.expressFile.singleton` translates Express messages into "file" m
 }
 ```
 
-### Virtual host router
+#### Virtual host router
 
-A `regexpRouter` processor rule can be configured for virtual hosts as follows:
+A `regexpRouter.hosts` processor is configured for virtual hosts as follows:
 ```yaml
 description: Route HTTP requests based on the hostname
 pluck: hostname
@@ -87,7 +92,10 @@ where we specify a RegExp rule based on the `hostname` plucked from the `req.`
 
 In this case we specify a default `pluck` property for `req.hostname.`
 
-Code snippet:
+
+#### RegExp router implementation
+
+This processor finds a matching rule for the incoming message as follows:
 ```javascript
 async process(message, meta) {
    let rule = match(message);
@@ -104,23 +112,27 @@ async process(message, meta) {
          };
       }
    }
+   let error = {
+      message: 'no matching rule',
+      source: config.processorName
+   };
    if (config.pluck && message[config.pluck]) {
-      let plucked = message[config.pluck];
-      throw {
-         message: 'no route for: ' + plucked,
-         source: config.processorName
-      };
-   } else {
-      throw {
-         message: 'no route',
-         source: config.processorName
-      };
+      error.message = 'no rule for: ' + message[config.pluck],
    }
+   throw error;
+}
 ```
-where we find a matching rule in order to `forward` the message accordingly.
+where we implement the following logic:
+- we find a matching rule
+- then `forward` the message accordingly
+- else throw an error
+
+Note that this router is generic, and reusable for purposes other than HTTP requests.
 
 
 ### File server
+
+#### Config
 
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
@@ -130,6 +142,11 @@ index: index.html
 fallback: index.html
 ```
 where `root` is the file directory containing the static resources.
+
+Note that this server is fairly generic, and reusable for purposes other than HTTP requests.
+
+
+#### Implementation
 
 Code snippet:
 ```javascript
@@ -212,8 +229,9 @@ We take the approach of building of a "complex" system via the "simple" configur
 
 One can replicate much of the functionality of Nginx for example, by implementing processors as required and wiring these anyhow.
 
-As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
+If sufficient processors exists, services can be built using runtime configuration, without requiring further programming.
 
+As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
 
 #### Deconstruction and re-composition
 
@@ -223,8 +241,15 @@ For example, we might implement an `httpFileServer` processor which expects an H
 
 However, while it is tempting to overload the functionality of processors, it is useful to decompose processors into smaller constituent processors. This affords flexibility and reuse.
 
-
 ### Further work
+
+For HTTP handling:
+- redirect
+- URL rewrite
+- proxy
+- load balancing
+- caching
+- HTTPS termination
 
 Render data into HTML:
 - markdown files and their YAML metadata, e.g. for blog entries
