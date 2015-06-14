@@ -50,7 +50,7 @@ This listens on port `8888,` accepts an HTTP request, and produces a message as 
 {
    "url": "/test.txt",
    "method": "GET",
-   "host": "localhost"
+   "hostname": "localhost"
 }
 ```
 where this mirrors the ExpressJS `req.`
