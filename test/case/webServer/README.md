@@ -20,7 +20,6 @@ app.get('/*', async (req, res) => {
    try {
       seq += 1;
       let meta = {type: 'express', id: seq};
-      req.host = req.headers.host;
       let response = await redix.import(req, meta, config);
       assert(response, 'response');
       assert(response.statusCode, 'statusCode');
