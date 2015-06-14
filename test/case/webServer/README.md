@@ -86,14 +86,14 @@ fallback: index.html
 where `root` is the file directory containing the static resources.
 
 
-## Directory listings
+### Directory listings
 
-Rather than the `index` file option, we might enable listing directories:
+Rather than the `index` file option, we might enable listing directories in our `fileServer:`
 ```yaml
 listDirectory: true
 ```
 
-Alternatively, we introduce a `fileStat` router, which can route requests based on whether a given file exists (e.g. to implement something akin to Nginx's `try_files` feature), or whether that file is a directory.
+Alternatively, we introduce a `fileStat` router, which can route requests based on whether that file is a directory, or if given file exists e.g. to support something akin to Nginx's `try_files` feature.
 
 If the file is a directory, the request might be routed to a `directoryServer` processor which lists files in that directory. Messages destinated for a directory server could be intercepted and filtered using a generic `replyArrayFilter` on the reply containing an array of files. Finally, a translator might transform that array into a pretty HTML document.
 
