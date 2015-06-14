@@ -34,7 +34,11 @@ export default function regexpRouter(config) {
             throw {message: 'unsupported match: ' + rule.match};
          }
       } else if (rule.regexp) {
-         logger.warn('rule regexp', rule.regexp);
+         assert(rule.pluck || config.pluck, 'no pluck for: ' + rule.description);
+         if (!rule.pluck) {
+            rule.pluck = config.pluck;
+         }
+         logger.warn('rule regexp', rule.regexp, rule.pluck);
          rule.regexp = new RegExp(rule.regexp);
       } else {
          throw {message: 'internal error'};
