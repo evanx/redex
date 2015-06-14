@@ -84,16 +84,24 @@ export default function regexpRouter(config) {
                return rule.response;
             } else {
                throw {
+                  message: 'interal error: no response or route for rule: ' + rule.description,
                   source: config.processorName,
-                  message: 'interal error: no response or route',
                   rule: rule.description
                };
             }
          }
-         throw {
-            source: config.processorName,
-            message: 'no route'
-         };
+         if (config.pluck && message[config.pluck]) {
+            let plucked = message[config.pluck];
+            throw {
+               message: 'no route for: ' + plucked,
+               source: config.processorName
+            };
+         } else {
+            throw {
+               message: 'no route',
+               source: config.processorName
+            };
+         }
       }
    };
 
