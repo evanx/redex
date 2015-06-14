@@ -282,8 +282,11 @@ Publish notifications:
 
 ## Learn more
 
-Redix routing:
-- https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
+Configuration files for this static web server example:
+- https://github.com/evanx/redixrouter/tree/master/test/case/webServer/config
 
 Redix processor implementations:
 - https://github.com/evanx/redixrouter/blob/master/processors/
+
+Redix routing:
+- https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
