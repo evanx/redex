@@ -32,7 +32,7 @@ export default function httpImporter(config, redix) { // trying processor constr
    app.listen(config.port);
    logger.info('listen', config.port);
    app.get('/*', async (req, res) => {
-      logger.info('req', req.url);
+      logger.info('req', req.url, Object.keys(req).toString());
       try {
          seq += 1;
          let meta = {type: 'express', id: seq};

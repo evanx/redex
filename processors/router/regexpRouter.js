@@ -15,7 +15,7 @@ export default function regexpRouter(config) {
    var seq = new Date().getTime();
    var logger, app;
 
-   logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   logger = bunyan.createLogger({name: config.processorName, level: 'info' || config.loggerLevel});
 
    init();
 

@@ -8,17 +8,21 @@ loggerLevel: debug
 port: 8888
 timeout: 2000 # ms
 route:
-- router.regexpRouter.webserver
+- router.regexpRouter.testpaths
 ```
+where since we expect to serve static files, the timeout is relatively low.
 
 This listens on port `8888,` accepts an HTTP request, and produces a message as follows:
 ```json
 {
-   "url": "/test.txt"
+   "url": "/test.txt",
+   "method": "GET",
+   "host": "localhost"
 }
 ```
+where this mirros ExpressJS `req.`
 
-We forward the request to a `regexpRouter` for our web server:
+We forward the request to a `regexpRouter.testpaths` for our web server:
 ```yaml
 description: Route HTTP messages
 rules:
@@ -68,12 +72,28 @@ fallback: index.html
 ```
 where `root` is the file directory containing the static resources.
 
+## Virtual host router
+
+A `regexpRouter` processor rule can be configured for virtual hosts as follows:
+```yaml
+- description: Route localhost to a file server
+  pluck: host
+  regexp: ^localhost$
+  route:
+  - translator.expressFile.singleton
+  - server.fileServer.singleton
+```
+
 
 ## Conclusion
 
 We compose a web server using relatively simple processors. Those are sometimes fairly generic e.g. the RegExp message router.
 
 We take the approach of building of a "complex" system via the "simple" configuration of "small" components.
+
+One can replicate much of the functionality of Nginx for example, e.g. by implementing processors as required and wiring these anyhow.
+
+As further use-case examples, we intend to implement processors to support HTTP proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be quite useful.
 
 
 ## Learn more

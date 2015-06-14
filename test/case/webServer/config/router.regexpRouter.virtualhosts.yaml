@@ -1,0 +1,10 @@
+
+description: Route HTTP messages for virtual hosts
+rules:
+- description:
+  pluck: host
+  regexp: ^localhost$
+  route:
+  - translator.expressFile.singleton
+  - server.fileServer.singleton
+  

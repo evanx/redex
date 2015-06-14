@@ -15,11 +15,17 @@ rules:
   - server.fileServer.singleton
 - description: Home
   pluck: url
-  regexp: ^/index.html$
+  regexp: ^/$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
-- description: Unsupported route
+- description: Test
+  pluck: url
+  regexp: ^/test
+  route:
+  - translator.expressFile.singleton
+  - server.fileServer.singleton
+- description: Unsupported url route
   pluck: url
   regexp: .*
   route:

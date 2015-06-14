@@ -39,7 +39,7 @@ export default function fileServer(config, redix) { // trying processor construc
          }
          if (message.path === '/') {
             if (!config.index) {
-               throw {message: 'no index'};
+               throw {message: 'no root index'};
             } else {
                message.path = config.index;
             }
@@ -47,6 +47,16 @@ export default function fileServer(config, redix) { // trying processor construc
          assert(message.path, 'file path');
          let filePath = Paths.joinPath(config.root, message.path);
          try {
+            let stats = await Files.stat(filePath);
+            logger.debug('stats', filePath, {dir: stats.isDirectory(), file: stats.isFile()});
+            if (stats.isDirectory()) {
+               if (!config.index) {
+                  throw {message: 'no index: ' + message.path};
+               } else {
+                  filePath = Paths.joinPath(filePath, config.index);
+               }
+            }
+            logger.info('filePath', filePath);
             let data = await Files.readFile(filePath);
             return {
                type: 'data',
@@ -54,7 +64,7 @@ export default function fileServer(config, redix) { // trying processor construc
                data: data
             };
          } catch (e) {
-            log.debug('file error:', filePath);
+            logger.debug('file error:', filePath);
          }
       }
    };
