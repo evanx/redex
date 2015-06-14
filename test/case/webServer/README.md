@@ -1,5 +1,5 @@
 
-### Example: static web server
+## Example: static web server
 
 We "import" an HTTP request from an Express server via the `httpImporter` processor:
 ```yaml
@@ -98,7 +98,7 @@ Alternatively, we introduce a `fileStat` router, which can route requests based 
 If the file is a directory, the request might be routed to a `directoryServer` processor which lists files in that directory. Messages destinated for a directory server could be intercepted and filtered using a generic `replyArrayFilter` on the reply containing an array of files. Finally, a translator might transform that array into a pretty HTML document.
 
 
-## Virtual host router
+### Virtual host router
 
 A `regexpRouter` processor rule can be configured for virtual hosts as follows:
 ```yaml
@@ -111,7 +111,7 @@ A `regexpRouter` processor rule can be configured for virtual hosts as follows:
 ```
 
 
-## Conclusion
+### Conclusion
 
 We compose a web server using relatively simple processors. Those are sometimes fairly generic e.g. the RegExp message router.
 
