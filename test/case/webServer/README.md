@@ -1,6 +1,8 @@
 
 ## Example: static web server
 
+### ExpressJS HTTP importer
+
 We "import" an HTTP request from an Express server via the `httpImporter` processor:
 ```yaml
 description: Express webserver to import HTTP requests
@@ -35,6 +37,9 @@ This listens on port `8888,` accepts an HTTP request, and produces a message as 
 ```
 where this mirrors the ExpressJS `req.`
 
+
+### URL path router
+
 We forward the request to a `regexpRouter.testpaths` for our web server:
 ```yaml
 description: Route HTTP messages
@@ -45,23 +50,12 @@ rules:
   response:
     statusCode: 403
     content: Access forbidden
-- description: Test
-  pluck: url
-  regexp: ^/test.txt$
-  route:
-  - translator.expressFile.singleton
-  - server.fileServer.singleton
 - description: Home
   pluck: url
-  regexp: ^/index.html$
+  regexp: ^.*$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
-- description: Unsupported URL route
-  pluck: url
-  regexp: .*
-  route:
-  - router.regexpRouter.forbidden
 ```
 where we specify of list of `rules.`
 
@@ -75,6 +69,22 @@ The `translator.expressFile.singleton` translates Express messages into "file" m
    "path": "/test.txt"
 }
 ```
+
+### Virtual host router
+
+A `regexpRouter` processor rule can be configured for virtual hosts as follows:
+```yaml
+- description: Route localhost to a file server
+  pluck: hostname
+  regexp: ^localhost$
+  route:
+  - translator.expressFile.singleton
+  - server.fileServer.singleton
+```
+where we specify a RegExp rule based on the `hostname` plucked from the `req.`
+
+
+### File server
 
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
@@ -100,17 +110,9 @@ If the file is a directory, the request might be routed to a `directoryServer` p
 Say the directory server reply includes an array of files. That might be modified by a `replyArrayModifier` e.g. to hide files in a directory listing. Finally, a translator might transform that array into a pretty HTML document.
 
 
-### Virtual host router
+### Static blog generator
 
-A `regexpRouter` processor rule can be configured for virtual hosts as follows:
-```yaml
-- description: Route localhost to a file server
-  pluck: hostname
-  regexp: ^localhost$
-  route:
-  - translator.expressFile.singleton
-  - server.fileServer.singleton
-```
+Another interesting use-case, is to transform markdown files containing blog entries, into a pretty HTML file according to a specified "skin" e.g. using ReactJS server-side rendering.
 
 
 ### Conclusion
