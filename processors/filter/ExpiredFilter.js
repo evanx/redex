@@ -36,7 +36,7 @@ export default class ExpiredFilter {
       if (meta.expires) {
         assert(meta.expires > time, 'Expired message');
       }
-      return redix.dispatchMessage(message, meta, route).then(reply => {
+      return redix.dispatch(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
          this.logger.debug('promise duration:', this.formatDuration(duration));

@@ -10,7 +10,7 @@ c0clear() {
 }
 
 c0clear
-for test in redisDispatcher fileImporter redisImporter redisPromised redisPromisedAsync
+for test in redisDispatcher fileImporter redisImporter redisPromised redisPromisedAsync webServer
 do 
   out=tmp/test.${test}.out
   echo; echo -n "$test: "

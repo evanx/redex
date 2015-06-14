@@ -1,0 +1,7 @@
+
+description: Express webserver to import HTTP requests
+loggerLevel: debug
+port: 8888
+timeout: 2000 # ms
+route:
+- router.regexRouter.webserver

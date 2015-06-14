@@ -1,0 +1,8 @@
+
+description: Access forbidden responder
+rules:
+- description: Access forbidden
+  match: all
+  response:
+    statusCode: 403
+    content: Access Forbidden

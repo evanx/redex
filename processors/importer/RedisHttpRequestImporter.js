@@ -51,7 +51,7 @@ export default class RedisHttpRequestImporter {
          this.addedPending(messageId, redisReply);
          let message = JSON.parse(redisReply);
          logger.info('pop:', message);
-         let reply = await redix.importMessage(message, {messageId}, this.config);
+         let reply = await redix.import(message, {messageId}, this.config);
          logger.info('reply:', reply);
          await this.redis.lpush(this.config.queue.reply, JSON.stringify(reply));
          this.removePending(messageId, redisReply);

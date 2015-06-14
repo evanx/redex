@@ -65,7 +65,7 @@ export default class FileImporter {
          var replyFilePath = this.formatReplyFilePath(messageId);
          let exists = await Files.exists(replyFilePath);
          assert.equal(exists, false, 'File already exists: ' + replyFilePath);
-         let reply = await redix.importMessage(message, {messageId}, this.config);
+         let reply = await redix.import(message, {messageId}, this.config);
          Files.writeFile(replyFilePath, this.formatJsonContent(reply));
          logger.debug('replyFilePath', replyFilePath);
       } catch (err) {

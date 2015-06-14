@@ -1,7 +1,0 @@
-
-description: Read a message from a file
-loggerLevel: debug
-port: 8888
-timeout: 2000 # ms
-route:
-- FileServer.singleton

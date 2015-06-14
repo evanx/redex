@@ -34,7 +34,7 @@ export default class TimeoutFilter {
       this.count += 1;
       let time = new Date().getTime();
       this.logger.debug('promise:', meta, route);
-      return redix.dispatchMessage(message, meta, route).then(reply => {
+      return redix.dispatch(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
          this.logger.debug('promise duration:', this.formatDuration(duration));

@@ -26,7 +26,7 @@ export default class RedisImporter {
       const messageId = this.getNextMessageId();
       try {
          this.addedPending(message, messageId);
-         let reply = await redix.importMessage(message, {messageId}, this.config);
+         let reply = await redix.import(message, {messageId}, this.config);
          await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
          this.removePending(message, messageId, reply);
       } catch (err) {
@@ -40,10 +40,10 @@ Our `redix.importMessage` utility chains a timeout promise:
 ```javascript
 export default class Redix {
 
-   async importMessage(message, meta, options) {
+   async import(message, meta, options) {
       let importer = options.processorName;
       meta.expires = new Date().getTime() + options.timeout;
-      let promise = this.dispatchMessage(message, meta, options.route);
+      let promise = this.dispatch(message, meta, options.route);
       return new Promise((resolve, reject) => {
          promise.then(resolve, reject);
          setTimeout(() => {
@@ -66,7 +66,7 @@ export default class RateLimitFilter {
       if (this.count > this.config.limit) {
          throw {message: 'Limit exceeded'};
       } else {
-         return redix.dispatchMessage(message, meta, route);
+         return redix.dispatch(message, meta, route);
       }
    }
 ```
@@ -77,7 +77,7 @@ Otherwise we invoke the `redix.dispatchMessage` utility function to invoke the n
 ```javascript
 export default class Redix {
 
-   async dispatchMessage(message, meta, route) {
+   async dispatch(message, meta, route) {
       let nextProcessorName = route[0];
       let nextProcessor = this.processors.get(nextProcessorName);
       assert(nextProcessor, 'Invalid processor: ' + nextProcessorName);
@@ -99,7 +99,7 @@ export default class RateLimitFilter {
          await this.redis.lpush(this.config.queue.drop, JSON.stringify(message));
          throw {message: 'Limit exceeded'};
       } else {
-         return redix.dispatchMessage(message, meta, route).then(reply => {
+         return redix.dispatch(message, meta, route).then(reply => {
             logger.debug('promise reply:', meta); // intercept reply
             return reply;
          });
@@ -116,7 +116,7 @@ In the event of a timeout or some other error, this exception is caught by the i
    const messageId = this.getNextMessageId();
    try {
       this.addedPending(message, messageId);
-      let reply = await redix.importMessage(message, {messageId}, this.config);
+      let reply = await redix.import(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
       this.removePending(message, messageId);
    } catch (err) {

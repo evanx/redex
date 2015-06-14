@@ -1,7 +1,7 @@
 
 description: Route messages based on regular expressions
 reject:
-- regex: .*
+- regexp: .*
   response:
      statusCode: 403
      message: 'Access forbidden'

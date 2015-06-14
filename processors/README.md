@@ -51,7 +51,7 @@ async fileChanged(fileName) {
       var replyFilePath = this.formatReplyFilePath(messageId);
       let exists = await Files.exists(replyFilePath);
       assert.equal(exists, false, 'Reply file already exists: ' + replyFilePath);
-      let reply = await redix.importMessage(message, {messageId}, this.config);
+      let reply = await redix.import(message, {messageId}, this.config);
       Files.writeFile(replyFilePath, this.formatJsonContent(reply));
    } catch (err) {
       Files.writeFile(replyFilePath, this.formatJsonContent(error));
@@ -139,7 +139,7 @@ export default class RateLimitFilter {
    async process(message, meta, route) {
       this.count += 1;
       assert(this.count <= this.config.limit, 'Limit exceeded');
-      return redix.dispatchMessage(message, meta, route);
+      return redix.dispatch(message, meta, route);
    }
 }
 ```
@@ -171,7 +171,7 @@ async pop() {
       var messageId = this.seq;
       this.addedPending(messageId, redisReply);
       let message = JSON.parse(redisReply);
-      let reply = await redix.importMessage(message, {messageId}, this.config);
+      let reply = await redix.import(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
       this.removePending(messageId, redisReply);
       this.pop();

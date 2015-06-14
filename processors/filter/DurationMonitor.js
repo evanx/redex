@@ -33,7 +33,7 @@ export default class DurationMonitor {
    async process(message, meta, route) {
       this.count += 1;
       let time = new Date().getTime();
-      return redix.dispatchMessage(message, meta, route).then(reply => {
+      return redix.dispatch(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
          this.logger.info('duration:', this.formatDuration(duration), meta.messageId);

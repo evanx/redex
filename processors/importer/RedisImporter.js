@@ -51,7 +51,7 @@ export default class RedisImporter {
             message = JSON.parse(popReply);
          }
          logger.debug('pop:', message);
-         let reply = await redix.importMessage(message, {messageId}, this.config);
+         let reply = await redix.import(message, {messageId}, this.config);
          logger.debug('ok', messageId, reply);
          if (reply) {
             this.redis.lpush(this.config.queue.reply, reply);
