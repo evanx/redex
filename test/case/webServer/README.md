@@ -70,19 +70,21 @@ The `translator.expressFile.singleton` translates Express messages into "file" m
 }
 ```
 
-
 ### Virtual host router
 
 A `regexpRouter` processor rule can be configured for virtual hosts as follows:
 ```yaml
+description: Route HTTP requests based on the hostname
+pluck: hostname
 - description: Route localhost to a file server
-  pluck: hostname
   regexp: ^localhost$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
 ```
 where we specify a RegExp rule based on the `hostname` plucked from the `req.`
+
+In this case we specify a default `pluck` property for `req.hostname.`
 
 Code snippet:
 ```javascript
@@ -201,11 +203,6 @@ If the file is a directory, the request might be routed to a `directoryServer` p
 Say the directory server reply includes an array of files. That might be modified by a `replyArrayModifier` e.g. to hide files in a directory listing. Finally, a translator might transform that array into a pretty HTML document.
 
 
-### Static blog generator
-
-Another interesting use-case, is to transform markdown files containing blog entries, into a pretty HTML file according to a specified "skin" e.g. using ReactJS server-side rendering.
-
-
 ### Conclusion
 
 We compose a web server using relatively simple processors. Those are sometimes fairly generic e.g. the RegExp message router.
@@ -216,9 +213,31 @@ One can replicate much of the functionality of Nginx for example, by implementin
 
 As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
 
-While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Naturally custom Node processors can leverage third-party `npm` modules e.g. ExpressJS "middleware."
 
-Having said that, in order to simplify configuration for common use-cases, we might introduce a pre-composed processor which is combines the functionality of a set processors in a hard-wired fashion.
+#### Deconstruction and re-composition
+
+While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Moreover, custom Node processors can leverage third-party `npm` modules e.g. ExpressJS "middleware."
+
+For example, we might implement an `httpFileServer` processor which expects an HTTP request message, and returns an HTTP response, i.e. with a built-in `expressFile` translator. We might further combine `httpImporter` and `httpFileServer` into a `staticWebServer.`
+
+However, while it is tempting to overload the functionality of processors, it is useful to decompose processors into smaller constituent processors. This affords flexibility and reuse.
+
+
+### Further work
+
+Render data into HTML:
+- markdown files and their YAML metadata, e.g. for blog entries
+- render analytics data stored in Redis
+- render blog entries from data stored in Redis
+
+Publish data as JSON:
+- serve Redis data queries
+
+Prepare data for web publishing:
+- task to push modified file data into Redis e.g. blog entries
+
+Publish notifications:
+- a webhook exporter to emit notifications via HTTP from Redis queues
 
 
 ## Learn more
