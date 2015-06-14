@@ -70,6 +70,7 @@ The `translator.expressFile.singleton` translates Express messages into "file" m
 }
 ```
 
+
 ### Virtual host router
 
 A `regexpRouter` processor rule can be configured for virtual hosts as follows:
@@ -83,6 +84,10 @@ A `regexpRouter` processor rule can be configured for virtual hosts as follows:
 ```
 where we specify a RegExp rule based on the `hostname` plucked from the `req.`
 
+Code snippet:
+```javascript
+
+```
 
 ### File server
 
@@ -94,6 +99,62 @@ index: index.html
 fallback: index.html
 ```
 where `root` is the file directory containing the static resources.
+
+Code snippet:
+```javascript
+assert(message.path, 'file path');
+let filePath = Paths.joinPath(config.root, message.path);
+try {
+   let stats = await Files.stat(filePath);
+   if (stats.isDirectory()) {
+      if (!config.index) {
+         throw {message: 'no index: ' + message.path};
+      } else {
+         filePath = Paths.joinPath(filePath, config.index);
+      }
+   }
+   logger.info('filePath', filePath);
+   let data = await Files.readFile(filePath);
+   return {
+      type: 'data',
+      dataType: 'string',
+      data: data
+   };
+```
+where we `stat` the file, use our configured `index` file for directories, and finally return the file data as a Node `Buffer.`
+
+
+### ExpressJS request translator
+
+In order to use the generic `fileServer` for our web server, we introduce a translator from ExpressJS requests into file requests"
+```javascript
+async process(message, meta, route) {
+   logger.info('process', meta);
+   if (meta.type !== 'express') {
+      throw {message: 'Unsupported type: ' + meta.type};
+   }
+   let transMessage = {
+      path: message.url
+   };
+   let transMeta = {
+      type: 'file',
+      translator: config.processorName,
+      orig: meta
+   };
+   let reply = await redix.dispatch(transMessage, transMeta, route);
+   assert(reply, 'empty reply');
+   assert(reply.type, 'no reply type');
+   assert(reply.type === 'data', 'reply type not data');
+   assert(reply.dataType === 'string', 'reply data type not string');
+   return {
+      statusCode: 200,
+      contentType: Paths.getContentType(path.extname(transMessage.path)),
+      contentDataType: reply.dataType,
+      content: reply.data
+   }
+}
+```
+where we take the HTTP `url` as the file `path,` and translate the reply into a HTTP response.
 
 
 ### Directory listings
