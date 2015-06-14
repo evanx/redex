@@ -1,9 +1,7 @@
 
 ### Example: static web server
 
-Say we accept an HTTP request from an Express server.
-
-We configure an `httpImporter.`
+We "import" an HTTP request from an Express server via the `httpImporter` processor:
 ```yaml
 description: Express webserver to import HTTP requests
 loggerLevel: debug
