@@ -37,18 +37,18 @@ We wish to leverage ES7, Node and Redis because:
 
 We intend to implement processors to demonstrate various use-cases, roughly planned as follows:
 
-Implemented as PoC:
+Implemented as incomplete PoC:
 - framework (configuration, message dispatching)
 - import and export for Redis queues
 - static web server (http importer, regexp router, file server)
 
 Next:
+- HTTP proxy
 - fanout dispatcher (for parallel pipelines)
 
 July 2015 - PoC:
 - basic processors for HTTP and Redis queues
 - static web server
-- HTTP proxy
 
 September 2015 - web:
 - sample configuration for reliable pubsub and work queues

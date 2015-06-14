@@ -10,7 +10,7 @@ import Files from '../../lib/Files';
 
 const { redix } = global;
 
-export default function regexRouter(config) {
+export default function regexpRouter(config) {
 
    var seq = new Date().getTime();
    var logger, app;
