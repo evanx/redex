@@ -86,8 +86,28 @@ where we specify a RegExp rule based on the `hostname` plucked from the `req.`
 
 Code snippet:
 ```javascript
-
+async process(message, meta) {
+   logger.info('process', meta);
+   let rule = match(message);
+   if (rule) {
+      if (rule.route) {
+         return redix.forward(message, meta, config, rule.route);
+      } else if (rule.response) {
+         return rule.response;
+      } else {
+         throw {
+            message: 'interal error: no response or route',
+            source: config.processorName,
+            rule: rule.description
+         };
+      }
+   }
+   throw {
+      source: config.processorName,
+      message: 'no route'
+   };
 ```
+where we find a matching rule in order to `forward` the message accordingly.
 
 ### File server
 
