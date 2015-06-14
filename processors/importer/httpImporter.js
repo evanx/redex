@@ -65,9 +65,9 @@ export default function httpImporter(config, redix) { // trying processor constr
          }
       } catch (err) {
          if (err.name === 'AssertionError') {
-            logger.warn(err.name + ':' + err.message);            
+            logger.warn(err.name + ': ' + err.message);
          } else {
-            logger.warn(err.constructor, err);
+            logger.warn(err);
          }
          res.status(500).send(err);
       }
