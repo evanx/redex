@@ -137,7 +137,7 @@ Note that this router is generic, and reusable for purposes other than HTTP requ
 
 ### File server
 
-#### Config
+#### File server config
 
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
@@ -151,7 +151,7 @@ where `root` is the file directory containing the static resources.
 Note that this server is fairly generic, and reusable for purposes other than HTTP requests.
 
 
-#### Implementation
+#### File server processor mplementation
 
 Code snippet:
 ```javascript
