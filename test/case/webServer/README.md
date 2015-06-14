@@ -146,7 +146,7 @@ where we `stat` the file, use our configured `index` file for directories, and f
 
 ### ExpressJS request translator
 
-In order to use the generic `fileServer` for our web server, we introduce a translator from ExpressJS requests into file requests"
+In order to use the generic `fileServer` for our web server, we introduce a translator from ExpressJS requests into file requests:
 ```javascript
 async process(message, meta, route) {
    logger.info('process', meta);
