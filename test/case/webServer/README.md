@@ -137,8 +137,6 @@ Note that this router is generic, and reusable for purposes other than HTTP requ
 
 ### File server
 
-#### File server config
-
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
 description: Serve files e.g. for a webserver
