@@ -75,7 +75,7 @@ export default function regexpRouter(config) {
          return { config, seq };
       },
       async process(message, meta) {
-         logger.info('process', meta);
+         logger.debug('process', meta);
          let rule = match(message);
          if (rule) {
             if (rule.route) {

@@ -36,7 +36,7 @@ export default class DurationMonitor {
       return redix.dispatch(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
-         this.logger.info('duration:', this.formatDuration(duration), meta.messageId);
+         this.logger.debug('duration:', this.formatDuration(duration), meta.messageId);
          return reply;
       });
    }

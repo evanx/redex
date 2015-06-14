@@ -27,7 +27,7 @@ export default class HttpExporter {
    async process(message, meta, route) {
       try {
          var messageString = JSON.stringify(message);
-         logger.info('promise', meta, route, messageString);
+         logger.debug('promise', meta, route, messageString);
          assert.equal(await redis.sadd(this.config.queue.pending, messageString),
             1, 'sadd');
          return request({

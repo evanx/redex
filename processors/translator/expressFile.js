@@ -30,7 +30,6 @@ export default function expressFile(config, redix) {
          return { config, seq };
       },
       async process(message, meta, route) {
-         logger.info('process', meta);
          if (!meta.type) {
             throw {message: 'No meta type'};
          } else if (meta.type !== 'express') {

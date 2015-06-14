@@ -56,7 +56,7 @@ export default function fileServer(config, redix) { // trying processor construc
                   filePath = Paths.joinPath(filePath, config.index);
                }
             }
-            logger.info('filePath', filePath);
+            logger.debug('filePath', filePath);
             let data = await Files.readFile(filePath);
             return {
                type: 'data',

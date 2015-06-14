@@ -87,7 +87,6 @@ where we specify a RegExp rule based on the `hostname` plucked from the `req.`
 Code snippet:
 ```javascript
 async process(message, meta) {
-   logger.info('process', meta);
    let rule = match(message);
    if (rule) {
       if (rule.route) {
@@ -134,7 +133,7 @@ try {
          filePath = Paths.joinPath(filePath, config.index);
       }
    }
-   logger.info('filePath', filePath);
+   logger.debug('filePath', filePath);
    let data = await Files.readFile(filePath);
    return {
       type: 'data',
