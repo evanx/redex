@@ -18,9 +18,6 @@ const { redix } = global;
 export default function fileServer(config, redix) { // trying processor constructor without class
 
    assert(config.root, 'root');
-   if (!config.index) {
-      config.index = 'index.html';
-   }
    if (!lodash.startsWith(config.root, '/')) {
       config.root = Paths.joinPath(redix.config.baseDir, config.root);
    }
@@ -40,13 +37,25 @@ export default function fileServer(config, redix) { // trying processor construc
          } else if (meta.type !== 'file') {
             throw {message: 'unsupported type: ' + meta.type};
          }
+         if (message.path === '/') {
+            if (!config.index) {
+               throw {message: 'no index'};
+            } else {
+               message.path = config.index;
+            }
+         }
          assert(message.path, 'file path');
-         let data = await Files.readFile(Paths.joinPath(config.root, message.path));
-         return {
-            type: 'data',
-            dataType: 'string',
-            data: data
-         };
+         let filePath = Paths.joinPath(config.root, message.path);
+         try {
+            let data = await Files.readFile(filePath);
+            return {
+               type: 'data',
+               dataType: 'string',
+               data: data
+            };
+         } catch (e) {
+            log.debug('file error:', filePath);
+         }
       }
    };
 

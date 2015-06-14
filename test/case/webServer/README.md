@@ -11,7 +11,14 @@ route:
 - router.regexpRouter.webserver
 ```
 
-This accepts an HTTP request and forwards it to a `regexpRouter` for our web server:
+This listens on port `8888,` accepts an HTTP request, and produces a message as follows:
+```json
+{
+   "url": "/test.txt"
+}
+```
+
+We forward the request to a `regexpRouter` for our web server:
 ```yaml
 description: Route HTTP messages
 rules:
@@ -45,14 +52,22 @@ The `regexpRouter` will pluck the URL from message, which is an the ExpressJS re
 
 We can hard-code an HTTP response e.g. 403 for "Access forbidden," or route the message to other processors, perhaps through filters and translators.
 
-The `translator.expressFile.singleton` translates Express messages into "file" messages for the `fileServer,` e.g. the `url` is taken as the file path.
+The `translator.expressFile.singleton` translates Express messages into "file" messages for the `fileServer,` e.g. the `url` is taken as the file path:
+```json
+{
+   "path": "/test.txt"
+}
+```
 
 Finally our `fileServer` serves files:
 ```yaml
 description: serve files e.g. for a static webserver
-root: root
+root: /var/redixweb/root
 index: index.html
+fallback: index.html
 ```
+where `root` is the file directory containing the static resources.
+
 
 ## Conclusion
 
