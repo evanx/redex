@@ -65,6 +65,7 @@ export default function fileServer(config, redix) { // trying processor construc
             };
          } catch (e) {
             logger.debug('file error:', filePath);
+            throw e;
          }
       }
    };
