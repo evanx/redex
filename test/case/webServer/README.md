@@ -204,7 +204,7 @@ We compose a web server using relatively simple processors. Those are sometimes 
 
 We take the approach of building of a "complex" system via the "simple" configuration of "small" components.
 
-One can replicate much of the functionality of Nginx for example, e.g. by implementing processors as required and wiring these anyhow.
+One can replicate much of the functionality of Nginx for example, by implementing processors as required and wiring these anyhow.
 
 As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
 
