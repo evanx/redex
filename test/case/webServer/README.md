@@ -76,6 +76,7 @@ A `regexpRouter` processor rule can be configured for virtual hosts as follows:
 ```yaml
 description: Route HTTP requests based on the hostname
 pluck: hostname
+rules:
 - description: Route localhost to a file server
   regexp: ^localhost$
   route:
