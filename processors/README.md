@@ -196,7 +196,7 @@ Redix routing:
 - https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
 
 HTTP request example:
-- https://github.com/evanx/redixrouter/tree/master/test/httpRequest/
+- https://github.com/evanx/redixrouter/tree/master/test/case/httpRequest/
 
 Static web server example:
 - https://github.com/evanx/redixrouter/tree/master/test/case/webServer/
