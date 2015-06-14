@@ -6,18 +6,6 @@ As an exercise, we compose a basic static web server using the following compone
 - RegExp router
 - file server for a specific root directory
 
-This example will be extended later via processors for the following functionality:
-- HTTP proxy and redirect
-- URL rewrite
-- user-agent routing e.g. device type via `ua-parser` module
-- analytics stored in Redis e.g. user-agent, geolocation
-- response caching in Redis
-- load balancing via Redis queues
-- image resizing server
-- HTTPS termination
-- OAUTH authentication
-- RBAC authorisation
-
 
 ### ExpressJS HTTP importer
 
