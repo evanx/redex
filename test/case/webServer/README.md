@@ -109,6 +109,7 @@ async process(message, meta) {
 ```
 where we find a matching rule in order to `forward` the message accordingly.
 
+
 ### File server
 
 Finally a `fileServer` processor serves a files from a specified `root` directory:
@@ -206,7 +207,7 @@ We take the approach of building of a "complex" system via the "simple" configur
 
 One can replicate much of the functionality of Nginx for example, e.g. by implementing processors as required and wiring these anyhow.
 
-As further use-case examples, we intend to implement processors to support HTTP redirect, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be quite useful.
+As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
 
 While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Naturally custom Node processors can leverage third-party `npm` modules e.g. ExpressJS "middleware."
 
