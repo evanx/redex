@@ -238,11 +238,11 @@ As further use-case examples, we intend to implement processors to support HTTP 
 
 #### Deconstruction and re-composition
 
-While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Moreover, custom Node processors can leverage third-party `npm` modules e.g. ExpressJS "middleware."
-
-For example, we might implement an `httpFileServer` processor which expects an HTTP request message, and returns an HTTP response, i.e. with a built-in `expressFile` translator. We might further combine `httpImporter` and `httpFileServer` into a `staticWebServer.`
+One might implement an `httpFileServer` processor which expects an HTTP request message, and returns an HTTP response, i.e. with a built-in `expressFile` translator. Similarly, we might combine our ExpressJS HTTP importer and RegExp router into an `expressImporterRouter.`
 
 However, while it is tempting to overload the functionality of processors, it is useful to decompose processors into smaller constituent processors. This affords flexibility and reuse.
+
+While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Other processors can then be added into the mix e.g. for response caching.
 
 ### Further work
 
