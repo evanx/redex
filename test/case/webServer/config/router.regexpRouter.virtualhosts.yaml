@@ -7,4 +7,3 @@ rules:
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
-  

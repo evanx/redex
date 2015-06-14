@@ -12,6 +12,20 @@ route:
 ```
 where since we expect to serve static files, the timeout is relatively low.
 
+Code snippet from the `httpImporter.js` implementation:
+```javascript
+app = express();
+app.listen(config.port);
+app.get('/*', async (req, res) => {
+   try {
+      seq += 1;
+      let meta = {type: 'express', id: seq};
+      req.host = req.headers.host;
+      let response = await redix.import(req, meta, config);
+      assert(response, 'response');
+      assert(response.statusCode, 'statusCode');
+```
+
 This listens on port `8888,` accepts an HTTP request, and produces a message as follows:
 ```json
 {
@@ -20,7 +34,7 @@ This listens on port `8888,` accepts an HTTP request, and produces a message as 
    "host": "localhost"
 }
 ```
-where this mirros ExpressJS `req.`
+where this mirrors the ExpressJS `req.`
 
 We forward the request to a `regexpRouter.testpaths` for our web server:
 ```yaml
