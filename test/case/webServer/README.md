@@ -260,7 +260,6 @@ For HTTP handling:
 - analytics stored in Redis e.g. user-agent, geolocation
 - response caching in Redis
 - load balancing via Redis queues
-- image resizing server
 - HTTPS termination
 - OAUTH authentication
 - RBAC authorisation
@@ -275,6 +274,7 @@ Publish data as JSON:
 
 Prepare data for web publishing:
 - task to push modified file data into Redis e.g. blog entries
+- image resizing server
 
 Publish notifications:
 - a webhook exporter to emit notifications via HTTP from Redis queues
