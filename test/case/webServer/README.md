@@ -15,7 +15,7 @@ loggerLevel: debug
 port: 8888
 timeout: 2000 # ms
 route:
-- router.regexpRouter.testpaths
+- router.regexpRouter.paths
 ```
 where since we expect to serve local files, the timeout is relatively low.
 
