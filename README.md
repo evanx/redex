@@ -134,3 +134,6 @@ Redix routing:
 
 HTTP request example:
 - https://github.com/evanx/redixrouter/blob/master/test/httpRequest/
+
+Static web server example:
+- https://github.com/evanx/redixrouter/tree/master/test/case/webServer/
