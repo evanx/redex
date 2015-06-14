@@ -21,8 +21,8 @@ app.get('/*', async (req, res) => {
       seq += 1;
       let meta = {type: 'express', id: seq};
       let response = await redix.import(req, meta, config);
-      assert(response, 'response');
-      assert(response.statusCode, 'statusCode');
+      assert(response, 'no response');
+      assert(response.statusCode, 'no statusCode');
 ```
 
 This listens on port `8888,` accepts an HTTP request, and produces a message as follows:
