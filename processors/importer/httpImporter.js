@@ -64,7 +64,11 @@ export default function httpImporter(config, redix) { // trying processor constr
             res.send();
          }
       } catch (err) {
-         logger.warn(err);
+         if (err.constructor === 'AssertionError') {
+            logger.warn(err.constructor, err.toString());            
+         } else {
+            logger.warn(err.constructor, err);
+         }
          res.status(500).send(err);
       }
    });
