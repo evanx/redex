@@ -12,17 +12,18 @@
 
   c0client() {
     sleep 1
-    echo "curl -s localhost:8888/test.txt"
-    curl -I -s localhost:8888/test.txt
+    echo "curl -I -s localhost:8888/test.txt"
     curl -s http://localhost:8888/test.txt || echo "curl error"
-    echo
-    sleep 1
     curl -s http://localhost:8888/private
     echo
     sleep 1
     curl -s http://localhost:8888/test.html
     echo
     sleep 4
+    echo "curl -s localhost:8888/test.txt"
+    curl -I -s localhost:8888/test.txt
+    curl -s http://localhost:8888/test.txt || echo "curl error"
+    sleep 1
     rm -f $pidFile
   }
 
