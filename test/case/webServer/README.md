@@ -90,7 +90,7 @@ where `root` is the file directory containing the static resources.
 A `regexpRouter` processor rule can be configured for virtual hosts as follows:
 ```yaml
 - description: Route localhost to a file server
-  pluck: host
+  pluck: hostname
   regexp: ^localhost$
   route:
   - translator.expressFile.singleton

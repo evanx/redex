@@ -35,7 +35,7 @@ export default function httpImporter(config, redix) { // trying processor constr
       logger.info('req', req.url, Object.keys(req).toString());
       try {
          seq += 1;
-         let meta = {type: 'express', id: seq, host: req.host};
+         let meta = {type: 'express', id: seq, host: req.hostname};
          let response = await redix.import(req, meta, config);
          assert(response, 'no response');
          assert(response.statusCode, 'no statusCode');
