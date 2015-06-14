@@ -6,6 +6,19 @@ As an exercise, we compose a basic static web server using the following compone
 - RegExp router
 - file server for a specific root directory
 
+This example will be extended later via processors for the following functionality:
+- HTTP proxy and redirect
+- URL rewrite
+- user-agent routing e.g. device type via `ua-parser` module
+- analytics stored in Redis e.g. user-agent, geolocation
+- response caching in Redis
+- load balancing via Redis queues
+- image resizing server
+- HTTPS termination
+- OAUTH authentication
+- RBAC authorisation
+
+
 ### ExpressJS HTTP importer
 
 We "import" an HTTP request from an Express server via the `httpImporter` processor:
@@ -91,6 +104,10 @@ rules:
 where we specify a RegExp rule based on the `hostname` plucked from the `req.`
 
 In this case we specify a default `pluck` property for `req.hostname.`
+
+#### User-agent router
+
+A further example will address user-agent routing e.g. using the `ua-parser` module.
 
 
 #### RegExp router implementation
@@ -243,13 +260,22 @@ However, while it is tempting to overload the functionality of processors, it is
 
 ### Further work
 
+Enhancements:
+- Support other HTTP verbs e.g. HEAD.
+- Support HTTP headers such as `If-Modified-Since` to maybe return 403
+- URL matching functionality built into an `expressHttpImporterRouter`
+
 For HTTP handling:
-- redirect
+- processors for HTTP proxy and redirect
 - URL rewrite
-- proxy
-- load balancing
-- caching
+- routing based on user-agent e.g. device type via `ua-parser` module
+- analytics stored in Redis e.g. user-agent, geolocation
+- response caching in Redis
+- load balancing via Redis queues
+- image resizing server
 - HTTPS termination
+- OAUTH authentication
+- RBAC authorisation
 
 Render data into HTML:
 - markdown files and their YAML metadata, e.g. for blog entries
