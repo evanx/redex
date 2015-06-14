@@ -144,8 +144,8 @@ async process(message, meta, route) {
    let reply = await redix.dispatch(transMessage, transMeta, route);
    assert(reply, 'empty reply');
    assert(reply.type, 'no reply type');
-   assert(reply.type === 'data', 'reply type not data');
-   assert(reply.dataType === 'string', 'reply data type not string');
+   assert(reply.type === 'data', 'reply type is not data: ' + reply.type);
+   assert(reply.dataType === 'blob', 'reply data type unsupported: ' + reply.dataType);
    return {
       statusCode: 200,
       contentType: Paths.getContentType(path.extname(transMessage.path)),
@@ -155,6 +155,8 @@ async process(message, meta, route) {
 }
 ```
 where we take the HTTP `url` as the file `path,` and translate the reply into a HTTP response.
+
+Note the above implementation is limited to handling a "blob" of the file content, as opposed to a Node stream, which is something we wish to support later.
 
 
 ### Directory listings
