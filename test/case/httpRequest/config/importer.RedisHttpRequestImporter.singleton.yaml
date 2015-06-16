@@ -5,7 +5,6 @@ queue:
   reply: redix:test:redishttp:reply # the redis queue for replies
   pending: redix:test:redishttp:pending # the internal redis queue for pending requests
   error: redix:test:redishttp:error # to recover failed messages
-protocol: HttpRequest@1
 timeout: 8000 # ms
 route:
 - filter.ExpiredFilter.singleton

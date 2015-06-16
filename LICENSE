@@ -1,16 +1,16 @@
 
 Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 
-This ISC license applies to all files in this repository
-namely http://github.com/evanx/redixrouter
+This ISC license applies to all files in the source repository
+namely http://github.com/evanx/redixrouter.
 
-All the files in this repository are provided under the ISC opensource license. This is a
-permissive free software license written by the Internet Software Consortium (ISC).
+All the files in this repository are provided under the ISC opensource license. This is
+a permissive free software license written by the Internet Software Consortium (ISC).
 It is functionally equivalent to the simplified BSD and MIT/Expat licenses,
 with language that was deemed unnecessary by the Berne convention removed.
 
-Permission to use, copy, modify, and/or distribute this software for any purpose with
-or without fee is hereby granted, provided that the above copyright notice
+Permission to use, copy, modify, and/or distribute this software for any purpose
+with or without fee is hereby granted, provided that the above copyright notice
 and this permission notice appear in all copies.
 
 THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD

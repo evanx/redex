@@ -1,0 +1,5 @@
+description: static web server
+loggerLevel: debug
+port: 8880
+root: .
+timeout: 2000
