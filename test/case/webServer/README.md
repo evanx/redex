@@ -223,6 +223,7 @@ If the file is a directory, the request might be routed to a `directoryServer` p
 
 Say the directory server reply includes an array of files. That might be modified by a `replyArrayModifier` e.g. to hide files in a directory listing. Finally, a translator might transform that array into a pretty HTML document.
 
+
 ### Meta configurator for a static webserver
 
 We introduce a configurator to simplify the configuration for a given pattern of collaborating processors.
