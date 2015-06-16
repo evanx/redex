@@ -1,7 +1,7 @@
 
 import assert from 'assert';
 
-export default function createConfigs(config, redixConfig) {
+export default function(config, redixConfig) {
    const names = {
       importer: 'importer.httpImporter.singleton',
       translator: 'translator.expressFile.singleton',
