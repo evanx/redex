@@ -21,9 +21,9 @@ export default function(config, redixConfig) {
       },
       {
          processorName: names.fileServer,
-         description: "Serve files for a webserver"
+         description: "Serve files for a webserver",
          root: config.root || '.',
-         index: config.index || 'index.html',
+         index: config.index || 'index.html'
       }
    ]
 }

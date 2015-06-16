@@ -239,42 +239,41 @@ timeout: 2000
 
 Configurators make a specific pattern easy to configure and reuse.
 
-See our example implementation for a configurator for a static webserver:
+See the implementation for a configurator for a static webserver:
 - https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
 
 #### Implementation of HTTP file serverconfigurator
 
 We implement `configurators/httpFileServer` as follows:
 ```javascript
-const importer = "importer.httpImporter.singleton";
-const translator = "translator.expressFile.singleton";
-const fileServer = "server.fileServer.singleton";
-
-export default function createConfigs(config, redixConfig) {
-   const port = config.port || 8880;
-   const root = config.root || '.';
-   const index = config.index || 'index.html';
-   const timeout = config.timeout || 2000;
-   return Object.assign({port, root, index, timeout}, {
-      processors: [
-         Object.assign({port, timeout}, {
-            processorName: importer,
-            description: "Express webserver to import HTTP requests",
-            route: [ translator, fileServer ]
-         }),
-         {
-            processorName: translator,
-            description: "Translate ExpressJS 'http' message to 'file' message"
-         },
-         Object.assign({root, index}, {
-            processorName: fileServer,
-            description: "Serve files for a webserver"
-         }
-      ]
+export default function(config) {
+   const names = {
+      importer: 'importer.httpImporter.singleton',
+      translator: 'translator.expressFile.singleton',
+      fileServer: 'server.fileServer.singleton'
    };
+   return [
+      {
+         processorName: names.importer,
+         description: "Express webserver to import HTTP requests",
+         port: config.port || 8880,
+         timeout: config.timeout || 2000,
+         route: [ names.translator, names.fileServer ]
+      },
+      {
+         processorName: names.translator,
+         description: "Translate ExpressJS 'http' message to 'file' message"
+      },
+      {
+         processorName: names.fileServer,
+         description: "Serve files for a webserver"
+         root: config.root || '.',
+         index: config.index || 'index.html',
+      }
+   ]
 }
 ```
-where we generate the required configuration for three processors, namely the ExpressJS HTTP importer, an Express to "file" message translator, and a file directory server.
+where we generate the required configuration for three processors, namely an ExpressJS HTTP importer, a translator from "http" to "file" type messages, and a file directory server.
 
 The HTTP importer is configured with the `port` and `timeout,` and the file server with the document root directory and the default index file i.e. `index.html.`
 

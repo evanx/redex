@@ -3,4 +3,4 @@
 // ISC license, see http://github.com/evanx/redixrouter/LICENSE
 
 require('babel/register')({stage: 0});
-require('./lib/start');
+require('./lib/RedixStart');

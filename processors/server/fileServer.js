@@ -19,7 +19,11 @@ export default function fileServer(config, redix) { // trying processor construc
 
    assert(config.root, 'root');
    if (!lodash.startsWith(config.root, '/')) {
-      config.root = Paths.joinPath(redix.config.baseDir, config.root);
+      if (redix.config.baseDir) {
+         config.root = Paths.joinPath(redix.config.baseDir, config.root);
+      } else {
+         config.root = Paths.joinPath(process.cwd(), config.root);         
+      }
    }
    var seq = new Date().getTime();
    var logger;

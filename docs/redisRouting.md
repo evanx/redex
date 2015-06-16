@@ -80,7 +80,7 @@ export default class Redix {
    async dispatch(message, meta, route) {
       let nextProcessorName = route[0];
       let nextProcessor = this.processors.get(nextProcessorName);
-      assert(nextProcessor, 'Invalid processor: ' + nextProcessorName);
+      assert(nextProcessor, 'nextProcessor: ' + nextProcessorName);
       return nextProcessor.process(message, meta, route.slice(1));
    }
 ```
