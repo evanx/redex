@@ -223,28 +223,6 @@ If the file is a directory, the request might be routed to a `directoryServer` p
 
 Say the directory server reply includes an array of files. That might be modified by a `replyArrayModifier` e.g. to hide files in a directory listing. Finally, a translator might transform that array into a pretty HTML document.
 
-
-### Conclusion
-
-We compose a web server using relatively simple processors. Those are sometimes fairly generic e.g. the RegExp message router.
-
-We take the approach of building of a "complex" system via the "simple" configuration of "small" components.
-
-One can replicate much of the functionality of Nginx for example, by implementing processors as required and wiring these anyhow.
-
-If sufficient processors exists, services can be built using runtime configuration, without requiring further programming.
-
-As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
-
-#### Deconstruction and re-composition
-
-One might implement an `httpFileServer` processor which expects an HTTP request message, and returns an HTTP response, i.e. with a built-in `expressFile` translator. Similarly, we might combine our ExpressJS HTTP importer and RegExp router into an `expressImporterRouter.`
-
-However, while it is tempting to overload the functionality of processors, it is useful to decompose processors into smaller constituent processors. This affords flexibility and reuse.
-
-While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Other processors can then be added into the mix e.g. for response caching.
-
-
 ### Meta configurator for a static webserver
 
 We introduce a configurator to simplify the configuration for a given pattern of collaborating processors.
@@ -298,6 +276,27 @@ export default function createConfigs(config, redixConfig) {
 where we generate the required configuration for three processors, namely the ExpressJS HTTP importer, an Express to "file" message translator, and a file directory server.
 
 The HTTP importer is configured with the `port` and `timeout,` and the file server with the document root directory and the default index file i.e. `index.html.`
+
+
+### Conclusion
+
+We compose a web server using relatively simple processors. Those are sometimes fairly generic e.g. the RegExp message router.
+
+We take the approach of building of a "complex" system via the "simple" configuration of "small" components.
+
+One can replicate much of the functionality of Nginx for example, by implementing processors as required and wiring these anyhow.
+
+If sufficient processors exists, services can be built using runtime configuration, without requiring further programming.
+
+As further use-case examples, we intend to implement processors to support HTTP redirect, URL rewrite, proxy, load balancing, caching and HTTPS termination. While each of these processors is relatively simple, clearly their composition can be useful.
+
+#### Deconstruction and re-composition
+
+One might implement an `httpFileServer` processor which expects an HTTP request message, and returns an HTTP response, i.e. with a built-in `expressFile` translator. Similarly, we might combine our ExpressJS HTTP importer and RegExp router into an `expressImporterRouter.`
+
+However, while it is tempting to overload the functionality of processors, it is useful to decompose processors into smaller constituent processors. This affords flexibility and reuse.
+
+While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Other processors can then be added into the mix e.g. for response caching.
 
 
 ### Further work
