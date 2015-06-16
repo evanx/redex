@@ -244,6 +244,62 @@ However, while it is tempting to overload the functionality of processors, it is
 
 While a custom Node script can achieve a desired process on its own, it is interesting to enable a custom server to be composed via configuration. Other processors can then be added into the mix e.g. for response caching.
 
+
+### Meta configurator for a static webserver
+
+We introduce a configurator to simplify the configuration for a given pattern of collaborating processors.
+
+We configure an `httpFileServer.default` pattern as follows:
+```yaml
+description: static web server meta configuration
+loggerLevel: debug
+port: 8880
+root: /var/redixweb/root
+timeout: 2000
+```
+
+Configurators make a specific pattern easy to configure and reuse.
+
+See our example implementation for a configurator for a static webserver:
+- https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
+
+#### Implementation of HTTP file serverconfigurator
+
+We implement `configurators/httpFileServer` as follows:
+```javascript
+const importer = "importer.httpImporter.singleton";
+const translator = "translator.expressFile.singleton";
+const fileServer = "server.fileServer.singleton";
+
+export default function createConfigs(config, redixConfig) {
+   const port = config.port || 8880;
+   const root = config.root || '.';
+   const index = config.index || 'index.html';
+   const timeout = config.timeout || 2000;
+   return Object.assign({port, root, index, timeout}, {
+      processors: [
+         Object.assign({port, timeout}, {
+            processorName: importer,
+            description: "Express webserver to import HTTP requests",
+            route: [ translator, fileServer ]
+         }),
+         {
+            processorName: translator,
+            description: "Translate ExpressJS 'http' message to 'file' message"
+         },
+         Object.assign({root, index}, {
+            processorName: fileServer,
+            description: "Serve files for a webserver"
+         }
+      ]
+   };
+}
+```
+where we generate the required configuration for three processors, namely the ExpressJS HTTP importer, an Express to "file" message translator, and a file directory server.
+
+The HTTP importer is configured with the `port` and `timeout,` and the file server with the document root directory and the default index file i.e. `index.html.`
+
+
 ### Further work
 
 Enhancements:
