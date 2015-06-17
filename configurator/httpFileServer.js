@@ -14,7 +14,7 @@ export default function createConfigs(config, redixConfig) {
          port: config.port || 8880,
          timeout: config.timeout || 2000,
          route: [ names.translator, names.fileServer ]
-      }),
+      },
       {
          processorName: names.translator,
          description: "Translate ExpressJS 'http' message to 'file' message"
