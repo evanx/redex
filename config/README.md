@@ -8,7 +8,7 @@ Configurators enable the configuration of a specific pattern of processors as a 
 
 We configure an `httpFileServer.default` pattern as follows:
 ```yaml
-description: static web server meta configuration for httpFileServer configurator
+description: static web server configuration for the httpFileServer configurator
 loggerLevel: debug
 port: 8880
 root: /var/redixweb/root
