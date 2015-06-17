@@ -3,10 +3,10 @@
 
 These automate the configuration of a specific pattern of processors as a whole.
 
+We introduce a configurator to configure each processor according to a YAML meta configuration file.
+
 
 ### Example: meta configurator for a static web server
-
-We introduce a configurator to simplify the configuration for a given pattern of collaborating processors.
 
 We configure an `httpFileServer.default` pattern as follows:
 ```yaml
@@ -16,8 +16,7 @@ port: 8880
 root: /var/redixweb/root
 timeout: 2000
 ```
-
-See the implementation for a configurator for a static webserver:
+See the implementation for `configurators/httpFileServer` as follows:
 - https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
 
 #### Implementation of HTTP file server configurator
@@ -53,4 +52,4 @@ export default function(config) {
 ```
 where we generate the required configuration for three processors, namely an ExpressJS HTTP importer, a translator from "http" to "file" type messages, and a file directory server.
 
-The HTTP importer is configured with the `port` and `timeout,` and the file server with the document root directory and the default index file i.e. `index.html.`
+The HTTP importer is configured with the `port` and `timeout,` and the file server with the document root directory and the default index file e.g. `index.html.`
