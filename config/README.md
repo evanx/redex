@@ -1,7 +1,7 @@
 
 ## Configurators
 
-Configurators enable "meta configuration" of a specific pattern of processors as a whole.
+Configurators enable the configuration of a specific pattern of processors as a whole.
 
 
 ### Example: meta configurator for a static web server
