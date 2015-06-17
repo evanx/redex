@@ -1,9 +1,9 @@
 
 ## Configurators
 
-These automate the configuration of a specific pattern of processors as a whole.
+Configurators enable "meta configuration" of a specific pattern of processors as a whole.
 
-We introduce a configurator to configure each processor according to a YAML meta configuration file.
+A configurator generates the individual configurations for a set of processors.
 
 
 ### Example: meta configurator for a static web server
