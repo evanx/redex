@@ -18,17 +18,25 @@ const { redix } = global;
 export default function fileServer(config, redix) { // trying processor constructor without class
 
    assert(config.root, 'root');
-   if (!lodash.startsWith(config.root, '/')) {
-      if (redix.config.baseDir) {
-         config.root = Paths.joinPath(redix.config.baseDir, config.root);
-      } else {
-         config.root = Paths.joinPath(process.cwd(), config.root);         
-      }
-   }
+
    var seq = new Date().getTime();
    var logger;
 
    logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+
+   logger.info('config', config.root);
+   if (lodash.startsWith(config.root, '/')) {
+   } else if (config.root === '.') {
+      config.root = process.cwd();
+   } else if (lodash.startsWith(config.root, '.')) {
+      if (redix.config.baseDir) {
+         config.root = Paths.join(redix.config.baseDir, config.root);
+      } else {
+         config.root = Paths.join(process.cwd(), config.root);
+      }
+   }
+
+   logger.info('start', config);
 
    const service = { // public methods
       getState() {
@@ -49,7 +57,7 @@ export default function fileServer(config, redix) { // trying processor construc
             }
          }
          assert(message.path, 'file path');
-         let filePath = Paths.joinPath(config.root, message.path);
+         let filePath = Paths.join(config.root, message.path);
          try {
             let stats = await Files.stat(filePath);
             logger.debug('stats', filePath, {dir: stats.isDirectory(), file: stats.isFile()});
@@ -57,7 +65,7 @@ export default function fileServer(config, redix) { // trying processor construc
                if (!config.index) {
                   throw {message: 'no index: ' + message.path};
                } else {
-                  filePath = Paths.joinPath(filePath, config.index);
+                  filePath = Paths.join(filePath, config.index);
                }
             }
             logger.debug('filePath', filePath);

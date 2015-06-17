@@ -154,14 +154,14 @@ Note that this server is fairly generic, and reusable for purposes other than HT
 Code snippet:
 ```javascript
 assert(message.path, 'file path');
-let filePath = Paths.joinPath(config.root, message.path);
+let filePath = Paths.join(config.root, message.path);
 try {
    let stats = await Files.stat(filePath);
    if (stats.isDirectory()) {
       if (!config.index) {
          throw {message: 'no index: ' + message.path};
       } else {
-         filePath = Paths.joinPath(filePath, config.index);
+         filePath = Paths.join(filePath, config.index);
       }
    }
    logger.debug('filePath', filePath);
