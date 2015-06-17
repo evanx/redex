@@ -149,7 +149,7 @@ where `root` is the file directory containing the static resources.
 Note that this server is fairly generic, and reusable for purposes other than HTTP requests.
 
 
-#### File server processor mplementation
+#### File server processor implementation
 
 Code snippet:
 ```javascript
@@ -224,25 +224,25 @@ If the file is a directory, the request might be routed to a `directoryServer` p
 Say the directory server reply includes an array of files. That might be modified by a `replyArrayModifier` e.g. to hide files in a directory listing. Finally, a translator might transform that array into a pretty HTML document.
 
 
-### Meta configurator for a static webserver
+### Meta configurator for a static web server
 
 We introduce a configurator to simplify the configuration for a given pattern of collaborating processors.
 
 We configure an `httpFileServer.default` pattern as follows:
 ```yaml
-description: static web server meta configuration
+description: static web server meta configuration for httpFileServer configurator
 loggerLevel: debug
 port: 8880
 root: /var/redixweb/root
 timeout: 2000
 ```
 
-Configurators make a specific pattern easy to configure and reuse.
+Configurators automate the configuration of a specific pattern of processors as a whole.
 
 See the implementation for a configurator for a static webserver:
 - https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
 
-#### Implementation of HTTP file serverconfigurator
+#### Implementation of HTTP file server configurator
 
 We implement `configurators/httpFileServer` as follows:
 ```javascript
@@ -266,7 +266,7 @@ export default function(config) {
       },
       {
          processorName: names.fileServer,
-         description: "Serve files for a webserver"
+         description: "Serve files for a webserver",
          root: config.root || '.',
          index: config.index || 'index.html',
       }
