@@ -48,6 +48,11 @@ export default function(config) {
    ]
 }
 ```
-where we generate the required configuration for three processors, namely an ExpressJS HTTP importer, a translator from "http" to "file" type messages, and a file directory server.
+where we generate the required configuration for three processors:
+- an ExpressJS HTTP importer
+- a translator from "http" to "file" type messages
+- a file directory server.
 
-The HTTP importer is configured with the `port` and `timeout,` and the file server with the document root directory and the default index file e.g. `index.html.`
+The HTTP importer is configured with the `port` and `timeout.`
+
+The file server is configured with the document root directory and the default index file e.g. `index.html.`
