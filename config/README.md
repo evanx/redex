@@ -3,8 +3,6 @@
 
 Configurators enable "meta configuration" of a specific pattern of processors as a whole.
 
-A configurator generates the individual configurations for a set of processors.
-
 
 ### Example: meta configurator for a static web server
 
