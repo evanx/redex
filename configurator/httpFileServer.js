@@ -10,7 +10,7 @@ export default function createConfigs(config, redixConfig) {
    return [
       {
          processorName: processorNames.importer,
-         description: "Express webserver to import HTTP requests",,
+         description: "Express webserver to import HTTP requests",
          port: config.port || 8880,
          timeout: config.timeout || 2000,
          route: [ processorNames.translator, processorNames.fileServer ]
