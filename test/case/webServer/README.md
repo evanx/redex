@@ -11,7 +11,7 @@ As an exercise, we compose a basic static web server using the following compone
 
 We "import" an HTTP request from an Express server via the `httpImporter` processor:
 ```yaml
-description: Express webserver to import HTTP requests
+description: Express web server to import HTTP requests
 loggerLevel: debug
 port: 8888
 timeout: 2000 # ms
@@ -139,7 +139,7 @@ Note that this router is generic, and reusable for purposes other than HTTP requ
 
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
-description: Serve files e.g. for a webserver
+description: Serve files e.g. for a web server
 root: /var/redixweb/root
 index: index.html
 fallback: index.html
@@ -239,7 +239,7 @@ timeout: 2000
 
 Configurators automate the configuration of a specific pattern of processors as a whole.
 
-See the implementation for a configurator for a static webserver:
+See the implementation for a configurator for a static web server:
 - https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
 
 #### Implementation of HTTP file server configurator
@@ -255,7 +255,7 @@ export default function(config) {
    return [
       {
          processorName: names.importer,
-         description: "Express webserver to import HTTP requests",
+         description: "Express web server to import HTTP requests",
          port: config.port || 8880,
          timeout: config.timeout || 2000,
          route: [ names.translator, names.fileServer ]
@@ -266,7 +266,7 @@ export default function(config) {
       },
       {
          processorName: names.fileServer,
-         description: "Serve files for a webserver",
+         description: "Serve files for a web server",
          root: config.root || '.',
          index: config.index || 'index.html',
       }

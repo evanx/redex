@@ -1,5 +1,5 @@
 
-description: Express webserver to import HTTP requests
+description: Express web server to import HTTP requests
 loggerLevel: debug
 port: 8888
 timeout: 2000 # ms

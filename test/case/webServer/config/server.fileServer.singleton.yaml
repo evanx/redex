@@ -1,5 +1,5 @@
 
-description: Serve files e.g. for a webserver
+description: Serve files e.g. for a web server
 root: root
 index: index.html
 fallback: index.html
