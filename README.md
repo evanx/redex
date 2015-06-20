@@ -9,12 +9,15 @@ Redix is a tool for:
 
 Redix is a Node framework for:
 - reliable messaging through Redis queues
+- building resilient web infrastructure
 - custom messaging middleware
 
 Goals:
+- be inspired by functional programming (e.g. immutable state i.e. no side-effects)
+- stateless processors, otherwise explicit mutable state in Redis
 - distributable via replicas running against the same Redis server
 - scalable and reliable, especially when using Redis Cluster
-- commit to ES7 async functions i.e. await and try/catch
+- commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
 - release version 1.0 in 2016 when ES7 is standardised
 
 
@@ -31,6 +34,8 @@ We wish to leverage ES7, Node and Redis because:
 - Redis is a high-performance server for persistent data structures
 - Node is a popular platform for network programming
 - ES7 eases the synchronisation of asynchronous co-routines
+
+Someone else might want to re-implement something similar in Go, Rust or D, to eke out more performance. I think that would be a great idea. Still, having a Node "reference implementation" is useful, at least for JavaScript developers.
 
 
 ## Road map
