@@ -5,6 +5,7 @@
 
 ### Running tests
 
+On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
 cd
 rm -rf redixrouter
@@ -26,14 +27,18 @@ See:
 
 As per the CLI static webserver test:
 ```shell
+mkdir -p ~/tmp/redix
+cd ~/tmp/redix
 echo 'test me' > test.txt
 curl -s http://localhost:8880/test.txt
 nodejs ~/redixrouter/index.js http
 ```
 and then try `http://localhost:8880` in your browser.
 
+Note that you can try to invoke Redix with `http` command-line argument in any subdirectory which you wish to serve.
+
 See
-- https://github.com/evanx/redixrouter/blob/master/scripts/test/auto/cli.http.txt.sh
+- https://github.com/evanx/redixrouter/blob/master/scripts/test/auto/cli.http.simple.sh
 
 
 
