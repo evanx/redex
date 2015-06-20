@@ -18,12 +18,14 @@
     "js-yaml": "^3.3.1",
     "lodash": "^3.9.1",
     "marked": "^0.3.3",
-    "mocha": "^2.2.5",
-    "mocha-babel": "^3.0.0",
     "path": "^0.11.14",
     "pg": "~4.4.0",
     "pg-then": "~0.2.0",
     "redis": "^0.12.1",
     "request": "^2.55.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "mocha-babel": "^3.0.0",
   }
 }
