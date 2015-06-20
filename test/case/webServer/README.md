@@ -242,6 +242,7 @@ Configurators automate the configuration of a specific pattern of processors as 
 See the implementation for a configurator for a static web server:
 - https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
 
+
 #### Implementation of HTTP file server configurator
 
 We implement `configurators/httpFileServer` as follows:

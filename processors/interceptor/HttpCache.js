@@ -28,8 +28,18 @@ export default class HttpCache {
    }
 
    async process(message, meta, route) {
+      assert.equal(meta.type, 'http', 'http message type');
+      assert(message.uri, 'message uri');
+      const cached = await redis.get(config.redisKey + ':' + message.uri);
+      if (cached !== null) {
+         return cached;
+      }
       return redix.dispatch(message, meta, route).then(reply => {
+         assert(reply.statusCode, 'reply statusCode');
+         if (reply.statusCode === 200) {
+            redis.set(config.redisKey + ':' + message.uri);
 
+         }
          return reply;
       });
    }

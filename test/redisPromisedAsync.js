@@ -8,150 +8,89 @@ import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
+
 import Redis from '../lib/Redis';
+import Promises from '../lib/Promises';
 
 const logger = bunyan.createLogger({name: 'test.redis', level: global.redixLoggerLevel});
 
 const redis = new Redis();
 
-const redisClient = redis.client;
+async function empty() {
+   let key = 'redix:test:empty:key';
+   let value = await redis.get(key);
+   assert.equal(value, null);
+   logger.info('empty', key);
+}
 
-var tests = {
-   key(cb) {
-      let key = 'redix:test:key';
-      redis.set(key, 42).then(() => {
-         redis.get(key).then(value => {
-            logger.info('tests:key', key, value);
-            assert.equal(value, 42);
-            cb(null, 'ok');
-         }, err => cb(err)).catch(error => {
-            logger.error('tests:key', error);
-            cb(error);
-         });
-      });
-   },
-   getEmpty(cb) {
-      let key = 'redix:test:empty:key';
-      redis.get(key).then(value => {
-         logger.info('tests:getEmpty', key, value);
-         assert.equal(value, null);
-         cb(null, 'ok');
-      }, err => {
-         logger.info('tests:getEmpty err', key, err);
-         cb(err);
-      }).catch(error => {
-         logger.error('tests:getEmpty', error);
-         cb(error);
-      });
-   },
-   lpush(cb) {
-      let key = 'redix:test:list';
-      logger.info('tests:lpush1', key);
-      redis.lpush(key, 42).then(() => {
-         logger.info('tests:lpush2', key);
-         setTimeout(() => {
-            logger.info('tests:lpush3', key);
-            redis.lpop(key).then(value => {
-               logger.info('tests:lpush4', key, value);
-               assert.equal(value, 42);
-               cb(null, 'ok');
-            }, err => cb(err)).catch(error => {
-               logger.error('tests:lpush', error);
-               cb(error);
-            });
-         }, 0);
-      });
-   },
-   rpush(cb) {
-      let key = 'redix:test:list';
-      logger.info('rpush1', key);
-      redis.rpush(key, 42).then(() => {
-         logger.info('rpush2', key);
-         setTimeout(() => {
-            logger.info('rpush3', key);
-            redis.lpop(key).then(value => {
-               logger.info('rpush4', key, value);
-               assert.equal(value, 42);
-               cb(null, 'ok');
-            }, err => cb(err)).catch(error => {
-               logger.error('rpush', error);
-               cb(error);
-            });
-         }, 0);
-      });
-   },
-   multiStandard(cb) {
-      let multi = redisClient.multi();
-      assert.ok(multi._client === redisClient);
-      multi.set('redix:test:multi:key', 43);
-      multi.get('redix:test:multi:key');
-      multi.lpush('redix:test:multi:list', 44);
-      multi.llen('redix:test:multi:list');
-      multi.lpop('redix:test:multi:list');
-      multi.exec((err, replies) => {
-         logger.info('exec', err || 'ok', replies);
-         assert.equal(replies[0], 'OK');
-         assert.equal(replies[1], 43);
-         assert.equal(replies[2], 1);
-         assert.equal(replies[3], 1);
-         assert.equal(replies[4], 44);
-         cb(err, replies);
-      });
-   },
-   multiCallback(cb) {
-      let multi = redis.multi();
-      assert.ok(multi._client === redisClient);
-      multi.set('redix:test:multi:key', 43);
-      multi.get('redix:test:multi:key');
-      multi.lpush('redix:test:multi:list', 44);
-      multi.llen('redix:test:multi:list');
-      multi.lpop('redix:test:multi:list');
-      multi.execCallback((err, replies) => {
-         logger.info('exec', err || 'ok', replies);
-         assert.equal(replies[0], 'OK');
-         assert.equal(replies[1], 43);
-         assert.equal(replies[2], 1);
-         assert.equal(replies[3], 1);
-         assert.equal(replies[4], 44);
-         cb(err, replies);
-      });
-   },
-   multiPromise(cb) {
-      let multi = redis.multi();
-      assert.ok(multi._client === redisClient);
-      multi.set('redix:test:multi:key', 43);
-      multi.get('redix:test:multi:key');
-      multi.lpush('redix:test:multi:list', 44);
-      multi.llen('redix:test:multi:list');
-      multi.lpop('redix:test:multi:list');
-      multi.execPromise().then(replies => {
-         logger.info('exec', replies);
-         assert.equal(replies[0], 'OK');
-         assert.equal(replies[1], 43);
-         assert.equal(replies[2], 1);
-         assert.equal(replies[3], 1);
-         assert.equal(replies[4], 44);
-         cb(null, replies);
-      }, err => cb(err)).catch(error => cb(error));
+async function key() {
+   let key = 'redix:test:key';
+   logger.info('key', key);
+   let delReply = await redis.del(key);
+   logger.info('delReply', delReply);
+   let emptyValue = await redis.get(key);
+   logger.info('emptyValue', emptyValue);
+   assert.equal(emptyValue, null);
+   logger.info('emptyValue', emptyValue);
+   let value = await redis.set(key, 42);
+   assert.equal(value, 'OK');
+   logger.info('key', key, value);
+}
+
+async function lpush() {
+   let key = 'redix:test:list';
+   logger.info('tests:lpush', key);
+   await redis.lpush(key, 42);
+   //await Promises.delay(1000);
+   let value = await redis.lpop(key);
+   assert.equal(value, 42);
+   logger.info('lpush', key, value);
+}
+
+async function rpush() {
+   let key = 'redix:test:list';
+   logger.info('tests:lpush', key);
+   await redis.rpush(key, 42);
+   let value = await redis.rpop(key);
+   assert.equal(value, 42);
+   logger.info('rpush', key, value);
+}
+
+async function multi() {
+   let multi = redis.multi();
+   assert.ok(multi._client === redis.client);
+   multi.set('redix:test:multi:key', 43);
+   multi.get('redix:test:multi:key');
+   multi.lpush('redix:test:multi:list', 44);
+   multi.llen('redix:test:multi:list');
+   multi.lpop('redix:test:multi:list');
+   let replies = await multi.exec();
+   logger.info('multi', replies.toString());
+   assert.equal(replies[0], 'OK');
+   assert.equal(replies[1], 43);
+   assert.equal(replies[2], 1);
+   assert.equal(replies[3], 1);
+   assert.equal(replies[4], 44);
+}
+
+async function test() {
+   try {
+      await empty();
+      await key();
+      await lpush();
+      await rpush();
+      await multi();
+      await redis.end();
+      await Promises.delay(1000);
+      console.info('test try OK');
+   } catch (e) {
+      logger.error('error:', e);
    }
 }
 
-function done(err, replies) {
-   logger.info('test:', err || 'ok', replies);
-   redis.end();
-   setTimeout(() => {
-      if (err) {
-         process.stdout.write('redisPromised: FAIL\n');
-      } else {
-         process.stdout.write('redisPromised: OK\n');
-      }
-   }, 1000);
-}
+test().then(() => {
+   console.info('test then OK');
+}, err => {
+   console.error('error:', err);
 
-function test() {
-   console.info('tests:', Object.keys(tests).join(', '));
-   let array = Object.keys(tests).map(name => tests[name]);
-   async.series(array, done);
-}
-
-test();
+});
