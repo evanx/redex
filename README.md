@@ -38,10 +38,10 @@ cd redixrouter
 cat package.json
 npm install
 sh scripts/test/cat.test.scripts.sh
-sh scripts/test/all.sh
+sh -x scripts/test/all.sh
 ```
 
-If any test fails, try running again, as the system is warmer. These integration tests have sleeps for one or two seconds, which we assume is enough time for Redix to boot, but that might not always be the case.
+If any test fails, try running again, as the system is warmer. These integration tests have low timeouts which are not always sufficient.
 
 See:
 - https://github.com/evanx/redixrouter/tree/master/scripts/test/auto
@@ -144,7 +144,8 @@ Similarities:
 
 Differences:
 - Nginx is mature, powerful, stable and performant
-- Redix is half-baked and buggy
+- Redix leverages ExpressJS
+- Redix itself is pre-alpha i.e. not ready for production
 - Nginx is scriptable using Lua
 - Redix is extensible using JavaScript
 - Redix does not yet support HTTPS and many other features of Nginx
@@ -154,7 +155,7 @@ Differences:
 Notes:
 - Redix and Nginx can be used together e.g. where one proxies requests to the other
 - We intend to reduce the feature gap between Redix and Nginx
-
+- Redix itself is simple, as it leverages ExpressJS and Redis
 
 ### Alternative: js-csp
 
