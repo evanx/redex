@@ -3,30 +3,30 @@ description: Route HTTP messages
 rules:
 - description: Private
   pluck: url
-  regexp: ^/private
+  regex: ^/private
   response:
     statusCode: 403
     content: Access forbidden
 - description: Test
   pluck: url
-  regexp: ^/test.txt$
+  regex: ^/test.txt$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
 - description: Home
   pluck: url
-  regexp: ^/$
+  regex: ^/$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
 - description: Test
   pluck: url
-  regexp: ^/test
+  regex: ^/test
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
 - description: Unsupported url route
   pluck: url
-  regexp: .*
+  regex: .*
   route:
-  - router.regexpRouter.forbidden
+  - router.regexRouter.forbidden

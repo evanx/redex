@@ -190,7 +190,7 @@ We intend to implement processors to demonstrate various use-cases, roughly plan
 Implemented as incomplete PoC:
 - framework (configuration, message dispatching)
 - import and export for Redis queues
-- static web server (http importer, regexp router, file server)
+- static web server (http importer, regex router, file server)
 
 Current work:
 - HTTP response caching in Redis

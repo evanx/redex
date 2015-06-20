@@ -16,7 +16,7 @@ loggerLevel: debug
 port: 8888
 timeout: 2000 # ms
 route:
-- router.regexpRouter.paths
+- router.regexRouter.paths
 ```
 where since we expect to serve local files, the timeout is relatively low.
 
@@ -46,26 +46,26 @@ where this mirrors the ExpressJS `req.`
 
 ### RegExp router for URL paths
 
-We forward the request to a `regexpRouter.paths` for our web server:
+We forward the request to a `regexRouter.paths` for our web server:
 ```yaml
 description: Route HTTP messages
 rules:
 - description: Private
   pluck: url
-  regexp: ^/private
+  regex: ^/private
   response:
     statusCode: 403
     content: Access forbidden
 - description: Home
   pluck: url
-  regexp: ^.*$
+  regex: ^.*$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
 ```
 where we specify of list of `rules.`
 
-The `regexpRouter` will pluck the URL from message, which is an the ExpressJS request, and match it against RegExp rules.
+The `regexRouter` will pluck the URL from message, which is an the ExpressJS request, and match it against RegExp rules.
 
 We can hard-code an HTTP response e.g. 403 for "Access forbidden," or route the message to other processors, perhaps through filters and translators.
 
@@ -78,13 +78,13 @@ The `translator.expressFile.singleton` translates Express messages into "file" m
 
 #### Virtual host router
 
-A `regexpRouter.hosts` processor is configured for virtual hosts as follows:
+A `regexRouter.hosts` processor is configured for virtual hosts as follows:
 ```yaml
 description: Route HTTP requests based on the hostname
 pluck: hostname
 rules:
 - description: Route localhost to a file server
-  regexp: ^localhost$
+  regex: ^localhost$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton

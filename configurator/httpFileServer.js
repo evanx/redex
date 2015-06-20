@@ -4,6 +4,7 @@ import assert from 'assert';
 export default function createConfigs(config, redexConfig) {
    const names = {
       importer: "importer.httpImporter.singleton",
+      router: "express.router.urlRegex.singleton",
       markdownRenderer: "http.renderer.markdown.singleton",
       httpTranslator: "translator.expressFile.singleton",
       fileServer: "server.fileServer.singleton"
@@ -14,6 +15,11 @@ export default function createConfigs(config, redexConfig) {
          description: "Express web server to import HTTP requests",
          port: config.port || 8880,
          timeout: config.timeout || 2000,
+         route: [ names.router ]
+      },
+      {
+         processorName: names.router,
+         description: "Router for requests",
          route: [ names.markdownRenderer, names.httpTranslator, names.fileServer ]
       },
       {

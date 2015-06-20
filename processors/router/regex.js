@@ -8,7 +8,7 @@ import lodash from 'lodash';
 
 const { redex } = global;
 
-export default function regexpRouter(config) {
+export default function regexRouter(config) {
 
    var seq = new Date().getTime();
    var logger;
@@ -26,18 +26,18 @@ export default function regexpRouter(config) {
 
    function initRule(rule) {
       assert(rule.route || rule.response, 'rule requires route or response: ' + rule.description);
-      assert(rule.regexp || rule.match, 'rule requires regexp or match: ' + rule.description);
+      assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.description);
       if (rule.match) {
          if (rule.match !== 'all') {
             throw {message: 'unsupported match: ' + rule.match};
          }
-      } else if (rule.regexp) {
+      } else if (rule.regex) {
          assert(rule.pluck || config.pluck, 'no pluck for: ' + rule.description);
          if (!rule.pluck) {
             rule.pluck = config.pluck;
          }
-         logger.warn('rule regexp', rule.regexp, rule.pluck);
-         rule.regexp = new RegExp(rule.regexp);
+         logger.warn('rule regex', rule.regex, rule.pluck);
+         rule.regex = new RegExp(rule.regex);
       } else {
          throw {message: 'internal error'};
       }
@@ -46,24 +46,24 @@ export default function regexpRouter(config) {
    function match(message) {
       logger.debug('match', config.rules.length);
       return lodash.find(config.rules, rule => {
-         logger.debug('match rule', rule.description, rule.hasOwnProperty('regexp'), rule.regexp);
+         logger.debug('match rule', rule.description, rule.hasOwnProperty('regex'), rule.regex);
          if (rule.match === 'all') {
             logger.debug('match all');
             return true;
-         } else if (rule.pluck && rule.hasOwnProperty('regexp')) {
+         } else if (rule.pluck && rule.hasOwnProperty('regex')) {
             assert(lodash.isObject(message), 'pluck message object');
             if (message.hasOwnProperty(rule.pluck)) {
                let value = message[rule.pluck];
                if (value === null) {
-                  logger.debug('regexp pluck null');
+                  logger.debug('regex pluck null');
                   return false;
                } else {
-                  logger.debug('regex', value, rule.regexp.test(value));
-                  return rule.regexp.test(value);
+                  logger.debug('regex', value, rule.regex.test(value));
+                  return rule.regex.test(value);
                }
             } else {
-               logger.debug('no regexp pluck', rule.pluck);
-               return rule.regexp.test(value);
+               logger.debug('no regex pluck', rule.pluck);
+               return rule.regex.test(value);
             }
          } else {
             logger.debug('match none', rule);

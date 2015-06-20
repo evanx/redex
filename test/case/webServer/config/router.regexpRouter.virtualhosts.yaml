@@ -3,7 +3,7 @@ description: Route HTTP messages for virtual hosts
 pluck: host
 rules:
 - description:
-  regexp: ^localhost$
+  regex: ^localhost$
   route:
   - translator.expressFile.singleton
   - server.fileServer.singleton
