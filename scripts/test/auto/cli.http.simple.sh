@@ -3,7 +3,7 @@ mkdir -p ~/tmp/redix
 
 cd ~/tmp/redix || exit 1
 
-testName=cli.http
+testName=cli.http.simple
 
 export pidFile=redix.${testName}.pid
 

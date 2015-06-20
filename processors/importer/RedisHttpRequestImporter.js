@@ -49,6 +49,7 @@ export default class RedisHttpRequestImporter {
          var messageId = this.seq;
          var expiryTime = new Date().getTime() + this.config.timeout;
          this.addedPending(messageId, redisReply);
+         logger.debug('redisReply', redisReply);
          let message = JSON.parse(redisReply);
          logger.info('pop:', message);
          let reply = await redix.import(message, {messageId}, this.config);

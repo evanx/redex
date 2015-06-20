@@ -9,6 +9,9 @@ mkdir -p tmp/fileImporter/reply
 export configDir=test/case/httpRequest/config
 export pidFile=tmp/redix.${testName}.pid
 
+url="https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
+echo "url $url"
+
 c0run() {
   nodejs index.js | bunyan -o short
 }
@@ -25,11 +28,11 @@ c0client() {
   c0clear
   sleep 2
   echo :
-  message='{
-    "method": "GET",
-    "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty",
-    "json": true
-  }'
+  message="{
+    \"method\": \"GET\",
+    \"url\": \"${url}\",
+    \"json\": true
+  }"
   echo 'redis-cli llen redix:test:redishttp:reply'
   redis-cli llen redix:test:redishttp:reply
   echo "redis-cli lpush redix:test:redishttp:in '$message'"
