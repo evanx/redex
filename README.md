@@ -8,13 +8,21 @@
 On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
 cd
-git clone https://github.com/evanx/redixrouter
-cd redixrouter
-cat package.json
-npm install
-cat scripts/test/cat.test.scripts.sh
+if git clone https://github.com/evanx/redixrouter
+then
+  cd redixrouter
+  cat package.json
+  cat scripts/test/cat.test.scripts.sh
+fi
 ```
+
 If all looks OK, then:
+```shell
+npm install
+sh scripts/test/cat.test.scripts.sh
+```
+
+Finally, if all looks OK:
 ```shell
 sh scripts/test/all.sh
 ```
