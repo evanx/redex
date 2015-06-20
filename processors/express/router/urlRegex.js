@@ -45,7 +45,7 @@ export default function urlRegexp(config) {
          logger.debug('match rule', rule.description, rule.hasOwnProperty('regex'), rule.regex);
          if (rule.match === 'all') {
             return true;
-         } else if (rule.regex) { {
+         } else if (rule.regex) {
             let value = message.url;
             return rule.regex.test(value);
          } else {
@@ -61,24 +61,17 @@ export default function urlRegexp(config) {
       },
       async process(message, meta) {
          logger.debug('process', meta);
-         let rule = match(message);
+         let rule = matchUrl(message);
          if (rule) {
             if (rule.route) {
                return redex.forward(message, meta, config, rule.route);
             } else if (rule.response) {
                return rule.response;
             } else {
-               throw {
-                  message: 'interal error: no response or route for rule: ' + rule.description,
-                  source: config.processorName,
-                  rule: rule.description
-               };
+               assert(false, 'rule route or response: ' + rule.description);
             }
          }
-         throw {
-            message: 'no route',
-            source: config.processorName
-         };
+         assert(false, 'no matching route');
       }
    };
 

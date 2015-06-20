@@ -21,8 +21,10 @@ export default function createConfigs(config, redexConfig) {
          processorName: names.router,
          description: "Router for requests",
          rules: [
-           regex: '^.*$',
-           route: [ names.markdownRenderer, names.httpTranslator, names.fileServer ]
+            {
+               regex: '^.*$',
+               route: [ names.markdownRenderer, names.httpTranslator, names.fileServer ]
+            }
         ]
       },
       {

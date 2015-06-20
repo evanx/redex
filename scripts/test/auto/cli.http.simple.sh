@@ -20,7 +20,7 @@ c0client() {
 
 c0server() {
   c0rm
-  nodejs ~/redex/index.js http >/dev/null
+  nodejs ~/redex/index.js http | bunyan -o short
 }
 
 c0client & c0server
