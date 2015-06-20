@@ -10,7 +10,7 @@ then
   exit 1
 fi
 
-echo "Note that tests will create Redis keys prefixed with 'redix:test'"
+echo "Note that tests will delete and create Redis keys prefixed with 'redix:test:' on the local Redis instance (localhost:6379)"
 
 echo "redis-cli keys 'redix:test:*'"
 redis-cli keys 'redix:test:*'
