@@ -24,9 +24,11 @@ Goals:
 
 ## Problem/Solution
 
-Problem: We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
+Problem:
+- We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
-Solution: In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
+Solution:
+- In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
 
 
 ## Cost/Benefit
