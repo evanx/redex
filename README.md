@@ -97,6 +97,16 @@ Analysis still required.
 Analysis still required.
 
 
+### Alternative: ZeroMQ
+
+Analysis still required.
+
+
+### Alternative: RabbitMQ
+
+Analysis still required.
+
+
 ## Road map
 
 We intend to implement processors to demonstrate various use-cases, roughly planned as follows:
