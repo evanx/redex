@@ -42,17 +42,22 @@ Implemented as incomplete PoC:
 - import and export for Redis queues
 - static web server (http importer, regexp router, file server)
 
-Next:
+Current work:
+- HTTP response caching
 - HTTP proxy
+- Routing HTTP importer (combination of ExpressJS importer and router)
+
+Next work:
 - fanout dispatcher (for parallel pipelines)
+- redis query server with joins
 
 July 2015 - PoC:
 - basic processors for HTTP and Redis queues
-- static web server
+- web server with proxy and caching
+- redis query server with joins
 
 September 2015 - web:
 - sample configuration for reliable pubsub and work queues
-- response caching
 - simple HTTP load balancer
 
 January 2016 - auth:
