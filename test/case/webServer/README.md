@@ -16,7 +16,7 @@ loggerLevel: debug
 port: 8888
 timeout: 2000 # ms
 route:
-- router.regexRouter.paths
+- router.regex.paths
 ```
 where since we expect to serve local files, the timeout is relatively low.
 
@@ -46,7 +46,7 @@ where this mirrors the ExpressJS `req.`
 
 ### RegExp router for URL paths
 
-We forward the request to a `regexRouter.paths` for our web server:
+We forward the request to a `router.regex.paths` for our web server:
 ```yaml
 description: Route HTTP messages
 rules:
@@ -65,7 +65,7 @@ rules:
 ```
 where we specify of list of `rules.`
 
-The `regexRouter` will pluck the URL from message, which is an the ExpressJS request, and match it against RegExp rules.
+The `router.regex` will pluck the URL from message, which is an the ExpressJS request, and match it against RegExp rules.
 
 We can hard-code an HTTP response e.g. 403 for "Access forbidden," or route the message to other processors, perhaps through filters and translators.
 
@@ -78,7 +78,7 @@ The `translator.expressFile.singleton` translates Express messages into "file" m
 
 #### Virtual host router
 
-A `regexRouter.hosts` processor is configured for virtual hosts as follows:
+A `router.regex.hosts` processor is configured for virtual hosts as follows:
 ```yaml
 description: Route HTTP requests based on the hostname
 pluck: hostname

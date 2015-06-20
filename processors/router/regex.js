@@ -8,7 +8,7 @@ import lodash from 'lodash';
 
 const { redex } = global;
 
-export default function regexRouter(config) {
+export default function regex(config) {
 
    var seq = new Date().getTime();
    var logger;

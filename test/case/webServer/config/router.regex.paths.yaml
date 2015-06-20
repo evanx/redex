@@ -29,4 +29,4 @@ rules:
   pluck: url
   regex: .*
   route:
-  - router.regexRouter.forbidden
+  - router.regex.forbidden

@@ -12,7 +12,7 @@
 
   c0client() {
     sleep 1
-    curl -s http://localhost:8888/test.txt 
+    curl -s http://localhost:8888/test.txt
     echo
     curl -s http://localhost:8888/private
     echo
@@ -29,4 +29,3 @@
   }
 
   c0client & c0run
-
