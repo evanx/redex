@@ -81,9 +81,12 @@ async function test() {
    }
 }
 
-test().then(() => {
-   console.info('test then OK');
-}, err => {
-   console.error('error:', err);
+function start() {
+   test().then(() => {
+      console.info('test then OK');
+   }, err => {
+      console.error('error:', err);
+   });
+}
 
-});
+start();
