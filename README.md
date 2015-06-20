@@ -32,12 +32,14 @@ sh scripts/test/all.sh
 
 If any test fails, try running again, as the system is warmer. These integration tests have sleeps for one or two seconds, which we assume is enough time for Redix to boot, but that might not always be the case.
 
-Alternatively `git clone` using `ssh:`
+To summarise:
 ```shell
 cd
-git clone git@github.com:evanx/redixrouter.git
+git clone https://github.com/evanx/redixrouter
 cd redixrouter
+cat package.json
 npm install
+sh scripts/test/cat.test.scripts.sh
 sh scripts/test/all.sh
 ```
 
@@ -45,6 +47,7 @@ See:
 - https://github.com/evanx/redixrouter/tree/master/scripts/test/auto
 - https://github.com/evanx/redixrouter/tree/master/scripts/test/cat.test.scripts.sh
 - https://github.com/evanx/redixrouter/tree/master/scripts/test/all.sh
+
 
 ### Static webserver
 
