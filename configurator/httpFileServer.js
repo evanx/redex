@@ -18,11 +18,11 @@ export default function createConfigs(config, redixConfig) {
       },
       {
          processorName: names.markdownRenderer,
-         description: "Translate markdown in 'http' message content"
+         description: "Translate markdown in http message content"
       },
       {
          processorName: names.httpTranslator,
-         description: "Translate ExpressJS 'http' message to 'file' message"
+         description: "Translate ExpressJS http message to file message"
       },
       {
          processorName: names.fileServer,

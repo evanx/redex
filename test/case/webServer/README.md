@@ -263,7 +263,7 @@ export default function(config) {
       },
       {
          processorName: names.translator,
-         description: "Translate ExpressJS 'http' message to 'file' message"
+         description: "Translate ExpressJS http message to file message"
       },
       {
          processorName: names.fileServer,

@@ -30,15 +30,32 @@ export default function markdown(config, redix) {
          assert.equal('express', meta.type, 'express message type');
          return redix.dispatch(message, meta, route).then(reply => {
             assert(meta, 'meta');
-            if (meta.type === 'http') {
+            if (meta.type === 'express') {
                assert(message.url, 'message url');
                assert(reply.contentType, 'reply contentType');
-               logger.info('renderer', reply.contentType);
-               if (lodash.endsWith(message.url, '.md')) {
+               logger.info('renderer', reply.contentType, meta.filePath);
+               if (lodash.endsWith(meta.filePath, '.md')) {
+                  if (reply.contentType == 'application/octet-stream') {
+                     logger.warn('reply contentType', reply.contentType);
+                     reply.contentType = 'text/plain';
+                  }
                   if (reply.contentType !== 'text/plain') {
                      logger.warn('reply contentType', reply.contentType);
                   } else {
-                     reply.content = marked(reply.content);
+                     try {
+                        logger.info('reply content type', typeof reply.content, reply.content.constructor.name);
+                        let content = reply.content.toString();
+                        reply.content = marked(content);
+                     } catch (e) {
+                        let lines = e.message.split('\n');
+                        if (lines.length) {
+                           logger.info(e.message);
+                           throw {message: 'marked error'};
+                        } else {
+                           throw e;
+                        }
+                     }
+                     reply.contentType = 'text/html';
                   }
                }
             } else {

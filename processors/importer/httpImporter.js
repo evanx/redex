@@ -49,7 +49,7 @@ export default function httpImporter(config, redix) { // trying processor constr
             } else {
                res.contentType(response.contentType);
                if (lodash.isString(response.content)) {
-                  logger.debug('string content:', response.statusCode, response.content);
+                  logger.debug('string content:', response.statusCode, typeof response.content);
                   res.send(response.content);
                } else {
                   res.send(response.content);

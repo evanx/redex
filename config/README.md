@@ -30,18 +30,18 @@ export default function(config) {
    return [
       {
          processorName: names.importer,
-         description: "Express web server to import HTTP requests",
+         description: 'Express web server to import HTTP requests',
          port: config.port || 8880,
          timeout: config.timeout || 2000,
          route: [ names.translator, names.fileServer ]
       },
       {
          processorName: names.translator,
-         description: "Translate ExpressJS 'http' message to 'file' message"
+         description: 'Translate ExpressJS http message to file message'
       },
       {
          processorName: names.fileServer,
-         description: "Serve files for a web server",
+         description: 'Serve files for a web server',
          root: config.root || '.',
          index: config.index || 'index.html',
       }

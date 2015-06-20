@@ -49,6 +49,7 @@ export default function expressFile(config, redix) {
          assert(reply.type === 'data', 'reply type not data');
          assert(reply.dataType === 'string', 'reply data type not string');
          logger.debug('process reply:', {type: reply.type, keys: Object.keys(reply)});
+         meta.filePath = transMessage.path;
          return {
             statusCode: 200,
             contentType: Paths.getContentType(path.extname(transMessage.path)),
