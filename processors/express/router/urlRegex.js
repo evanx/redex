@@ -32,7 +32,7 @@ export default function urlRegex(config) {
             throw {message: 'unsupported match: ' + rule.match};
          }
       } else if (rule.regex) {
-         logger.warn('rule regex', rule.regex, rule);
+         logger.debug('rule regex', rule.regex, rule);
          rule.regex = new RegExp(rule.regex);
       } else {
          throw {message: 'internal error'};
