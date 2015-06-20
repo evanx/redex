@@ -20,7 +20,7 @@ c0client() {
     url: https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty
     json: true
   ' > tmp/fileImporter/watched/$item.yaml
-  sleep 4
+  sleep 6
   ls -l tmp/fileImporter/reply/${item}*
   echo "grep Valleywag tmp/fileImporter/reply/${item}*"
   grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: OK"

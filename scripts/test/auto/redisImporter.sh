@@ -2,7 +2,7 @@
 cd ~/redixrouter || exit 1
 
 testName=redisImporter
- 
+
 mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 
@@ -34,7 +34,7 @@ c0client() {
   redis-cli llen redix:test:redishttp:reply
   echo "redis-cli lpush redix:test:redishttp:in '$message'"
   redis-cli lpush redix:test:redishttp:in "$message"
-  sleep 4
+  sleep 6
   echo 'redis-cli llen redix:test:redishttp:reply'
   redis-cli llen redix:test:redishttp:reply
   echo 'redis-cli lrange redix:test:redishttp:reply 0 -1'
