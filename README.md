@@ -75,11 +75,11 @@ Similarities:
 
 Differences:
 - Nginx is mature, powerful, stable and performant
-- Nginx is scriptable using Lua
 - Redix is immature, partially implemented, untested in production, buggy
+- Nginx is scriptable using Lua
+- Redix is extensible using JavaScript
 - Redix does not yet support HTTPS and many other features of Nginx
 - Redix uses YAML for configuration
-- Redix is extensible using JavaScript
 - Redix uses Redis for caching
 
 Notes:
