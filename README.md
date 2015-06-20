@@ -84,7 +84,18 @@ Differences:
 
 Notes:
 - Redix and Nginx can be used together e.g. where one proxies requests to the other
-- We intend to reduce the feature gap between Redix and Nginx 
+- We intend to reduce the feature gap between Redix and Nginx
+
+
+### Alternative: js-csp
+
+Analysis still required.
+
+
+### Alternative: node-csp
+
+Analysis still required.
+
 
 ## Road map
 
