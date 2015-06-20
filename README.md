@@ -3,10 +3,12 @@
 
 ## Usage
 
-To demonstrate a webserver, from its document root, run Redis as follows:
+To demonstrate a static web server, from the document root, run Redis as follows:
 ```shell
 nodejs ~/redixrouter/index.js http
 ```
+and then try `http://localhost:8880` in your browser.
+
 
 ### Installing
 
