@@ -10,7 +10,6 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-import Files from '../../lib/Files';
 import Paths from '../../lib/Paths';
 
 const { redix } = global;

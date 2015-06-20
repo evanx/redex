@@ -3,9 +3,9 @@
 
 ## Usage
 
-To demonstrate a static web server, from the document root, run Redis as follows:
+To demonstrate a static web server, from the document root, run Redix as follows:
 ```shell
-nodejs ~/redixrouter/index.js http
+nodejs ~/redixrouter/index.js http | bunyan -o short
 ```
 and then try `http://localhost:8880` in your browser.
 
@@ -22,6 +22,7 @@ cd; git clone https://github.com/evanx/redixrouter && (
 )
 ```
 which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redixrouter/node_modules/.`
+
 
 ### Running tests
 

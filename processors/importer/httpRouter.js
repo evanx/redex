@@ -10,7 +10,6 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-import Files from '../../lib/Files';
 import Paths from '../../lib/Paths';
 
 const { redix } = global;
@@ -21,7 +20,7 @@ export default function httpImporter(config, redix) {
    assert(config.timeout, 'timeout');
    assert(config.routes, 'routes');
 
-   var logger, app;
+   var logger;
    var seq = new Date().getTime();
 
    logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});

@@ -15,7 +15,7 @@ c0clear
 
   for script in cli.http.simple.sh
   do 
-    echo; echo -n "$script: "
+    echo; echo "$script: "
     sh scripts/test/auto/${script} 
     break
   done
@@ -26,7 +26,18 @@ c0clear
     name=`basename $script .sh` 
     out=tmp/test.${name}.out
     echo; echo -n "$name: "
-    sh ${script} | sed -e 1b -e '$!d' | tee $out
-    tail -1 $out | grep -q OK$ || echo "$name: FAILED"
+    if sh ${script} > $out 
+    then
+      echo "exit ok: ${script}"
+      if tail -1 $out | grep -q 'OK$'
+      then
+        cat $out | sed -e 1b -e '$!d' 
+      else 
+        echo "$name: FAILED"
+      fi
+    else
+      cat $out
+      break
+    fi
   done
 

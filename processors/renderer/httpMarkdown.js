@@ -6,16 +6,16 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 import path from 'path';
+import marked from 'marked';
 
 import Paths from '../../lib/Paths';
-import Files from '../../lib/Files';
 
 const { redix } = global;
 
-export default function expressFile(config, redix) {
+export default function httpMarkdown(config, redix) {
 
    var seq = new Date().getTime();
-   var logger;
+   var logger, app;
 
    logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
 
@@ -30,11 +30,9 @@ export default function expressFile(config, redix) {
          return { config, seq };
       },
       async process(message, meta, route) {
-         if (!meta.type) {
-            throw {message: 'No meta type'};
-         } else if (meta.type !== 'express') {
-            throw {message: 'Unsupported type: ' + meta.type};
-         }
+         assert(meta.type, 'message type');
+         assert.equal('express', meta.type, 'express message type');
+
          let transMessage = {
             path: message.url
          };
@@ -44,10 +42,9 @@ export default function expressFile(config, redix) {
             orig: meta
          };
          let reply = await redix.dispatch(transMessage, transMeta, route);
-         assert(reply, 'empty reply');
-         assert(reply.type, 'no reply type');
-         assert(reply.type === 'data', 'reply type not data');
-         assert(reply.dataType === 'string', 'reply data type not string');
+         assert(reply, 'reply');
+         assert.equal(reply.type, 'data', 'data reply type');
+         assert.equal(reply.dataType, 'string', 'string reply data');
          logger.debug('process reply:', {type: reply.type, keys: Object.keys(reply)});
          return {
             statusCode: 200,

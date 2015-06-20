@@ -11,22 +11,20 @@
   }
 
   c0client() {
-    sleep 1
-    curl -s http://localhost:8880/test.txt 
+    sleep 2
+    curl -s http://localhost:8880/test.txt
     echo
     curl -s http://localhost:8880/private
     echo
     sleep 1
     curl -s http://localhost:8880/test.html
     echo
-    sleep 4
+    sleep 1
     echo "curl -s localhost:8880/test.txt"
     curl -I -s localhost:8880/test.txt
     echo
     curl -s http://localhost:8880/test.txt && (echo; echo "$testName OK")
-    sleep 1
     rm -f $pidFile
   }
 
   c0client & c0run
-

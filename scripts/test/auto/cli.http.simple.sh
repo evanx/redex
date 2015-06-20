@@ -11,10 +11,9 @@ c0rm() {
   rm -f $pidFile
 }
 
-c0client() { 
+c0client() {
   sleep 2
-  echo 'test me' > test.txt 
-  echo curl -s http://localhost:8880/test.txt
+  echo 'test me' > test.txt
   curl -s http://localhost:8880/test.txt | grep 'test me' && echo "${testName} OK"
   c0rm
 }
@@ -25,4 +24,3 @@ c0server() {
 }
 
 c0client & c0server
-

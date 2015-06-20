@@ -6,14 +6,12 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-import Files from '../../lib/Files';
-
 const { redix } = global;
 
 export default function regexpRouter(config) {
 
    var seq = new Date().getTime();
-   var logger, app;
+   var logger;
 
    logger = bunyan.createLogger({name: config.processorName, level: 'info' || config.loggerLevel});
 
