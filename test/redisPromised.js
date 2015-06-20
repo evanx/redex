@@ -2,6 +2,9 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redixrouter/LICENSE
 
+// see alternative using async/await:
+// https://github.com/evanx/redixrouter/blob/master/test/redisPromisedAsync.js
+
 global.redixLoggerLevel = 'debug';
 
 import assert from 'assert';
