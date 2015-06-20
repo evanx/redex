@@ -3,7 +3,12 @@
 
 ## Usage
 
-### Running tests
+To demonstrate a webserver, from its document root, run Redis as follows:
+```shell
+nodejs ~/redixrouter/index.js http
+```
+
+### Installing
 
 On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
@@ -19,6 +24,8 @@ Install the dependencies via `npm:`
 ```shell
 npm install
 ```
+
+### Running tests
 
 You can inspect the test scripts as follows:
 ```shell
