@@ -25,13 +25,9 @@ async function empty() {
 
 async function key() {
    let key = 'redix:test:key';
-   logger.info('key', key);
    let delReply = await redis.del(key);
-   logger.info('delReply', delReply);
    let emptyValue = await redis.get(key);
-   logger.info('emptyValue', emptyValue);
    assert.equal(emptyValue, null);
-   logger.info('emptyValue', emptyValue);
    let value = await redis.set(key, 42);
    assert.equal(value, 'OK');
    logger.info('key', key, value);
@@ -39,9 +35,7 @@ async function key() {
 
 async function lpush() {
    let key = 'redix:test:list';
-   logger.info('tests:lpush', key);
    await redis.lpush(key, 42);
-   //await Promises.delay(1000);
    let value = await redis.lpop(key);
    assert.equal(value, 42);
    logger.info('lpush', key, value);
@@ -49,7 +43,6 @@ async function lpush() {
 
 async function rpush() {
    let key = 'redix:test:list';
-   logger.info('tests:lpush', key);
    await redis.rpush(key, 42);
    let value = await redis.rpop(key);
    assert.equal(value, 42);
