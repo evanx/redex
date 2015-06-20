@@ -57,7 +57,7 @@ We wish to leverage ES7, Node and Redis because:
 ## Alternatives
 
 The core functionality of Redix is quite trivial:
-- enable the configuration of multiple "processor" instances
+- enable the configuration of multiple "processor" instances (as components of a system)
 - enable sequential message-passing between processors
 
 
