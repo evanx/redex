@@ -8,7 +8,7 @@ import lodash from 'lodash';
 
 const { redex } = global;
 
-export default function urlRegexp(config) {
+export default function urlRegex(config) {
 
    var seq = new Date().getTime();
    var logger;
