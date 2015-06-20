@@ -53,8 +53,11 @@ We wish to leverage ES7, Node and Redis because:
 - ES7 sugars the synchronisation of async coroutines via the "await" keyword
 - ES7 sugars the error handling of chained promises via exceptions
 
-Someone else might want to re-implement something similar in Go, Rust or D, to eke out more performance. I think that would be a great idea. Still, having a Node "reference implementation" is useful, at least for JavaScript developers.
+The core design is simple:
+- enable the configuration of multiple "processor" instances
+- enable sequential message-passing between processors
 
+Someone else might want to re-implement something similar in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation is useful, at least for JavaScript developers. We have chosen ES7 (via Babel), and might wish to extend with TypeScript. Other implementations that transpile to JavaScript would also be interesting, e.g. CoffeeScript, ClojureScript, et al. If you have something similar, please let me know - I should list, compare and contrast with other options.
 
 ## Road map
 
