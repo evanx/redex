@@ -1,5 +1,7 @@
 
-cd /tmp 
+mkdir -p ~/tmp/redix
+
+cd ~/tmp/redix || exit 1
 
 testName=cli.http
 

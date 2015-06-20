@@ -11,5 +11,7 @@ fi
 
 echo "nodejs ~/redixrouter/index.js http | bunyan -o short"
 
+(sleep 2; echo "$0: Should be serving files by now on port 8880 from pwd:" `pwd`) & 
+
 nodejs ~/redixrouter/index.js http | bunyan -o short
 
