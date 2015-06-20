@@ -35,20 +35,9 @@ You can inspect the test scripts as follows:
 sh scripts/test/cat.test.scripts.sh
 ```
 
-Finally, if all looks OK:
+Run the tests as follows:
 ```shell
 sh scripts/test/all.sh
-```
-
-To summarise:
-```shell
-cd
-git clone https://github.com/evanx/redex
-cd redex
-cat package.json
-npm install
-sh scripts/test/cat.test.scripts.sh
-sh -x scripts/test/all.sh
 ```
 
 If any test fails, try running again, as the system is warmer. These integration tests have low timeouts which are not always sufficient.
