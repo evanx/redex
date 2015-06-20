@@ -1,5 +1,9 @@
 
-cd ~/redex
+if ! cd ~/redex
+then
+  echo "No ~/redex"
+  exit 1
+fi
 
 mkdir -p tmp
 
