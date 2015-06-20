@@ -43,13 +43,13 @@ Implemented as incomplete PoC:
 - static web server (http importer, regexp router, file server)
 
 Current work:
-- HTTP response caching
+- HTTP response caching in Redis
 - HTTP proxy
-- Routing HTTP importer (combination of ExpressJS importer and router)
+- HTTP importer/router (combination ExpressJS importer with builtin router)
 
 Next work:
-- fanout dispatcher (for parallel pipelines)
 - redis query server with joins
+- fanout dispatcher (for parallel pipelines)
 
 July 2015 - PoC:
 - basic processors for HTTP and Redis queues
