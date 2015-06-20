@@ -23,6 +23,8 @@ cd; git clone https://github.com/evanx/redex && (
 ```
 which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redex/node_modules/.`
 
+Then try the usage described further above i.e. `nodejs index.js http,` or run tests.
+
 
 ### Running tests
 
