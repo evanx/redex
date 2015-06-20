@@ -26,6 +26,6 @@
   },
   "devDependencies": {
     "mocha": "^2.2.5",
-    "mocha-babel": "^3.0.0",
+    "mocha-babel": "^3.0.0"
   }
 }

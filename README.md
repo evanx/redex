@@ -14,12 +14,14 @@ and then try `http://localhost:8880` in your browser.
 
 On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
-cd; git clone https://github.com/evanx/redex && (
+cd;
+if git clone https://github.com/evanx/redex
+then
   cd redex
   cat package.json
   npm install
   cat scripts/test/cat.test.scripts.sh
-)
+fi
 ```
 which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redex/node_modules/.`
 
