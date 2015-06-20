@@ -22,11 +22,24 @@ Goals:
 - stateless processors, otherwise explicit state mutation via Redis
 
 
-## Problem & Solution
+## Problem/Solution
 
-We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
+Problem: We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
-In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
+Solution: In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
+
+
+## Cost/Benefit
+
+Benefit:
+- enables building custom infrastructure via the configuration and composition of ready-made processors
+
+Cost:
+- configuration is less flexible than code
+- configuration is required for each processor in a required processing pattern
+
+Cost mitigation:
+- "configurators" can automate the configuration of individual processors
 
 
 ## Rationale
