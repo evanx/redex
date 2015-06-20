@@ -17,15 +17,11 @@ On Ubuntu, run the following commands to git clone, npm install, and then run te
 cd; git clone https://github.com/evanx/redixrouter && (
   cd redixrouter
   cat package.json
+  npm install
   cat scripts/test/cat.test.scripts.sh
 )
 ```
 which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redixrouter/node_modules/.`
-
-Install the dependencies via `npm:`
-```shell
-npm install
-```
 
 ### Running tests
 

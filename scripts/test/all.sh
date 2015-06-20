@@ -12,13 +12,21 @@ c0clear() {
 }
 
 c0clear
-ls -l scripts/test/auto/*.sh
-for script in `ls scripts/test/auto/*.sh`
-do 
-  name=`basename $script .sh` 
-  out=tmp/test.${name}.out
-  echo; echo -n "$name: "
-  sh ${script} | sed -e 1b -e '$!d' | tee $out
-  tail -1 $out | grep -q OK$ || echo "$name: FAILED"
-done
+
+  for script in cli.http.simple.sh
+  do 
+    echo; echo -n "$script: "
+    sh scripts/test/auto/${script} 
+    break
+  done
+
+  ls -l scripts/test/auto/*.sh
+  for script in `ls scripts/test/auto/*.sh`
+  do 
+    name=`basename $script .sh` 
+    out=tmp/test.${name}.out
+    echo; echo -n "$name: "
+    sh ${script} | sed -e 1b -e '$!d' | tee $out
+    tail -1 $out | grep -q OK$ || echo "$name: FAILED"
+  done
 
