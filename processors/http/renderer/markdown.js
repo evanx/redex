@@ -33,7 +33,7 @@ export default function markdown(config, redix) {
             if (meta.type === 'express') {
                assert(message.url, 'message url');
                assert(reply.contentType, 'reply contentType');
-               logger.info('renderer', reply.contentType, meta.filePath);
+               logger.debug('renderer', reply.contentType, meta.filePath);
                if (lodash.endsWith(meta.filePath, '.md')) {
                   if (reply.contentType == 'application/octet-stream') {
                      logger.warn('reply contentType', reply.contentType);
@@ -43,7 +43,7 @@ export default function markdown(config, redix) {
                      logger.warn('reply contentType', reply.contentType);
                   } else {
                      try {
-                        logger.info('reply content type', typeof reply.content, reply.content.constructor.name);
+                        logger.debug('reply content type', typeof reply.content, reply.content.constructor.name);
                         let content = reply.content.toString();
                         reply.content = marked(content);
                      } catch (e) {
