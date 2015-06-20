@@ -13,7 +13,7 @@ cd; git clone https://github.com/evanx/redixrouter && (
   cat scripts/test/cat.test.scripts.sh
 )
 ```
-which will clone the github repo into your home directory, and show the dependent modules that will be installed into `redixrouter/node_modules/.`
+which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redixrouter/node_modules/.`
 
 Install the dependencies via `npm:`
 ```shell
@@ -65,8 +65,6 @@ Note that you can try to invoke Redix with `http` command-line argument in any s
 
 See
 - https://github.com/evanx/redixrouter/blob/master/scripts/test/auto/cli.http.simple.sh
-
-
 
 
 ## Overview
