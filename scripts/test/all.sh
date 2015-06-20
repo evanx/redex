@@ -1,6 +1,8 @@
 
 cd ~/redixrouter
 
+mkdir -p tmp 
+
 c0clear() {
   for key in `redis-cli keys 'redix:test:*'`
   do
