@@ -5,5 +5,6 @@ rules:
   pluck: host
   regex: ^localhost$
   route:
+  - http.renderer.markdown.singleton
   - translator.expressFile.singleton
   - server.fileServer.singleton

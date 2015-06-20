@@ -18,10 +18,10 @@ export default function regex(config) {
    init();
 
    function init() {
-      logger.info('start', config);
       assert(config.rules, 'config: rules');
       assert(config.rules.length, 'config: rules length');
       config.rules.forEach(initRule);
+      logger.info('start', config.rules.map(rule => rule.description));
    }
 
    function initRule(rule) {
@@ -36,7 +36,7 @@ export default function regex(config) {
          if (!rule.pluck) {
             rule.pluck = config.pluck;
          }
-         logger.warn('rule regex', rule.regex, rule.pluck);
+         logger.debug('rule regex', rule.regex, rule.pluck);
          rule.regex = new RegExp(rule.regex);
       } else {
          throw {message: 'internal error'};

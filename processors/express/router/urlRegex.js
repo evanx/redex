@@ -18,10 +18,10 @@ export default function urlRegex(config) {
    init();
 
    function init() {
-      logger.info('start', config);
       assert(config.rules, 'config: rules');
       assert(config.rules.length, 'config: rules length');
       config.rules.forEach(initRule);
+      logger.info('start', config.rules.map(rule => rule.description));
    }
 
    function initRule(rule) {
