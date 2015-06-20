@@ -30,8 +30,6 @@ Finally, if all looks OK:
 sh scripts/test/all.sh
 ```
 
-If any test fails, try running again, as the system is warmer. These integration tests have sleeps for one or two seconds, which we assume is enough time for Redix to boot, but that might not always be the case.
-
 To summarise:
 ```shell
 cd
@@ -42,6 +40,8 @@ npm install
 sh scripts/test/cat.test.scripts.sh
 sh scripts/test/all.sh
 ```
+
+If any test fails, try running again, as the system is warmer. These integration tests have sleeps for one or two seconds, which we assume is enough time for Redix to boot, but that might not always be the case.
 
 See:
 - https://github.com/evanx/redixrouter/tree/master/scripts/test/auto
