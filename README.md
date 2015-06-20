@@ -41,6 +41,7 @@ Cost:
 - configuration is required for each processor in a required processing pattern
 
 Cost mitigation:
+- custom processors can be implemented
 - "configurators" can automate the configuration of individual processors
 
 
