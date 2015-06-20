@@ -32,41 +32,24 @@ export default function urlRegexp(config) {
             throw {message: 'unsupported match: ' + rule.match};
          }
       } else if (rule.regex) {
-         assert(rule.pluck || config.pluck, 'no pluck for: ' + rule.description);
-         if (!rule.pluck) {
-            rule.pluck = config.pluck;
-         }
-         logger.warn('rule regex', rule.regex, rule.pluck);
+         logger.warn('rule regex', rule.regex, rule);
          rule.regex = new RegExp(rule.regex);
       } else {
          throw {message: 'internal error'};
       }
    }
 
-   function match(message) {
+   function matchUrl(message) {
       logger.debug('match', config.rules.length);
       return lodash.find(config.rules, rule => {
          logger.debug('match rule', rule.description, rule.hasOwnProperty('regex'), rule.regex);
          if (rule.match === 'all') {
-            logger.debug('match all');
             return true;
-         } else if (rule.pluck && rule.hasOwnProperty('regex')) {
-            assert(lodash.isObject(message), 'pluck message object');
-            if (message.hasOwnProperty(rule.pluck)) {
-               let value = message[rule.pluck];
-               if (value === null) {
-                  logger.debug('regex pluck null');
-                  return false;
-               } else {
-                  logger.debug('regex', value, rule.regex.test(value));
-                  return rule.regex.test(value);
-               }
-            } else {
-               logger.debug('no regex pluck', rule.pluck);
-               return rule.regex.test(value);
-            }
+         } else if (rule.regex) { {
+            let value = message.url;
+            return rule.regex.test(value);
          } else {
-            logger.debug('match none', rule);
+            logger.warn('match none', rule);
             return false;
          }
       });
@@ -92,18 +75,10 @@ export default function urlRegexp(config) {
                };
             }
          }
-         if (config.pluck && message[config.pluck]) {
-            let plucked = message[config.pluck];
-            throw {
-               message: 'no route for: ' + plucked,
-               source: config.processorName
-            };
-         } else {
-            throw {
-               message: 'no route',
-               source: config.processorName
-            };
-         }
+         throw {
+            message: 'no route',
+            source: config.processorName
+         };
       }
    };
 
