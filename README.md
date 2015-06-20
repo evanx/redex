@@ -57,7 +57,7 @@ The core design is simple:
 - enable the configuration of multiple "processor" instances
 - enable sequential message-passing between processors
 
-Someone else might want to re-implement something similar in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation is useful, at least for JavaScript developers. We have chosen ES7 (via Babel), and might extend with TypeScript in future. Other implementations that transpile to JavaScript would also be interesting, e.g. CoffeeScript, ClojureScript, et al. If you have something similar, please let me know, as I should list other options, and compare and contrast.
+Someone else might want to re-implement something similar in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation is useful, at least for JavaScript developers. We have chosen ES7 (via Babel), and might extend with TypeScript in future. Other implementations that transpile to JavaScript would also be interesting, e.g. CoffeeScript, ClojureScript, et al. If you have something similar, please let me know. I should list alternatives, and compare and contrast.
 
 
 ## Road map
