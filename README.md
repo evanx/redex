@@ -8,6 +8,7 @@ Redix is a tool for:
 - orchestration of microservices
 
 Redix is a Node framework for:
+- communicating sequential processors (CSP)
 - reliable messaging through Redis queues
 - building resilient web infrastructure
 - custom messaging middleware
@@ -21,7 +22,7 @@ Goals:
 - stateless processors, otherwise explicit state mutation via Redis
 
 
-## Solution
+## Problem & Solution
 
 We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
@@ -34,7 +35,7 @@ We wish to leverage ES7, Node and Redis because:
 - Redis is a high-performance server for persistent data structures
 - Node is a popular platform for building asynchronous infrastructure
 - ES7 sugars the synchronisation of async coroutines via the "await" keyword
-- ES7 sugars the error handling of chained promises via exceptions 
+- ES7 sugars the error handling of chained promises via exceptions
 
 Someone else might want to re-implement something similar in Go, Rust or D, to eke out more performance. I think that would be a great idea. Still, having a Node "reference implementation" is useful, at least for JavaScript developers.
 
