@@ -1,6 +1,45 @@
 
 # Redix Router
 
+## Usage
+
+### Running tests
+
+```shell
+cd
+rm -rf redixrouter
+git clone https://github.com/evanx/redixrouter
+cd redixrouter
+cat package.json
+npm install
+cat scripts/test/cat.test.scripts.sh
+sh scripts/test/cat.test.scripts.sh
+sh scripts/test/all.sh
+```
+
+See:
+- https://github.com/evanx/redixrouter/tree/master/scripts/test/auto
+- https://github.com/evanx/redixrouter/tree/master/scripts/test/cat.test.scripts.sh
+- https://github.com/evanx/redixrouter/tree/master/scripts/test/all.sh
+
+### Static webserver
+
+As per the CLI static webserver test:
+```shell
+echo 'test me' > test.txt
+curl -s http://localhost:8880/test.txt
+nodejs ~/redixrouter/index.js http
+```
+and then try `http://localhost:8880` in your browser.
+
+See
+- https://github.com/evanx/redixrouter/blob/master/scripts/test/auto/cli.http.txt.sh
+
+
+
+
+## Overview
+
 The name "Redix" can be interpreted as "Redis-based message eXchange."
 
 Redix is a tool for:
