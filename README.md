@@ -66,6 +66,24 @@ We have chosen ES7 (via Babel), and might extend with TypeScript in future. Othe
 
 If you have something alternative please let me know. I should list, compare and contrast alternatives.
 
+### Alternative: Nginx 
+
+Similarities:
+- Redix can perform the same function as Nginx for some limited use-cases
+- Both can be used to build a static webserver, proxy server
+- Both support caching
+
+Differences:
+- Nginx is mature, powerful, stable and performant
+- Nginx is scriptable using Lua
+- Redix is immature, partially implemented, untested in production, buggy
+- Redix does not yet support HTTPS and many other features of Nginx
+- Redix uses YAML for configuration
+- Redix is extensible using JavaScript
+- Redix uses Redis for caching
+
+Notes:
+- Redix and Nginx can be used together e.g. where one proxies requests to the other
 
 ## Road map
 
