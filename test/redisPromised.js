@@ -16,8 +16,6 @@ const redis = new Redis();
 
 const redisClient = redis.client;
 
-logger.info('redis', Object.keys(redis));
-
 var tests = {
    key(cb) {
       let key = 'redix:test:key';
@@ -151,8 +149,7 @@ function done(err, replies) {
 }
 
 function test() {
-   logger.info('redis commands:', Object.keys(redis));
-   logger.info('tests:', Object.keys(tests));
+   console.info('tests:', Object.keys(tests).join(', '));
    let array = Object.keys(tests).map(name => tests[name]);
    async.series(array, done);
 }

@@ -10,11 +10,13 @@ c0clear() {
 }
 
 c0clear
-for test in redisDispatcher fileImporter redisImporter redisPromised redisPromisedAsync webServer config.webServer
+ls -l scripts/test/auto/*.sh
+for script in `ls scripts/test/auto/*.sh`
 do 
-  out=tmp/test.${test}.out
-  echo; echo -n "$test: "
-  sh scripts/test/${test}.sh | sed -e 1b -e '$!d' | tee $out
-  tail -1 $out | grep -q OK$ || echo "$test: FAILED"
+  name=`basename $script .sh` 
+  out=tmp/test.${name}.out
+  echo; echo -n "$name: "
+  sh ${script} | sed -e 1b -e '$!d' | tee $out
+  tail -1 $out | grep -q OK$ || echo "$name: FAILED"
 done
 

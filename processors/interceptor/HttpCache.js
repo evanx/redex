@@ -6,10 +6,15 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
-export default class DurationMonitor {
+import Redis from '../lib/Redis';
+
+export default class HttpCache {
 
    constructor(config) {
       this.config = config;
+      assert(config.redisKey, 'redisKey');
+      assert(config.expiry, 'expiry');
+      this.redis = new Redis();
       this.logger = bunyan.createLogger({
         name: config.processorName,
         level: global.redixLoggerLevel
@@ -17,26 +22,14 @@ export default class DurationMonitor {
       this.start();
    }
 
+
    start() {
      this.logger.info('started');
    }
 
-   formatDuration(millis) {
-     if (millis > 1000) {
-       let seconds = millis/1000;
-       return '' + seconds.toFixed(3) + 's';
-     } else {
-       return util.format('%dms', millis);
-     }
-   }
-
    async process(message, meta, route) {
-      this.count += 1;
-      let time = new Date().getTime();
       return redix.dispatch(message, meta, route).then(reply => {
-         let replyTime = new Date().getTime();
-         let duration = replyTime - time;
-         this.logger.debug('duration:', this.formatDuration(duration), meta.messageId);
+
          return reply;
       });
    }
