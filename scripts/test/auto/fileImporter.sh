@@ -5,7 +5,7 @@ mkdir -p tmp/fileImporter/reply
 testName=fileImporter
 
 export baseDir=test/case/httpRequest
-export pidFile=tmp/redix.$testName.pid
+export pidFile=tmp/redex.$testName.pid
 
 c0run() {
   nodejs index.js | bunyan -o short

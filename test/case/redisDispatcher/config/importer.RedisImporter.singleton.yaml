@@ -1,10 +1,10 @@
 
 description: Import a message from a Redis queue
 queue:
-  in: redix:test:dispatcher:in # the redis key for the incoming queue
-  reply: redix:test:dispatcher:reply # the redis key for reply reque
-  pending: redix:test:dispatcher:pending # the queue for pending requests
-  error: redix:test:dispatcher:error # to recover failed messages
+  in: redex:test:dispatcher:in # the redis key for the incoming queue
+  reply: redex:test:dispatcher:reply # the redis key for reply reque
+  pending: redex:test:dispatcher:pending # the queue for pending requests
+  error: redex:test:dispatcher:error # to recover failed messages
 json: false
 timeout: 8000 # ms
 route:

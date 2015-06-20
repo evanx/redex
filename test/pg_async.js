@@ -1,6 +1,6 @@
 
 let pg = require('pg-then');
-let pgUrl = "postgres://redix:redix@localhost:5432/redix";
+let pgUrl = "postgres://redex:redex@localhost:5432/redex";
 let client = pg.Client(pgUrl);
 
 function printRow(row) {

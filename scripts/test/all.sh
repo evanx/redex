@@ -1,10 +1,10 @@
 
-cd ~/redixrouter
+cd ~/redexrouter
 
 mkdir -p tmp
 
 c0clear() {
-  for key in `redis-cli keys 'redix:test:*'`
+  for key in `redis-cli keys 'redex:test:*'`
   do
     echo; echo "### redis-cli del '$key'"
     redis-cli del "$key"

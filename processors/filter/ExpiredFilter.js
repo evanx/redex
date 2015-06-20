@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';
@@ -12,7 +12,7 @@ export default class ExpiredFilter {
       this.config = config;
       this.logger = bunyan.createLogger({
         name: config.processorName,
-        level: global.redixLoggerLevel
+        level: global.redexLoggerLevel
       });
       this.start();
    }
@@ -36,7 +36,7 @@ export default class ExpiredFilter {
       if (meta.expires) {
         assert(meta.expires > time, 'Expired message');
       }
-      return redix.dispatch(message, meta, route).then(reply => {
+      return redex.dispatch(message, meta, route).then(reply => {
          let replyTime = new Date().getTime();
          let duration = replyTime - time;
          this.logger.debug('promise duration:', this.formatDuration(duration));

@@ -9,7 +9,7 @@ then
   exit 1
 fi
 
-echo "nodejs ~/redixrouter/index.js $@ | bunyan -o short"
+echo "nodejs ~/redexrouter/index.js $@ | bunyan -o short"
 
-  nodejs ~/redixrouter/index.js $@ | bunyan -o short
+  nodejs ~/redexrouter/index.js $@ | bunyan -o short
 

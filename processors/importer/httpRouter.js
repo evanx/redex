@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import fs from 'fs';
@@ -12,9 +12,9 @@ import express from 'express';
 
 import Paths from '../../lib/Paths';
 
-const { redix } = global;
+const { redex } = global;
 
-export default function httpImporter(config, redix) {
+export default function httpImporter(config, redex) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
@@ -35,7 +35,7 @@ export default function httpImporter(config, redix) {
       try {
          seq += 1;
          let meta = {type: 'express', id: seq, host: req.hostname};
-         let response = await redix.import(req, meta, config);
+         let response = await redex.import(req, meta, config);
          assert(response, 'no response');
          assert(response.statusCode, 'no statusCode');
          res.status(response.statusCode);

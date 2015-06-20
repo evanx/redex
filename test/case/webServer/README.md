@@ -28,7 +28,7 @@ app.get('/*', async (req, res) => {
    try {
       seq += 1;
       let meta = {type: 'express', id: seq};
-      let response = await redix.import(req, meta, config);
+      let response = await redex.import(req, meta, config);
       assert(response, 'no response');
       assert(response.statusCode, 'no statusCode');
 ```
@@ -106,7 +106,7 @@ async process(message, meta) {
    let rule = match(message);
    if (rule) {
       if (rule.route) {
-         return redix.forward(message, meta, config, rule.route);
+         return redex.forward(message, meta, config, rule.route);
       } else if (rule.response) {
          return rule.response;
       } else {
@@ -140,7 +140,7 @@ Note that this router is generic, and reusable for purposes other than HTTP requ
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
 description: Serve files e.g. for a web server
-root: /var/redixweb/root
+root: /var/redexweb/root
 index: index.html
 fallback: index.html
 ```
@@ -192,7 +192,7 @@ async process(message, meta, route) {
       translator: config.processorName,
       orig: meta
    };
-   let reply = await redix.dispatch(transMessage, transMeta, route);
+   let reply = await redex.dispatch(transMessage, transMeta, route);
    assert(reply, 'empty reply');
    assert(reply.type, 'no reply type');
    assert(reply.type === 'data', 'reply type is not data: ' + reply.type);
@@ -233,14 +233,14 @@ We configure an `httpFileServer.default` pattern as follows:
 description: static web server meta configuration for httpFileServer configurator
 loggerLevel: debug
 port: 8880
-root: /var/redixweb/root
+root: /var/redexweb/root
 timeout: 2000
 ```
 
 Configurators automate the configuration of a specific pattern of processors as a whole.
 
 See the implementation for a configurator for a static web server:
-- https://github.com/evanx/redixrouter/blob/master/configurators/httpFileServer.js
+- https://github.com/evanx/redexrouter/blob/master/configurators/httpFileServer.js
 
 
 #### Implementation of HTTP file server configurator
@@ -342,10 +342,10 @@ Publish notifications:
 ## Learn more
 
 Configuration files for this static web server example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/webServer/config
+- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/config
 
-Redix processor implementations:
-- https://github.com/evanx/redixrouter/tree/master/processors/
+Redex processor implementations:
+- https://github.com/evanx/redexrouter/tree/master/processors/
 
-Redix routing:
-- https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
+Redex routing:
+- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md

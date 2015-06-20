@@ -1,11 +1,11 @@
 
-# Redix Router
+# Redex Router
 
 ## Usage
 
-To demonstrate a static web server, from the document root, run Redix as follows:
+To demonstrate a static web server, from the document root, run Redex as follows:
 ```shell
-nodejs ~/redixrouter/index.js http | bunyan -o short
+nodejs ~/redexrouter/index.js http | bunyan -o short
 ```
 and then try `http://localhost:8880` in your browser.
 
@@ -14,14 +14,14 @@ and then try `http://localhost:8880` in your browser.
 
 On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
-cd; git clone https://github.com/evanx/redixrouter && (
-  cd redixrouter
+cd; git clone https://github.com/evanx/redexrouter && (
+  cd redexrouter
   cat package.json
   npm install
   cat scripts/test/cat.test.scripts.sh
 )
 ```
-which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redixrouter/node_modules/.`
+which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redexrouter/node_modules/.`
 
 
 ### Running tests
@@ -39,8 +39,8 @@ sh scripts/test/all.sh
 To summarise:
 ```shell
 cd
-git clone https://github.com/evanx/redixrouter
-cd redixrouter
+git clone https://github.com/evanx/redexrouter
+cd redexrouter
 cat package.json
 npm install
 sh scripts/test/cat.test.scripts.sh
@@ -50,38 +50,38 @@ sh -x scripts/test/all.sh
 If any test fails, try running again, as the system is warmer. These integration tests have low timeouts which are not always sufficient.
 
 See:
-- https://github.com/evanx/redixrouter/tree/master/scripts/test/auto
-- https://github.com/evanx/redixrouter/tree/master/scripts/test/cat.test.scripts.sh
-- https://github.com/evanx/redixrouter/tree/master/scripts/test/all.sh
+- https://github.com/evanx/redexrouter/tree/master/scripts/test/auto
+- https://github.com/evanx/redexrouter/tree/master/scripts/test/cat.test.scripts.sh
+- https://github.com/evanx/redexrouter/tree/master/scripts/test/all.sh
 
 
 ### Static webserver
 
 As per the CLI static webserver test:
 ```shell
-mkdir -p ~/tmp/redix
-cd ~/tmp/redix
+mkdir -p ~/tmp/redex
+cd ~/tmp/redex
 echo 'test me' > test.txt
 curl -s http://localhost:8880/test.txt
-nodejs ~/redixrouter/index.js http
+nodejs ~/redexrouter/index.js http
 ```
 and then try `http://localhost:8880` in your browser.
 
-Note that you can try to invoke Redix with `http` command-line argument in any subdirectory which you wish to serve.
+Note that you can try to invoke Redex with `http` command-line argument in any subdirectory which you wish to serve.
 
 See
-- https://github.com/evanx/redixrouter/blob/master/scripts/test/auto/cli.http.simple.sh
+- https://github.com/evanx/redexrouter/blob/master/scripts/test/auto/cli.http.simple.sh
 
 
 ## Overview
 
-The name "Redix" can be interpreted as "Redis-based message eXchange."
+The name "Redex" can be interpreted as "Redis-based message eXchange."
 
-Redix is a tool for:
+Redex is a tool for:
 - systems integration
 - orchestration of microservices
 
-Redix is a Node framework for:
+Redex is a Node framework for:
 - communicating sequential processors (CSP)
 - reliable messaging through Redis queues
 - building resilient web infrastructure
@@ -102,7 +102,7 @@ Problem:
 - We wish to decouple our systems and microservices and enable their collaboration through messaging e.g. via HTTP, Redis queues, etc.
 
 Solution:
-- In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redix.
+- In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redex.
 
 
 ## Cost/Benefit
@@ -130,7 +130,7 @@ We wish to leverage ES7, Node and Redis because:
 
 ## Alternatives
 
-The core functionality of Redix is quite trivial:
+The core functionality of Redex is quite trivial:
 - enable the configuration of multiple "processor" instances (as components of a system)
 - enable sequential message-passing between processors
 
@@ -144,24 +144,24 @@ If you have something alternative please let me know. I should list, compare and
 ### Alternative: Nginx
 
 Similarities:
-- Redix can perform the same function as Nginx for some limited use-cases
+- Redex can perform the same function as Nginx for some limited use-cases
 - Both can be used to build a static webserver, proxy server
 - Both support caching
 
 Differences:
 - Nginx is mature, powerful, stable and performant
-- Redix leverages ExpressJS
-- Redix itself is pre-alpha i.e. not ready for production
+- Redex leverages ExpressJS
+- Redex itself is pre-alpha i.e. not ready for production
 - Nginx is scriptable using Lua
-- Redix is extensible using JavaScript
-- Redix does not yet support HTTPS and many other features of Nginx
-- Redix uses YAML for configuration
-- Redix uses Redis for caching
+- Redex is extensible using JavaScript
+- Redex does not yet support HTTPS and many other features of Nginx
+- Redex uses YAML for configuration
+- Redex uses Redis for caching
 
 Notes:
-- Redix and Nginx can be used together e.g. where one proxies requests to the other
-- We intend to reduce the feature gap between Redix and Nginx
-- Redix itself is simple, as it leverages ExpressJS and Redis
+- Redex and Nginx can be used together e.g. where one proxies requests to the other
+- We intend to reduce the feature gap between Redex and Nginx
+- Redex itself is simple, as it leverages ExpressJS and Redis
 
 ### Alternative: js-csp
 
@@ -230,16 +230,16 @@ Unscheduled:
 
 We use Redis message queues to avoid concurrent operations.
 
-Application microservices, and Redix processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
+Application microservices, and Redex processors, are ideally message-passing "actors" and otherwise use Redis transactions to access "shared memory" in Redis.
 
 We note that Node itself is designed to be "asynchronous infrastructure for concurrent apps," driven by a single-threaded event loop.
 
 
 ## Processors
 
-A Redix instance is composed with collaborating "processors."
+A Redex instance is composed with collaborating "processors."
 
-A Redix "processor" is a configurable component that processes messages for routing purposes.
+A Redex "processor" is a configurable component that processes messages for routing purposes.
 
 Example classifications:
 - importer: import a message from an "external" source e.g. a Redis queue
@@ -263,12 +263,12 @@ We compose basic processors to implement this process as follows:
 - a fan-out processor to multiple exporters
 - each exporter pushes to its "consumer queue"
 
-Assuming the required processors are available in the Redix deployment, this approach then enables assembling such plumbing via runtime configuration. Hence we consider Redix as "duct-tape" for our application microservices.
+Assuming the required processors are available in the Redex deployment, this approach then enables assembling such plumbing via runtime configuration. Hence we consider Redex as "duct-tape" for our application microservices.
 
 
 ## Configuration
 
-Each processor is configured via a YAML file in the Redix `config` directory. (Such configuration should be managed using a private git repository, for versioning, with Redix as a dependency.)
+Each processor is configured via a YAML file in the Redex `config` directory. (Such configuration should be managed using a private git repository, for versioning, with Redex as a dependency.)
 
 The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/importer.FileImporter.singleton.json.`
 
@@ -277,18 +277,18 @@ The class for the above processor is resolved as `lib/importer/FileImporter.js.`
 
 The distinguishing name enables multiple instances of the same processor class, configured for different purposes. Otherwise we name the instance as `singleton.`
 
-The "module" name enables custom and third-party processors e.g. a `myredix/FancyProcessor` where `myredix` is an `npm` module which exports a `FancyProcessor` class.
+The "module" name enables custom and third-party processors e.g. a `myredex/FancyProcessor` where `myredex` is an `npm` module which exports a `FancyProcessor` class.
 
 We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json,` to enable instances to be dynamically created by so messaging the factory.
 
 
 ## Learn more
 
-Redix routing:
-- https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
+Redex routing:
+- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md
 
 HTTP request example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/httpRequest/
+- https://github.com/evanx/redexrouter/tree/master/test/case/httpRequest/
 
 Static web server example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/webServer/
+- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/

@@ -1,7 +1,7 @@
 
 description: Export a message to a Redis queue
 queue:
-  in: redix:test:exporter:in # the redis key for the incoming queue (list)
-  out: redix:test:exporter:out # the redis queue for replies
+  in: redex:test:exporter:in # the redis key for the incoming queue (list)
+  out: redex:test:exporter:out # the redis queue for replies
 route:
 - RedisExporter.singleton

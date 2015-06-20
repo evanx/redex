@@ -1,4 +1,4 @@
 
 
-  nodejs ~/redixrouter/index.js http $@ | bunyan -o short
+  nodejs ~/redexrouter/index.js http $@ | bunyan -o short
 

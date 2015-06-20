@@ -1,7 +1,7 @@
 
 var pg = require('pg');
 
-var conString = "postgres://redix:redix@localhost:5432/redix";
+var conString = "postgres://redex:redex@localhost:5432/redex";
 
 var client = new pg.Client(conString);
 

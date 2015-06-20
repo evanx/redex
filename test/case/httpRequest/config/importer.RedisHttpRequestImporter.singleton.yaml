@@ -1,10 +1,10 @@
 
 description: Import an HTTP request message from a Redis queue
 queue:
-  in: redix:test:redishttp:in # the redis key for the incoming queue (list)
-  reply: redix:test:redishttp:reply # the redis queue for replies
-  pending: redix:test:redishttp:pending # the internal redis queue for pending requests
-  error: redix:test:redishttp:error # to recover failed messages
+  in: redex:test:redishttp:in # the redis key for the incoming queue (list)
+  reply: redex:test:redishttp:reply # the redis queue for replies
+  pending: redex:test:redishttp:pending # the internal redis queue for pending requests
+  error: redex:test:redishttp:error # to recover failed messages
 timeout: 8000 # ms
 route:
 - filter.ExpiredFilter.singleton

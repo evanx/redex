@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';
@@ -10,9 +10,9 @@ import marked from 'marked';
 
 import Paths from '../../lib/Paths';
 
-const { redix } = global;
+const { redex } = global;
 
-export default function httpMarkdown(config, redix) {
+export default function httpMarkdown(config, redex) {
 
    var seq = new Date().getTime();
    var logger, app;
@@ -41,7 +41,7 @@ export default function httpMarkdown(config, redix) {
             type: 'file',
             orig: meta
          };
-         let reply = await redix.dispatch(transMessage, transMeta, route);
+         let reply = await redex.dispatch(transMessage, transMeta, route);
          assert(reply, 'reply');
          assert.equal(reply.type, 'data', 'data reply type');
          assert.equal(reply.dataType, 'string', 'string reply data');

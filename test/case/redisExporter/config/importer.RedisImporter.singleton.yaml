@@ -1,10 +1,10 @@
 
 description: Import a message from a Redis queue
 queue:
-  in: redix:test:exporter:in # the redis key for the incoming queue (list)
-  reply: redix:test:exporter:reply # the redis queue for replies
-  pending: redix:test:exporter:pending # the internal redis queue for pending requests
-  error: redix:test:exporter:error # to recover failed messages
+  in: redex:test:exporter:in # the redis key for the incoming queue (list)
+  reply: redex:test:exporter:reply # the redis queue for replies
+  pending: redex:test:exporter:pending # the internal redis queue for pending requests
+  error: redex:test:exporter:error # to recover failed messages
 timeout: 8000 # ms
 route:
 - exporter.RedisExporter.singleton

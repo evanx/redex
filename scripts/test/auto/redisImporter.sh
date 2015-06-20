@@ -1,5 +1,5 @@
 
-cd ~/redixrouter || exit 1
+cd ~/redexrouter || exit 1
 
 testName=redisImporter
 
@@ -7,7 +7,7 @@ mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 
 export configDir=test/case/httpRequest/config
-export pidFile=tmp/redix.${testName}.pid
+export pidFile=tmp/redex.${testName}.pid
 
 url="https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
 echo "url $url"
@@ -17,7 +17,7 @@ c0run() {
 }
 
 c0clear() {
-  for key in `redis-cli keys 'redix:test:*'`
+  for key in `redis-cli keys 'redex:test:*'`
   do
     echo "redis-cli del '$key'"
     redis-cli del "$key"
@@ -33,15 +33,15 @@ c0client() {
     \"url\": \"${url}\",
     \"json\": true
   }"
-  echo 'redis-cli llen redix:test:redishttp:reply'
-  redis-cli llen redix:test:redishttp:reply
-  echo "redis-cli lpush redix:test:redishttp:in '$message'"
-  redis-cli lpush redix:test:redishttp:in "$message"
+  echo 'redis-cli llen redex:test:redishttp:reply'
+  redis-cli llen redex:test:redishttp:reply
+  echo "redis-cli lpush redex:test:redishttp:in '$message'"
+  redis-cli lpush redex:test:redishttp:in "$message"
   sleep 6
-  echo 'redis-cli llen redix:test:redishttp:reply'
-  redis-cli llen redix:test:redishttp:reply
-  echo 'redis-cli lrange redix:test:redishttp:reply 0 -1'
-  redis-cli lrange redix:test:redishttp:reply 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
+  echo 'redis-cli llen redex:test:redishttp:reply'
+  redis-cli llen redex:test:redishttp:reply
+  echo 'redis-cli lrange redex:test:redishttp:reply 0 -1'
+  redis-cli lrange redex:test:redishttp:reply 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
   rm -f $pidFile
 }
 

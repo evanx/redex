@@ -1,12 +1,12 @@
-### Redix routing
+### Redex routing
 
 Importers are configured with a `route` in YAML as follows:
 ```yaml
 description: Import a message from a Redis queue
 queue:
-  in: redix:test:dispatcher:in # the redis key for the incoming queue
-  reply: redix:test:dispatcher:reply # the redis key for reply reque
-  pending: redix:test:dispatcher:pending # the queue for pending requests
+  in: redex:test:dispatcher:in # the redis key for the incoming queue
+  reply: redex:test:dispatcher:reply # the redis key for reply reque
+  pending: redex:test:dispatcher:pending # the queue for pending requests
 
 timeout: 8000 # ms
 route:
@@ -26,7 +26,7 @@ export default class RedisImporter {
       const messageId = this.getNextMessageId();
       try {
          this.addedPending(message, messageId);
-         let reply = await redix.import(message, {messageId}, this.config);
+         let reply = await redex.import(message, {messageId}, this.config);
          await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
          this.removePending(message, messageId, reply);
       } catch (err) {
@@ -36,9 +36,9 @@ export default class RedisImporter {
       }
 ```
 
-Our `redix.importMessage` utility chains a timeout promise:
+Our `redex.importMessage` utility chains a timeout promise:
 ```javascript
-export default class Redix {
+export default class Redex {
 
    async import(message, meta, options) {
       let importer = options.processorName;
@@ -66,16 +66,16 @@ export default class RateLimitFilter {
       if (this.count > this.config.limit) {
          throw {message: 'Limit exceeded'};
       } else {
-         return redix.dispatch(message, meta, route);
+         return redex.dispatch(message, meta, route);
       }
    }
 ```
 where we throw an exception to reject the message. (This is equivalent to the promise being rejected.)
 
-Otherwise we invoke the `redix.dispatchMessage` utility function to invoke the next processor in the route and return its promise.
+Otherwise we invoke the `redex.dispatchMessage` utility function to invoke the next processor in the route and return its promise.
 
 ```javascript
-export default class Redix {
+export default class Redex {
 
    async dispatch(message, meta, route) {
       let nextProcessorName = route[0];
@@ -99,7 +99,7 @@ export default class RateLimitFilter {
          await this.redis.lpush(this.config.queue.drop, JSON.stringify(message));
          throw {message: 'Limit exceeded'};
       } else {
-         return redix.dispatch(message, meta, route).then(reply => {
+         return redex.dispatch(message, meta, route).then(reply => {
             logger.debug('promise reply:', meta); // intercept reply
             return reply;
          });
@@ -116,7 +116,7 @@ In the event of a timeout or some other error, this exception is caught by the i
    const messageId = this.getNextMessageId();
    try {
       this.addedPending(message, messageId);
-      let reply = await redix.import(message, {messageId}, this.config);
+      let reply = await redex.import(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
       this.removePending(message, messageId);
    } catch (err) {
@@ -136,10 +136,10 @@ To improve resilience and promote fail-safe canary releases, we should move fail
 ## Learn more
 
 HTTP request example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/httpRequest/
+- https://github.com/evanx/redexrouter/tree/master/test/case/httpRequest/
 
 Static web server example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/webServer/
+- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/
 
-Redix processor implementations:
-- https://github.com/evanx/redixrouter/tree/master/processors/
+Redex processor implementations:
+- https://github.com/evanx/redexrouter/tree/master/processors/

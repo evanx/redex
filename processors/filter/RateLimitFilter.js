@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';
@@ -9,12 +9,12 @@ import util from 'util';
 export default class RateLimitFilter {
 
    constructor(config) {
-      redix.assertNumber(config.limit, 'limit');
-      redix.assertNumber(config.periodMillis, 'periodMillis');
+      redex.assertNumber(config.limit, 'limit');
+      redex.assertNumber(config.periodMillis, 'periodMillis');
       this.config = config;
       this.logger = bunyan.createLogger({
         name: config.processorName,
-        level: global.redixLoggerLevel
+        level: global.redexLoggerLevel
       });
       this.start();
    }
@@ -41,7 +41,7 @@ export default class RateLimitFilter {
       this.logger.debug('promise:', meta, route);
       this.count += 1;
       assert(this.count <= this.config.limit, 'Limit exceeded: ' + this.formatExceeded());
-      return redix.dispatch(message, meta, route).then(reply => {
+      return redex.dispatch(message, meta, route).then(reply => {
          this.logger.debug('promise reply:', meta);
          return reply;
       });

@@ -1,7 +1,7 @@
 
-create database redix ; 
+create database redex ; 
 
-create role redix login password 'redix';
+create role redex login password 'redex';
 
-alter database redix owner to redix ;
+alter database redex owner to redex ;
 

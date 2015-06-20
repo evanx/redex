@@ -1,12 +1,12 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-const { redix } = global;
+const { redex } = global;
 
 export default function regexpRouter(config) {
 
@@ -81,7 +81,7 @@ export default function regexpRouter(config) {
          let rule = match(message);
          if (rule) {
             if (rule.route) {
-               return redix.forward(message, meta, config, rule.route);
+               return redex.forward(message, meta, config, rule.route);
             } else if (rule.response) {
                return rule.response;
             } else {

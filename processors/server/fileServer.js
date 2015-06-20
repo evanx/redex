@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import fs from 'fs';
@@ -13,9 +13,9 @@ import express from 'express';
 import Files from '../../lib/Files';
 import Paths from '../../lib/Paths';
 
-const { redix } = global;
+const { redex } = global;
 
-export default function fileServer(config, redix) { // trying processor constructor without class
+export default function fileServer(config, redex) { // trying processor constructor without class
 
    assert(config.root, 'root');
 
@@ -29,8 +29,8 @@ export default function fileServer(config, redix) { // trying processor construc
    } else if (config.root === '.') {
       config.root = process.cwd();
    } else if (lodash.startsWith(config.root, '.')) {
-      if (redix.config.baseDir) {
-         config.root = Paths.join(redix.config.baseDir, config.root);
+      if (redex.config.baseDir) {
+         config.root = Paths.join(redex.config.baseDir, config.root);
       } else {
          config.root = Paths.join(process.cwd(), config.root);
       }

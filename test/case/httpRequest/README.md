@@ -20,7 +20,7 @@ echo '
 
 Alternatively, we push this message onto the Redis queue using `redis-cli` as follows:
 ```shell
-redis-cli lpush redix:test:http:in '{
+redis-cli lpush redex:test:http:in '{
   "url": "https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty",
   "method": "GET",
   "json": true
@@ -42,14 +42,14 @@ We expect the following reply to be routed back to the importer:
 
 We check the reply to the file importer:
 ```shell
-evans@boromir:~/redixrouter$ grep Valleywag tmp/fileImporter/reply/hn160705.json
+evans@boromir:~/redexrouter$ grep Valleywag tmp/fileImporter/reply/hn160705.json
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
 ```
 
 Finally, we check the reply to the Redis importer:
 ```shell
-evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
+evans@boromir:~/redexrouter$ redis-cli lrange redex:test:http:out 0 -1 |
   python -mjson.tool | grep '"text":'
 
   "text": "Yes, ban them; I'm tired of seeing Valleywag stories on News.YC.",
@@ -57,8 +57,8 @@ evans@boromir:~/redixrouter$ redis-cli lrange redix:test:http:out 0 -1 |
 
 ## Learn more
 
-Redix routing:
-- https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
+Redex routing:
+- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md
 
-Redix processor implementations:
-- https://github.com/evanx/redixrouter/tree/master/processors/
+Redex processor implementations:
+- https://github.com/evanx/redexrouter/tree/master/processors/

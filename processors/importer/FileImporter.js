@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import fs from 'fs';
@@ -11,9 +11,9 @@ import lodash from 'lodash';
 
 import Files from '../../lib/Files';
 
-const { redix } = global;
+const { redex } = global;
 
-const logger = bunyan.createLogger({name: 'FileImporter', level: global.redixLoggerLevel});
+const logger = bunyan.createLogger({name: 'FileImporter', level: global.redexLoggerLevel});
 
 
 export default class FileImporter {
@@ -65,7 +65,7 @@ export default class FileImporter {
          var replyFilePath = this.formatReplyFilePath(messageId);
          let exists = await Files.exists(replyFilePath);
          assert.equal(exists, false, 'File already exists: ' + replyFilePath);
-         let reply = await redix.import(message, {messageId}, this.config);
+         let reply = await redex.import(message, {messageId}, this.config);
          Files.writeFile(replyFilePath, this.formatJsonContent(reply));
          logger.debug('replyFilePath', replyFilePath);
       } catch (err) {

@@ -51,7 +51,7 @@ async fileChanged(fileName) {
       var replyFilePath = this.formatReplyFilePath(messageId);
       let exists = await Files.exists(replyFilePath);
       assert.equal(exists, false, 'Reply file already exists: ' + replyFilePath);
-      let reply = await redix.import(message, {messageId}, this.config);
+      let reply = await redex.import(message, {messageId}, this.config);
       Files.writeFile(replyFilePath, this.formatJsonContent(reply));
    } catch (err) {
       Files.writeFile(replyFilePath, this.formatJsonContent(error));
@@ -62,8 +62,8 @@ async fileChanged(fileName) {
 where we use ES7 async/await (via Babel) to eliminate callbacks and use try/catch for error handling.
 
 ES7 async functions work with ES6 promises, and so we introduce wrapper libraries to return promises:
-- https://github.com/evanx/redixrouter/blob/master/lib/Requests.js
-- https://github.com/evanx/redixrouter/blob/master/lib/Files.js
+- https://github.com/evanx/redexrouter/blob/master/lib/Requests.js
+- https://github.com/evanx/redexrouter/blob/master/lib/Files.js
 
 
 ### HttpExporter
@@ -74,7 +74,7 @@ This processor exports a message via an HTTP GET request.
 ```yaml
 description: Perform an HTTP request
 queue:
-  pending: redix:test:http:pending # Redis key for set for pending requests
+  pending: redex:test:http:pending # Redis key for set for pending requests
 ```
 
 Sample incoming message e.g. from `fileImporter/watched/hn160705.yaml:`
@@ -139,7 +139,7 @@ export default class RateLimitFilter {
    async process(message, meta, route) {
       this.count += 1;
       assert(this.count <= this.config.limit, 'Limit exceeded');
-      return redix.dispatch(message, meta, route);
+      return redex.dispatch(message, meta, route);
    }
 }
 ```
@@ -152,10 +152,10 @@ Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
 description: Import an HTTP request message from a Redis queue
 queue:
-  in: redix:test:http:in # the redis key for the incoming queue (list)
-  out: redix:test:http:out # the redis queue for replies
-  pending: redix:test:http:pending # the internal redis queue for pending requests
-  error: redix:test:http:error # the external redis queue for failed requests
+  in: redex:test:http:in # the redis key for the incoming queue (list)
+  out: redex:test:http:out # the redis queue for replies
+  pending: redex:test:http:pending # the internal redis queue for pending requests
+  error: redex:test:http:error # the external redis queue for failed requests
 timeout: 8000 # ms
 route:
 - HttpExporter.singleton
@@ -171,7 +171,7 @@ async pop() {
       var messageId = this.seq;
       this.addedPending(messageId, redisReply);
       let message = JSON.parse(redisReply);
-      let reply = await redix.import(message, {messageId}, this.config);
+      let reply = await redex.import(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
       this.removePending(messageId, redisReply);
       this.pop();
@@ -183,7 +183,7 @@ async pop() {
 }
 ```
 where we use a "promisified" Redis client for ES7 async functions:
-- https://github.com/evanx/redixrouter/blob/master/lib/Redis.js
+- https://github.com/evanx/redexrouter/blob/master/lib/Redis.js
 
 Depending on the type of exception, we revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
@@ -192,11 +192,11 @@ Incidently that the Redis `brpoplpush` command blocks its Redis client instance,
 
 ## Learn more
 
-Redix routing:
-- https://github.com/evanx/redixrouter/blob/master/docs/redisRouting.md
+Redex routing:
+- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md
 
 HTTP request example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/httpRequest/
+- https://github.com/evanx/redexrouter/tree/master/test/case/httpRequest/
 
 Static web server example:
-- https://github.com/evanx/redixrouter/tree/master/test/case/webServer/
+- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/

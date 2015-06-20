@@ -1,10 +1,10 @@
 
-  cd ~/redixrouter || exit 1
+  cd ~/redexrouter || exit 1
 
   testName=httpFileServer.default
 
   export configFile=config/configurator.${testName}.yaml
-  export pidFile=tmp/redix.${testName}.pid
+  export pidFile=tmp/redex.${testName}.pid
 
   c0run() {
     nodejs index.js | bunyan -o short

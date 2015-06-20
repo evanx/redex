@@ -1,5 +1,5 @@
 
-description: Configuration for the Redix instance
+description: Configuration for the Redex instance
 loggerLevel: debug
 webserver: # for state introspection
   port: 8880

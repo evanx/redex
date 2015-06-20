@@ -1,5 +1,5 @@
 
 description: Export a message to a Redis queue
 queue:
-  out: redix:test:dispatcher:out # the redis queue
+  out: redex:test:dispatcher:out # the redis queue
 json: false

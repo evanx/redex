@@ -1,13 +1,13 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';
 
 import Redis from '../../lib/Redis';
 
-const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: global.redixLoggerLevel});
+const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: global.redexLoggerLevel});
 
 const redis = new Redis();
 
@@ -52,7 +52,7 @@ export default class RedisHttpRequestImporter {
          logger.debug('redisReply', redisReply);
          let message = JSON.parse(redisReply);
          logger.info('pop:', message);
-         let reply = await redix.import(message, {messageId}, this.config);
+         let reply = await redex.import(message, {messageId}, this.config);
          logger.info('reply:', reply);
          await this.redis.lpush(this.config.queue.reply, JSON.stringify(reply));
          this.removePending(messageId, redisReply);

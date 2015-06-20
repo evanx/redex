@@ -1,7 +1,7 @@
 
 import assert from 'assert';
 
-export default function createConfigs(config, redixConfig) {
+export default function createConfigs(config, redexConfig) {
    const names = {
       importer: "importer.httpImporter.singleton",
       markdownRenderer: "http.renderer.markdown.singleton",

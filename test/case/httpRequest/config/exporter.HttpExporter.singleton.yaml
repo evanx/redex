@@ -1,4 +1,4 @@
 
 description: Perform an HTTP request
 queue:
-  pending: redix:test:http:pending # Redis key for set for pending requests
+  pending: redex:test:http:pending # Redis key for set for pending requests

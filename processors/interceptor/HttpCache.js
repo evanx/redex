@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redixrouter/LICENSE
+// ISC license, see http://github.com/evanx/redexrouter/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';
@@ -17,7 +17,7 @@ export default class HttpCache {
       this.redis = new Redis();
       this.logger = bunyan.createLogger({
         name: config.processorName,
-        level: global.redixLoggerLevel
+        level: global.redexLoggerLevel
       });
       this.start();
    }
@@ -34,7 +34,7 @@ export default class HttpCache {
       if (cached !== null) {
          return cached;
       }
-      return redix.dispatch(message, meta, route).then(reply => {
+      return redex.dispatch(message, meta, route).then(reply => {
          assert(reply.statusCode, 'reply statusCode');
          if (reply.statusCode === 200) {
             redis.set(config.redisKey + ':' + message.uri);
