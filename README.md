@@ -7,19 +7,22 @@
 
 On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
-cd
-if git clone https://github.com/evanx/redixrouter
-then
+cd; git clone https://github.com/evanx/redixrouter && (
   cd redixrouter
   cat package.json
   cat scripts/test/cat.test.scripts.sh
-fi
+)
+```
+which will clone the github repo into your home directory, and show the dependent modules that will be installed into `redixrouter/node_modules/.`
+
+Install the dependencies via `npm:`
+```shell
+npm install
 ```
 
-If all looks OK, then:
+You can inspect the test scripts as follows:
 ```shell
 sh scripts/test/cat.test.scripts.sh
-npm install
 ```
 
 Finally, if all looks OK:
@@ -28,6 +31,15 @@ sh scripts/test/all.sh
 ```
 
 If any test fails, try running again, as the system is warmer. These integration tests have sleeps for one or two seconds, which we assume is enough time for Redix to boot, but that might not always be the case.
+
+Alternatively `git clone` using `ssh:`
+```shell
+cd
+git clone git@github.com:evanx/redixrouter.git
+cd redixrouter
+npm install
+sh scripts/test/all.sh
+```
 
 See:
 - https://github.com/evanx/redixrouter/tree/master/scripts/test/auto
