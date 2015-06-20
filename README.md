@@ -5,7 +5,7 @@
 
 To demonstrate a static web server, from the document root, run Redex as follows:
 ```shell
-nodejs ~/redexrouter/index.js http | bunyan -o short
+nodejs ~/redex/index.js http | bunyan -o short
 ```
 and then try `http://localhost:8880` in your browser.
 
@@ -14,14 +14,14 @@ and then try `http://localhost:8880` in your browser.
 
 On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
 ```shell
-cd; git clone https://github.com/evanx/redexrouter && (
-  cd redexrouter
+cd; git clone https://github.com/evanx/redex && (
+  cd redex
   cat package.json
   npm install
   cat scripts/test/cat.test.scripts.sh
 )
 ```
-which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redexrouter/node_modules/.`
+which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redex/node_modules/.`
 
 
 ### Running tests
@@ -39,8 +39,8 @@ sh scripts/test/all.sh
 To summarise:
 ```shell
 cd
-git clone https://github.com/evanx/redexrouter
-cd redexrouter
+git clone https://github.com/evanx/redex
+cd redex
 cat package.json
 npm install
 sh scripts/test/cat.test.scripts.sh
@@ -50,9 +50,9 @@ sh -x scripts/test/all.sh
 If any test fails, try running again, as the system is warmer. These integration tests have low timeouts which are not always sufficient.
 
 See:
-- https://github.com/evanx/redexrouter/tree/master/scripts/test/auto
-- https://github.com/evanx/redexrouter/tree/master/scripts/test/cat.test.scripts.sh
-- https://github.com/evanx/redexrouter/tree/master/scripts/test/all.sh
+- https://github.com/evanx/redex/tree/master/scripts/test/auto
+- https://github.com/evanx/redex/tree/master/scripts/test/cat.test.scripts.sh
+- https://github.com/evanx/redex/tree/master/scripts/test/all.sh
 
 
 ### Static webserver
@@ -63,14 +63,14 @@ mkdir -p ~/tmp/redex
 cd ~/tmp/redex
 echo 'test me' > test.txt
 curl -s http://localhost:8880/test.txt
-nodejs ~/redexrouter/index.js http
+nodejs ~/redex/index.js http
 ```
 and then try `http://localhost:8880` in your browser.
 
 Note that you can try to invoke Redex with `http` command-line argument in any subdirectory which you wish to serve.
 
 See
-- https://github.com/evanx/redexrouter/blob/master/scripts/test/auto/cli.http.simple.sh
+- https://github.com/evanx/redex/blob/master/scripts/test/auto/cli.http.simple.sh
 
 
 ## Overview
@@ -285,10 +285,10 @@ We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json
 ## Learn more
 
 Redex routing:
-- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redisRouting.md
 
 HTTP request example:
-- https://github.com/evanx/redexrouter/tree/master/test/case/httpRequest/
+- https://github.com/evanx/redex/tree/master/test/case/httpRequest/
 
 Static web server example:
-- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/
+- https://github.com/evanx/redex/tree/master/test/case/webServer/

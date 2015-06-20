@@ -240,7 +240,7 @@ timeout: 2000
 Configurators automate the configuration of a specific pattern of processors as a whole.
 
 See the implementation for a configurator for a static web server:
-- https://github.com/evanx/redexrouter/blob/master/configurators/httpFileServer.js
+- https://github.com/evanx/redex/blob/master/configurators/httpFileServer.js
 
 
 #### Implementation of HTTP file server configurator
@@ -342,10 +342,10 @@ Publish notifications:
 ## Learn more
 
 Configuration files for this static web server example:
-- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/config
+- https://github.com/evanx/redex/tree/master/test/case/webServer/config
 
 Redex processor implementations:
-- https://github.com/evanx/redexrouter/tree/master/processors/
+- https://github.com/evanx/redex/tree/master/processors/
 
 Redex routing:
-- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redisRouting.md

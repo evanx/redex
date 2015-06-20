@@ -1,5 +1,5 @@
 
-  cd ~/redexrouter || exit 1
+  cd ~/redex || exit 1
 
   testName=httpFileServer.default
 

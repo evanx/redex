@@ -9,9 +9,9 @@ then
   exit 1
 fi
 
-echo "nodejs ~/redexrouter/index.js http | bunyan -o short"
+echo "nodejs ~/redex/index.js http | bunyan -o short"
 
 (sleep 2; echo "$0: Should be serving files by now on port 8880 from pwd:" `pwd`) & 
 
-nodejs ~/redexrouter/index.js http | bunyan -o short
+nodejs ~/redex/index.js http | bunyan -o short
 

@@ -1,11 +1,11 @@
 
 echo "begin: $0"
 
-cd ~/redexrouter
+cd ~/redex
 
 if [ ! -d tmp ] 
 then
-  echo "Note that ~/redexrouter/tmp directory will be created by scripts/test/all.sh"
+  echo "Note that ~/redex/tmp directory will be created by scripts/test/all.sh"
 else
   echo "tmp dir exists :)"
 fi

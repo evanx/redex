@@ -1,6 +1,6 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redexrouter/LICENSE
+// ISC license, see http://github.com/evanx/redex/LICENSE
 
 import assert from 'assert';
 import bunyan from 'bunyan';

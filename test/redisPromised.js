@@ -1,9 +1,9 @@
 
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
-// ISC license, see http://github.com/evanx/redexrouter/LICENSE
+// ISC license, see http://github.com/evanx/redex/LICENSE
 
 // see alternative reimplementation using ES7 async functions (with await keyword):
-// https://github.com/evanx/redexrouter/blob/master/test/redisPromisedAsync.js
+// https://github.com/evanx/redex/blob/master/test/redisPromisedAsync.js
 
 global.redexLoggerLevel = 'debug';
 

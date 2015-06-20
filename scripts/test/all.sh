@@ -1,5 +1,5 @@
 
-cd ~/redexrouter
+cd ~/redex
 
 mkdir -p tmp
 

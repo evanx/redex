@@ -15,7 +15,7 @@ root: /var/redexweb/root
 timeout: 2000
 ```
 See the implementation for `configurators/httpFileServer` as follows:
-- https://github.com/evanx/redexrouter/blob/master/configurators/httpFileServer.js
+- https://github.com/evanx/redex/blob/master/configurators/httpFileServer.js
 
 #### Implementation of HTTP file server configurator
 

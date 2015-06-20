@@ -62,8 +62,8 @@ async fileChanged(fileName) {
 where we use ES7 async/await (via Babel) to eliminate callbacks and use try/catch for error handling.
 
 ES7 async functions work with ES6 promises, and so we introduce wrapper libraries to return promises:
-- https://github.com/evanx/redexrouter/blob/master/lib/Requests.js
-- https://github.com/evanx/redexrouter/blob/master/lib/Files.js
+- https://github.com/evanx/redex/blob/master/lib/Requests.js
+- https://github.com/evanx/redex/blob/master/lib/Files.js
 
 
 ### HttpExporter
@@ -183,7 +183,7 @@ async pop() {
 }
 ```
 where we use a "promisified" Redis client for ES7 async functions:
-- https://github.com/evanx/redexrouter/blob/master/lib/Redis.js
+- https://github.com/evanx/redex/blob/master/lib/Redis.js
 
 Depending on the type of exception, we revert the pending message, to be fail-safe. For example if this instance is a canary release, we might remove it from our cluster based on such metrics, and still enable the message to be processed by another instance.
 
@@ -193,10 +193,10 @@ Incidently that the Redis `brpoplpush` command blocks its Redis client instance,
 ## Learn more
 
 Redex routing:
-- https://github.com/evanx/redexrouter/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redisRouting.md
 
 HTTP request example:
-- https://github.com/evanx/redexrouter/tree/master/test/case/httpRequest/
+- https://github.com/evanx/redex/tree/master/test/case/httpRequest/
 
 Static web server example:
-- https://github.com/evanx/redexrouter/tree/master/test/case/webServer/
+- https://github.com/evanx/redex/tree/master/test/case/webServer/
