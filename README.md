@@ -60,7 +60,6 @@ The core functionality of Redix is quite trivial:
 - enable the configuration of multiple "processor" instances (as components of a system)
 - enable sequential message-passing between processors
 
-
 Someone else might want to re-implement something similar in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation is useful, at least for JavaScript developers.
 
 We have chosen ES7 (via Babel), and might extend with TypeScript in future. Other implementations that transpile to JavaScript would also be interesting, e.g. CoffeeScript, ClojureScript, et al.
