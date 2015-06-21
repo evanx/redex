@@ -15,6 +15,11 @@ Redex is a Node framework for:
 - building resilient web infrastructure
 - custom messaging middleware
 
+More specifically, Redex is:
+- a framework for collaborating processors e.g. configured using YAML (or JSON)
+- extensible using Node modules i.e. JavaScript, CoffeeScript et al
+- a platform for integrating services via Redis
+
 
 ### Installing
 
@@ -135,11 +140,6 @@ We have chosen ES7 (via Babel), and might extend our implementation with TypeScr
 
 
 ## Alternatives
-
-Redex is:
-- a framework for collaborating processors e.g. configured using YAML (or JSON)
-- extensible using Node modules i.e. JavaScript, CoffeeScript et al
-- a platform for integrating services via Redis
 
 We implement a number of processors to support some use-cases, especially around HTTP and Redis. Consequently it is also:
 - a ready-made implementation for some use-cases.
