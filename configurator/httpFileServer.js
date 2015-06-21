@@ -13,7 +13,7 @@ export default function createConfigs(config, redexConfig) {
    return [
       {
          processorName: names.importer,
-         description: 'Express web server to import HTTP requests',
+         description: 'Express web server to import HTTP requests for the file server',
          port: config.port || 8880,
          timeout: config.timeout || 2000, // millis
          route: [ names.router ]
@@ -37,20 +37,20 @@ export default function createConfigs(config, redexConfig) {
       },
       {
          processorName: names.redexState,
-         description: 'Redex state renderer'
+         description: 'Redex state renderer showing processor configs'
       },
       {
          processorName: names.markdownRenderer,
-         description: 'Translate markdown in http message content'
+         description: 'Translate markdown in http message content especially for README.md'
       },
       {
          processorName: names.httpTranslator,
-         description: 'Translate ExpressJS http message to file message'
+         description: 'Translate ExpressJS http message to file message for fileServer'
       },
       {
          processorName: names.fileServer,
          description: 'Serve files for a web server',
-         root: config.root || '.', // document root will be process.cwd()
+         root: config.root || '.', // default document root of '.' will be process.cwd()
          index: config.index || 'README.md' // especially in case in ~/redex
       }
    ];
