@@ -1,4 +1,11 @@
 
+## expressRouter
+
+This processor leverages ExpressJS, and is a combined HTTP importer and router.
+
+In this case, we have chosen to configure all the processors' `configs` in a single YAML file as follows:
+
+```yaml
 label: Meta config for static web server
 loggerLevel: debug
 configs:
@@ -26,3 +33,7 @@ configs:
 - processorName: file.server.simple.singleton
   root: .
   index: README.md
+```
+
+See the implementation:
+- https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js

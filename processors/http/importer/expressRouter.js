@@ -98,9 +98,12 @@ export default function expressRouter(config, redex) {
 
    function sendError(path, req, res, error) {
       if (error.name === 'AssertionError') {
-         error = {name: err.name, message: err.message};
+         error = {name: error.name, message: error.message};
+      } else if (error.stack) {
+         logger.warn('error', error.stack);
+      } else {
+         logger.warn('error', error);
       }
-      logger.warn('error', error);
       res.status(500).send(error);
    }
 
@@ -118,7 +121,7 @@ export default function expressRouter(config, redex) {
                logger.debug('route:', item.route, item.label);
                let response = await redex.import(req, meta, {
                   processorName: config.processorName,
-                  //timeout: item.timeout || config.timeout,
+                  timeout: item.timeout || config.timeout,
                   route: item.route,
                });
                sendResponse(item.path, req, res, response);
@@ -152,7 +155,7 @@ export default function expressRouter(config, redex) {
 
    const methods = {
       get state() {
-         return { config, id };
+         return { config, count };
       },
    };
 
