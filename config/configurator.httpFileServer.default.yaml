@@ -1,6 +1,12 @@
-description: static web server
+description: >
+  A configurator is for a given pattern, e.g. a simple static web server in this case.
+  It takes a wholistic config for that pattern e.g. port and document root.
+  Using that config, it generates an array of processor configs
+  e.g. a HTTP server (with the specified port),
+  and a file reader (with the specified document root)
 loggerLevel: info
 port: 8880
-root: .
-debug: true
 timeout: 2000
+root: .
+index: README.md
+debug: true

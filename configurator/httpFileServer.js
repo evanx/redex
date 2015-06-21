@@ -16,17 +16,22 @@ export default function createConfigs(config, redexConfig) {
       httpTranslator: 'http.translator.file.singleton',
       fileServer: 'server.fileServer.singleton'
    };
+   assert(config.port, 'port');
+   assert(config.timeout, 'timeout');
+   assert(config.root, 'root');
+   assert(config.index, 'index');
    return [
       {
          processorName: names.importer,
-         description: 'Express web server to import HTTP requests for the file server',
-         port: config.port || 8880,
-         timeout: config.timeout || 2000, // millis
+         description: 'Express web server to import HTTP requests for the file server. ' +
+         'We use the port and timeout specified in the configurator meta config.',
+         port: config.port,
+         timeout: config.timeout, // millis
          route: [ names.router ]
       },
       {
          processorName: names.router,
-         description: 'Router for requests',
+         description: 'Router for requests, by default to the file server',
          rules: [
             {
                description: 'Redex state',
@@ -55,9 +60,10 @@ export default function createConfigs(config, redexConfig) {
       },
       {
          processorName: names.fileServer,
-         description: 'Serve files for a web server',
-         root: config.root || '.', // default document root of '.' will be process.cwd()
-         index: config.index || 'README.md' // especially in case in ~/redex
+         description: 'Serve files for a web server. ' +
+         'Using the root and index specified in the configurator meta config',
+         root: config.root, // document root of '.' will be process.cwd()
+         index: config.index // e.g. README.md especially in case in ~/redex
       }
    ];
 }
