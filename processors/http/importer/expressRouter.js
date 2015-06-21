@@ -11,6 +11,7 @@ import lodash from 'lodash';
 import express from 'express';
 
 const Paths = requireRedex('lib/Paths');
+const RedexConfigs = requireRedex('lib/RedexConfigs');
 
 const { redex } = global;
 
@@ -20,10 +21,11 @@ export default function expressRouter(config, redex) {
    assert(config.timeout, 'timeout');
    assert(config.paths, 'paths');
 
-   var logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
-   var startTime = new Date().getTime();
-   var count = 0;
-   var app;
+   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let startTime = new Date().getTime();
+   let count = 0;
+   let paths;
+   let app;
 
    init();
 
@@ -31,44 +33,44 @@ export default function expressRouter(config, redex) {
       assert(config.paths, 'config: paths');
       assert(config.paths.length, 'config: paths length');
       paths = lodash(config.paths)
-      .filter(rule => !rule.disabled)
+      .filter(item => !item.disabled)
       .map(initPath)
       .value();
-      logger.info('start', paths.map(rule => rule.description));
+      logger.info('start', paths.map(item => item.description));
    }
 
-   function initPath(rule) {
-      if (rule.route) {
-         redex.resolveAll(rule.route, config.processorName, rule.description);
-      } else if (rule.response) {
-
+   function initPath(item) {
+      if (item.route) {
+         redex.resolveRoute(item.route, config.processorName, item.description);
+      } else if (item.response) {
+         assert(item.response.statusCode, 'item response statusCode');
       } else {
-         assert(false, 'rule requires route or response: ' + rule.description);
+         assert(false, 'item requires route or response: ' + item.description);
       }
-      if (rule.match) {
-         if (rule.match !== 'all') {
-            throw {message: 'unsupported match: ' + rule.match};
+      if (item.match) {
+         if (item.match !== 'all') {
+            throw {message: 'unsupported match: ' + item.match};
          }
-         return rule;
-      } else if (rule.path) {
-         logger.debug('rule path', rule.path, rule);
-         return rule;
+         return item;
+      } else if (item.path) {
+         logger.debug('item path', item.path, item);
+         return item;
       } else {
-         assert(false, 'rule requires path or match: ' + rule.description);
+         assert(false, 'item requires path or match: ' + item.description);
       }
    }
 
    function matchUrl(message) {
       logger.debug('match', paths.length);
-      return lodash.find(paths, rule => {
-         //logger.debug('match rule', rule.description);
-         if (rule.match === 'all') {
+      return lodash.find(paths, item => {
+         //logger.debug('match item', item.description);
+         if (item.match === 'all') {
             return true;
-         } else if (rule.path) {
+         } else if (item.path) {
             let value = message.url;
-            return rule.path.test(value);
+            return item.path.test(value);
          } else {
-            logger.warn('match none', rule);
+            logger.warn('match none', item);
             return false;
          }
       });
