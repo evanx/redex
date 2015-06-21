@@ -28,8 +28,8 @@ export default function expressRouter(config, redex) {
    init();
 
    function init() {
-      assert(config.rules, 'config: rules');
-      assert(config.rules.length, 'config: rules length');
+      assert(config.rules, 'config: paths');
+      assert(config.rules.length, 'config: paths length');
       rules = lodash(config.rules)
       .filter(rule => !rule.disabled)
       .map(initRule)
