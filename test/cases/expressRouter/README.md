@@ -35,5 +35,5 @@ configs:
   index: README.md
 ```
 
-See the implementation:
+See the implementation of the `http.importer.expressRouter` processor:
 - https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
