@@ -113,9 +113,8 @@ We wish to leverage ES7, Node and Redis because:
 - ES7 sugars the error handling of chained promises via exceptions
 
 
-### Goals
+## Goals
 
-Goals:
 - commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
 - release version 1.0 in 2016 when ES7 is standardised
 - distributable via replicas running against the same Redis server
