@@ -131,10 +131,13 @@ The core functionality of Redex is quite trivial:
 
 Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
 
-We implement a number of processors to support some use-cases, especially around HTTP and Redis.
-
 We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
 
+We implement a number of processors to support some use-cases, especially around HTTP and Redis.
+
+As such Redex is not only a framework, but also a ready-made implementation for some use-cases. It is quite configurable (using YAML) and extensible (using JavaScript).
+
+Where it is an alternative to other projects (please let me know), I will compare and contrast.
 
 ### Alternative: Nginx
 
