@@ -118,7 +118,7 @@ export default function expressRouter(config, redex) {
                logger.debug('route:', item.route, item.label);
                let response = await redex.import(req, meta, {
                   processorName: config.processorName,
-                  timeout: item.timeout || config.timeout,
+                  //timeout: item.timeout || config.timeout,
                   route: item.route,
                });
                sendResponse(item.path, req, res, response);
