@@ -166,6 +166,9 @@ Notes:
 - We intend to reduce the feature gap between Redex and Nginx
 - Redex uses ExpressJS
 
+See examples:
+- https://github.com/evanx/redex/tree/master/test/cases/webServer/
+
 
 ### Alternative: js-csp
 
