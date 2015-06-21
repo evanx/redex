@@ -1,5 +1,5 @@
 
-description: Configuration for the Redex instance
+label: Configuration for the Redex instance
 loggerLevel: debug
 redis:
   host: localhost

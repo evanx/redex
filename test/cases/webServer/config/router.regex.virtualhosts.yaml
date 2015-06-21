@@ -1,8 +1,8 @@
 
-description: Route HTTP messages for virtual hosts
+label: Route HTTP messages for virtual hosts
 pluck: host
 rules:
-- description:
+- label:
   regex: ^localhost$
   route:
   - http.translator.file.singleton

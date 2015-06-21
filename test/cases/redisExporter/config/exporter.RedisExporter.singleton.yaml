@@ -1,5 +1,5 @@
 
-description: Export a message to a Redis queue
+label: Export a message to a Redis queue
 queue:
   in: redex:test:exporter:in # the redis key for the incoming queue (list)
   out: redex:test:exporter:out # the redis queue for replies

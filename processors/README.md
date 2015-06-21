@@ -4,7 +4,7 @@ This processor imports a message from a directory.
 
 Config: `FileImporter.singleton.yaml`
 ```yaml
-description: Read a message from a file
+label: Read a message from a file
 watched: fileImporter/watched/
 reply: fileImporter/reply/
 timeout: 8000 # ms
@@ -72,7 +72,7 @@ This processor exports a message via an HTTP GET request.
 
 #### Config: `HttpExporter.singleton.yaml`
 ```yaml
-description: Perform an HTTP request
+label: Perform an HTTP request
 queue:
   pending: redex:test:http:pending # Redis key for set for pending requests
 ```
@@ -113,7 +113,7 @@ This processor limits the rate of messages that are processed, e.g. 1 per second
 
 Config: `RateLimitFilter.singleton.yaml`
 ```yaml
-description: Limit the rate of messages
+label: Limit the rate of messages
 periodMillis: 1000 # 1 second
 limit: 1 # only route one message per second
 ```
@@ -150,7 +150,7 @@ This processor imports an HTTP request message from a Redis queue.
 
 Config: `RedisHttpRequestImporter.singleton.yaml`
 ```yaml
-description: Import an HTTP request message from a Redis queue
+label: Import an HTTP request message from a Redis queue
 queue:
   in: redex:test:http:in # the redis key for the incoming queue (list)
   out: redex:test:http:out # the redis queue for replies

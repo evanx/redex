@@ -1,5 +1,5 @@
 
-description: Import a message from a Redis queue
+label: Import a message from a Redis queue
 queue:
   in: redex:test:exporter:in # the redis key for the incoming queue (list)
   reply: redex:test:exporter:reply # the redis queue for replies

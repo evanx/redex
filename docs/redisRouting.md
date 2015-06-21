@@ -2,7 +2,7 @@
 
 Importers are configured with a `route` in YAML as follows:
 ```yaml
-description: Import a message from a Redis queue
+label: Import a message from a Redis queue
 queue:
   in: redex:test:dispatcher:in # the redis key for the incoming queue
   reply: redex:test:dispatcher:reply # the redis key for reply reque

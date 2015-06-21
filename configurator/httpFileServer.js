@@ -23,7 +23,7 @@ export default function createConfigs(config, redexConfig) {
    return [
       {
          processorName: names.importer,
-         description: 'Express web server to import HTTP requests for the file server. ' +
+         label: 'Express web server to import HTTP requests for the file server. ' +
          'We use the port and timeout specified in the configurator meta config.',
          port: config.port,
          timeout: config.timeout, // millis
@@ -31,16 +31,16 @@ export default function createConfigs(config, redexConfig) {
       },
       {
          processorName: names.router,
-         //description: 'Router for requests, by default to the file server',
+         //label: 'Router for requests, by default to the file server',
          rules: [
             {
-               description: 'Redex state',
+               label: 'Redex state',
                regex: '^/redex$',
                route: [ names.redexState ],
                disabled: !config.debug
             },
             {
-               description: 'All to file server',
+               label: 'All to file server',
                regex: '^.*$',
                route: [ names.markdownRenderer, names.httpTranslator, names.fileServer ]
             }
@@ -48,19 +48,19 @@ export default function createConfigs(config, redexConfig) {
       },
       {
          processorName: names.redexState,
-         description: 'Redex state renderer showing processor configs'
+         label: 'Redex state renderer showing processor configs'
       },
       {
          processorName: names.markdownRenderer,
-         description: 'Translate markdown in http message content especially for README.md'
+         label: 'Translate markdown in http message content especially for README.md'
       },
       {
          processorName: names.httpTranslator,
-         description: 'Translate ExpressJS http message to file message for fileServer'
+         label: 'Translate ExpressJS http message to file message for fileServer'
       },
       {
          processorName: names.fileServer,
-         description: 'Serve files for a web server. ' +
+         label: 'Serve files for a web server. ' +
          'Using the root and index specified in the configurator meta config.',
          root: config.root, // document root of '.' will be process.cwd()
          index: config.index // e.g. README.md especially in case in ~/redex

@@ -1,5 +1,5 @@
 
-description: Route messages based on regular expressions
+label: Route messages based on regular expressions
 reject:
 - regex: .*
   response:

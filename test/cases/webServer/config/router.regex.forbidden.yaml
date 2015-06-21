@@ -1,7 +1,7 @@
 
-description: Access forbidden responder
+label: Access forbidden responder
 rules:
-- description: Access forbidden
+- label: Access forbidden
   match: all
   response:
     statusCode: 403

@@ -11,7 +11,7 @@ As an exercise, we compose a basic static web server using the following compone
 
 We "import" an HTTP request from an Express server via the `httpImporter` processor:
 ```yaml
-description: Express web server to import HTTP requests
+label: Express web server to import HTTP requests
 loggerLevel: debug
 port: 8888
 timeout: 2000 # ms
@@ -48,15 +48,15 @@ where this mirrors the ExpressJS `req.`
 
 We forward the request to a `router.regex.paths` for our web server:
 ```yaml
-description: Route HTTP messages
+label: Route HTTP messages
 rules:
-- description: Private
+- label: Private
   pluck: url
   regex: ^/private
   response:
     statusCode: 403
     content: Access forbidden
-- description: Home
+- label: Home
   pluck: url
   regex: ^.*$
   route:
@@ -80,10 +80,10 @@ The `http.translator.file.singleton` translates Express messages into "file" mes
 
 A `router.regex.hosts` processor is configured for virtual hosts as follows:
 ```yaml
-description: Route HTTP requests based on the hostname
+label: Route HTTP requests based on the hostname
 pluck: hostname
 rules:
-- description: Route localhost to a file server
+- label: Route localhost to a file server
   regex: ^localhost$
   route:
   - http.translator.file.singleton
@@ -111,9 +111,9 @@ async process(message, meta) {
          return rule.response;
       } else {
          throw {
-            message: 'interal error: no response or route for rule: ' + rule.description,
+            message: 'interal error: no response or route for rule: ' + rule.label,
             source: config.processorName,
-            rule: rule.description
+            rule: rule.label
          };
       }
    }
@@ -139,7 +139,7 @@ Note that this router is generic, and reusable for purposes other than HTTP requ
 
 Finally a `fileServer` processor serves a files from a specified `root` directory:
 ```yaml
-description: Serve files e.g. for a web server
+label: Serve files e.g. for a web server
 root: /var/redexweb/root
 index: index.html
 fallback: index.html
@@ -230,7 +230,7 @@ We introduce a configurator to simplify the configuration for a given pattern of
 
 We configure an `httpFileServer.default` pattern as follows:
 ```yaml
-description: static web server meta configuration for httpFileServer configurator
+label: static web server meta configuration for httpFileServer configurator
 loggerLevel: debug
 port: 8880
 root: /var/redexweb/root
@@ -256,18 +256,18 @@ export default function(config) {
    return [
       {
          processorName: names.importer,
-         description: "Express web server to import HTTP requests",
+         label: "Express web server to import HTTP requests",
          port: config.port || 8880,
          timeout: config.timeout || 2000,
          route: [ names.translator, names.fileServer ]
       },
       {
          processorName: names.translator,
-         description: "Translate ExpressJS http message to file message"
+         label: "Translate ExpressJS http message to file message"
       },
       {
          processorName: names.fileServer,
-         description: "Serve files for a web server",
+         label: "Serve files for a web server",
          root: config.root || '.',
          index: config.index || 'index.html',
       }

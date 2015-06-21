@@ -1,4 +1,4 @@
-description: >
+label: >
   A configurator is for a given pattern, e.g. a simple static web server in this case.
   It takes a wholistic config for that pattern e.g. port and document root.
   Using that config, it generates an array of processor configs

@@ -25,12 +25,12 @@ export default function urlRegex(config) {
       .filter(rule => !rule.disabled)
       .map(initRule)
       .value();
-      logger.info('start', rules.map(rule => rule.description));
+      logger.info('start', rules.map(rule => rule.label));
    }
 
    function initRule(rule) {
-      assert(rule.route || rule.response, 'rule requires route or response: ' + rule.description);
-      assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.description);
+      assert(rule.route || rule.response, 'rule requires route or response: ' + rule.label);
+      assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.label);
       if (rule.match) {
          if (rule.match !== 'all') {
             throw {message: 'unsupported match: ' + rule.match};
@@ -48,7 +48,7 @@ export default function urlRegex(config) {
    function matchUrl(message) {
       logger.debug('match', rules.length);
       return lodash.find(rules, rule => {
-         logger.info('match rule', rule.description, rule.hasOwnProperty('regex'), typeof rule.regex);
+         logger.info('match rule', rule.label, rule.hasOwnProperty('regex'), typeof rule.regex);
          if (rule.match === 'all') {
             return true;
          } else if (rule.regex) {
@@ -74,7 +74,7 @@ export default function urlRegex(config) {
             } else if (rule.response) {
                return rule.response;
             } else {
-               assert(false, 'rule route or response: ' + rule.description);
+               assert(false, 'rule route or response: ' + rule.label);
             }
          }
          assert(false, 'no matching route');

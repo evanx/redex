@@ -1,22 +1,22 @@
 
-description: Merged config for static web server
+label: Merged config for static web server
 loggerLevel: debug
 
 configs:
 
 - processorName: http.importer.expressRouter.singleton
-  description: Express HTTP importer with builtin router
+  label: Express HTTP importer with builtin router
   port: 8880
   timeout: 30000
-  paths:
+  gets:
 
-  - description: Redex state
+  - label: Redex state
     path: /redex
     route:
     - redex.state.singleton
     disabled: false
 
-  - description: Otherwise to file server
+  - label: Otherwise to file server
     path: /
     route:
     - http.renderer.markdown.singleton

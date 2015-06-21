@@ -1,7 +1,7 @@
 
-description: Route HTTP messages for virtual hosts
+label: Route HTTP messages for virtual hosts
 rules:
-- description:
+- label:
   pluck: host
   regex: ^localhost$
   route:

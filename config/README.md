@@ -8,7 +8,7 @@ Configurators enable the configuration of a specific pattern of processors as a 
 
 We configure an `httpFileServer.default` pattern as follows:
 ```yaml
-description: static web server configuration for the httpFileServer configurator
+label: static web server configuration for the httpFileServer configurator
 loggerLevel: debug
 port: 8880
 root: /var/redexweb/root
@@ -30,18 +30,18 @@ export default function(config) {
    return [
       {
          processorName: names.importer,
-         description: 'Express web server to import HTTP requests',
+         label: 'Express web server to import HTTP requests',
          port: config.port || 8880,
          timeout: config.timeout || 2000,
          route: [ names.translator, names.fileServer ]
       },
       {
          processorName: names.translator,
-         description: 'Translate ExpressJS http message to file message'
+         label: 'Translate ExpressJS http message to file message'
       },
       {
          processorName: names.fileServer,
-         description: 'Serve files for a web server',
+         label: 'Serve files for a web server',
          root: config.root || '.',
          index: config.index || 'index.html',
       }

@@ -21,18 +21,18 @@ export default function regex(config) {
       assert(config.rules, 'config: rules');
       assert(config.rules.length, 'config: rules length');
       config.rules.forEach(initRule);
-      logger.info('start', config.rules.map(rule => rule.description));
+      logger.info('start', config.rules.map(rule => rule.label));
    }
 
    function initRule(rule) {
-      assert(rule.route || rule.response, 'rule requires route or response: ' + rule.description);
-      assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.description);
+      assert(rule.route || rule.response, 'rule requires route or response: ' + rule.label);
+      assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.label);
       if (rule.match) {
          if (rule.match !== 'all') {
             throw {message: 'unsupported match: ' + rule.match};
          }
       } else if (rule.regex) {
-         assert(rule.pluck || config.pluck, 'no pluck for: ' + rule.description);
+         assert(rule.pluck || config.pluck, 'no pluck for: ' + rule.label);
          if (!rule.pluck) {
             rule.pluck = config.pluck;
          }
@@ -46,7 +46,7 @@ export default function regex(config) {
    function match(message) {
       logger.debug('match', config.rules.length);
       return lodash.find(config.rules, rule => {
-         logger.debug('match rule', rule.description, rule.hasOwnProperty('regex'), rule.regex);
+         logger.debug('match rule', rule.label, rule.hasOwnProperty('regex'), rule.regex);
          if (rule.match === 'all') {
             logger.debug('match all');
             return true;
@@ -86,9 +86,9 @@ export default function regex(config) {
                return rule.response;
             } else {
                throw {
-                  message: 'interal error: no response or route for rule: ' + rule.description,
+                  message: 'interal error: no response or route for rule: ' + rule.label,
                   source: config.processorName,
-                  rule: rule.description
+                  rule: rule.label
                };
             }
          }

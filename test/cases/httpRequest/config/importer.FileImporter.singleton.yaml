@@ -1,5 +1,5 @@
 
-description: Read a message from a file
+label: Read a message from a file
 watchDir: tmp/fileImporter/watched/
 replyDir: tmp/fileImporter/reply/
 timeout: 8000 # ms

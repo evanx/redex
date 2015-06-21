@@ -1,5 +1,5 @@
 
-description: Import an HTTP request message from a Redis queue
+label: Import an HTTP request message from a Redis queue
 queue:
   in: redex:test:redishttp:in # the redis key for the incoming queue (list)
   reply: redex:test:redishttp:reply # the redis queue for replies

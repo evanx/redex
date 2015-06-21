@@ -1,31 +1,31 @@
 
-description: Route HTTP messages
+label: Route HTTP messages
 rules:
-- description: Private
+- label: Private
   pluck: url
   regex: ^/private
   response:
     statusCode: 403
     content: Access forbidden
-- description: Test
+- label: Test
   pluck: url
   regex: ^/test.txt$
   route:
   - http.translator.file.singleton
   - file.server.simple.singleton
-- description: Home
+- label: Home
   pluck: url
   regex: ^/$
   route:
   - http.translator.file.singleton
   - file.server.simple.singleton
-- description: Test
+- label: Test
   pluck: url
   regex: ^/test
   route:
   - http.translator.file.singleton
   - file.server.simple.singleton
-- description: Unsupported url route
+- label: Unsupported url route
   pluck: url
   regex: .*
   route:

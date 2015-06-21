@@ -19,33 +19,35 @@ export default function expressRouter(config, redex) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
-   assert(config.paths, 'paths');
+   assert(config.gets, 'gets');
+   if (config.posts) {
+   }
 
    let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    let startTime = new Date().getTime();
    let count = 0;
-   let paths;
+   let gets;
    let app;
 
    init();
 
    function init() {
-      assert(config.paths, 'config: paths');
-      assert(config.paths.length, 'config: paths length');
-      paths = lodash(config.paths)
+      assert(config.gets, 'config: gets');
+      assert(config.gets.length, 'config: gets length');
+      gets = lodash(config.gets)
       .filter(item => !item.disabled)
       .map(initPath)
       .value();
-      logger.info('start', paths.map(item => item.description));
+      logger.info('start', gets.map(item => item.label));
    }
 
    function initPath(item) {
       if (item.route) {
-         redex.resolveRoute(item.route, config.processorName, item.description);
+         redex.resolveRoute(item.route, config.processorName, item.label);
       } else if (item.response) {
          assert(item.response.statusCode, 'item response statusCode');
       } else {
-         assert(false, 'item requires route or response: ' + item.description);
+         assert(false, 'item requires route or response: ' + item.label);
       }
       if (item.match) {
          if (item.match !== 'all') {
@@ -56,14 +58,14 @@ export default function expressRouter(config, redex) {
          logger.debug('item path', item.path, item);
          return item;
       } else {
-         assert(false, 'item requires path or match: ' + item.description);
+         assert(false, 'item requires path or match: ' + item.label);
       }
    }
 
    function matchUrl(message) {
-      logger.debug('match', paths.length);
-      return lodash.find(paths, item => {
-         //logger.debug('match item', item.description);
+      logger.debug('match', gets.length);
+      return lodash.find(gets, item => {
+         //logger.debug('match item', item.label);
          if (item.match === 'all') {
             return true;
          } else if (item.path) {
@@ -76,51 +78,68 @@ export default function expressRouter(config, redex) {
       });
    }
 
+   function sendResponse(path, req, res, response) {
+      assert(response, 'no response');
+      assert(response.statusCode, 'no statusCode');
+      res.status(response.statusCode);
+      if (response.content) {
+         if (!response.contentType) {
+            logger.warn('no contentType', response.dataType, typeof response.content);
+            response.contentType = Paths.defaultContentType;
+         }
+         logger.debug('response content:', response.dataType, response.contentType, typeof response.content);
+         if (response.dataType === 'json') {
+            assert(lodash.isObject(response.content), 'content is object');
+            assert(/json$/.test(response.contentType), 'json contentType');
+            res.json(response.content);
+         } else {
+            res.contentType(response.contentType);
+            if (response.dataType === 'string') {
+               assert.equal(typeof response.content, 'string', 'string content');
+               res.send(response.content);
+            } else if (response.dataType === 'Buffer') {
+               assert.equal(response.content.constructor.name, 'Buffer', 'Buffer content');
+               res.send(response.content);
+            } else {
+               assert(false, 'content dataType: ' + response.dataType);
+            }
+         }
+      } else if (response.statusCode === 200) {
+         logger.debug('no content');
+         res.send();
+      } else {
+         logger.debug('statusCode', response.statusCode);
+         res.send();
+      }
+   }
+
+   function sendError(path, req, res, error) {
+      if (error.name === 'AssertionError') {
+         error = {name: err.name, message: err.message};
+      }
+      logger.warn('error', error);
+      res.status(500).send(error);
+   }
+
    app = express();
    app.listen(config.port);
    logger.info('listen', config.port);
-   app.get('/*', async (req, res) => {
-      logger.info('req', req.url);
-      try {
-         count += 1;
-         let id = startTime + count;
-         let meta = {type: 'express', id: id, host: req.hostname};
-         let response = await redex.import(req, meta, config);
-         assert(response, 'no response');
-         assert(response.statusCode, 'no statusCode');
-         res.status(response.statusCode);
-         if (response.content) {
-            if (!response.contentType) {
-               response.contentType = Paths.defaultContentType;
-            }
-            logger.debug('contentType', response.contentType);
-            if (lodash.isObject(response.content) || /json$/.test(response.contentType)) {
-               res.json(response.content);
-            } else {
-               res.contentType(response.contentType);
-               if (lodash.isString(response.content)) {
-                  logger.debug('string content:', response.statusCode, typeof response.content);
-                  res.send(response.content);
-               } else {
-                  res.send(response.content);
-               }
-            }
-         } else if (response.statusCode === 200) {
-            logger.debug('no content');
-            res.send();
-         } else {
-            logger.debug('statusCode', response.statusCode);
-            res.send();
+   gets.forEach(item => {
+      logger.info('path', item.path);
+      assert(item.path, 'path: ' + item.label);
+      assert(lodash.startsWith(item.path, '/'), 'absolute path: ' + item.path);
+      app.get(path, async (req, res) => {
+         logger.debug('req', req.url);
+         try {
+            count += 1;
+            let id = startTime + count;
+            let meta = {type: 'express', id: id, host: req.hostname};
+            let response = await redex.import(req, meta, config);
+            sendResponse(path, req, res, response);
+         } catch (error) {
+            sendError(path, req, res, error);
          }
-      } catch (err) {
-         if (err.name === 'AssertionError') {
-            logger.warn(err.name + ': ' + err.message);
-            res.status(500).send({name: err.name, message: err.message});
-         } else {
-            logger.warn(err);
-            res.status(500).send(err);
-         }
-      }
+      });
    });
 
    const methods = {

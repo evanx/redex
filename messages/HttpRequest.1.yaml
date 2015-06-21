@@ -1,4 +1,4 @@
-description: An HTTP request
+label: An HTTP request
 interface: # for automatic validation
   method: # e.g. GET, POST
     type: string
