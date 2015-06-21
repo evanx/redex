@@ -129,11 +129,11 @@ The core functionality of Redex is quite trivial:
 - enable the configuration of multiple "processor" instances (as components of a system)
 - enable sequential message-passing between processors
 
-Someone else might want to re-implement something similar in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
+Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
+
+We implement a number of processors to support some use-cases, especially around HTTP and Redis.
 
 We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
-
-If you have something alternative please let me know. I should list, compare and contrast alternatives.
 
 
 ### Alternative: Nginx
