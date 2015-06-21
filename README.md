@@ -289,7 +289,7 @@ We wish to introduce a processor factory e.g. `builtin/FileImporter.factory.json
 ## Learn more
 
 Redex routing:
-- https://github.com/evanx/redex/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redexRouting.md
 
 HTTP request example:
 - https://github.com/evanx/redex/tree/master/test/cases/httpRequest/

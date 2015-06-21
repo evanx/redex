@@ -348,4 +348,4 @@ Redex processor implementations:
 - https://github.com/evanx/redex/tree/master/processors/
 
 Redex routing:
-- https://github.com/evanx/redex/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redexRouting.md

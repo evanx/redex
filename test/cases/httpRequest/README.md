@@ -58,7 +58,7 @@ evans@boromir:~/redex$ redis-cli lrange redex:test:http:out 0 -1 |
 ## Learn more
 
 Redex routing:
-- https://github.com/evanx/redex/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redexRouting.md
 
 Redex processor implementations:
 - https://github.com/evanx/redex/tree/master/processors/

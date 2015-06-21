@@ -193,7 +193,7 @@ Incidently that the Redis `brpoplpush` command blocks its Redis client instance,
 ## Learn more
 
 Redex routing:
-- https://github.com/evanx/redex/blob/master/docs/redisRouting.md
+- https://github.com/evanx/redex/blob/master/docs/redexRouting.md
 
 HTTP request example:
 - https://github.com/evanx/redex/tree/master/test/cases/httpRequest/
