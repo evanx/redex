@@ -27,6 +27,12 @@ and then try the following in your browser:
 - [http://localhost:8880](http://localhost:8880)
 - [http://localhost:8880/redex](http://localhost:8880/redex)
 
+Note that the default index file is configured as `README.md.`
+
+See
+- https://github.com/evanx/redex/blob/master/config/configurator.httpFileServer.default.yaml
+- https://github.com/evanx/redex/blob/master/configurator/httpFileServer.js
+- https://github.com/evanx/redex/blob/master/scripts/test/auto/cli.http.simple.sh
 
 ### Running tests
 
@@ -48,24 +54,6 @@ See:
 - https://github.com/evanx/redex/tree/master/scripts/test/auto
 - https://github.com/evanx/redex/tree/master/scripts/test/cat.test.scripts.sh
 - https://github.com/evanx/redex/tree/master/scripts/test/all.sh
-
-
-### Static webserver
-
-As per the CLI static webserver test:
-```shell
-mkdir -p ~/tmp/redex
-cd ~/tmp/redex
-echo 'test me' > test.md
-nodejs ~/redex/index.js http | bunyan -o short
-```
-and then try `http://localhost:8880/test.md` in your browser.
-
-Note that you can try to invoke Redex with `http` command-line argument in any subdirectory which you wish to serve.
-
-See
-- https://github.com/evanx/redex/blob/master/scripts/test/auto/cli.http.simple.sh
-
 
 ## Overview
 
