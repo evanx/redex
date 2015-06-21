@@ -6,7 +6,7 @@
 
 On Ubuntu, run the following commands to `git clone` and `npm install.`
 ```shell
-cd;
+cd
 if git clone https://github.com/evanx/redex
 then
   cd redex
@@ -14,7 +14,7 @@ then
   npm install
 fi
 ```
-which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redex/node_modules/.`
+which will clone the Redex github repo into your home directory.
 
 
 ### Usage
