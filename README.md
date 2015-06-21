@@ -112,6 +112,9 @@ We wish to leverage ES7, Node and Redis because:
 - ES7 sugars the synchronisation of async coroutines via the "await" keyword
 - ES7 sugars the error handling of chained promises via exceptions
 
+
+### Node.js
+
 The core functionality of Redex is quite trivial:
 - enable the configuration of multiple "processor" instances (as components of a system)
 - enable sequential message-passing between processors
