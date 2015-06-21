@@ -1,6 +1,20 @@
 
 # Redex Router
 
+## Overview
+
+The name "Redex" can be interpreted as "Redis-based message eXchange."
+
+Redex is a tool for:
+- systems integration
+- orchestration of microservices
+
+Redex is a Node framework for:
+- communicating sequential processors (CSP)
+- reliable messaging through Redis queues
+- building resilient web infrastructure
+- custom messaging middleware
+
 
 ### Installing
 
@@ -67,21 +81,9 @@ See:
 - https://github.com/evanx/redex/tree/master/scripts/test/cat.test.scripts.sh
 - https://github.com/evanx/redex/tree/master/scripts/test/all.sh
 
-## Overview
 
-The name "Redex" can be interpreted as "Redis-based message eXchange."
+### Goals
 
-Redex is a tool for:
-- systems integration
-- orchestration of microservices
-
-Redex is a Node framework for:
-- communicating sequential processors (CSP)
-- reliable messaging through Redis queues
-- building resilient web infrastructure
-- custom messaging middleware
-
-Goals:
 - commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
 - release version 1.0 in 2016 when ES7 is standardised
 - distributable via replicas running against the same Redis server
