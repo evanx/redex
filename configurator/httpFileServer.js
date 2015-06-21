@@ -4,7 +4,7 @@ import assert from 'assert';
 // A configurator is for a given pattern, e.g. a simple static web server in this case.
 // It takes a wholistic config for that pattern e.g. port and document root,
 // and generates an array of processor configs e.g. a HTTP server (with the specified port),
-// and its file server (with the specified document root)
+// and a file reader (with the specified document root)
 
 export default function createConfigs(config, redexConfig) {
    const names = {
