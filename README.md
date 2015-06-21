@@ -56,11 +56,10 @@ As per the CLI static webserver test:
 ```shell
 mkdir -p ~/tmp/redex
 cd ~/tmp/redex
-echo 'test me' > test.txt
-curl -s http://localhost:8880/test.txt
-nodejs ~/redex/index.js http
+echo 'test me' > test.md
+nodejs ~/redex/index.js http | bunyan -o short
 ```
-and then try `http://localhost:8880` in your browser.
+and then try `http://localhost:8880/test.md` in your browser.
 
 Note that you can try to invoke Redex with `http` command-line argument in any subdirectory which you wish to serve.
 
