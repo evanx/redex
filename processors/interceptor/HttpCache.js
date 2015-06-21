@@ -6,7 +6,7 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
-import Redis from '../lib/Redis';
+const Redis = requireRedex('lib/Redis');
 
 export default class HttpCache {
 

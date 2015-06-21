@@ -7,8 +7,8 @@ import bunyan from 'bunyan';
 import lodash from 'lodash';
 import path from 'path';
 
-import Paths from '../../lib/Paths';
-import RedexState from '../../lib/RedexState';
+const Paths = requireRedex('lib/Paths');
+const RedexState = requireRedex('lib/RedexState');
 
 const { redex } = global;
 
