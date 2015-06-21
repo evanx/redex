@@ -1,8 +1,8 @@
 
 import assert from 'assert';
 
-// a configurator is for a given pattern, e.g. simple static web server
-// a configurator takes a wholistic config for that pattern e.g. port and document root,
+// A configurator is for a given pattern, e.g. a simple static web server in this case.
+// It takes a wholistic config for that pattern e.g. port and document root,
 // and generates an array of processor configs e.g. HTTP server (with the specified port),
 // and its file server (with the specified document root)
 
