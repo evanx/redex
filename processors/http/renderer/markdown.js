@@ -25,6 +25,9 @@ export default function markdown(config, redex) {
    }
 
    const service = {
+      get state() {
+         return { config };
+      },
       async process(message, meta, route) {
          assert(meta.type, 'message type');
          assert.equal('express', meta.type, 'express message type');

@@ -62,7 +62,7 @@ export default function urlRegex(config) {
    }
 
    const service = {
-      getState() {
+      get state() {
          return { config };
       },
       async process(message, meta) {

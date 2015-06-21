@@ -8,9 +8,9 @@ configs:
 - processorName: http.importer.expressRouter.singleton
   description: Express HTTP importer with builtin router
   port: 8880
-  rules: [
+  routes: [
   - description: Redex state
-    regex: ^/redex$
+    path: /redex
     route:
     - redex.state.singleton
     disabled: false

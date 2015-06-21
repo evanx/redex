@@ -73,7 +73,7 @@ export default function regex(config) {
    }
 
    const service = {
-      getState() {
+      get state() {
          return { config, seq };
       },
       async process(message, meta) {

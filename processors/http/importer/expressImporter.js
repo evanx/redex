@@ -81,7 +81,7 @@ export default function expressImporter(config, redex) {
    });
 
    const service = {
-      getState() {
+      get state() {
          return { config, count };
       },
    };

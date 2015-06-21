@@ -42,7 +42,7 @@ export default function fileServer(config, redex) {
    logger.info('start', config);
 
    const service = { // public methods
-      getState() {
+      get state() {
          return { config, count };
       },
       async process(message, meta) {

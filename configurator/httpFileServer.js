@@ -31,10 +31,10 @@ export default function createConfigs(config, redexConfig) {
       },
       {
          processorName: names.router,
-         description: 'Router for requests, by default to the file server',
+         //description: 'Router for requests, by default to the file server',
          rules: [
             {
-               //description: 'Redex state',
+               description: 'Redex state',
                regex: '^/redex$',
                route: [ names.redexState ],
                disabled: !config.debug

@@ -74,7 +74,7 @@ export default function httpImporter(config, redex) {
    });
 
    const service = { // public methods
-      getState() {
+      get state() {
          return { config, seq };
       },
    };

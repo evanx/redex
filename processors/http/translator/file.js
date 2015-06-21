@@ -25,7 +25,7 @@ export default function fileTranslator(config, redex) {
    }
 
    const service = {
-      getState() {
+      get state() {
          return { config, count };
       },
       async process(message, meta, route) {

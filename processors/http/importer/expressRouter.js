@@ -118,7 +118,7 @@ export default function expressRouter(config, redex) {
    });
 
    const methods = {
-      getState() {
+      get state() {
          return { config, id };
       },
    };

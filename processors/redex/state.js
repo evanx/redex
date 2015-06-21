@@ -25,6 +25,9 @@ export default function state(config, redex) {
    }
 
    const service = {
+      get state() {
+         return { config };
+      },
       async process(message, meta, route) {
          assert('express', meta.type, 'express meta type');
          logger.debug('process', meta.type);
