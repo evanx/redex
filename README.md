@@ -4,7 +4,7 @@
 
 ### Installing
 
-On Ubuntu, run the following commands to git clone, npm install, and then run test scripts:
+On Ubuntu, run the following commands to `git clone` and `npm install.`
 ```shell
 cd;
 if git clone https://github.com/evanx/redex
