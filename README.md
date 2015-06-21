@@ -112,6 +112,14 @@ We wish to leverage ES7, Node and Redis because:
 - ES7 sugars the synchronisation of async coroutines via the "await" keyword
 - ES7 sugars the error handling of chained promises via exceptions
 
+The core functionality of Redex is quite trivial:
+- enable the configuration of multiple "processor" instances (as components of a system)
+- enable sequential message-passing between processors
+
+Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
+
+We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
+
 
 ## Goals
 
@@ -125,15 +133,13 @@ We wish to leverage ES7, Node and Redis because:
 
 ## Alternatives
 
-The core functionality of Redex is quite trivial:
-- enable the configuration of multiple "processor" instances (as components of a system)
-- enable sequential message-passing between processors
+Redex is:
+- a framework for collaborating processors e.g. configured using YAML (or JSON)
+- extensible using Node modules i.e. JavaScript, CoffeeScript et al
+- a platform for integrating services via Redis
 
-Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
-
-We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
-
-We implement a number of processors to support some use-cases, especially around HTTP and Redis. As such Redex is not only a framework, but also a ready-made implementation which is applicable to some use-cases. It is quite configurable (using YAML) and extensible (using JavaScript, or CoffeeScript et al).
+We implement a number of processors to support some use-cases, especially around HTTP and Redis. Consequently it is also:
+- a ready-made implementation for some use-cases.
 
 Where it is an alternative to other projects, I will "compare and contrast" here. (Please let me know of any that I am missing.)
 
