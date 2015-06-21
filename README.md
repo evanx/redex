@@ -3,7 +3,7 @@
 
 ## Overview
 
-The name "Redex" can be interpreted as "Redis-based message eXchange."
+The name "Redex" can be interpreted as "Redis-based message <i>ex</i>change."
 
 Redex is a tool for:
 - systems integration
