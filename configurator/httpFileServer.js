@@ -61,7 +61,7 @@ export default function createConfigs(config, redexConfig) {
       {
          processorName: names.fileServer,
          description: 'Serve files for a web server. ' +
-         'Using the root and index specified in the configurator meta config',
+         'Using the root and index specified in the configurator meta config.',
          root: config.root, // document root of '.' will be process.cwd()
          index: config.index // e.g. README.md especially in case in ~/redex
       }
