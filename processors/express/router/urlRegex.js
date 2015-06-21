@@ -21,7 +21,10 @@ export default function urlRegex(config) {
    function init() {
       assert(config.rules, 'config: rules');
       assert(config.rules.length, 'config: rules length');
-      rules = config.rules.map(initRule);
+      rules = lodash(config.rules)
+      .filter(rule => !rule.disabled)
+      .map(initRule)
+      .value();
       logger.info('start', rules.map(rule => rule.description));
    }
 
@@ -60,7 +63,7 @@ export default function urlRegex(config) {
 
    const service = {
       getState() {
-         return { config, seq };
+         return { config };
       },
       async process(message, meta) {
          logger.debug('process', meta);

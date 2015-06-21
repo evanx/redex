@@ -25,7 +25,8 @@ export default function createConfigs(config, redexConfig) {
             {
                description: 'Redex state',
                regex: '^/redex$',
-               route: [ names.redexState ]
+               route: [ names.redexState ],
+               disabled: !config.debug
             },
             {
                description: 'All to file server',

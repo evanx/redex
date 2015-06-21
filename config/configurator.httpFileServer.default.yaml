@@ -2,4 +2,5 @@ description: static web server
 loggerLevel: info
 port: 8880
 root: test/case/webServer/root
+debug: true
 timeout: 2000
