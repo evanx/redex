@@ -26,6 +26,7 @@ nodejs ~/redex/index.js http | ~/redex/node_modules/bunyan/bin/bunyan -o short
 
 Alternatively use the following script:
 - https://github.com/evanx/redex/blob/master/scripts/http.run.sh
+- `sh ~/redix/scripts/http.run.sh`
 
 Then try the following in your browser:
 - [http://localhost:8880](http://localhost:8880)
