@@ -137,7 +137,8 @@ We implement a number of processors to support some use-cases, especially around
 
 As such Redex is not only a framework, but also a ready-made implementation for some use-cases. It is quite configurable (using YAML) and extensible (using JavaScript).
 
-Where it is an alternative to other projects (please let me know), I will compare and contrast here.
+Where it is an alternative to other projects, I will compare and contrast here. Please let me know which I am missing.
+
 
 ### Alternative: Nginx
 
