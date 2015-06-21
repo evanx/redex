@@ -167,8 +167,9 @@ Notes:
 - Redex uses ExpressJS
 
 See examples:
+- https://github.com/evanx/redex/tree/master/config/
+- https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
 - https://github.com/evanx/redex/tree/master/test/cases/webServer/
-
 
 ### Alternative: js-csp
 
@@ -297,5 +298,7 @@ Redex routing:
 HTTP request example:
 - https://github.com/evanx/redex/tree/master/test/cases/httpRequest/
 
-Static web server example:
+Static web server examples:
+- https://github.com/evanx/redex/tree/master/config/
+- https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
 - https://github.com/evanx/redex/tree/master/test/cases/webServer/
