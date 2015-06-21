@@ -18,7 +18,7 @@ export default function expressRouter(config, redex) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
-   assert(config.rules, 'rules');
+   assert(config.paths, 'paths');
 
    var logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    var startTime = new Date().getTime();
@@ -28,41 +28,45 @@ export default function expressRouter(config, redex) {
    init();
 
    function init() {
-      assert(config.rules, 'config: paths');
-      assert(config.rules.length, 'config: paths length');
-      rules = lodash(config.rules)
+      assert(config.paths, 'config: paths');
+      assert(config.paths.length, 'config: paths length');
+      paths = lodash(config.paths)
       .filter(rule => !rule.disabled)
-      .map(initRule)
+      .map(initPath)
       .value();
-      logger.info('start', rules.map(rule => rule.description));
+      logger.info('start', paths.map(rule => rule.description));
    }
 
-   function initRule(rule) {
-      assert(rule.route || rule.response, 'rule requires route or response: ' + rule.description);
-      assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.description);
+   function initPath(rule) {
+      if (rule.route) {
+         redex.resolveAll(rule.route, config.processorName, rule.description);
+      } else if (rule.response) {
+
+      } else {
+         assert(false, 'rule requires route or response: ' + rule.description);
+      }
       if (rule.match) {
          if (rule.match !== 'all') {
             throw {message: 'unsupported match: ' + rule.match};
          }
          return rule;
-      } else if (rule.regex) {
-         logger.debug('rule regex', rule.regex, rule);
-         let regex = new RegExp(rule.regex);
-         return Object.assign({}, rule, {regex});
+      } else if (rule.path) {
+         logger.debug('rule path', rule.path, rule);
+         return rule;
       } else {
-         throw {message: 'internal error'};
+         assert(false, 'rule requires path or match: ' + rule.description);
       }
    }
 
    function matchUrl(message) {
-      logger.debug('match', rules.length);
-      return lodash.find(rules, rule => {
+      logger.debug('match', paths.length);
+      return lodash.find(paths, rule => {
          //logger.debug('match rule', rule.description);
          if (rule.match === 'all') {
             return true;
-         } else if (rule.regex) {
+         } else if (rule.path) {
             let value = message.url;
-            return rule.regex.test(value);
+            return rule.path.test(value);
          } else {
             logger.warn('match none', rule);
             return false;
