@@ -24,7 +24,7 @@ To demonstrate a static web server, from the document root, run Redex as follows
 nodejs ~/redex/index.js http | bunyan -o short
 ```
 and then try the following in your browser:
-- http://localhost:8880
+- (http://localhost:8880)[http://localhost:8880]
 - http://localhost:8880/redex
 
 
