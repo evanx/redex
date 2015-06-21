@@ -30,7 +30,7 @@ and then try the following in your browser:
 
 ### Running tests
 
-You can inspect the test scripts as follows:
+Check the test scripts as follows:
 ```shell
 sh scripts/test/cat.test.scripts.sh
 ```

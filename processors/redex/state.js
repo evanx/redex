@@ -8,11 +8,11 @@ import lodash from 'lodash';
 import path from 'path';
 
 import Paths from '../../lib/Paths';
-import RedexStatus from '../../lib/RedexStatus';
+import RedexState from '../../lib/RedexState';
 
 const { redex } = global;
 
-export default function status(config, redex) {
+export default function state(config, redex) {
 
    var logger;
 
@@ -28,7 +28,7 @@ export default function status(config, redex) {
       async process(message, meta, route) {
          assert('express', meta.type, 'express meta type');
          logger.debug('process', meta.type);
-         let content = RedexStatus.render(redex);
+         let content = RedexState.render(redex);
          return {
             statusCode: 200,
             contentType: 'application/json',

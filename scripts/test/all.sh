@@ -1,4 +1,16 @@
 
+if ! nc -vz localhost 6379 
+then
+  echo "WARNING: Redis not running on localhost port 6379, so tests will not work"
+  exit 1
+fi
+
+if nc -vz localhost 8880 2>/dev/null
+then
+  echo "WARNING: Redex integration tests use port 8880 which is currently in use, so test will not work"
+  exit 1
+fi
+
 if ! cd ~/redex
 then
   echo "No ~/redex"

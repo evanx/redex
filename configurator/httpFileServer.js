@@ -4,7 +4,7 @@ import assert from 'assert';
 export default function createConfigs(config, redexConfig) {
    const names = {
       importer: 'importer.httpImporter.singleton',
-      redexStatus: 'redex.status.singleton',
+      redexState: 'redex.state.singleton',
       router: 'express.router.urlRegex.singleton',
       markdownRenderer: 'http.renderer.markdown.singleton',
       httpTranslator: 'translator.expressFile.singleton',
@@ -23,9 +23,9 @@ export default function createConfigs(config, redexConfig) {
          description: 'Router for requests',
          rules: [
             {
-               description: 'Redex status',
+               description: 'Redex state',
                regex: '^/redex$',
-               route: [ names.redexStatus ]
+               route: [ names.redexState ]
             },
             {
                description: 'All to file server',
@@ -35,8 +35,8 @@ export default function createConfigs(config, redexConfig) {
         ]
       },
       {
-         processorName: names.redexStatus,
-         description: 'Redex status renderer'
+         processorName: names.redexState,
+         description: 'Redex state renderer'
       },
       {
          processorName: names.markdownRenderer,
