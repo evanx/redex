@@ -141,8 +141,7 @@ We have chosen ES7 (via Babel), and might extend our implementation with TypeScr
 
 ## Alternatives
 
-We implement a number of processors to support some use-cases, especially around HTTP and Redis. Consequently it is also:
-- a ready-made implementation for some use-cases.
+We implement a number of processors to support some use-cases, especially around HTTP and Redis. Consequently Redex is a ready-made implementation for some use-cases.
 
 Where it is an alternative to other projects, I will "compare and contrast" here. (Please let me know of any that I am missing.)
 
