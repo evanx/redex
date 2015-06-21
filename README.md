@@ -133,7 +133,7 @@ Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would 
 
 We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
 
-We implement a number of processors to support some use-cases, especially around HTTP and Redis. As such Redex is not only a framework, but also a ready-made implementation for some use-cases. It is quite configurable (using YAML) and extensible (using JavaScript, or CoffeeScript et al).
+We implement a number of processors to support some use-cases, especially around HTTP and Redis. As such Redex is not only a framework, but also a ready-made implementation which is applicable to some use-cases. It is quite configurable (using YAML) and extensible (using JavaScript, or CoffeeScript et al).
 
 Where it is an alternative to other projects, I will "compare and contrast" here. (Please let me know of any that I am missing.)
 
