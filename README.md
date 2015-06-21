@@ -82,16 +82,6 @@ See:
 - https://github.com/evanx/redex/tree/master/scripts/test/all.sh
 
 
-### Goals
-
-- commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
-- release version 1.0 in 2016 when ES7 is standardised
-- distributable via replicas running against the same Redis server
-- scalable and reliable, especially when using Redis Cluster
-- be inspired by functional programming (e.g. immutable state i.e. no side-effects)
-- stateless processors, otherwise explicit state mutation via Redis
-
-
 ## Problem/Solution
 
 Problem:
@@ -99,7 +89,6 @@ Problem:
 
 Solution:
 - In practice we need to reconfigure such wiring at runtime as an operational concern. For this purpose, use we introduce Redex.
-
 
 ## Cost/Benefit
 
@@ -122,6 +111,17 @@ We wish to leverage ES7, Node and Redis because:
 - Node is a popular platform for building asynchronous infrastructure
 - ES7 sugars the synchronisation of async coroutines via the "await" keyword
 - ES7 sugars the error handling of chained promises via exceptions
+
+
+### Goals
+
+Goals:
+- commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
+- release version 1.0 in 2016 when ES7 is standardised
+- distributable via replicas running against the same Redis server
+- scalable and reliable, especially when using Redis Cluster
+- be inspired by functional programming (e.g. immutable state i.e. no side-effects)
+- stateless processors, otherwise explicit state mutation via Redis
 
 
 ## Alternatives
