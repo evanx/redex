@@ -6,5 +6,5 @@ rules:
   regex: ^localhost$
   route:
   - http.renderer.markdown.singleton
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton

@@ -32,7 +32,7 @@ export default function state(config, redex) {
          return {
             statusCode: 200,
             contentType: 'application/json',
-            contentDataType: 'json',
+            dataType: 'json',
             content: content
          }
       }

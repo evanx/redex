@@ -5,10 +5,10 @@ redis:
   host: localhost
   port: 6379
 configs:
-- processorName: http.importer.expressRouter.singleton
+- processor: http.importer.expressRouter.singleton
   description: Express HTTP importer with builtin router
   port: 8880
-  rules: [
+  rules:
   - description: Redex state
     regex: ^/redex$
     route:
@@ -20,8 +20,9 @@ configs:
     - http.renderer.markdown.singleton
     - http.translator.file.singleton
     - server.fileServer.singleton
-
-- processorName: http.router.urlRegex.singleton
-- processorName: http.renderer.markdown.singleton
-- processorName: http.translator.file.singleton
-- processorName: server.fileServer.singleton
+- processor: http.router.urlRegex.singleton
+- processor: http.renderer.markdown.singleton
+- processor: http.translator.file.singleton
+- processor: server.fileServer.singleton
+  root: test/cases/webServer/root
+  

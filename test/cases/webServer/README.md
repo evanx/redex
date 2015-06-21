@@ -60,7 +60,7 @@ rules:
   pluck: url
   regex: ^.*$
   route:
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton
 ```
 where we specify of list of `rules.`
@@ -69,7 +69,7 @@ The `router.regex` will pluck the URL from message, which is an the ExpressJS re
 
 We can hard-code an HTTP response e.g. 403 for "Access forbidden," or route the message to other processors, perhaps through filters and translators.
 
-The `translator.expressFile.singleton` translates Express messages into "file" messages for the `fileServer,` e.g. the `url` is taken as the file path:
+The `http.translator.file.singleton` translates Express messages into "file" messages for the `fileServer,` e.g. the `url` is taken as the file path:
 ```json
 {
    "path": "/test.txt"
@@ -86,7 +86,7 @@ rules:
 - description: Route localhost to a file server
   regex: ^localhost$
   route:
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton
 ```
 where we specify a RegExp rule based on the `hostname` plucked from the `req.`
@@ -200,7 +200,7 @@ async process(message, meta, route) {
    return {
       statusCode: 200,
       contentType: Paths.getContentType(path.extname(transMessage.path)),
-      contentDataType: reply.dataType,
+      dataType: reply.dataType,
       content: reply.data
    }
 }
@@ -250,7 +250,7 @@ We implement `configurators/httpFileServer` as follows:
 export default function(config) {
    const names = {
       importer: 'importer.httpImporter.singleton',
-      translator: 'translator.expressFile.singleton',
+      translator: 'http.translator.file.singleton',
       fileServer: 'server.fileServer.singleton'
    };
    return [

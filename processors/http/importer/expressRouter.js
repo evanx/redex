@@ -20,10 +20,10 @@ export default function expressRouter(config, redex) {
    assert(config.timeout, 'timeout');
    assert(config.rules, 'rules');
 
-   var app;
    var logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    var startTime = new Date().getTime();
-   var count;
+   var count = 0;
+   var app;
 
    init();
 

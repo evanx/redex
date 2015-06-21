@@ -24,7 +24,7 @@ We implement `configurators/httpFileServer` as follows:
 export default function(config) {
    const names = {
       importer: 'importer.httpImporter.singleton',
-      translator: 'translator.expressFile.singleton',
+      translator: 'http.translator.file.singleton',
       fileServer: 'server.fileServer.singleton'
    };
    return [

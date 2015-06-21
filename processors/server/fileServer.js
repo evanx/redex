@@ -15,14 +15,13 @@ import Paths from '../../lib/Paths';
 
 const { redex } = global;
 
-export default function fileServer(config, redex) { // trying processor constructor without class
+export default function fileServer(config, redex) {
 
    assert(config.root, 'root');
 
-   var seq = new Date().getTime();
-   var logger;
-
-   logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let startTime = new Date().getTime();
+   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let count = 0;
 
    if (lodash.startsWith(config.root, '/')) {
    } else if (config.root === '.') {
@@ -44,10 +43,11 @@ export default function fileServer(config, redex) { // trying processor construc
 
    const service = { // public methods
       getState() {
-         return { config, seq };
+         return { config, count };
       },
       async process(message, meta) {
          //logger.debug('message', meta);
+         count += 1;
          if (!meta.type) {
             throw {message: 'no type'};
          } else if (meta.type !== 'file') {
@@ -72,11 +72,11 @@ export default function fileServer(config, redex) { // trying processor construc
                   filePath = Paths.join(filePath, config.index);
                }
             }
-            logger.debug('filePath', filePath);
             let data = await Files.readFile(filePath);
+            logger.debug('filePath', filePath, data.constructor.name);
             return {
                type: 'data',
-               dataType: 'string',
+               dataType: 'Buffer',
                data: data
             };
          } catch (e) {

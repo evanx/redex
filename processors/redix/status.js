@@ -30,7 +30,7 @@ export default function status(config, redex) {
          return {
             statusCode: 200,
             contentType: 'application/json',
-            contentDataType: 'string',
+            dataType: 'string',
             content: content
          }
       }

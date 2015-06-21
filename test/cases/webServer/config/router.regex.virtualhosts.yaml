@@ -5,5 +5,5 @@ rules:
 - description:
   regex: ^localhost$
   route:
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton

@@ -3,11 +3,11 @@ import assert from 'assert';
 
 export default function createConfigs(config, redexConfig) {
    const names = {
-      importer: 'importer.httpImporter.singleton',
+      importer: 'http.importer.expressImporter.singleton',
       redexState: 'redex.state.singleton',
-      router: 'express.router.urlRegex.singleton',
+      router: 'http.router.urlRegex.singleton',
       markdownRenderer: 'http.renderer.markdown.singleton',
-      httpTranslator: 'translator.expressFile.singleton',
+      httpTranslator: 'http.translator.file.singleton',
       fileServer: 'server.fileServer.singleton'
    };
    return [
@@ -15,7 +15,7 @@ export default function createConfigs(config, redexConfig) {
          processorName: names.importer,
          description: 'Express web server to import HTTP requests',
          port: config.port || 8880,
-         timeout: config.timeout || 2000,
+         timeout: config.timeout || 2000, // millis
          route: [ names.router ]
       },
       {
@@ -50,8 +50,8 @@ export default function createConfigs(config, redexConfig) {
       {
          processorName: names.fileServer,
          description: 'Serve files for a web server',
-         root: config.root || '.',
-         index: config.index || 'README.md'
+         root: config.root || '.', // document root will be process.cwd()
+         index: config.index || 'README.md' // especially in case in ~/redex
       }
    ];
 }

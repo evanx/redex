@@ -16,7 +16,18 @@ c0client() {
   cp ~/redex/favicon.ico . 
   echo 'test me' > test.txt
   echo 'test me' > README.md
-  curl -s http://localhost:8880/test.txt | grep 'test me' && echo "${testName} OK"
+  if curl -s http://localhost:8880/test.txt > curl.txt 
+  then
+    if cat curl.txt | grep 'test me' 
+    then
+      echo "${testName} OK"
+    else 
+      cat curl.txt
+      echo; echo 'FAILED'
+    fi
+  else 
+    echo "exit code: $?"
+  fi 
   c0rm
 }
 

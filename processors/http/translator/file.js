@@ -7,17 +7,16 @@ import bunyan from 'bunyan';
 import lodash from 'lodash';
 import path from 'path';
 
-import Paths from '../../lib/Paths';
-import Files from '../../lib/Files';
+const { redex, requireRedex } = global;
 
-const { redex } = global;
+const Paths = requireRedex('lib/Paths');
+const Files = requireRedex('lib/Files');
 
-export default function expressFile(config, redex) {
+export default function fileTranslator(config, redex) {
 
-   var seq = new Date().getTime();
-   var logger;
-
-   logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let startTime = new Date().getTime();
+   let count = 0;
+   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
 
    init();
 
@@ -27,9 +26,10 @@ export default function expressFile(config, redex) {
 
    const service = {
       getState() {
-         return { config, seq };
+         return { config, count };
       },
       async process(message, meta, route) {
+         count += 1;
          if (!meta.type) {
             throw {message: 'No meta type'};
          } else if (meta.type !== 'express') {
@@ -46,14 +46,18 @@ export default function expressFile(config, redex) {
          let reply = await redex.dispatch(transMessage, transMeta, route);
          assert(reply, 'empty reply');
          assert(reply.type, 'no reply type');
-         assert(reply.type === 'data', 'reply type not data');
-         assert(reply.dataType === 'string', 'reply data type not string');
-         logger.debug('process reply:', {type: reply.type, keys: Object.keys(reply)});
+         assert(reply.type === 'data', 'reply type not data: ' + reply.type);
+         if (reply.dataType === 'string') {
+         } else if (reply.dataType === 'Buffer') {
+         } else {
+            assert(false, 'reply data type unsupported: ' + reply.dataType);
+         }
+         logger.debug('process reply:', {type: reply.type, dataType: reply.dataType, keys: Object.keys(reply)});
          meta.filePath = transMessage.path;
          return {
             statusCode: 200,
             contentType: Paths.getContentType(path.extname(transMessage.path)),
-            contentDataType: reply.dataType,
+            dataType: reply.dataType,
             content: reply.data
          }
       }

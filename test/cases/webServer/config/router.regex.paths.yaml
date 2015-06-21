@@ -11,19 +11,19 @@ rules:
   pluck: url
   regex: ^/test.txt$
   route:
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton
 - description: Home
   pluck: url
   regex: ^/$
   route:
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton
 - description: Test
   pluck: url
   regex: ^/test
   route:
-  - translator.expressFile.singleton
+  - http.translator.file.singleton
   - server.fileServer.singleton
 - description: Unsupported url route
   pluck: url

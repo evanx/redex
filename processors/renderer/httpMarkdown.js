@@ -49,7 +49,7 @@ export default function httpMarkdown(config, redex) {
          return {
             statusCode: 200,
             contentType: Paths.getContentType(path.extname(transMessage.path)),
-            contentDataType: reply.dataType,
+            dataType: reply.dataType,
             content: reply.data
          }
       }
