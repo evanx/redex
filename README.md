@@ -138,24 +138,24 @@ If you have something alternative please let me know. I should list, compare and
 
 ### Alternative: Nginx
 
-Redex can be configured as an HTTP gateway that competes with Nginx.
+Redex can be configured as an HTTP gateway, and so is an alternative to Nginx for some use-cases.
 
 Similarities:
-- Redex can perform the same function as Nginx for some limited use-cases
-- Both can be used to build a static web server, proxy server
+- Both can be configured as a static web server, proxy server
 - Both support caching
 
 Differences:
 - Redex is pre-alpha i.e. not ready for production
-- Redex does not yet support HTTPS and many other features of Nginx
-- Redex is extensible using JavaScript
+- Redex has only a small subset of Nginx's features
 - Redex uses YAML for configuration
-- Distributed Redex instances can collaborate via Redis queues, and shared state in Redis
+- Redex is extensible using JavaScript e.g. custom "processors" using Node middleware
+- Distributed Redex instances are intended to collaborate via Redis
 
 Notes:
 - Redex and Nginx can be used together e.g. where one proxies requests to the other
 - We intend to reduce the feature gap between Redex and Nginx
 - Redex uses ExpressJS
+
 
 ### Alternative: js-csp
 
