@@ -136,10 +136,10 @@ To improve resilience and promote fail-safe canary releases, we should move fail
 ## Learn more
 
 HTTP request example:
-- https://github.com/evanx/redex/tree/master/test/case/httpRequest/
+- https://github.com/evanx/redex/tree/master/test/cases/httpRequest/
 
 Static web server example:
-- https://github.com/evanx/redex/tree/master/test/case/webServer/
+- https://github.com/evanx/redex/tree/master/test/cases/webServer/
 
 Redex processor implementations:
 - https://github.com/evanx/redex/tree/master/processors/

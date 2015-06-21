@@ -1,4 +1,4 @@
 
 
-  baseDir=test/case/webServer nodejs index.js | bunyan -o short
+  baseDir=test/cases/webServer nodejs index.js | bunyan -o short
 

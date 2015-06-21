@@ -3,7 +3,7 @@
 
   testName=webServer
 
-  export baseDir=test/case/${testName}
+  export baseDir=test/cases/${testName}
   export pidFile=tmp/redex.${testName}.pid
 
   c0run() {

@@ -6,7 +6,7 @@ testName=redisImporter
 mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 
-export configDir=test/case/httpRequest/config
+export configDir=test/cases/httpRequest/config
 export pidFile=tmp/redex.${testName}.pid
 
 url="https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"

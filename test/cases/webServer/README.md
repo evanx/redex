@@ -342,7 +342,7 @@ Publish notifications:
 ## Learn more
 
 Configuration files for this static web server example:
-- https://github.com/evanx/redex/tree/master/test/case/webServer/config
+- https://github.com/evanx/redex/tree/master/test/cases/webServer/config
 
 Redex processor implementations:
 - https://github.com/evanx/redex/tree/master/processors/

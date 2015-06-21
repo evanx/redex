@@ -1,0 +1,27 @@
+
+description: Configuration for the Redex instance
+loggerLevel: debug
+redis:
+  host: localhost
+  port: 6379
+configs:
+- processorName: http.importer.expressRouter.singleton
+  description: Express HTTP importer with builtin router
+  port: 8880
+  rules: [
+  - description: Redex state
+    regex: ^/redex$
+    route:
+    - redex.state.singleton
+    disabled: false
+  - description: 'All to file server',
+    regex: ^.*$
+    route:
+    - http.renderer.markdown.singleton
+    - translator.expressFile.singleton
+    - server.fileServer.singleton
+
+- processorName: express.router.urlRegex.singleton
+- processorName: http.renderer.markdown.singleton
+- processorName: translator.expressFile.singleton
+- processorName: server.fileServer.singleton

@@ -2,7 +2,7 @@
 
 var path = require('path');
 
-var configDir = 'test/case/httpRequest/config';
+var configDir = 'test/cases/httpRequest/config';
 
 console.info(Object.keys(path));
 console.info(path.basename(configDir));
