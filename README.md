@@ -77,7 +77,7 @@ If any test fails, try running again, as the system is warmer. These integration
 If the test script "hangs" for more than 5 seconds or so, then there might be a problem. Press Ctrl-C and try it again. Tweet me @evanxsummers if the problem persists.
 
 See:
-- https://github.com/evanx/redex/tree/master/scripts/test/auto
+- https://github.com/evanx/redex/tree/master/scripts/test/cases
 - https://github.com/evanx/redex/tree/master/scripts/test/cat.test.scripts.sh
 - https://github.com/evanx/redex/tree/master/scripts/test/all.sh
 

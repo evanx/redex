@@ -31,15 +31,15 @@ c0clear
 
   for script in cli.http.simple.sh
   do
-    script="scripts/test/auto/$script"
+    script="scripts/test/cases/$script"
     echo; echo "### warmup: $script"
     sh ${script}
     break
   done
 
-  echo; echo "### ls -l scripts/test/auto/*.sh"
-  ls -l scripts/test/auto/*.sh
-  for script in `ls scripts/test/auto/*.sh`
+  echo; echo "### ls -l scripts/test/cases/*.sh"
+  ls -l scripts/test/cases/*.sh
+  for script in `ls scripts/test/cases/*.sh`
   do
     name=`basename $script .sh`
     out=tmp/test.${name}.out
