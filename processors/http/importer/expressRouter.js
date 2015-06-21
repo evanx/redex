@@ -57,7 +57,7 @@ export default function expressRouter(config, redex) {
    function matchUrl(message) {
       logger.debug('match', rules.length);
       return lodash.find(rules, rule => {
-         logger.info('match rule', rule.description, rule.hasOwnProperty('regex'), typeof rule.regex);
+         //logger.debug('match rule', rule.description);
          if (rule.match === 'all') {
             return true;
          } else if (rule.regex) {
