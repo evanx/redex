@@ -38,14 +38,6 @@ To demonstrate a static web server, from the document root, run Redex as follows
 nodejs ~/redex/index.js http | ~/redex/node_modules/bunyan/bin/bunyan -o short
 ```
 
-Alternatively use the following script:
-```shell
-sh ~/redix/scripts/http.run.sh
-```
-
-See:
-- https://github.com/evanx/redex/blob/master/scripts/http.run.sh
-
 Then try the following in your browser:
 - [http://localhost:8880](http://localhost:8880)
 - [http://localhost:8880/redex](http://localhost:8880/redex)
@@ -53,6 +45,14 @@ Then try the following in your browser:
 Notes:
 - the default index file is configured as `README.md.`
 - the `/redex` route is configured to serve the state of the Redex instance.
+
+Alternatively use the following script:
+```shell
+sh ~/redix/scripts/http.run.sh
+```
+
+See:
+- https://github.com/evanx/redex/blob/master/scripts/http.run.sh
 
 
 See the "configurator" config and implementation:
