@@ -1,6 +1,10 @@
 
 import assert from 'assert';
 
+// a configurator is for a given pattern, e.g. simple static web server
+// a configurator takes a wholistic config for that pattern e.g. port and document root,
+// and generates an array of processor configs e.g. HTTP server (port) and its file server (root)
+
 export default function createConfigs(config, redexConfig) {
    const names = {
       importer: 'http.importer.expressImporter.singleton',
