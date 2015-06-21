@@ -1,9 +1,6 @@
 
-description: Configuration for the Redex instance
+description: Merged config for static web server
 loggerLevel: debug
-redis:
-  host: localhost
-  port: 6379
 configs:
 - processorName: http.importer.expressRouter.singleton
   description: Express HTTP importer with builtin router
