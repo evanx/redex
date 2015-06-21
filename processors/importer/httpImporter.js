@@ -31,7 +31,7 @@ export default function httpImporter(config, redex) { // trying processor constr
    app.listen(config.port);
    logger.info('listen', config.port);
    app.get('/*', async (req, res) => {
-      logger.info('req', req.url, Object.keys(req).toString());
+      logger.info('req', req.url);
       try {
          seq += 1;
          let meta = {type: 'express', id: seq, host: req.hostname};
@@ -44,7 +44,7 @@ export default function httpImporter(config, redex) { // trying processor constr
                response.contentType = Paths.defaultContentType;
             }
             logger.debug('contentType', response.contentType);
-            if (/json$/.test(response.contentType)) {
+            if (lodash.isObject(response.content) || /json$/.test(response.contentType)) {
                res.json(response.content);
             } else {
                res.contentType(response.contentType);

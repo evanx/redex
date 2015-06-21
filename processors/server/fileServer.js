@@ -47,7 +47,7 @@ export default function fileServer(config, redex) { // trying processor construc
          return { config, seq };
       },
       async process(message, meta) {
-         logger.info('message', meta);
+         //logger.debug('message', meta);
          if (!meta.type) {
             throw {message: 'no type'};
          } else if (meta.type !== 'file') {

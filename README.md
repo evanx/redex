@@ -1,14 +1,6 @@
 
 # Redex Router
 
-## Usage
-
-To demonstrate a static web server, from the document root, run Redex as follows:
-```shell
-nodejs ~/redex/index.js http | bunyan -o short
-```
-and then try `http://localhost:8880` in your browser.
-
 
 ### Installing
 
@@ -20,12 +12,20 @@ then
   cd redex
   cat package.json
   npm install
-  cat scripts/test/cat.test.scripts.sh
 fi
 ```
 which will clone the github repo into your home directory, and show the dependent modules that will be installed into `~/redex/node_modules/.`
 
-Then try the usage described further above i.e. `nodejs index.js http,` or run tests.
+
+### Usage
+
+To demonstrate a static web server, from the document root, run Redex as follows:
+```shell
+nodejs ~/redex/index.js http | bunyan -o short
+```
+and then try the following in your browser:
+- http://localhost:8880
+- http://localhost:8880/redex
 
 
 ### Running tests
