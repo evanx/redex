@@ -21,7 +21,7 @@ which will clone the Redex github repo into your home directory.
 
 To demonstrate a static web server, from the document root, run Redex as follows:
 ```shell
-nodejs ~/redex/index.js http | bunyan -o short
+nodejs ~/redex/index.js http | ~/redex/node_modules/bunyan/bin/bunyan -o short
 ```
 and then try the following in your browser:
 - [http://localhost:8880](http://localhost:8880)
@@ -31,12 +31,10 @@ Notes:
 - the default index file is configured as `README.md.`
 - the `/redex` route is configured to serve the state of the Redex instance.
 
-See:
-- https://github.com/evanx/redex/blob/master/processors/redex/state.js
-- https://github.com/evanx/redex/blob/master/lib/RedexState.js
+See the "configurator" config and implementation:
 - https://github.com/evanx/redex/blob/master/config/configurator.httpFileServer.default.yaml
 - https://github.com/evanx/redex/blob/master/configurator/httpFileServer.js
-- https://github.com/evanx/redex/blob/master/scripts/test/auto/cli.http.simple.sh
+
 
 ### Running tests
 
