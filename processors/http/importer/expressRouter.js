@@ -29,9 +29,7 @@ export default function expressRouter(config, redex) {
    let gets;
    let app;
 
-   init();
-
-   function init() {
+   function configure() {
       assert(config.gets, 'config: gets');
       assert(config.gets.length, 'config: gets length');
       gets = lodash(config.gets)
@@ -49,33 +47,18 @@ export default function expressRouter(config, redex) {
       } else {
          assert(false, 'item requires route or response: ' + item.label);
       }
-      if (item.match) {
-         if (item.match !== 'all') {
-            throw {message: 'unsupported match: ' + item.match};
-         }
-         return item;
-      } else if (item.path) {
+      if (item.path) {
          logger.debug('item path', item.path, item);
          return item;
       } else {
-         assert(false, 'item requires path or match: ' + item.label);
+         assert(false, 'item requires path: ' + item.label);
       }
    }
 
-   function matchUrl(message) {
-      logger.debug('match', gets.length);
-      return lodash.find(gets, item => {
-         //logger.debug('match item', item.label);
-         if (item.match === 'all') {
-            return true;
-         } else if (item.path) {
-            let value = message.url;
-            return item.path.test(value);
-         } else {
-            logger.warn('match none', item);
-            return false;
-         }
-      });
+   function sendResponseStatus(path, req, res, response) {
+      assert(item.response.statusCode, 'item response statusCode');
+      assert(item.response.content, 'item response content');
+      res.statusCode(item.response.statusCode).send(item.response.content);
    }
 
    function sendResponse(path, req, res, response) {
@@ -121,26 +104,51 @@ export default function expressRouter(config, redex) {
       res.status(500).send(error);
    }
 
-   app = express();
-   app.listen(config.port);
-   logger.info('listen', config.port);
-   gets.forEach(item => {
+   function add(item) {
       logger.info('path', item.path);
       assert(item.path, 'path: ' + item.label);
       assert(lodash.startsWith(item.path, '/'), 'absolute path: ' + item.path);
-      app.get(path, async (req, res) => {
-         logger.debug('req', req.url);
+      app.get(item.path, async (req, res) => {
+         logger.info('req', req.url);
          try {
             count += 1;
             let id = startTime + count;
             let meta = {type: 'express', id: id, host: req.hostname};
-            let response = await redex.import(req, meta, config);
-            sendResponse(path, req, res, response);
+            if (item.route) {
+               logger.debug('route:', item.route, item.label);
+               let response = await redex.import(req, meta, {
+                  processorName: config.processorName,
+                  timeout: item.timeout || config.timeout,
+                  route: item.route,
+               });
+               sendResponse(item.path, req, res, response);
+            } else if (item.response) {
+               logger.debug('response', item.response, item.label);
+               sendResponseStatus(item.path, req, res, item.response);
+            } else {
+               assert(false, 'no route or response: ' + item.label);
+            }
          } catch (error) {
-            sendError(path, req, res, error);
+            sendError(item.path, req, res, error);
          }
       });
-   });
+   }
+
+   function start() {
+      app = express();
+      gets.forEach(item => {
+         try {
+            add(item);
+         } catch (e) {
+            logger.error('add', e);
+         }
+      });
+      app.listen(config.port);
+      logger.info('listen', config.port);
+   }
+
+   configure();
+   start();
 
    const methods = {
       get state() {
