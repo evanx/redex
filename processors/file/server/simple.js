@@ -10,12 +10,12 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-import Files from '../../lib/Files';
-import Paths from '../../lib/Paths';
+const Paths = requireRedex('lib/Paths');
+const Files = requireRedex('lib/Files');
 
 const { redex } = global;
 
-export default function fileServer(config, redex) {
+export default function create(config, redex) {
 
    assert(config.root, 'root');
 

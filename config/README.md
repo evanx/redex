@@ -25,7 +25,7 @@ export default function(config) {
    const names = {
       importer: 'importer.httpImporter.singleton',
       translator: 'http.translator.file.singleton',
-      fileServer: 'server.fileServer.singleton'
+      fileServer: 'file.server.simple.singleton'
    };
    return [
       {

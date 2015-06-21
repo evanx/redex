@@ -1,6 +1,8 @@
 
   cd ~/redex || exit 1
 
+  mkdir -p tmp 
+
   testName=httpFileServer.default
 
   export configFile=config/configurator.${testName}.yaml
@@ -12,18 +14,20 @@
 
   c0client() {
     sleep 2
-    curl -s http://localhost:8880/test.txt
-    echo
-    curl -s http://localhost:8880/private
-    echo
-    sleep 1
-    curl -s http://localhost:8880/test.html
-    echo
-    sleep 1
-    echo "curl -s localhost:8880/test.txt"
-    curl -I -s localhost:8880/test.txt
-    echo
-    curl -s http://localhost:8880/test.txt && (echo; echo "$testName OK")
+    echo 'curl -s http://localhost:8880/README.md'
+    if curl -s http://localhost:8880/README.md > tmp/curl.out
+    then
+      if cat tmp/curl.out | head -1 | grep Redex 
+      then 
+        echo 'OK'
+      else
+        head -1 tmp/curl.out
+        echo 'FAILED'
+      fi
+    else 
+      head -1 tmp/curl.out
+      echo 'FAILED'
+    fi
     rm -f $pidFile
   }
 

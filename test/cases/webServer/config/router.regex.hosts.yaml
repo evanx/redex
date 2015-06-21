@@ -7,4 +7,4 @@ rules:
   route:
   - http.renderer.markdown.singleton
   - http.translator.file.singleton
-  - server.fileServer.singleton
+  - file.server.simple.singleton

@@ -14,7 +14,7 @@ export default function createConfigs(config, redexConfig) {
       router: 'http.router.urlRegex.singleton',
       markdownRenderer: 'http.renderer.markdown.singleton',
       httpTranslator: 'http.translator.file.singleton',
-      fileServer: 'server.fileServer.singleton'
+      fileServer: 'file.server.simple.singleton'
    };
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');

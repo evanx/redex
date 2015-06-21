@@ -21,12 +21,12 @@ configs:
     route:
     - http.renderer.markdown.singleton
     - http.translator.file.singleton
-    - server.fileServer.singleton
-
-- processorName: http.router.urlRegex.singleton
+    - file.server.simple.singleton
 
 - processorName: http.renderer.markdown.singleton
 
 - processorName: http.translator.file.singleton
 
-- processorName: server.fileServer.singleton
+- processorName: file.server.simple.singleton
+  root: .
+  index: README.md

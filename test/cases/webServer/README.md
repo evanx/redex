@@ -61,7 +61,7 @@ rules:
   regex: ^.*$
   route:
   - http.translator.file.singleton
-  - server.fileServer.singleton
+  - file.server.simple.singleton
 ```
 where we specify of list of `rules.`
 
@@ -87,7 +87,7 @@ rules:
   regex: ^localhost$
   route:
   - http.translator.file.singleton
-  - server.fileServer.singleton
+  - file.server.simple.singleton
 ```
 where we specify a RegExp rule based on the `hostname` plucked from the `req.`
 
@@ -251,7 +251,7 @@ export default function(config) {
    const names = {
       importer: 'importer.httpImporter.singleton',
       translator: 'http.translator.file.singleton',
-      fileServer: 'server.fileServer.singleton'
+      fileServer: 'file.server.simple.singleton'
    };
    return [
       {

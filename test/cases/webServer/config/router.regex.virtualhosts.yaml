@@ -6,4 +6,4 @@ rules:
   regex: ^localhost$
   route:
   - http.translator.file.singleton
-  - server.fileServer.singleton
+  - file.server.simple.singleton
