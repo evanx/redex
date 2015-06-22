@@ -14,16 +14,14 @@ import Paths from '../../lib/Paths';
 
 const { redex } = global;
 
-export default function httpImporter(config, redex) { // trying processor constructor without class
+export default function httpImporter(config, redex, logger) { // trying processor constructor without class
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
    assert(config.route, 'route');
 
-   var logger, app;
-   var seq = new Date().getTime();
-
-   logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let app;
+   let count = 0;
 
    logger.info('start', config);
 
@@ -33,8 +31,9 @@ export default function httpImporter(config, redex) { // trying processor constr
    app.get('/*', async (req, res) => {
       logger.info('req', req.url);
       try {
-         seq += 1;
-         let meta = {type: 'express', id: seq, host: req.hostname};
+         count += 1;
+         let id = tartTime + count;
+         let meta = {type: 'express', id: id, host: req.hostname};
          let response = await redex.import(req, meta, config);
          assert(response, 'no response');
          assert(response.statusCode, 'no statusCode');
@@ -49,6 +48,9 @@ export default function httpImporter(config, redex) { // trying processor constr
             } else {
                res.contentType(response.contentType);
                if (lodash.isString(response.content)) {
+                  logger.debug('string content:', response.statusCode, typeof response.content);
+                  res.send(response.content);
+               } else {sponse.content)) {
                   logger.debug('string content:', response.statusCode, typeof response.content);
                   res.send(response.content);
                } else {
@@ -75,7 +77,7 @@ export default function httpImporter(config, redex) { // trying processor constr
 
    const service = { // public methods
       get state() {
-         return { config, seq };
+         return { config: config.summary, count: count };
       },
    };
 

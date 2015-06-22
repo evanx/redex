@@ -19,7 +19,6 @@ export default function create(config, redex) {
 
    assert(config.root, 'root');
 
-   let startTime = new Date().getTime();
    let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    let count = 0;
 
@@ -43,7 +42,7 @@ export default function create(config, redex) {
 
    const service = { // public methods
       get state() {
-         return { config, count };
+         return { config: config.summary, count: count };
       },
       async process(message, meta) {
          //logger.debug('message', meta);

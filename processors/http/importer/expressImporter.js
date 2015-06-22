@@ -21,7 +21,6 @@ export default function expressImporter(config, redex) {
    assert(config.route, 'route');
 
    var logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
-   var startTime = new Date().getTime();
    var count = 0;
    var app;
 
@@ -34,7 +33,7 @@ export default function expressImporter(config, redex) {
       logger.info('req', req.url);
       try {
          count += 1;
-         let id = startTime + count;
+         let id = redex.startTime + count;
          let meta = {type: 'express', id: id, host: req.hostname};
          let response = await redex.import(req, meta, config);
          assert(response, 'no response');
@@ -82,7 +81,7 @@ export default function expressImporter(config, redex) {
 
    const service = {
       get state() {
-         return { config, count };
+         return { config: config.summary, count: count };
       },
    };
 

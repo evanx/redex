@@ -24,7 +24,7 @@ export default class FileImporter {
       assert(config.timeout, 'timeout');
       assert(config.route, 'route');
       this.config = config;
-      this.seq = new Date().getTime();
+      this.count = 0;
       logger.info('constructor', this.constructor.name, this.config);
       this.watch();
    }
@@ -56,8 +56,8 @@ export default class FileImporter {
 
    async fileChanged(fileName) {
       let filePath = this.config.watchDir + fileName;
-      this.seq += 1;
-      let messageId = path.basename(fileName, '.yaml') + '-' + this.seq;
+      this.count += 1;
+      let messageId = path.basename(fileName, '.yaml') + '-' + this.count;
       logger.debug('fileChanged', filePath, messageId);
       try {
          let message = yaml.safeLoad(await Files.readFile(filePath));

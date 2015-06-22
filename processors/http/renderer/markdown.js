@@ -26,7 +26,7 @@ export default function markdown(config, redex) {
 
    const service = {
       get state() {
-         return { config };
+         return { config: config.summary };
       },
       async process(message, meta, route) {
          assert(meta.type, 'message type');

@@ -19,7 +19,7 @@ export default function httpCacheRedis(config, redex, logger) {
 
    const service = {
       get state() {
-         return { config };
+         return { config: config.summary };
       },
       async process(message, meta, route) {
          assert.equal(meta.type, 'express', 'http message type: ' + meta.type);

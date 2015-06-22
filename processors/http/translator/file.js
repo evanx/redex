@@ -14,9 +14,8 @@ const Files = requireRedex('lib/Files');
 
 export default function fileTranslator(config, redex) {
 
-   let startTime = new Date().getTime();
-   let count = 0;
    let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let count = 0;
 
    init();
 
@@ -26,7 +25,7 @@ export default function fileTranslator(config, redex) {
 
    const service = {
       get state() {
-         return { config, count };
+         return { config: config.summary, count: count };
       },
       async process(message, meta, route) {
          count += 1;

@@ -10,11 +10,8 @@ const { redex } = global;
 
 export default function urlRegex(config) {
 
-   let seq = new Date().getTime();
-   let logger;
+   let logger = bunyan.createLogger({name: config.processorName, level: 'info' || config.loggerLevel});
    let rules;
-
-   logger = bunyan.createLogger({name: config.processorName, level: 'info' || config.loggerLevel});
 
    init();
 
@@ -63,7 +60,7 @@ export default function urlRegex(config) {
 
    const service = {
       get state() {
-         return { config };
+         return { config: config.summary };
       },
       async process(message, meta) {
          logger.debug('process', meta);

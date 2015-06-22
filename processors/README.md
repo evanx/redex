@@ -165,10 +165,9 @@ Implementation snippet: `processors/RedisHttpRequestImporter.js`
 ```JavaScript
 async pop() {
    try {
-      var redisReply = await this.redis.brpoplpush(this.config.queue.in,
+      let redisReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
-      this.seq += 1;
-      var messageId = this.seq;
+      messageId += 1;
       this.addedPending(messageId, redisReply);
       let message = JSON.parse(redisReply);
       let reply = await redex.import(message, {messageId}, this.config);

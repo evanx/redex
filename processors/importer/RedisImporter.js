@@ -21,7 +21,7 @@ export default class RedisImporter {
       assert(config.route, 'route');
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
-      this.seq = 0;
+      this.count = 0;
       this.redis = new Redis();
       this.popTimeout = config.popTimeout || 0;
       this.pop();
@@ -40,8 +40,8 @@ export default class RedisImporter {
    }
 
    async pop() {
-      this.seq += 1;
-      let messageId = this.seq;
+      this.count += 1;
+      let messageId = this.count;
       const popReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
       try {

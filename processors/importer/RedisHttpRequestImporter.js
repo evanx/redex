@@ -21,7 +21,7 @@ export default class RedisHttpRequestImporter {
       assert(config.route, 'route');
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
-      this.seq = 0;
+      this.count = 0;
       this.popTimeout = this.config.popTimeout || 0;
       this.redis = new Redis();
       this.pop();
@@ -45,8 +45,8 @@ export default class RedisHttpRequestImporter {
          logger.debug('pop', this.config.queue.in);
          var redisReply = await this.redis.brpoplpush(this.config.queue.in,
             this.config.queue.pending, this.popTimeout);
-         this.seq += 1;
-         var messageId = this.seq;
+         this.count += 1;
+         var messageId = this.count;
          var expiryTime = new Date().getTime() + this.config.timeout;
          this.addedPending(messageId, redisReply);
          logger.debug('redisReply', redisReply);

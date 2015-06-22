@@ -26,8 +26,8 @@ app = express();
 app.listen(config.port);
 app.get('/*', async (req, res) => {
    try {
-      seq += 1;
-      let meta = {type: 'express', id: seq};
+      count += 1;
+      let meta = {type: 'express', id: count};
       let response = await redex.import(req, meta, config);
       assert(response, 'no response');
       assert(response.statusCode, 'no statusCode');

@@ -8,12 +8,7 @@ import lodash from 'lodash';
 
 const { redex } = global;
 
-export default function regex(config) {
-
-   var seq = new Date().getTime();
-   var logger;
-
-   logger = bunyan.createLogger({name: config.processorName, level: 'info' || config.loggerLevel});
+export default function regex(config, redex, logger) {
 
    init();
 
@@ -74,7 +69,7 @@ export default function regex(config) {
 
    const service = {
       get state() {
-         return { config, seq };
+         return { config: config.summary, count: count };
       },
       async process(message, meta) {
          logger.debug('process', meta);

@@ -20,10 +20,8 @@ export default function httpImporter(config, redex) {
    assert(config.timeout, 'timeout');
    assert(config.routes, 'routes');
 
-   var logger;
-   var seq = new Date().getTime();
-
-   logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
+   let count = 0;
 
    logger.info('start', config);
 
@@ -33,8 +31,8 @@ export default function httpImporter(config, redex) {
    app.get('/*', async (req, res) => {
       logger.info('req', req.url, Object.keys(req).toString());
       try {
-         seq += 1;
-         let meta = {type: 'express', id: seq, host: req.hostname};
+        count += 1;
+         let meta = {type: 'express', id: count, host: req.hostname};
          let response = await redex.import(req, meta, config);
          assert(response, 'no response');
          assert(response.statusCode, 'no statusCode');
@@ -75,7 +73,7 @@ export default function httpImporter(config, redex) {
 
    const service = { // public methods
       get state() {
-         return { config, seq };
+         return { config: config.summary, count: count };
       },
    };
 

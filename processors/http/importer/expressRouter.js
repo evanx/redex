@@ -24,7 +24,6 @@ export default function expressRouter(config, redex) {
    }
 
    let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
-   let startTime = new Date().getTime();
    let count = 0;
    let gets;
    let app;
@@ -115,7 +114,7 @@ export default function expressRouter(config, redex) {
          logger.info('req', req.url);
          try {
             count += 1;
-            let id = startTime + count;
+            let id = redex.startTime + count;
             let meta = {type: 'express', id: id, host: req.hostname};
             if (item.route) {
                logger.debug('route:', item.route, item.label);
@@ -155,7 +154,7 @@ export default function expressRouter(config, redex) {
 
    const methods = {
       get state() {
-         return { config, count };
+         return { config: config.summary, count: count };
       },
    };
 
