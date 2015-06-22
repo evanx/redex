@@ -6,7 +6,7 @@ This processor leverages ExpressJS, and is a combined HTTP importer and router.
 In this case, we have chosen to configure all the processors' `configs` in a single YAML file as follows:
 
 ```yaml
-label: Meta config for static web server
+label: All-in-one config for static web server
 loggerLevel: debug
 configs: # for collaborating processors for this use-case
 - processorName: http.importer.expressRouter.singleton
