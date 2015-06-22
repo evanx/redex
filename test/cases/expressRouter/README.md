@@ -57,11 +57,11 @@ The `http.translator.file` processor translates an HTTP request message into a "
 let fileMessage = {path: message.url};
 let fileMeta = {type: 'file'};
 let reply = await redex.dispatch(fileMessage, fileMeta, route);
-meta.filePath = fileMessage.path; // pass this back e.g. for the markdown renderer for README.md
 return {
    statusCode: 200,
    contentType: Paths.getContentType(path.extname(fileMessage.path)),
-   content: reply.data
+   content: reply.data,
+   filePath: fileMessage.path // send back e.g. README.md for the markdown renderer
 }
 ```
 
