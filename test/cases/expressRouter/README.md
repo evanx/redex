@@ -151,9 +151,9 @@ Notes:
 <hr>
 <img src="http://evanx.github.io/images/redex/redex-state.png" width="600" border="1"/>
 <hr>
-<img src="http://evanx.github.io/images/redex/redex-forbidden.png" border="1"/>
+<img src="http://evanx.github.io/images/redex/redex-forbidden.png" width="400" border="1"/>
 <hr>
-<img src="http://evanx.github.io/images/redex/redex-readme.png" border="1"/>
+<img src="http://evanx.github.io/images/redex/redex-readme.png" width="400" border="1"/>
 <hr>
 
 ## Learn more
