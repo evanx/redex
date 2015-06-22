@@ -193,8 +193,8 @@ async process(message, meta, route) {
       orig: meta
    };
    let reply = await redex.dispatch(transMessage, transMeta, route);
-   assert(reply, 'empty reply');
-   assert(reply.type, 'no reply type');
+   assert(reply, 'reply');
+   assert(reply.type, 'reply type');
    assert(reply.type === 'data', 'reply type is not data: ' + reply.type);
    assert(reply.dataType === 'blob', 'reply data type unsupported: ' + reply.dataType);
    return {

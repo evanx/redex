@@ -20,10 +20,14 @@ configs:
   - label: Otherwise to file server
     path: /
     route:
+    - http.cache.redis.singleton
     - http.renderer.markdown.singleton
     - http.translator.file.singleton
     - file.server.simple.singleton
 
+- processorName: http.cache.redis.singleton
+  redisKey: redix:test:http:cache
+  expiry: 10s
 - processorName: redex.state.singleton
 - processorName: http.renderer.markdown.singleton
 - processorName: http.translator.file.singleton

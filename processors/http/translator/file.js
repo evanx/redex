@@ -44,8 +44,8 @@ export default function fileTranslator(config, redex) {
             orig: meta
          };
          let reply = await redex.dispatch(fileMessage, fileMeta, route);
-         assert(reply, 'empty reply');
-         assert(reply.type, 'no reply type');
+         assert(reply, 'reply');
+         assert(reply.type, 'reply type');
          assert(reply.type === 'data', 'reply type not data: ' + reply.type);
          if (reply.dataType === 'string') {
          } else if (reply.dataType === 'Buffer') {
