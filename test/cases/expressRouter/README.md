@@ -39,6 +39,20 @@ where we configure three paths:
 - a private area with a hardcoded response status code (HTTP 403) and message
 - finally, a file server
 
+<hr>
+<img src="http://evanx.github.io/images/redex/redex-forbidden.png" width="400" border="1"/>
+<hr>
+
+
+#### Redex state
+
+This processor introspects the state of the active components and returns as JSON:
+
+<img src="http://evanx.github.io/images/redex/redex-state.png" width="600" border="1"/>
+<hr>
+
+#### Markdown renderer
+
 The request is passed through a markdown renderer. This will convert a reply with markdown content e.g. `~/redex/README.md,` into HTML content as follows:
 
 ```javascript
@@ -55,6 +69,8 @@ where we are using the `marked` library for this purpose.
 <img src="http://evanx.github.io/images/redex/redex-readme.png" width="400" border="1"/>
 <hr>
 
+#### File translator
+
 The `http.translator.file` processor translates an HTTP request message into a "file" message. This merely takes the HTTP path as the file path expected by the rather generic `file.server.simple` processor. It then translates the file content reply into an HTTP 200 message. (A file server with built-in support for HTTP messages, is perhaps something to consider as a further option. This would slightly simplify the required configuration by obviating the need for such a translator.)
 
 ```javascript
@@ -68,6 +84,8 @@ return {
    filePath: fileMessage.path // send back e.g. README.md for the markdown renderer
 }
 ```
+
+#### File server
 
 Finally the file server is configured with a document root directory.
 
@@ -151,12 +169,6 @@ Notes:
 - the default document root is the current working directory
 - the default index file is configured as `README.md`
 - the `/redex` route is configured to serve the state of the Redex instance
-
-<hr>
-<img src="http://evanx.github.io/images/redex/redex-state.png" width="600" border="1"/>
-<hr>
-<img src="http://evanx.github.io/images/redex/redex-forbidden.png" width="400" border="1"/>
-<hr>
 
 ## Learn more
 
