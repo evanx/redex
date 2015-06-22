@@ -18,7 +18,7 @@ See the implementation for `configurators/httpFileServer` as follows:
 - https://github.com/evanx/redex/blob/master/configurators/httpFileServer.js
 
 <hr>
-<img src="http://evanx.github.io/images/redex/redex-state.png" width="400"/>
+<img src="http://evanx.github.io/images/redex/redex-state.png" width="600"/>
 <hr>
 
 #### Implementation of HTTP file server configurator
