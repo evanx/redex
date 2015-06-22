@@ -56,3 +56,7 @@ where we generate the required configuration for three processors:
 The HTTP importer is configured with the `port` and `timeout.`
 
 The file server is configured with the document root directory and the default index file e.g. `index.html.`
+
+Other web server examples:
+- https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
+- https://github.com/evanx/redex/tree/master/test/cases/webServer/

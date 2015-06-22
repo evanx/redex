@@ -344,6 +344,10 @@ Publish notifications:
 Configuration files for this static web server example:
 - https://github.com/evanx/redex/tree/master/test/cases/webServer/config
 
+Other web server examples:
+- https://github.com/evanx/redex/tree/master/config/
+- https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
+
 Redex processor implementations:
 - https://github.com/evanx/redex/tree/master/processors/
 

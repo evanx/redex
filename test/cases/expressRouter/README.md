@@ -37,3 +37,7 @@ configs:
 
 See the implementation of the `http.importer.expressRouter` processor:
 - https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
+
+Other web server examples:
+- https://github.com/evanx/redex/tree/master/config/
+- https://github.com/evanx/redex/tree/master/test/cases/webServer/
