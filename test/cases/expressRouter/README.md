@@ -66,7 +66,7 @@ if (meta.type === 'express') {
 where we are using the `marked` library for this purpose.
 
 <hr>
-<img src="http://evanx.github.io/images/redex/redex-readme.png" width="400" border="1"/>
+<img src="http://evanx.github.io/images/redex/redex-readme.png" width="600" border="1"/>
 <hr>
 
 #### File translator
