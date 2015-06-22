@@ -61,7 +61,7 @@ let fileMeta = {
    type: 'file'
 };
 let reply = await redex.dispatch(fileMessage, fileMeta, route);
-meta.filePath = fileMessage.path;
+meta.filePath = fileMessage.path; // pass this back e.g. for the markdown renderer to handle README.md
 return {
    statusCode: 200,
    contentType: Paths.getContentType(path.extname(fileMessage.path)),
