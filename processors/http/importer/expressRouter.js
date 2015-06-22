@@ -98,6 +98,7 @@ export default function expressRouter(config, redex) {
    function sendError(item, req, res, error) {
       if (error.name === 'AssertionError') {
          error = {name: error.name, message: error.message};
+         logger.warn('error', error);
       } else if (error.stack) {
          logger.warn('error', error.stack);
       } else {
@@ -128,7 +129,7 @@ export default function expressRouter(config, redex) {
                logger.debug('response', item.response, item.label);
                sendResponseStatus(item.path, req, res, item.response);
             } else {
-               assert(false, 'no route or response: ' + item.label);
+               assert(false, 'route or response: ' + item.label);
             }
          } catch (error) {
             sendError(item.path, req, res, error);

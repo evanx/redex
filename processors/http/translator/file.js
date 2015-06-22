@@ -53,12 +53,14 @@ export default function fileTranslator(config, redex) {
          }
          logger.debug('process reply:', {type: reply.type, dataType: reply.dataType, keys: Object.keys(reply)});
          meta.filePath = fileMessage.path;
-         return {
+         let httpReply = {
             statusCode: 200,
             contentType: Paths.getContentType(path.extname(fileMessage.path)),
             dataType: reply.dataType,
             content: reply.data
          }
+         logger.debug('reply', httpReply.statusCode, httpReply.contentType, reply.data.length);
+         return httpReply;
       }
    };
 

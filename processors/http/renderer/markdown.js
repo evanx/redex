@@ -12,7 +12,7 @@ const Paths = requireRedex('lib/Paths');
 
 const { redex } = global;
 
-export default function markdown(config, redex) {
+export default function httpRendererMarkdown(config, redex) {
 
    var logger;
 
@@ -38,13 +38,10 @@ export default function markdown(config, redex) {
                assert(reply.contentType, 'reply contentType');
                logger.debug('renderer', reply.contentType, meta.filePath);
                if (lodash.endsWith(meta.filePath, '.md')) {
-                  if (reply.contentType == 'application/octet-stream') {
+                  if (reply.contentType !== 'text/x-markdown') {
                      logger.warn('reply contentType', reply.contentType);
-                     reply.contentType = 'text/plain';
+                     reply.contentType = 'text/x-markdown';
                   }
-                  if (reply.contentType !== 'text/plain') {
-                     logger.warn('reply contentType', reply.contentType);
-                  } else {
                      try {
                         logger.debug('reply content type', typeof reply.content, reply.content.constructor.name);
                         let content = reply.content.toString();
@@ -60,11 +57,11 @@ export default function markdown(config, redex) {
                            throw e;
                         }
                      }
-                  }
                }
             } else {
                logger.warn('message type', meta.type);
             }
+            logger.info('reply', meta.filePath);
             return reply;
          });
       }

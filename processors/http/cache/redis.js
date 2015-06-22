@@ -6,17 +6,17 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
-const Millis = requireRedex('lib/Millis');
+const Seconds = requireRedex('lib/Seconds');
 const Redis = requireRedex('lib/Redis');
 
 export default function httpCacheRedis(config, redex, logger) {
 
    assert(config.redisKey, 'redisKey');
-   config.expire = Millis.assert(config.expire, 'expire');
+   config.expire = Seconds.assert(config.expire, 'expire');
 
    const redis = new Redis();
 
-   logger.info('started', config.redisKey, Millis.format(config.expire), config.expire);
+   logger.info('started', config.redisKey, Seconds.format(config.expire), config.expire);
 
    const service = {
       get state() {
@@ -28,22 +28,29 @@ export default function httpCacheRedis(config, redex, logger) {
          let redisKey = config.redisKey + ':hashes:' + message.url;
          logger.info('redisKey', redisKey);
          if (config.clear) {
-           await redis.del(redisKey);
+            await redis.del(redisKey);
          } else {
-           const cached = await redis.hgetall(redisKey);
-           if (cached !== null) {
-             logger.info('cached', cached);
-             return cached;
-           }
-         }
-         return redex.dispatch(message, meta, route).then(reply => {
-            assert(reply.statusCode, 'reply statusCode');
-            if (reply.statusCode === 200) {
-               redis.hmset(redisKey, reply);
-               redis.expire(redisKey, config.expire);
+            const cached = await redis.hgetall(redisKey);
+            if (cached !== null) {
+               logger.debug('hgetall', cached.contentType, cached.content.length, Object.keys(cached));
+               return cached;
             }
-            return reply;
-         });
+         }
+         let reply = await redex.dispatch(message, meta, route);
+         logger.info('reply', Object.keys(reply));
+         assert(reply.statusCode, 'reply statusCode');
+         if (reply.statusCode === 200) {
+            let cached = {
+               statusCode: reply.statusCode,
+               contentType: reply.contentType,
+               dataType: 'string',
+               content: reply.content.toString()
+            };
+            logger.info('hmset', cached.contentType, cached.content.length);
+            redis.hmset(redisKey, cached);
+            redis.expire(redisKey, config.expire);
+         }
+         return reply;
       }
    };
 
