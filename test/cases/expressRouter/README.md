@@ -148,7 +148,13 @@ Notes:
 - the default index file is configured as `README.md`
 - the `/redex` route is configured to serve the state of the Redex instance
 
-<img src='http://evanx.github.io/images/redex/redex-state.png' width='600' border='1'/>
+<hr>
+<img src="http://evanx.github.io/images/redex/redex-state.png" width="600" border="1"/>
+<hr>
+<img src="http://evanx.github.io/images/redex/redex-forbidden.png" border="1"/>
+<hr>
+<img src="http://evanx.github.io/images/redex/redex-readme.png" border="1"/>
+<hr>
 
 ## Learn more
 
