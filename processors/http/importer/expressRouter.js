@@ -110,7 +110,7 @@ export default function expressRouter(config, redex) {
    function add(item) {
       logger.info('path', item.path);
       assert(item.path, 'path: ' + item.label);
-      assert(lodash.startsWith(item.path, '/'), 'absolute path: ' + item.path);
+      assert.equal(item.path[0], '/', 'absolute path: ' + item.path);
       app.get(item.path, async (req, res) => {
          logger.info('req', req.url);
          try {

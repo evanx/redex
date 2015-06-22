@@ -1,5 +1,5 @@
 
-## expressRouter
+## ExpressJS HTTP importer with built-in path router
 
 This processor leverages ExpressJS, and is a combined HTTP importer and router.
 
@@ -35,8 +35,41 @@ configs:
   index: README.md
 ```
 
+### Implementation
+
 See the implementation of the `http.importer.expressRouter` processor:
 - https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
+
+We add each configured `path` for HTTP GET methods to the ExpressJS `app` as follows.
+```javascript
+function add(item) {
+   assert(item.path, 'path: ' + item.label);
+   assert.equal(item.path[0], '/', 'absolute path: ' + item.path);
+   app.get(item.path, async (req, res) => {
+      try {
+         count += 1;
+         let id = startTime + count;
+         let meta = {type: 'express', id: id, host: req.hostname, url: req.url};
+         if (item.route) {
+            let response = await redex.import(req, meta, {
+               processorName: config.processorName,
+               timeout: item.timeout || config.timeout,
+               route: item.route,
+            });
+            sendResponse(item.path, req, res, response);
+         } else if (item.response) {
+            sendResponseStatus(item.path, req, res, item.response);
+         } else {
+            assert(false, 'no route or response: ' + item.label);
+         }
+      } catch (error) {
+         sendError(item.path, req, res, error);
+      }
+   });
+}
+```
+
+### Running
 
 We run this configuration using the following script:
 ```shell
