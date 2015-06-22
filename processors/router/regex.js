@@ -6,7 +6,7 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-const { redex } = global;
+const { redex } = RedexGlobal;
 
 export default function regex(config, redex, logger) {
 

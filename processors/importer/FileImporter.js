@@ -9,11 +9,9 @@ import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 
-import Files from '../../lib/Files';
-
-const { redex } = global;
-
-const logger = bunyan.createLogger({name: 'FileImporter', level: global.redexLoggerLevel});
+const logger = bunyan.createLogger({name: 'FileImporter', level: RedexGlobal.loggerLevel});
+const Files = RedexGlobal.require('lib/Files');
+const { redex } = RedexGlobal;
 
 
 export default class FileImporter {

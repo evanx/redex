@@ -3,4 +3,5 @@
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
 require('babel/register')({stage: 0});
+require('./lib/RedexGlobal');
 require('./lib/RedexStart');

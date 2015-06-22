@@ -8,13 +8,15 @@ import util from 'util';
 
 const Asserts = RedexGlobal.require('lib/Asserts');
 
-export default function rateLimitFilter(config, redex, logger) {
+export default function rateLimiter(config, redex, logger) {
+
+   let count = 0;
 
    init();
 
    function init() {
-      redex.assertNumber(config.limit, 'limit');
-      redex.assertNumber(config.periodMillis, 'periodMillis');
+      Asserts.assertNumber(config.limit, 'limit');
+      Asserts.assertNumber(config.periodMillis, 'periodMillis');
       start();
    }
 
@@ -23,7 +25,7 @@ export default function rateLimitFilter(config, redex, logger) {
       if (config.periodMillis) {
          setInterval(() => {
             count = 0;
-         }, periodMillis);
+         }, config.periodMillis);
       }
       logger.info('started');
    }
@@ -33,10 +35,17 @@ export default function rateLimitFilter(config, redex, logger) {
          count, config.limit, config.periodMillis);
    }
 
-   async function process(message, meta, route) {
-      logger.debug('count', count);
-      count += 1;
-      assert(count <= config.limit, 'Limit exceeded: ' + formatExceeded());
-      return redex.dispatch(message, meta, route);
-   }
+   const service = {
+      get state() {
+         return { config: config.summary };
+      },
+      async process(message, meta, route) {
+         logger.debug('count', count);
+         count += 1;
+         assert(count <= config.limit, 'Limit exceeded: ' + formatExceeded());
+         return redex.dispatch(message, meta, route);
+      }
+   };
+
+   return service;
 }

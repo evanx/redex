@@ -5,9 +5,11 @@
 import assert from 'assert';
 import bunyan from 'bunyan';
 
-import Redis from '../../lib/Redis';
+const Redis = RedexGlobal.require('lib/Redis');
 
-const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: global.redexLoggerLevel});
+const { redex } = RedexGlobal;
+
+const logger = bunyan.createLogger({name: 'RedisHttpRequestImporter', level: RedexGlobal.loggerLevel});
 
 const redis = new Redis();
 

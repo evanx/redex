@@ -6,20 +6,19 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-import { request } from '../../lib/Requests';
-import Redis from '../../lib/Redis';
+const Redis = RedexGlobal.require('lib/Redis');
+const Asserts = RedexGlobal.require('lib/Asserts');
+const { request } = RedexGlobal.require('lib/Requests');
+const { redex } = RedexGlobal;
 
+const logger = bunyan.createLogger({name: 'HttpExporter', level: RedexGlobal.loggerLevel});
 const redis = new Redis();
-
-const logger = bunyan.createLogger({name: 'HttpExporter', level: global.redexLoggerLevel});
-
-const { redex } = global;
 
 export default class HttpExporter {
 
    constructor(config) {
-      redex.assert(!config.route, 'route');
-      redex.assert(config.queue.pending);
+      Asserts.assert(!config.route, 'route');
+      Asserts.assert(config.queue.pending);
       this.config = config;
       logger.info('constructor', this.constructor.name, this.config);
    }

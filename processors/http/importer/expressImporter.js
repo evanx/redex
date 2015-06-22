@@ -12,7 +12,7 @@ import express from 'express';
 
 const Paths = RedexGlobal.require('lib/Paths');
 
-const { redex } = global;
+const { redex } = RedexGlobal;
 
 export default function expressImporter(config, redex) {
 

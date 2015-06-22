@@ -6,11 +6,8 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-const { redex } = global;
+export default function urlRegex(config, redex, logger) {
 
-export default function urlRegex(config) {
-
-   let logger = bunyan.createLogger({name: config.processorName, level: 'info' || config.loggerLevel});
    let rules;
 
    init();

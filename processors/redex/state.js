@@ -10,7 +10,7 @@ import path from 'path';
 const Paths = RedexGlobal.require('lib/Paths');
 const RedexState = RedexGlobal.require('lib/RedexState');
 
-const { redex } = global;
+const { redex } = RedexGlobal;
 
 export default function state(config, redex) {
 

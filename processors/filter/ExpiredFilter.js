@@ -6,13 +6,15 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
+const { redex } = RedexGlobal;
+
 export default class ExpiredFilter {
 
    constructor(config) {
       this.config = config;
       this.logger = bunyan.createLogger({
         name: config.processorName,
-        level: global.redexLoggerLevel
+        level: RedexGlobal.loggerLevel
       });
       this.start();
    }

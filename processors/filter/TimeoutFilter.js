@@ -6,6 +6,8 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
+const { redex } = RedexGlobal;
+
 export default class TimeoutFilter {
 
    constructor(config) {
@@ -13,7 +15,7 @@ export default class TimeoutFilter {
       assert(this.config.timeout, 'timeout');
       this.logger = bunyan.createLogger({
         name: config.processorName,
-        level: global.redexLoggerLevel
+        level: RedexGlobal.loggerLevel
       });
       this.start();
    }

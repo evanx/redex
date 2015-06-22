@@ -13,7 +13,7 @@ import express from 'express';
 const Paths = RedexGlobal.require('lib/Paths');
 const Files = RedexGlobal.require('lib/Files');
 
-const { redex } = global;
+const { redex } = RedexGlobal;
 
 export default function create(config, redex) {
 

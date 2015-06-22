@@ -10,9 +10,7 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-import Paths from '../../lib/Paths';
-
-const { redex } = global;
+const { redex } = RedexGlobal;
 
 export default function httpImporter(config, redex, logger) { // trying processor constructor without class
 
