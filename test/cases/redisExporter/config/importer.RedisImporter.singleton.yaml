@@ -7,4 +7,4 @@ queue:
   error: redex:test:exporter:error # to recover failed messages
 timeout: 8000 # ms
 route:
-- exporter.RedisExporter.singleton
+- exporter.redisExporter.singleton

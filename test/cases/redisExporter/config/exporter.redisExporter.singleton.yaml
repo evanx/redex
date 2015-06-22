@@ -4,4 +4,4 @@ queue:
   in: redex:test:exporter:in # the redis key for the incoming queue (list)
   out: redex:test:exporter:out # the redis queue for replies
 route:
-- RedisExporter.singleton
+- redisExporter.singleton

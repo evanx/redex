@@ -3,7 +3,6 @@
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
 import assert from 'assert';
-import bunyan from 'bunyan';
 import lodash from 'lodash';
 
 const Redis = RedexGlobal.require('lib/Redis');
@@ -25,7 +24,7 @@ export default function httpExporter(config, redex, logger) {
          try {
             var messageString = JSON.stringify(message);
             logger.debug('promise', meta, route, messageString);
-            assert.equal(await redis.sadd(this.config.queue.pending, messageString),
+            assert.equal(await redis.sadd(config.queue.pending, messageString),
                   1, 'sadd');
             return request({
                method: message.method || 'GET',
@@ -36,7 +35,7 @@ export default function httpExporter(config, redex, logger) {
             logger.error('promise', err.stack);
             return err;
          } finally {
-            assert.equal(await redis.srem(this.config.queue.pending, messageString),
+            assert.equal(await redis.srem(config.queue.pending, messageString),
                   1, 'srem');
          }
       }

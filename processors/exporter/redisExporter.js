@@ -3,27 +3,19 @@
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
 import assert from 'assert';
-import bunyan from 'bunyan';
 
 const Redis = RedexGlobal.require('lib/Redis');
-const { redex } = RedexGlobal;
-
-const logger = bunyan.createLogger({name: 'RedisExporter', level: RedexGlobal.loggerLevel});
 
 const redis = new Redis();
 
-export default class RedisExporter {
+export default function redisExporter(config, redex, logger) {
 
-   constructor(config) {
-      assert(config.queue.out, 'queue.out');
-      assert(!config.queue.in, 'queue.in');
-      assert(!config.route, 'route');
-      this.config = config;
-      logger.info('constructor', this.constructor.name, this.config);
-   }
+   assert(config.queue.out, 'queue.out');
+   assert(!config.queue.in, 'queue.in');
+   assert(!config.route, 'route');
 
    formatMessage(message) {
-      if (this.config.json) {
+      if (config.json) {
          return JSON.stringify(message);
       } else {
          return message.toString();
@@ -35,9 +27,9 @@ export default class RedisExporter {
          return { config: config.summary };
       },
       async process(message, meta, route) {
-         let string = this.formatMessage(message);
-         logger.debug('promise lpush:', meta, this.config.queue.out, string);
-         await redis.lpush(this.config.queue.out, string);
+         let string = formatMessage(message);
+         logger.debug('promise lpush:', meta, config.queue.out, string);
+         await redis.lpush(config.queue.out, string);
          return;
       }
    };

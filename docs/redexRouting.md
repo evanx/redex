@@ -12,7 +12,7 @@ timeout: 8000 # ms
 route:
 - HttpRequestValidator.singleton
 - rateLimiter.singleton
-- RedisExporter.singleton
+- redisExporter.singleton
 ```
 where `route` is an array of processor names.
 
