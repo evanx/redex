@@ -12,7 +12,7 @@ configs: # for collaborating processors for this use-case
 - processorName: http.importer.expressRouter.singleton
   label: Express HTTP importer with builtin router
   port: 8880
-  timeout: 30000
+  timeout: 5000 # milliseconds
   gets:
   - label: Respond with Redex processors' state in JSON i.e. for debugging
     path: /redex
