@@ -48,11 +48,7 @@ export default function create(config, redex) {
       async process(message, meta) {
          //logger.debug('message', meta);
          count += 1;
-         if (!meta.type) {
-            throw {message: 'no type'};
-         } else if (meta.type !== 'file') {
-            throw {message: 'unsupported type: ' + meta.type};
-         }
+         assert.equal(meta.type, 'file', 'supported message type');
          assert(message.path.indexOf('..') < 0, 'valid path');
          if (message.path === '/') {
             if (!config.index) {
