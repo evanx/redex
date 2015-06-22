@@ -43,6 +43,15 @@ where we configure three paths:
 <img src="http://evanx.github.io/images/redex/redex-forbidden.png" width="400" border="1"/>
 <hr>
 
+#### Instantiation
+
+Note the Redex state, markdown and translator processors do not have any configuration per se, but are explicitly listed as follows:
+```yaml
+- processorName: redex.state.singleton
+- processorName: http.renderer.markdown.singleton
+- processorName: http.translator.file.singleton
+```
+Perhaps these could be automatically configured e.g. by a config "decorator." Since they are referenced in a `route,` they are implicitly required to be instantiated.
 
 #### Redex state
 
@@ -109,15 +118,6 @@ async process(message, meta) {
          data: data
       };
 ```
-
-Note the Redex state, markdown and translator processors do not have any configuration per se, but are explicitly listed as follows:
-```yaml
-- processorName: redex.state.singleton
-- processorName: http.renderer.markdown.singleton
-- processorName: http.translator.file.singleton
-```
-Perhaps these could be automatically configured e.g. by a config "decorator." Since they are referenced in a `route,` they are implicitly required to be instantiated.
-
 
 ### Implementation
 
