@@ -47,23 +47,21 @@ function add(item) {
    assert.equal(item.path[0], '/', 'absolute path: ' + item.path);
    app.get(item.path, async (req, res) => {
       try {
-         count += 1;
-         let id = startTime + count;
-         let meta = {type: 'express', id: id, host: req.hostname, url: req.url};
+         let meta = {type: 'express'};
          if (item.route) {
             let response = await redex.import(req, meta, {
                processorName: config.processorName,
                timeout: item.timeout || config.timeout,
                route: item.route,
             });
-            sendResponse(item.path, req, res, response);
+            sendResponse(item, req, res, response);
          } else if (item.response) {
-            sendResponseStatus(item.path, req, res, item.response);
+            sendResponseStatus(item, req, res, item.response);
          } else {
             assert(false, 'no route or response: ' + item.label);
          }
       } catch (error) {
-         sendError(item.path, req, res, error);
+         sendError(item, req, res, error);
       }
    });
 }
