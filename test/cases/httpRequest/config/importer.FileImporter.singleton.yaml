@@ -4,6 +4,6 @@ watchDir: tmp/fileImporter/watched/
 replyDir: tmp/fileImporter/reply/
 timeout: 8000 # ms
 route:
-- filter.ExpiredFilter.singleton
+- filter.expired.singleton
 - filter.rateLimiter.singleton
 - exporter.HttpExporter.singleton

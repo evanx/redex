@@ -7,7 +7,7 @@ queue:
   error: redex:test:redishttp:error # to recover failed messages
 timeout: 8000 # ms
 route:
-- filter.ExpiredFilter.singleton
+- filter.expired.singleton
 - filter.rateLimiter.singleton
 - filter.DurationMonitor.singleton
 - filter.TimeoutFilter.singleton
