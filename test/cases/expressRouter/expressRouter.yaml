@@ -27,7 +27,9 @@ configs:
 
 - processorName: http.cache.redis.singleton
   redisKey: redix:test:http:cache
-  expiry: 10s
+  expire: 10s
+  clear: true
+
 - processorName: redex.state.singleton
 - processorName: http.renderer.markdown.singleton
 - processorName: http.translator.file.singleton
