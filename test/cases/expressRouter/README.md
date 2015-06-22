@@ -72,6 +72,7 @@ async process(message, meta) {
    if (meta.type !== 'file') {
       throw {message: 'unsupported type: ' + meta.type};
    }
+   assert(message.path.indexOf('..') < 0, 'valid path');
    if (message.path === '/') {
       message.path = config.index;
    }
@@ -147,6 +148,7 @@ Notes:
 - the default index file is configured as `README.md`
 - the `/redex` route is configured to serve the state of the Redex instance
 
+![redex state](http://evanx.github.io/images/redex/redex-state.png)
 
 ## Learn more
 
