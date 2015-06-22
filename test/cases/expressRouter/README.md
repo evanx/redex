@@ -91,9 +91,7 @@ Finally the file server is configured with a document root directory.
 
 ```javascript
 async process(message, meta) {
-   if (meta.type !== 'file') {
-      throw {message: 'unsupported type: ' + meta.type};
-   }
+   assert.equal(meta.type, 'file', 'supported message type');
    assert(message.path.indexOf('..') < 0, 'valid path');
    if (message.path === '/') {
       message.path = config.index;

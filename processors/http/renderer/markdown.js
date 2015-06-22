@@ -49,6 +49,7 @@ export default function markdown(config, redex) {
                         logger.debug('reply content type', typeof reply.content, reply.content.constructor.name);
                         let content = reply.content.toString();
                         reply.content = marked(content);
+                        reply.contentType = 'text/html';
                         reply.dataType = 'string';
                      } catch (e) {
                         let lines = e.message.split('\n');
@@ -59,7 +60,6 @@ export default function markdown(config, redex) {
                            throw e;
                         }
                      }
-                     reply.contentType = 'text/html';
                   }
                }
             } else {

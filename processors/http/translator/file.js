@@ -35,15 +35,15 @@ export default function fileTranslator(config, redex) {
          } else if (meta.type !== 'express') {
             throw {message: 'Unsupported type: ' + meta.type};
          }
-         let transMessage = {
+         let fileMessage = {
             path: message.url
          };
-         let transMeta = {
+         let fileMeta = {
             translator: config.processorName,
             type: 'file',
             orig: meta
          };
-         let reply = await redex.dispatch(transMessage, transMeta, route);
+         let reply = await redex.dispatch(fileMessage, fileMeta, route);
          assert(reply, 'empty reply');
          assert(reply.type, 'no reply type');
          assert(reply.type === 'data', 'reply type not data: ' + reply.type);
@@ -53,10 +53,10 @@ export default function fileTranslator(config, redex) {
             assert(false, 'reply data type unsupported: ' + reply.dataType);
          }
          logger.debug('process reply:', {type: reply.type, dataType: reply.dataType, keys: Object.keys(reply)});
-         meta.filePath = transMessage.path;
+         meta.filePath = fileMessage.path;
          return {
             statusCode: 200,
-            contentType: Paths.getContentType(path.extname(transMessage.path)),
+            contentType: Paths.getContentType(path.extname(fileMessage.path)),
             dataType: reply.dataType,
             content: reply.data
          }
