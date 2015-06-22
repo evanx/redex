@@ -3,7 +3,6 @@
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
 import assert from 'assert';
-import bunyan from 'bunyan';
 import lodash from 'lodash';
 
 export default function urlRegex(config, redex, logger) {

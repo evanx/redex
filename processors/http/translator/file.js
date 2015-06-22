@@ -3,7 +3,6 @@
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
 import assert from 'assert';
-import bunyan from 'bunyan';
 import lodash from 'lodash';
 import path from 'path';
 
@@ -12,9 +11,8 @@ const { redex, requireRedexLib } = global;
 const Paths = RedexGlobal.require('lib/Paths');
 const Files = RedexGlobal.require('lib/Files');
 
-export default function fileTranslator(config, redex) {
+export default function fileTranslator(config, redex, logger) {
 
-   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    let count = 0;
 
    init();

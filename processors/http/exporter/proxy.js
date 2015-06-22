@@ -3,15 +3,11 @@
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
 import assert from 'assert';
-import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-const logger = bunyan.createLogger({name: 'httpProxy', level: RedexGlobal.loggerLevel});
-const Redis = RedexGlobal.require('lib/Redis');
-const redis = new Redis();
 const { request } = RedexGlobal.require('lib/Requests');
 
-export default function httpProxy(config, redex, logger) {
+export default function getProxy(config, redex, logger) {
 
    assert(config.address, 'address');
 
@@ -20,12 +16,16 @@ export default function httpProxy(config, redex, logger) {
          return { config: config.summary };
       },
       async process(message, meta, route) {
-         logger.debug('process', meta);
-         return request({
-            method: message.method || 'GET',
-            url: message.url,
-            json: message.json || true
-         });
+         logger.debug('process', meta, message.method);
+         assert.equal(message.method, 'GET', 'get method');
+         assert(message.uri, 'uri');
+         assert.equals(message.uri[0], '/', 'uri start');
+         const options = {
+            method: 'GET',
+            url: 'http://' + address + message.uri,
+            json: message.json
+         };
+         return request(options);
       }
    };
 

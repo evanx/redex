@@ -5,7 +5,6 @@
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
-import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
@@ -15,7 +14,7 @@ const RedexConfigs = RedexGlobal.require('lib/RedexConfigs');
 
 const { redex } = RedexGlobal;
 
-export default function expressRouter(config, redex) {
+export default function expressRouter(config, redex, logger) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
@@ -23,7 +22,6 @@ export default function expressRouter(config, redex) {
    if (config.posts) {
    }
 
-   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    let count = 0;
    let gets;
    let app;

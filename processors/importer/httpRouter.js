@@ -5,22 +5,18 @@
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
-import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
 const Paths = RedexGlobal.require('lib/Paths');
 
-const { redex } = RedexGlobal;
-
-export default function httpImporter(config, redex) {
+export default function httpImporter(config, redex, logger) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
    assert(config.routes, 'routes');
 
-   let logger = bunyan.createLogger({name: config.processorName, level: config.loggerLevel});
    let count = 0;
 
    logger.info('start', config);

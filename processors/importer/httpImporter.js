@@ -5,7 +5,6 @@
 import assert from 'assert';
 import fs from 'fs';
 import path from 'path';
-import bunyan from 'bunyan';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
