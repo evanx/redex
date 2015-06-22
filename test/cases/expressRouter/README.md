@@ -44,11 +44,60 @@ where we configure three paths:
 - a private area with a hardcoded response status code (HTTP 403) and message
 - finally, a file server
 
-The request is passed through a markdown renderer. This will convert a reply with markdown content, to HTML e.g. `~/redex/README.md.` (Incidently we are using the `marked` library for this purpose.)
+The request is passed through a markdown renderer. This will convert a reply with markdown content e.g. `~/redex/README.md,` into HTML content as follows:
+
+```javascript
+if (meta.type === 'express') {
+   if (lodash.endsWith(meta.filePath, '.md')) {
+      if (reply.contentType === 'text/plain') {
+         let content = reply.content.toString();
+         reply.content = marked(content);
+         reply.contentType = 'text/html';
+```
+where we are using the `marked` library for this purpose.
 
 The `http.translator.file` processor translates an HTTP request message into a "file" message. This merely takes the HTTP path as the file path expected by the rather generic `file.server.simple` processor. It then translates the file content reply into an HTTP 200 message. (A file server with built-in support for HTTP messages, is perhaps something to consider as a further option. This would slightly simplify the required configuration by obviating the need for such a translator.)
 
+```javascript
+let fileMessage = {
+   path: message.url
+};
+let fileMeta = {
+   type: 'file'
+};
+let reply = await redex.dispatch(fileMessage, fileMeta, route);
+meta.filePath = fileMessage.path;
+return {
+   statusCode: 200,
+   contentType: Paths.getContentType(path.extname(fileMessage.path)),
+   dataType: reply.dataType,
+   content: reply.data
+}
+```
+
 Finally the file server is configured with a document root directory.
+
+```javascript
+async process(message, meta) {
+   if (meta.type !== 'file') {
+      throw {message: 'unsupported type: ' + meta.type};
+   }
+   if (message.path === '/') {
+      message.path = config.index;
+   }
+   let filePath = Paths.join(config.root, message.path);
+   try {
+      let stats = await Files.stat(filePath);
+      if (stats.isDirectory()) {
+         filePath = Paths.join(filePath, config.index);
+      }
+      let data = await Files.readFile(filePath);
+      return {
+         type: 'data',
+         dataType: 'Buffer',
+         data: data
+      };
+```
 
 Note the Redex state, markdown and translator processors do not have any configuration, but are explicitly listed. Perhaps these could be automatically configured e.g. by a config "decorator." Since they are referenced in a `route,` they are implicitly required to be instantiated.
 
