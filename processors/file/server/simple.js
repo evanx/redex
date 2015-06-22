@@ -53,6 +53,7 @@ export default function create(config, redex) {
          } else if (meta.type !== 'file') {
             throw {message: 'unsupported type: ' + meta.type};
          }
+         assert(message.path.indexOf('..') < 0, 'valid path');
          if (message.path === '/') {
             if (!config.index) {
                throw {message: 'no root index'};
