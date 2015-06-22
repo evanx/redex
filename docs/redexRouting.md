@@ -11,7 +11,7 @@ queue:
 timeout: 8000 # ms
 route:
 - HttpRequestValidator.singleton
-- RateLimitFilter.singleton
+- rateLimiter.singleton
 - RedisExporter.singleton
 ```
 where `route` is an array of processor names.
@@ -58,7 +58,7 @@ where ES7 `async` functions always return an ES6 `Promise.`
 
 Other processors return a promise to reply later:
 ```javascript
-export default class RateLimitFilter {
+export default class rateLimiter {
 
    async process(message, meta, route) {
       logger.debug('promise:', meta);
@@ -90,7 +90,7 @@ The importer therefore gets a chain of promises, from its own timeout promise, t
 Incidently, we can intercept the reply via `then` as follows:
 
 ```javascript
-export default class RateLimitFilter {
+export default class rateLimiter {
 
    async process(message, meta, route) {
       logger.debug('promise:', meta, route);

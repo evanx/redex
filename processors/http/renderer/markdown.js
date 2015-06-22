@@ -8,7 +8,7 @@ import lodash from 'lodash';
 import path from 'path';
 import marked from 'marked';
 
-const Paths = requireRedex('lib/Paths');
+const Paths = RedexGlobal.require('lib/Paths');
 
 const { redex } = global;
 

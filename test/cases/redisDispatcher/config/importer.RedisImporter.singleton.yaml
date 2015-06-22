@@ -8,5 +8,5 @@ queue:
 json: false
 timeout: 8000 # ms
 route:
-- filter.RateLimitFilter.singleton
+- filter.rateLimiter.singleton
 - exporter.RedisExporter.singleton

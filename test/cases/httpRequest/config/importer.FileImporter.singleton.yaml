@@ -5,5 +5,5 @@ replyDir: tmp/fileImporter/reply/
 timeout: 8000 # ms
 route:
 - filter.ExpiredFilter.singleton
-- filter.RateLimitFilter.singleton
+- filter.rateLimiter.singleton
 - exporter.HttpExporter.singleton

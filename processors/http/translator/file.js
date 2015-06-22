@@ -7,10 +7,10 @@ import bunyan from 'bunyan';
 import lodash from 'lodash';
 import path from 'path';
 
-const { redex, requireRedex } = global;
+const { redex, requireRedexLib } = global;
 
-const Paths = requireRedex('lib/Paths');
-const Files = requireRedex('lib/Files');
+const Paths = RedexGlobal.require('lib/Paths');
+const Files = RedexGlobal.require('lib/Files');
 
 export default function fileTranslator(config, redex) {
 

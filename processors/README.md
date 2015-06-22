@@ -9,7 +9,7 @@ watched: fileImporter/watched/
 reply: fileImporter/reply/
 timeout: 8000 # ms
 route:
-- RateLimitFilter.singleton
+- rateLimiter.singleton
 - HttpExporter.singleton
 ```
 
@@ -107,20 +107,20 @@ async process(message, meta, route) {
 Note that before sending the request, we put the message into a Redis set of pending requests. Such sets are unique, and so the message must be unique. When we get its response, we remove it from the set. This enables monitoring for timeouts, and recovering some state in the event of a restart.
 
 
-### RateLimitFilter
+### rateLimiter
 
 This processor limits the rate of messages that are processed, e.g. 1 per second in this example configuration.
 
-Config: `RateLimitFilter.singleton.yaml`
+Config: `rateLimiter.singleton.yaml`
 ```yaml
 label: Limit the rate of messages
 periodMillis: 1000 # 1 second
 limit: 1 # only route one message per second
 ```
 
-Implementation snippet: `processors/RateLimitFilter.js`
+Implementation snippet: `processors/rateLimiter.js`
 ```JavaScript
-export default class RateLimitFilter {
+export default class rateLimiter {
 
    constructor(config) {
       this.config = config;

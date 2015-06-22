@@ -8,7 +8,7 @@ queue:
 timeout: 8000 # ms
 route:
 - filter.ExpiredFilter.singleton
-- filter.RateLimitFilter.singleton
+- filter.rateLimiter.singleton
 - filter.DurationMonitor.singleton
 - filter.TimeoutFilter.singleton
 - exporter.HttpExporter.singleton

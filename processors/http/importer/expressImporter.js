@@ -10,7 +10,7 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-const Paths = requireRedex('lib/Paths');
+const Paths = RedexGlobal.require('lib/Paths');
 
 const { redex } = global;
 

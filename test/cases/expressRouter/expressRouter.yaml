@@ -20,13 +20,20 @@ configs:
   - label: Otherwise to file server
     path: /
     route:
+    - filter.rateLimiter.singleton
     - http.cache.redis.singleton
     - http.renderer.markdown.singleton
     - http.translator.file.singleton
     - file.server.simple.singleton
 
+- processorName: filter.rateLimiter.singleton
+  label: Limit the rate of messages
+  periodMillis: 2000 # ms
+  limit: 1 # only route one message per 500ms
+
+
 - processorName: http.cache.redis.singleton
-  redisKey: redix:test:http:cache
+  redisKey: redex:test:http:cache
   expire: 10s
   #clear: true
 

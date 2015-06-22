@@ -6,8 +6,8 @@ import assert from 'assert';
 import bunyan from 'bunyan';
 import util from 'util';
 
-const Seconds = requireRedex('lib/Seconds');
-const Redis = requireRedex('lib/Redis');
+const Seconds = RedexGlobal.require('lib/Seconds');
+const Redis = RedexGlobal.require('lib/Redis');
 
 export default function httpCacheRedis(config, redex, logger) {
 
