@@ -54,12 +54,8 @@ where we are using the `marked` library for this purpose.
 The `http.translator.file` processor translates an HTTP request message into a "file" message. This merely takes the HTTP path as the file path expected by the rather generic `file.server.simple` processor. It then translates the file content reply into an HTTP 200 message. (A file server with built-in support for HTTP messages, is perhaps something to consider as a further option. This would slightly simplify the required configuration by obviating the need for such a translator.)
 
 ```javascript
-let fileMessage = {
-   path: message.url
-};
-let fileMeta = {
-   type: 'file'
-};
+let fileMessage = {path: message.url};
+let fileMeta = {type: 'file'};
 let reply = await redex.dispatch(fileMessage, fileMeta, route);
 meta.filePath = fileMessage.path; // pass this back e.g. for the markdown renderer for README.md
 return {
