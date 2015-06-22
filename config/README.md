@@ -93,7 +93,14 @@ where we generate the required configuration for three processors:
 
 The HTTP importer is configured with the `port` and `timeout.`
 
-The file server is configured with the document root directory and the default index file e.g. `index.html.`
+The file server is configured with the document root directory and the default index file e.g. `README.md.`
+
+<hr>
+<img src="http://evanx.github.io/images/redex/redex-readme.png" width="450" border="1"/>
+<hr>
+
+
+## Learn more
 
 Other web server examples:
 - https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
