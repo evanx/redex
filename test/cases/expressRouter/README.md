@@ -48,7 +48,7 @@ where we configure three paths:
 
 This processor introspects the state of the active components and returns as JSON:
 
-<img src="http://evanx.github.io/images/redex/redex-state-expressRouter.png" width="600" border="1"/>
+<img src="http://evanx.github.io/images/redex/redex-state-expressRouter.png" width="500" border="1"/>
 <hr>
 
 #### Markdown renderer
