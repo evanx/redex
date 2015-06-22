@@ -2,17 +2,16 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
-RedexGlobal.loggerLevel = 'debug';
-
 import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
+const RedexGlobal = require('../lib/RedexGlobal');
+const logger = RedexGlobal.logger('redisPromisedAsync');
+
 import Redis from '../lib/Redis';
 import Promises from '../lib/Promises';
-
-const logger = bunyan.createLogger({name: 'test.redis', level: RedexGlobal.loggerLevel});
 
 const redis = new Redis();
 
