@@ -51,7 +51,7 @@ Note that the Redex state, markdown renderer and file translator do not have any
 - processorName: http.renderer.markdown.singleton
 - processorName: http.translator.file.singleton
 ```
-Perhaps these could be automatically configured e.g. by a config "decorator." Since they are referenced in a `route` of the ExpressJS HTTP importer, they are implicitly required to be instantiated.
+Perhaps these could be automatically configured e.g. by a config "decorator." Since they are referenced in a `route` of the ExpressJS HTTP importer/router, they are implicitly required to be instantiated.
 
 ### Implementation
 
