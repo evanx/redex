@@ -12,6 +12,11 @@ configs:
     route:
     - redex.state.singleton
     disabled: false
+  - label: Reject this path with 403 (Access prohibited)
+    path: /private
+    response:
+      statusCode: 403
+      content: Sorry, forbidden
   - label: Otherwise to file server
     path: /
     route:

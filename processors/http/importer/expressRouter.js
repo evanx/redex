@@ -55,13 +55,13 @@ export default function expressRouter(config, redex) {
       }
    }
 
-   function sendResponseStatus(path, req, res, response) {
-      assert(item.response.statusCode, 'item response statusCode');
-      assert(item.response.content, 'item response content');
-      res.statusCode(item.response.statusCode).send(item.response.content);
+   function sendResponseStatus(item, req, res, response) {
+      assert(response.statusCode, 'item response statusCode');
+      assert(response.content, 'item response content');
+      res.status(response.statusCode).send(response.content);
    }
 
-   function sendResponse(path, req, res, response) {
+   function sendResponse(item, req, res, response) {
       assert(response, 'no response');
       assert(response.statusCode, 'no statusCode');
       res.status(response.statusCode);
@@ -96,7 +96,7 @@ export default function expressRouter(config, redex) {
       }
    }
 
-   function sendError(path, req, res, error) {
+   function sendError(item, req, res, error) {
       if (error.name === 'AssertionError') {
          error = {name: error.name, message: error.message};
       } else if (error.stack) {

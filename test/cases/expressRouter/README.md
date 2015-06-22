@@ -14,15 +14,20 @@ configs:
   port: 8880
   timeout: 30000
   gets:
-  - label: Redex state
+  - label: Response with Redex processors' state in JSON
     path: /redex
     route:
     - redex.state.singleton
     disabled: false
+  - label: Reject this path with 403 (Access prohibited)
+    path: /private
+    response:
+      statusCode: 403
+      content: Sorry, forbidden
   - label: Otherwise to file server
     path: /
     route:
-    - http.renderer.markdown.singleton
+    - http.renderer.markdown.singleton # will render README.md to HTML
     - http.translator.file.singleton
     - file.server.simple.singleton
 
@@ -31,7 +36,7 @@ configs:
 - processorName: http.translator.file.singleton
 
 - processorName: file.server.simple.singleton
-  root: .
+  root: . # cwd
   index: README.md
 ```
 
