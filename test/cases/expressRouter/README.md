@@ -14,7 +14,7 @@ configs:
   port: 8880
   timeout: 30000
   gets:
-  - label: Response with Redex processors' state in JSON
+  - label: Response with Redex processors' state in JSON i.e. for debugging
     path: /redex
     route:
     - redex.state.singleton
