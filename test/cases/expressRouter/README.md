@@ -53,6 +53,38 @@ Note the Redex state, markdown and translator processors do not have any configu
 ```
 Perhaps these could be automatically configured e.g. by a config "decorator." Since they are referenced in a `route,` they are implicitly required to be instantiated.
 
+### Implementation
+
+See the implementation of the `http.importer.expressRouter` processor:
+https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
+
+We add each configured `path` for HTTP GET methods to the ExpressJS `app` as follows.
+```javascript
+function add(item) {
+   assert(item.path, 'path: ' + item.label);
+   assert.equal(item.path[0], '/', 'absolute path: ' + item.path);
+   app.get(item.path, async (req, res) => {
+      try {
+         let meta = {type: 'express'};
+         if (item.route) {
+            let response = await redex.import(req, meta, {
+               processorName: config.processorName,
+               timeout: item.timeout || config.timeout,
+               route: item.route,
+            });
+            sendResponse(item, req, res, response);
+         } else if (item.response) {
+            sendResponseStatus(item, req, res, item.response);
+         } else {
+            assert(false, 'no route or response: ' + item.label);
+         }
+      } catch (error) {
+         sendError(item, req, res, error);
+      }
+   });
+}
+```
+
 #### Redex state
 
 This processor introspects the state of the active components and returns as JSON:
@@ -119,37 +151,6 @@ async process(message, meta) {
       };
 ```
 
-### Implementation
-
-See the implementation of the `http.importer.expressRouter` processor:
-https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
-
-We add each configured `path` for HTTP GET methods to the ExpressJS `app` as follows.
-```javascript
-function add(item) {
-   assert(item.path, 'path: ' + item.label);
-   assert.equal(item.path[0], '/', 'absolute path: ' + item.path);
-   app.get(item.path, async (req, res) => {
-      try {
-         let meta = {type: 'express'};
-         if (item.route) {
-            let response = await redex.import(req, meta, {
-               processorName: config.processorName,
-               timeout: item.timeout || config.timeout,
-               route: item.route,
-            });
-            sendResponse(item, req, res, response);
-         } else if (item.response) {
-            sendResponseStatus(item, req, res, item.response);
-         } else {
-            assert(false, 'no route or response: ' + item.label);
-         }
-      } catch (error) {
-         sendError(item, req, res, error);
-      }
-   });
-}
-```
 
 ### Running
 
