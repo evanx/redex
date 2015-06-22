@@ -65,7 +65,6 @@ meta.filePath = fileMessage.path; // pass this back e.g. for the markdown render
 return {
    statusCode: 200,
    contentType: Paths.getContentType(path.extname(fileMessage.path)),
-   dataType: reply.dataType,
    content: reply.data
 }
 ```
