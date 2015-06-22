@@ -38,6 +38,24 @@ configs:
 See the implementation of the `http.importer.expressRouter` processor:
 - https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
 
+We run this configuration using the following script:
+```shell
+evans@boromir:~/redex$ cat scripts/expressRouter.run.sh
+  nodejs index.js test/cases/expressRouter/expressRouter.yaml | bunyan -o short
+```
+
+Then try the following in your browser:
+- [http://localhost:8880](http://localhost:8880)
+- [http://localhost:8880/redex](http://localhost:8880/redex)
+
+Notes:
+- the default document root is the current working directory
+- the default index file is configured as `README.md`
+- the `/redex` route is configured to serve the state of the Redex instance
+
+
+## Learn more
+
 Other web server examples:
 - https://github.com/evanx/redex/tree/master/config/
 - https://github.com/evanx/redex/tree/master/test/cases/webServer/
