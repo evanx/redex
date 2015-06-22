@@ -38,7 +38,7 @@ configs:
 ### Implementation
 
 See the implementation of the `http.importer.expressRouter` processor:
-- https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
+https://github.com/evanx/redex/blob/master/processors/http/importer/expressRouter.js
 
 We add each configured `path` for HTTP GET methods to the ExpressJS `app` as follows.
 ```javascript
