@@ -31,7 +31,7 @@ export default function createConfigs(config, redexConfig) {
       },
       {
          processorName: names.router,
-         //label: 'Router for requests, by default to the file server',
+         label: 'Router for requests, by default to the file server',
          rules: [
             {
                label: 'Redex state',
