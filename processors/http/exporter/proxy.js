@@ -11,7 +11,7 @@ const Redis = RedexGlobal.require('lib/Redis');
 const redis = new Redis();
 const { request } = RedexGlobal.require('lib/Requests');
 
-export default class httpProxy(config, redex, logger) {
+export default function httpProxy(config, redex, logger) {
 
    assert(config.address, 'address');
 
