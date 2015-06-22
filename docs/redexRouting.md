@@ -18,7 +18,7 @@ where `route` is an array of processor names.
 
 Importers `await` a reply as follows:
 ```javascript
-export default class RedisImporter {
+export default class redisImporter {
 
    async pop() {
       const message = await this.redis.brpoplpush(this.config.queue.in,

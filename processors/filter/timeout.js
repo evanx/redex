@@ -9,9 +9,11 @@ export default function timeout(config, redex, logger) {
 
    assert(config.timeout, 'timeout');
 
+   let count = 0;
+   
    start();
 
-   start() {
+   function start() {
       logger.info('started');
    }
 

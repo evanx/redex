@@ -7,13 +7,15 @@ import util from 'util';
 
 export default function durationMonitor(config, redex, logger) {
 
+   let count = 0;
+   
    start();
 
-   start() {
+   function start() {
       logger.info('started');
    }
 
-   formatDuration(millis) {
+   function formatDuration(millis) {
       if (millis > 1000) {
          let seconds = millis/1000;
          return '' + seconds.toFixed(3) + 's';

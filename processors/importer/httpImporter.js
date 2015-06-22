@@ -9,22 +9,17 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-const { redex } = RedexGlobal;
-
-export default function httpImporter(config, redex, logger) { // trying processor constructor without class
+export default function httpImporter(config, redex, logger) {
 
    assert(config.port, 'port');
    assert(config.timeout, 'timeout');
    assert(config.route, 'route');
 
-   let app;
-   let count = 0;
-
    logger.info('start', config);
 
-   app = express();
-   app.listen(config.port);
-   logger.info('listen', config.port);
+   let count = 0;
+   let app = express();
+
    app.get('/*', async (req, res) => {
       logger.info('req', req.url);
       try {
@@ -72,7 +67,10 @@ export default function httpImporter(config, redex, logger) { // trying processo
       }
    });
 
-   const service = { // public methods
+   app.listen(config.port);
+   logger.info('listen', config.port);
+
+   const service = {
       get state() {
          return { config: config.summary, count: count };
       },

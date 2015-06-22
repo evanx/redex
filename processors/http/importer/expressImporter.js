@@ -11,8 +11,6 @@ import express from 'express';
 
 const Paths = RedexGlobal.require('lib/Paths');
 
-const { redex } = RedexGlobal;
-
 export default function expressImporter(config, redex, logger) {
 
    assert(config.port, 'port');

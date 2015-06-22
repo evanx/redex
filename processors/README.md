@@ -1,8 +1,8 @@
-#### FileImporter
+#### fileImporter
 
 This processor imports a message from a directory.
 
-Config: `FileImporter.singleton.yaml`
+Config: `fileImporter.singleton.yaml`
 ```yaml
 label: Read a message from a file
 watched: fileImporter/watched/
@@ -33,7 +33,7 @@ Reply: `fileImporter/reply/hn160705.json`
 }
 ```
 
-Implementation snippet: `processors/FileImporter.js`
+Implementation snippet: `processors/fileImporter.js`
 ```JavaScript
 formatReplyFilePath(messageId) {
    return this.config.replyDir + messageId + '.json';
@@ -144,11 +144,11 @@ export default class rateLimiter {
 }
 ```
 
-### RedisHttpRequestImporter
+### redisHttpRequestImporter
 
 This processor imports an HTTP request message from a Redis queue.
 
-Config: `RedisHttpRequestImporter.singleton.yaml`
+Config: `redisHttpRequestImporter.singleton.yaml`
 ```yaml
 label: Import an HTTP request message from a Redis queue
 queue:
@@ -161,7 +161,7 @@ route:
 - httpExporter.singleton
 ```
 
-Implementation snippet: `processors/RedisHttpRequestImporter.js`
+Implementation snippet: `processors/redisHttpRequestImporter.js`
 ```JavaScript
 async pop() {
    try {

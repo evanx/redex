@@ -19,11 +19,7 @@ export default function httpImporter(config, redex, logger) {
 
    let count = 0;
 
-   logger.info('start', config);
-
-   app = express();
-   app.listen(config.port);
-   logger.info('listen', config.port);
+   let app = express();
    app.get('/*', async (req, res) => {
       logger.info('req', req.url, Object.keys(req).toString());
       try {
@@ -66,6 +62,9 @@ export default function httpImporter(config, redex, logger) {
          }
       }
    });
+
+   app.listen(config.port);
+   logger.info('listen', config.port);
 
    const service = { // public methods
       get state() {

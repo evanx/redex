@@ -14,7 +14,7 @@ export default function redisExporter(config, redex, logger) {
    assert(!config.queue.in, 'queue.in');
    assert(!config.route, 'route');
 
-   formatMessage(message) {
+   function formatMessage(message) {
       if (config.json) {
          return JSON.stringify(message);
       } else {

@@ -9,8 +9,6 @@ import marked from 'marked';
 
 const Paths = RedexGlobal.require('lib/Paths');
 
-const { redex } = RedexGlobal;
-
 export default function httpRendererMarkdown(config, redex, logger) {
 
    init();
