@@ -10,7 +10,7 @@ reply: fileImporter/reply/
 timeout: 8000 # ms
 route:
 - rateLimiter.singleton
-- HttpExporter.singleton
+- httpExporter.singleton
 ```
 
 Incoming message: `fileImporter/watched/hn160705.yaml`
@@ -66,11 +66,11 @@ ES7 async functions work with ES6 promises, and so we introduce wrapper librarie
 - https://github.com/evanx/redex/blob/master/lib/Files.js
 
 
-### HttpExporter
+### httpExporter
 
 This processor exports a message via an HTTP GET request.
 
-#### Config: `HttpExporter.singleton.yaml`
+#### Config: `httpExporter.singleton.yaml`
 ```yaml
 label: Perform an HTTP request
 queue:
@@ -84,7 +84,7 @@ method: GET
 json: true
 ```
 
-Implementation snippet: `processors/HttpExporter.js`
+Implementation snippet: `processors/httpExporter.js`
 ```JavaScript
 async process(message, meta, route) {
    try {
@@ -158,7 +158,7 @@ queue:
   error: redex:test:http:error # the external redis queue for failed requests
 timeout: 8000 # ms
 route:
-- HttpExporter.singleton
+- httpExporter.singleton
 ```
 
 Implementation snippet: `processors/RedisHttpRequestImporter.js`

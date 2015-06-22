@@ -6,4 +6,4 @@ timeout: 8000 # ms
 route:
 - filter.expired.singleton
 - filter.rateLimiter.singleton
-- exporter.HttpExporter.singleton
+- exporter.httpExporter.singleton

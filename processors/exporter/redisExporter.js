@@ -30,10 +30,17 @@ export default class RedisExporter {
       }
    }
 
-   async process(message, meta, route) {
-      let string = this.formatMessage(message);
-      logger.debug('promise lpush:', meta, this.config.queue.out, string);
-      await redis.lpush(this.config.queue.out, string);
-      return;
-   }
+   const service = {
+      get state() {
+         return { config: config.summary };
+      },
+      async process(message, meta, route) {
+         let string = this.formatMessage(message);
+         logger.debug('promise lpush:', meta, this.config.queue.out, string);
+         await redis.lpush(this.config.queue.out, string);
+         return;
+      }
+   };
+
+   return service;
 }
