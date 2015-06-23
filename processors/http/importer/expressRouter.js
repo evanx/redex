@@ -67,15 +67,15 @@ export default function expressRouter(config, redex, logger) {
                   timeout: item.timeout || config.timeout,
                   route: item.route,
                });
-               ExpressReponses.sendResponse(req, res, response);
+               ExpressResponses.sendResponse(req, res, response);
             } else if (item.response) {
                logger.debug('response', item.response, item.label);
-               ExpressReponses.sendResponseStatus(req, res, item.response);
+               ExpressResponses.sendResponseStatus(req, res, item.response);
             } else {
                assert(false, 'route or response: ' + item.label);
             }
          } catch (error) {
-            ExpressReponses.sendError(req, res, error);
+            ExpressResponses.sendError(req, res, error);
          }
       });
    }
