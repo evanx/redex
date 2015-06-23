@@ -9,6 +9,8 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
+const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
+
 export default function httpImporter(config, redex, logger) {
 
    assert(config.port, 'port');
@@ -24,46 +26,12 @@ export default function httpImporter(config, redex, logger) {
       logger.info('req', req.url);
       try {
          count += 1;
-         let id = tartTime + count;
+         let id = redex.startTime + count;
          let meta = {type: 'express', id: id, host: req.hostname};
          let response = await redex.import(req, meta, config);
-         assert(response, 'no response');
-         assert(response.statusCode, 'no statusCode');
-         res.status(response.statusCode);
-         if (response.content) {
-            if (!response.contentType) {
-               response.contentType = Paths.defaultContentType;
-            }
-            logger.debug('contentType', response.contentType);
-            if (lodash.isObject(response.content) || /json$/.test(response.contentType)) {
-               res.json(response.content);
-            } else {
-               res.contentType(response.contentType);
-               if (lodash.isString(response.content)) {
-                  logger.debug('string content:', response.statusCode, typeof response.content);
-                  res.send(response.content);
-               } else {sponse.content)) {
-                  logger.debug('string content:', response.statusCode, typeof response.content);
-                  res.send(response.content);
-               } else {
-                  res.send(response.content);
-               }
-            }
-         } else if (response.statusCode === 200) {
-            logger.debug('no content');
-            res.send();
-         } else {
-            logger.debug('statusCode', response.statusCode);
-            res.send();
-         }
-      } catch (err) {
-         if (err.name === 'AssertionError') {
-            logger.warn(err.name + ': ' + err.message);
-            res.status(500).send({name: err.name, message: err.message});
-         } else {
-            logger.warn(err);
-            res.status(500).send(err);
-         }
+         ExpressResponses.sendResponse(req, res, response);
+      } catch (error) {
+         ExpressResponses.sendError(req, res, error);
       }
    });
 
