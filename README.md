@@ -15,9 +15,8 @@ Redex is a Node framework for:
 - custom messaging middleware
 
 More specifically, Redex is:
-- a framework for collaborating processors e.g. configured using YAML (or JSON)
-- extensible using Node modules i.e. JavaScript, CoffeeScript et al
-- a platform for integrating services via Redis
+- a Node framework for configuring collaborating message processors
+- a tool for integrating services via Redis
 
 
 ### Installing
