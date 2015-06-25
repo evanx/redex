@@ -42,4 +42,4 @@ then
   echo "Please install bunyan globally: npm install -g bunyan"
 fi
 
-echo "Run scripts/test/all.sh, scripts/http.run.sh, etc"
+echo "Run: scripts/test/all.sh scripts/http.run.sh etc"
