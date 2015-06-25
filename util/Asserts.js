@@ -1,7 +1,9 @@
 
 import assert from 'assert';
 
-const logger = RedexGlobal.logger(module.filename);
+import Loggers from './Loggers';
+
+const logger = Loggers.create(module.filename);
 
 const that = {
 

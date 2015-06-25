@@ -1,7 +1,9 @@
 
 import assert from 'assert';
 
-const logger = RedexGlobal.logger(module.filename, 'info');
+import Loggers from './Loggers';
+
+const logger = Loggers.create(module.filename, 'info');
 
 function getMessage(seconds, message) {
   return message + ': ' + seconds;

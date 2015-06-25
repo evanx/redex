@@ -5,7 +5,7 @@
 import assert from 'assert';
 import lodash from 'lodash';
 
-const { request } = RedexGlobal.require('lib/Requests');
+const { request } = RedexGlobal.require('util/Requests');
 
 export default function getProxy(config, redex, logger) {
 

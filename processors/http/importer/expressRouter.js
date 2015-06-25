@@ -9,7 +9,7 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-const Paths = RedexGlobal.require('lib/Paths');
+const Paths = RedexGlobal.require('util/Paths');
 const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
 
 export default function expressRouter(config, redex, logger) {

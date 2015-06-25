@@ -5,9 +5,9 @@
 import assert from 'assert';
 import lodash from 'lodash';
 
-const Redis = RedexGlobal.require('lib/Redis');
-const Asserts = RedexGlobal.require('lib/Asserts');
-const { request } = RedexGlobal.require('lib/Requests');
+const Redis = RedexGlobal.require('util/Redis');
+const Asserts = RedexGlobal.require('util/Asserts');
+const { request } = RedexGlobal.require('util/Requests');
 
 const redis = new Redis();
 

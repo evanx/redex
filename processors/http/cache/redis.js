@@ -5,8 +5,8 @@
 import assert from 'assert';
 import util from 'util';
 
-const Seconds = RedexGlobal.require('lib/Seconds');
-const Redis = RedexGlobal.require('lib/Redis');
+const Seconds = RedexGlobal.require('util/Seconds');
+const Redis = RedexGlobal.require('util/Redis');
 
 export default function httpCacheRedis(config, redex, logger) {
 

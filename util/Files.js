@@ -5,8 +5,9 @@
 import fs from 'fs';
 
 import Promises from './Promises';
+import Loggers from './Loggers';
 
-const logger = RedexGlobal.logger(module.filename);
+const logger = Loggers.create(module.filename);
 
 module.exports = {
    exists(filePath) {

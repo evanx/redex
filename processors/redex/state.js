@@ -6,7 +6,7 @@ import assert from 'assert';
 import lodash from 'lodash';
 import path from 'path';
 
-const Paths = RedexGlobal.require('lib/Paths');
+const Paths = RedexGlobal.require('util/Paths');
 const RedexState = RedexGlobal.require('lib/RedexState');
 
 const { redex } = RedexGlobal;

@@ -1,6 +1,7 @@
 
+import Loggers from './Loggers';
 
-const logger = RedexGlobal.logger(module.filename);
+const logger = Loggers.create(module.filename);
 
 const that = {
    map(iterable, fn) {

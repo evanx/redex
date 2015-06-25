@@ -7,7 +7,7 @@ import lodash from 'lodash';
 import path from 'path';
 import marked from 'marked';
 
-const Paths = RedexGlobal.require('lib/Paths');
+const Paths = RedexGlobal.require('util/Paths');
 
 export default function httpRendererMarkdown(config, redex, logger) {
 

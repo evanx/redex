@@ -15,6 +15,7 @@ c0client() {
   sleep 1
   curl -s "localhost:8880" | head -4
   echo "$0: Should be serving files by now on port 8880 from pwd:" `pwd`
+  echo "$0: Try http://localhost:8880"
 }
 
 echo "nodejs ~/redex/index.js http | bunyan -o short"

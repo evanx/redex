@@ -2,16 +2,21 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
+console.log(module.filename);
+
 import assert from 'assert';
 import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-const RedexGlobal = require('../lib/RedexGlobal');
-const logger = RedexGlobal.logger('redisPromisedAsync');
+global.RedexGlobal = require('../lib/RedexGlobal');
 
-import Redis from '../lib/Redis';
-import Promises from '../lib/Promises';
+console.log('RedexGlobal', global.RedexGlobal);
+
+const logger = global.RedexGlobal.logger('redisPromised');
+
+import Redis from '../util/Redis';
+import Promises from '../util/Promises';
 
 const redis = new Redis();
 

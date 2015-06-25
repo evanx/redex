@@ -9,7 +9,7 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-const Paths = RedexGlobal.require('lib/Paths');
+const Paths = RedexGlobal.require('util/Paths');
 
 export default function httpImporter(config, redex, logger) {
 

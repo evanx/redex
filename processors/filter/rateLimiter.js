@@ -5,7 +5,7 @@
 import assert from 'assert';
 import util from 'util';
 
-const Asserts = RedexGlobal.require('lib/Asserts');
+const Asserts = RedexGlobal.require('util/Asserts');
 
 export default function rateLimiter(config, redex, logger) {
 

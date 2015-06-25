@@ -7,11 +7,14 @@
 // also see more automated attempt using es6-promisify:
 // https://github.com/evanx/redex/blob/master/lib/redisPromisified.js
 
+console.log(module.filename);
+
 import redis from 'redis';
 import lodash from 'lodash';
 
-const RedexGlobal = require('./RedexGlobal');
-const logger = RedexGlobal.logger(module.filename, 'info');
+import Loggers from './Loggers';
+
+const logger = Loggers.create(module.filename, 'info');
 
 function createClient() {
    let redisClient = redis.createClient();

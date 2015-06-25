@@ -8,8 +8,8 @@ import path from 'path';
 
 const { redex, requireRedexLib } = global;
 
-const Paths = RedexGlobal.require('lib/Paths');
-const Files = RedexGlobal.require('lib/Files');
+const Paths = RedexGlobal.require('util/Paths');
+const Files = RedexGlobal.require('util/Files');
 
 export default function fileTranslator(config, redex, logger) {
 

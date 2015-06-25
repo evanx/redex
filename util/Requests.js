@@ -6,7 +6,9 @@ import fs from 'fs';
 import request from 'request';
 import lodash from 'lodash';
 
-const logger = RedexGlobal.logger(module.filename, 'info');
+import Loggers from './Loggers';
+
+const logger = Loggers.create(module.filename, 'info');
 
 module.exports = {
    request(options) {

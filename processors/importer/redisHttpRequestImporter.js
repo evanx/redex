@@ -4,7 +4,7 @@
 
 import assert from 'assert';
 
-const Redis = RedexGlobal.require('lib/Redis');
+const Redis = RedexGlobal.require('util/Redis');
 
 const redis = new Redis();
 

@@ -4,7 +4,9 @@
 
 import lodash from 'lodash';
 
-const logger = RedexGlobal.logger(module.filename);
+import Loggers from './Loggers';
+
+const logger = Loggers.create(module.filename);
 
 function formatTimeoutErrorMessage(name, timeoutMillis) {
    return name + ' (' + timeout + 'ms)';

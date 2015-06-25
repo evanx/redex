@@ -5,7 +5,9 @@
 import path from 'path';
 import lodash from 'lodash';
 
-const logger = RedexGlobal.logger(module.filename);
+import Loggers from './Loggers';
+
+const logger = Loggers.create(module.filename);
 
 const mimeTypes = {
    md: 'text/x-markdown',

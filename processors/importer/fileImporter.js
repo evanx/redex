@@ -8,7 +8,7 @@ import path from 'path';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 
-const Files = RedexGlobal.require('lib/Files');
+const Files = RedexGlobal.require('util/Files');
 
 export default function fileImporter(config, redex, logger) {
 
