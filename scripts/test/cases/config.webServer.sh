@@ -1,7 +1,7 @@
 
-  cd ~/redex || exit 1
+pwd | grep -q '/redex$' || exit 1
 
-  mkdir -p tmp 
+  mkdir -p tmp
 
   testName=httpFileServer.default
 
@@ -17,14 +17,14 @@
     echo 'curl -s http://localhost:8880/README.md'
     if curl -s http://localhost:8880/README.md > tmp/curl.out
     then
-      if cat tmp/curl.out | head -1 | grep Redex 
-      then 
+      if cat tmp/curl.out | head -1 | grep Redex
+      then
         echo 'OK'
       else
         head -1 tmp/curl.out
         echo 'FAILED'
       fi
-    else 
+    else
       head -1 tmp/curl.out
       echo 'FAILED'
     fi

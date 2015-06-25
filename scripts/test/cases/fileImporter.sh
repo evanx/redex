@@ -1,4 +1,6 @@
 
+pwd | grep -q '/redex$' || exit 1
+
 mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 

@@ -5,7 +5,7 @@
 // see alternative reimplementation using ES7 async functions (with await keyword):
 // https://github.com/evanx/redex/blob/master/test/redisPromisedAsync.js
 
-console.log(module.filename);
+//console.log(module.filename);
 
 import RedexGlobal from '../lib/RedexGlobal';
 

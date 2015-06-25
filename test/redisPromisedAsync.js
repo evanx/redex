@@ -2,7 +2,7 @@
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
-console.log(module.filename);
+//console.log(module.filename);
 
 import assert from 'assert';
 import async from 'async';
@@ -10,8 +10,6 @@ import bunyan from 'bunyan';
 import lodash from 'lodash';
 
 global.RedexGlobal = require('../lib/RedexGlobal');
-
-//console.log('RedexGlobal', global.RedexGlobal);
 
 const logger = global.RedexGlobal.logger('redisPromised');
 
