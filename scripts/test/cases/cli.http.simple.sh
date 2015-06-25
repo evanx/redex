@@ -1,6 +1,8 @@
 
 pwd | grep -q '/redex$' || exit 1
 
+mkdir -p tmp
+
 testName=cli.http.simple
 
 export pidFile=redex.${testName}.pid
@@ -11,9 +13,9 @@ c0rm() {
 
 c0client() {
   sleep 2
-  if curl -s http://localhost:8880/README.md > curl.txt
+  if curl -s http://localhost:8880/README.md > tmp/curl.txt
   then
-    if head -2 curl.txt | grep 'Redex'
+    if head -2 tmp/curl.txt | grep 'Redex'
     then
       echo "${testName} OK"
     else
