@@ -11,7 +11,7 @@
   "repository": {
       "type" : "git",
       "url" : "https://github.com/evanx/redex.git"
-  }
+  },
   "dependencies": {
     "async": "~1.2.1",
     "babel": "^5.4.7",
