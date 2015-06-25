@@ -36,6 +36,8 @@ sh scripts/test/check.sh
 ```
 which will clone the Redex github repo into your home directory.
 
+We invoke 'git submodule' for the `util` directory which is: https://github.com/evanx/redexutil. This is a subproject for generally applicable utils.
+
 
 ### Demo: static web server
 
