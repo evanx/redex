@@ -32,6 +32,16 @@ echo "Note that tests will delete and create Redis keys prefixed with 'redex:tes
 echo "redis-cli keys 'redex:test:*'"
 redis-cli keys 'redex:test:*'
 
-echo "To proceed further, run scripts/test/all.sh"
+if ! which nodejs 
+then
+  echo "WARNING: nodejs not available"
+fi 
+
+if ! which bunyan
+then
+  echo "Please install bunyan globally: npm install -g bunyan"
+fi 
+
+echo "Run scripts/test/all.sh"
 
 echo "end: $0"

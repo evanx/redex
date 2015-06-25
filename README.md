@@ -26,12 +26,13 @@ More specifically, Redex is:
 On Ubuntu, run the following commands to `git clone` and `npm install.`
 ```shell
 cd
-if git clone https://github.com/evanx/redex
-then
-  cd redex
-  cat package.json
-  npm install
-fi
+git clone https://github.com/evanx/redex
+cd redex
+cat package.json
+npm install
+git submodule init
+git submodule update
+scripts/test/check.sh
 ```
 which will clone the Redex github repo into your home directory.
 
