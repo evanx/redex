@@ -1,5 +1,5 @@
 
-label: Meta config for static web server
+label: Static web server example in single config file
 loggerLevel: debug
 configs:
 - processorName: http.importer.expressRouter.singleton
