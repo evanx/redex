@@ -1,7 +1,7 @@
 
 mkdir -p ~/tmp/redex
 
-cp favicon.ico ~/tmp/redex/.
+cp favicon.ico ~/tmp/redex/. 2>/dev/null
 
 cd ~/tmp/redex || exit 1
 
@@ -35,7 +35,7 @@ c0client() {
 
 c0server() {
   c0rm
-  nodejs ~/redex/index.js http | bunyan -o short
+  nodejs index.js http | bunyan -o short
 }
 
 c0client & c0server
