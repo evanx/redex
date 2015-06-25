@@ -1,5 +1,5 @@
 
-if ! nc -vz localhost 6379 
+if ! nc -vz localhost 6379
 then
   echo "WARNING: Redis not running on localhost port 6379, so tests will not work"
   exit 1
@@ -11,9 +11,9 @@ then
   exit 1
 fi
 
-if ! cd ~/redex
+if ! pwd | grep -q '/redex$'
 then
-  echo "No ~/redex"
+  echo "Please run from redex directory"
   exit 1
 fi
 

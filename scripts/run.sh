@@ -9,7 +9,12 @@ then
   exit 1
 fi
 
-echo "nodejs ~/redex/index.js $@ | bunyan -o short"
+if ! pwd | grep -q '/redex$'
+then
+  echo "Please run from redex directory"
+  exit 1
+fi
 
-  nodejs ~/redex/index.js $@ | bunyan -o short
+echo "nodejs index.js $@ | bunyan -o short"
 
+  nodejs index.js $@ | bunyan -o short

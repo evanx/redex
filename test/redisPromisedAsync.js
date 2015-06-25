@@ -11,7 +11,7 @@ import lodash from 'lodash';
 
 global.RedexGlobal = require('../lib/RedexGlobal');
 
-console.log('RedexGlobal', global.RedexGlobal);
+//console.log('RedexGlobal', global.RedexGlobal);
 
 const logger = global.RedexGlobal.logger('redisPromised');
 

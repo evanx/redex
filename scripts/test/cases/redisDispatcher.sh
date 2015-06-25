@@ -1,5 +1,5 @@
 
-cd ~/redex || exit 1
+pwd | grep -q '/redex$' || exit 1
 
 testName=redisDispatcher
 

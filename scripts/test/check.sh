@@ -1,11 +1,15 @@
 
 echo "begin: $0"
 
-cd ~/redex
+if ! pwd | grep -q '/redex$'
+then
+  echo "Please run from redex directory"
+  exit 1
+fi
 
 if [ ! -d tmp ]
 then
-  echo "Note that ~/redex/tmp directory will be created by scripts/test/all.sh"
+  echo "Note that redex/tmp directory will be created by scripts/test/all.sh"
 else
   echo "tmp dir exists :)"
 fi
