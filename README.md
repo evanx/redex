@@ -21,7 +21,7 @@ More specifically, Redex is:
 
 ### Installing
 
-On Ubuntu, run the following commands to `git clone` and `npm install.`
+On Ubuntu, run the following commands to `git clone` etc:
 ```shell
 cd
 git clone https://github.com/evanx/redex
