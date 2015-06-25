@@ -1,13 +1,5 @@
 
-mkdir -p ~/tmp/redexweb
-
-cp favicon.ico ~/tmp/redexweb/. 2>/dev/null
-
-cd ~/tmp/redexweb || exit 1
-
-cp ~/redex/favicon.ico . 2>/dev/null
-echo 'test me' > test.txt
-echo 'test me' > README.md
+pwd | grep -q '/redex$' || exit 1
 
 testName=cli.http.simple
 
@@ -19,9 +11,9 @@ c0rm() {
 
 c0client() {
   sleep 2
-  if curl -s http://localhost:8880/test.txt > curl.txt
+  if curl -s http://localhost:8880/README.md > curl.txt
   then
-    if cat curl.txt | grep 'test me'
+    if head -2 curl.txt | grep 'Redex'
     then
       echo "${testName} OK"
     else
