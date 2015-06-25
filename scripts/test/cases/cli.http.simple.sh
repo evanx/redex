@@ -5,6 +5,8 @@ cp favicon.ico ~/tmp/redex/. 2>/dev/null
 
 cd ~/tmp/redex || exit 1
 
+cp ~/redex/favicon.ico . 2>/dev/null
+
 testName=cli.http.simple
 
 export pidFile=redex.${testName}.pid
@@ -15,7 +17,6 @@ c0rm() {
 
 c0client() {
   sleep 2
-  cp ~/redex/favicon.ico .
   echo 'test me' > test.txt
   echo 'test me' > README.md
   if curl -s http://localhost:8880/test.txt > curl.txt
