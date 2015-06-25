@@ -43,7 +43,8 @@ We invoke `git submodule` for the `util` directory which is: https://github.com/
 
 To demonstrate a static web server, run Redex as follows:
 ```shell
-nodejs ~/redex/index.js http | ~/redex/node_modules/bunyan/bin/bunyan -o short
+cd ~/redex
+nodejs index.js http | node_modules/bunyan/bin/bunyan -o short
 ```
 
 Try the following in your browser:
@@ -72,7 +73,7 @@ See the "configurator" config and implementation:
 
 Check the test scripts as follows:
 ```shell
-sh scripts/test/cat.test.scripts.sh
+sh scripts/test/check.sh
 ```
 
 Run the tests as follows:
@@ -86,7 +87,7 @@ If the test script "hangs" for more than 5 seconds or so, then there might be a 
 
 See:
 - https://github.com/evanx/redex/tree/master/scripts/test/cases
-- https://github.com/evanx/redex/tree/master/scripts/test/cat.test.scripts.sh
+- https://github.com/evanx/redex/tree/master/scripts/test/check.sh
 - https://github.com/evanx/redex/tree/master/scripts/test/all.sh
 
 
