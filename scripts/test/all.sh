@@ -29,6 +29,8 @@ c0clear() {
 
 c0clear
 
+  node index.js none # warmup
+
   for script in cli.http.simple.sh
   do
     script="scripts/test/cases/$script"
