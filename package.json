@@ -4,7 +4,7 @@
   "label": "Redex",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "scripts/test/all.sh"
   },
   "author": "Evan Summers <evan.summers@gmail.com> (https://github.com/evanx)",
   "license": "ISC",
