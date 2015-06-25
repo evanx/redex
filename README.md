@@ -32,7 +32,7 @@ cat package.json
 npm install
 git submodule init
 git submodule update
-scripts/test/check.sh
+sh scripts/test/check.sh
 ```
 which will clone the Redex github repo into your home directory.
 
