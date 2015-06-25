@@ -46,9 +46,11 @@ then
   echo "Please install bunyan globally: npm install -g bunyan"
 fi
 
+echo "Pre-requisite commands:"
+echo "  npm install"
+echo "  git submodule init"
+echo "  git submodule update"
+
 echo "Further commands:"
-echo "- npm install"
-echo "- git submodule init"
-echo "- git submodule update"
-echo "- scripts/test/all.sh"
-echo "- scripts/http.run.sh"
+echo "  scripts/test/all.sh"
+echo "  scripts/http.run.sh"
