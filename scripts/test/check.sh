@@ -15,7 +15,7 @@ else
 fi
 
 echo "nc -vz localhost 6379"
-if ! nc -vz localhost 6379
+if ! nc -vz localhost 6379 2>/dev/null
 then
   echo "WARNING: Redis not running on localhost port 6379, so tests will not work"
   exit 1
