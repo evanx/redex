@@ -19,8 +19,8 @@ My rationale for this project is:
 - do fun and interesting things with Node and Redis
 - gain proficiency in ES7 for my job
 - learn about message queuing for enterprise consulting gigs
-- create a platform for rapid prototyping of application backends
 - create a platform for blogging and news sites
+- create a platform for rapid prototyping of application backends
 - emulate some functionality of Nginx using Node, Redis and ExpressJS
 - because I love Nginx, Node, Redis, ES7 and ReactJS above all else
 
