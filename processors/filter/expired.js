@@ -9,12 +9,6 @@ export default function filterExpired(config, redex, logger) {
 
    let count = 0;
 
-   start();
-
-   function start() {
-      logger.info('started');
-   }
-
    function formatDuration(millis) {
       if (millis > 1000) {
          return '' + (millis/1000).toFixed(3) + 's';
@@ -24,6 +18,9 @@ export default function filterExpired(config, redex, logger) {
    }
 
    const service = {
+      start() {
+         logger.info('started');
+      },
       async process(message, meta, route) {
          count += 1;
          let time = new Date().getTime();

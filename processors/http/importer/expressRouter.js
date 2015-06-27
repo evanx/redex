@@ -14,25 +14,9 @@ const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
 
 export default function expressRouter(config, redex, logger) {
 
-   assert(config.port, 'port');
-   assert(config.timeout, 'timeout');
-   assert(config.gets, 'gets');
-   if (config.posts) {
-   }
-
    let count = 0;
    let gets;
    let app;
-
-   function configure() {
-      assert(config.gets, 'config: gets');
-      assert(config.gets.length, 'config: gets length');
-      gets = lodash(config.gets)
-      .filter(item => !item.disabled)
-      .map(initPath)
-      .value();
-      logger.info('start', gets.map(item => item.label));
-   }
 
    function initPath(item) {
       if (item.route) {
@@ -80,26 +64,32 @@ export default function expressRouter(config, redex, logger) {
       });
    }
 
-   function start() {
-      app = express();
-      gets.forEach(item => {
-         try {
-            add(item);
-         } catch (e) {
-            logger.error('add', e);
-         }
-      });
-      app.listen(config.port);
-      logger.info('listen', config.port);
-   }
-
-   configure();
-   start();
-
    const methods = {
       get state() {
          return { config: config.summary, count: count };
       },
+      init() {
+         assert(config.port, 'port');
+         assert(config.timeout, 'timeout');
+         assert(config.gets, 'config: gets');
+         assert(config.gets.length, 'config: gets length');
+         gets = lodash(config.gets)
+            .filter(item => !item.disabled)
+            .map(initPath)
+            .value();
+      },
+      async start() {
+         app = express();
+         gets.forEach(item => {
+            try {
+               add(item);
+            } catch (e) {
+               logger.error('add', e);
+            }
+         });
+         app.listen(config.port);
+         logger.info('listen', config.port);
+      }
    };
 
    return methods;

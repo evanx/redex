@@ -9,15 +9,6 @@ const { redex } = RedexGlobal;
 
 export default function regex(config, redex, logger) {
 
-   init();
-
-   function init() {
-      assert(config.rules, 'config: rules');
-      assert(config.rules.length, 'config: rules length');
-      config.rules.forEach(initRule);
-      logger.info('start', config.rules.map(rule => rule.label));
-   }
-
    function initRule(rule) {
       assert(rule.route || rule.response, 'rule requires route or response: ' + rule.label);
       assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.label);
@@ -67,6 +58,12 @@ export default function regex(config, redex, logger) {
    }
 
    const service = {
+      init() {
+         assert(config.rules, 'config: rules');
+         assert(config.rules.length, 'config: rules length');
+         config.rules.forEach(initRule);
+         logger.info('start', config.rules.map(rule => rule.label));
+      },
       get state() {
          return { config: config.summary, count: count };
       },

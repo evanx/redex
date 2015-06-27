@@ -13,13 +13,10 @@ const { redex } = RedexGlobal;
 
 export default function state(config, redex, logger) {
 
-   init();
-
-   function init() {
-      logger.info('start', config);
-   }
-
    const service = {
+      start() {
+         logger.info('start', config);
+      },
       get state() {
          return { config: config.summary };
       },

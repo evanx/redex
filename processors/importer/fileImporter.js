@@ -14,33 +14,6 @@ export default function fileImporter(config, redex, logger) {
 
    let count = 0;
 
-   start();
-
-   function start() {
-      assert(config.watchDir, 'watchDir');
-      assert(config.replyDir, 'replyDir');
-      assert(config.timeout, 'timeout');
-      assert(config.route, 'route');
-      watch();
-   }
-
-   async function watch() {
-      logger.debug('watch', config.watchDir);
-      try {
-         let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
-         if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
-            logger.debug('File changed:', fileEvent, fileName, config.route);
-            fileChanged(fileName);
-         } else {
-            logger.debug('Ignore file event:', fileEvent, fileName);
-         }
-         setTimeout(() => watch(), 0);
-      } catch (err) {
-         logger.warn('watch error:', err.stack);
-         setTimeout(() => watch(), 1000);
-      }
-   }
-
    function formatReplyFilePath(messageId) {
       return config.replyDir + messageId + '.json';
    }
@@ -48,8 +21,7 @@ export default function fileImporter(config, redex, logger) {
    function formatJsonContent(object) {
       return JSON.stringify(object, null, 2) + '\n';
    }
-
-
+   
    async function fileChanged(fileName) {
       let filePath = config.watchDir + fileName;
       count += 1;
@@ -71,6 +43,28 @@ export default function fileImporter(config, redex, logger) {
    }
 
    const service = {
+      init() {
+         assert(config.watchDir, 'watchDir');
+         assert(config.replyDir, 'replyDir');
+         assert(config.timeout, 'timeout');
+         assert(config.route, 'route');
+      },
+      start() {
+         logger.debug('watch', config.watchDir);
+         try {
+            let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
+            if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
+               logger.debug('File changed:', fileEvent, fileName, config.route);
+               fileChanged(fileName);
+            } else {
+               logger.debug('Ignore file event:', fileEvent, fileName);
+            }
+            setTimeout(() => watch(), 0);
+         } catch (err) {
+            logger.warn('watch error:', err.stack);
+            setTimeout(() => watch(), 1000);
+         }
+      },
       get state() {
          return { config: config.summary, count: count };
       },

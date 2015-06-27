@@ -10,12 +10,6 @@ export default function timeout(config, redex, logger) {
    assert(config.timeout, 'timeout');
 
    let count = 0;
-   
-   start();
-
-   function start() {
-      logger.info('started');
-   }
 
    function formatDuration(millis) {
       if (millis > 1000) {
@@ -26,6 +20,9 @@ export default function timeout(config, redex, logger) {
    }
 
    const service = {
+      start() {
+         logger.info('started');
+      },
       get state() {
          return { config: config.summary };
       },

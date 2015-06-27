@@ -9,18 +9,6 @@ export default function urlRegex(config, redex, logger) {
 
    let rules;
 
-   init();
-
-   function init() {
-      assert(config.rules, 'config: rules');
-      assert(config.rules.length, 'config: rules length');
-      rules = lodash(config.rules)
-      .filter(rule => !rule.disabled)
-      .map(initRule)
-      .value();
-      logger.info('start', rules.map(rule => rule.label));
-   }
-
    function initRule(rule) {
       assert(rule.route || rule.response, 'rule requires route or response: ' + rule.label);
       assert(rule.regex || rule.match, 'rule requires regex or match: ' + rule.label);
@@ -55,6 +43,15 @@ export default function urlRegex(config, redex, logger) {
    }
 
    const service = {
+      init() {
+         assert(config.rules, 'config: rules');
+         assert(config.rules.length, 'config: rules length');
+         rules = lodash(config.rules)
+         .filter(rule => !rule.disabled)
+         .map(initRule)
+         .value();
+         logger.info('start', rules.map(rule => rule.label));
+      },
       get state() {
          return { config: config.summary };
       },

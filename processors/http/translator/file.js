@@ -15,15 +15,12 @@ export default function fileTranslator(config, redex, logger) {
 
    let count = 0;
 
-   init();
-
-   function init() {
-      logger.info('start', config);
-   }
-
    const service = {
       get state() {
          return { config: config.summary, count: count };
+      },
+      start() {
+         logger.info('start', config);
       },
       async process(message, meta, route) {
          count += 1;

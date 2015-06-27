@@ -1,7 +1,17 @@
 
+if ! pwd | grep -q '/redex$'
+then
+  echo "Please run from redex directory"
+  exit 1
+fi
+
 c1commit() {
   message="$1"
   git add --all  
+  git commit -m "$message" 
+  git push
+  cd util 
+  git add -all 
   git commit -m "$message" 
   git push
 }
