@@ -18,13 +18,15 @@ Redex is a Node framework for building:
 My rationale for this project is:
 - do fun and interesting things with Node and Redis
 - produce a tool that ops people can configure and deploy
-- produce a framework that is flexible and extensible by other developers
+- produce a framework that is flexible and extensible by developers
 - gain proficiency in ES7 for my job
 - learn about message queuing for enterprise consulting gigs
 - create a platform for blogging and news sites
 - create a platform for rapid prototyping of application backends
 - emulate some functionality of Nginx using Node, Redis and ExpressJS
 - because I love Nginx, Node, Redis, ES7 and ReactJS
+- because IT is about developers empowering non-developers
+- because assembling useful back-end stuff through configuration is fun
 
 ### Installing
 
@@ -205,15 +207,16 @@ Analysis still required.
 
 We intend to implement processors to demonstrate various use-cases, roughly planned as follows:
 
-Implemented as incomplete PoC:
+Implemented as PoC:
 - framework (configuration, message dispatching)
 - import and export for Redis queues
-- static web server (http importer, regex router, file server)
+- static web server (http importer, regex router, markdown renderer, file server)
+- HTTP response caching in Redis
+- HTTP importer/router (combination ExpressJS importer with builtin router)
 
 Current work:
-- HTTP response caching in Redis
 - HTTP proxy
-- HTTP importer/router (combination ExpressJS importer with builtin router)
+- Service registry (for service orchestration)
 
 Next work:
 - redis query server with joins
@@ -228,21 +231,24 @@ September 2015 - web:
 - sample configuration for reliable pubsub and work queues
 - simple HTTP load balancer
 
-January 2016 - auth:
+October 2015 - auth:
 - HTTPS termination
 - API gateway with authentication and authorisation
+
+November 2015 - websockets:
 - WebSocket server to push notications into the browser
+
+January 2016 - automation:
+- scheduler
 
 June 2016 - integration:
 - integration with ZeroMQ, RabbitMQ, Protobuf
 
 Unscheduled:
-- scheduler
 - auto scaler
 - analytics server for web apps
 - centralised logging server using TCP/IP sockets
 - outgoing email server using SMTP over TCP/IP sockets
-
 
 ### Concurrency
 
