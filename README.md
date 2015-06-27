@@ -22,7 +22,7 @@ My rationale for this project is:
 - create a platform for rapid prototyping of application backends
 - create a platform for blogging and news sites
 - emulate some functionality of Nginx using Node, Redis and ExpressJS
-- because I love Nginx, Node, Redis, ES7 and ReactJS above all others
+- because I love Nginx, Node, Redis, ES7 and ReactJS above all else
 
 ### Installing
 
