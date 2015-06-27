@@ -17,8 +17,8 @@ Redex is a Node framework for building:
 
 My rationale for this project is:
 - do fun and interesting things with Node and Redis
-- produce something others can reuse out the box with custom configuration
-- produce something that is flexible and extensible
+- produce something that ops people can apply with custom configuration
+- produce something that is flexible and extensible by other developers
 - gain proficiency in ES7 for my job
 - learn about message queuing for enterprise consulting gigs
 - create a platform for blogging and news sites
