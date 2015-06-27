@@ -7,11 +7,12 @@ fi
 
 c1commit() {
   message="$1"
-  git add --all  
+  cd util 
+  git add --all 
   git commit -m "$message" 
   git push
-  cd util 
-  git add -all 
+  cd ..
+  git add --all  
   git commit -m "$message" 
   git push
 }
