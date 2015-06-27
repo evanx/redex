@@ -8,16 +8,21 @@ Redex is a tool for:
 - systems integration
 - orchestration of microservices
 
-Redex is a Node framework for:
+Redex is a Node framework for building:
 - communicating sequential processors (CSP)
+- reusable processesors that are configurable and composable with YAML
 - reliable messaging through Redis queues
-- building resilient web infrastructure
-- custom messaging middleware
+- resilient web infrastructure (leveraging ExpressJS)
+- custom messaging middleware to integrate services via Redis
 
-More specifically, Redex is:
-- a Node framework for configuring collaborating message processors
-- a tool for integrating services via Redis
-
+My rationale for this project is:
+- do fun and interesting things with Node and Redis
+- gain proficiency in ES7
+- learn about message queuing for consulting gigs
+- create a platform for rapid prototyping of application backends
+- create a platform for blogging and news sites
+- emulate some functionality of Nginx using Node, Redis and ExpressJS
+- because I &hearts; Nginx, Node, Redis, ES7, ReactJS &#9786;
 
 ### Installing
 
