@@ -21,7 +21,7 @@ export default function fileImporter(config, redex, logger) {
    function formatJsonContent(object) {
       return JSON.stringify(object, null, 2) + '\n';
    }
-   
+
    async function fileChanged(fileName) {
       let filePath = config.watchDir + fileName;
       count += 1;
@@ -42,6 +42,23 @@ export default function fileImporter(config, redex, logger) {
       }
    }
 
+   async function watch() {
+      logger.debug('watch', config.watchDir);
+      try {
+         let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
+         if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
+            logger.debug('File changed:', fileEvent, fileName, config.route);
+            fileChanged(fileName);
+         } else {
+            logger.debug('Ignore file event:', fileEvent, fileName);
+         }
+         setTimeout(() => watch(), 0);
+      } catch (err) {
+         logger.warn('watch error:', err.stack);
+         setTimeout(() => watch(), 1000);
+      }
+   };
+
    const service = {
       init() {
          assert(config.watchDir, 'watchDir');
@@ -50,20 +67,7 @@ export default function fileImporter(config, redex, logger) {
          assert(config.route, 'route');
       },
       start() {
-         logger.debug('watch', config.watchDir);
-         try {
-            let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
-            if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
-               logger.debug('File changed:', fileEvent, fileName, config.route);
-               fileChanged(fileName);
-            } else {
-               logger.debug('Ignore file event:', fileEvent, fileName);
-            }
-            setTimeout(() => watch(), 0);
-         } catch (err) {
-            logger.warn('watch error:', err.stack);
-            setTimeout(() => watch(), 1000);
-         }
+         watch();
       },
       get state() {
          return { config: config.summary, count: count };
