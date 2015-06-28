@@ -14,16 +14,15 @@ const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
 
 export default function expressImporter(config, redex, logger) {
 
-   assert(config.port, 'port');
-   assert(config.timeout, 'timeout');
-   assert(config.route, 'route');
-
-   logger.info('start', config);
-
    let count = 0;
    let app, server;
 
    const service = {
+      init() {
+         assert(config.port, 'port');
+         assert(config.timeout, 'timeout');
+         assert(config.route, 'route');
+      },
       start() {
          let app = express();
          app.get('/*', async (req, res) => {

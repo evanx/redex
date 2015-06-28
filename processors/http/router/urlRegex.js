@@ -52,6 +52,9 @@ export default function urlRegex(config, redex, logger) {
          .value();
          logger.info('start', rules.map(rule => rule.label));
       },
+      end() {
+         logger.info('end');
+      },
       get state() {
          return { config: config.summary };
       },

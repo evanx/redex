@@ -19,8 +19,13 @@ export default function fileTranslator(config, redex, logger) {
       get state() {
          return { config: config.summary, count: count };
       },
+      init() {
+      },
       start() {
          logger.info('start', config);
+      },
+      end() {
+         logger.info('end');
       },
       async process(message, meta, route) {
          count += 1;

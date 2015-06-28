@@ -38,9 +38,15 @@ export default function createProcessor(config, redex) {
       }
    }
 
-   logger.info('start', config);
-
-   const service = { // public methods
+   const service = {
+      init() {
+      },
+      start() {
+         logger.info('start', config);
+      },
+      end() {
+         logger.info('end');
+      },
       get state() {
          return { config: config.summary, count: count };
       },

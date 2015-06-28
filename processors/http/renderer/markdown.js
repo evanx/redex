@@ -12,8 +12,13 @@ const Paths = RedexGlobal.require('util/Paths');
 export default function httpRendererMarkdown(config, redex, logger) {
 
    const service = {
+      init() {
+      },
       start() {
          logger.info('start', config);
+      },
+      end() {
+         logger.info('end');
       },
       get state() {
          return { config: config.summary };

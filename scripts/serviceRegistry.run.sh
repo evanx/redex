@@ -81,10 +81,15 @@ c0default() {
   c0client & c0server
 }
 
-if [ $# -gt 1 ]
+c0cancel() {
+  nodejs index.js test/cases/serviceRegistry/registrant.yaml cancel | bunyan -o short
+}
+
+if [ $# -eq 1 ]
 then
   command=$1
   shift
+  echo "c$#$command $@"
   c$#$command $@
 else
   c0default

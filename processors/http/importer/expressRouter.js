@@ -9,7 +9,6 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-const Paths = RedexGlobal.require('util/Paths');
 const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
 
 export default function expressRouter(config, redex, logger) {
@@ -80,18 +79,13 @@ export default function expressRouter(config, redex, logger) {
       },
       async start() {
          app = express();
-         gets.forEach(item => {
-            try {
-               add(item);
-            } catch (e) {
-               logger.error('add', e);
-            }
-         });
+         gets.forEach(add);
          server = app.listen(config.port);
          logger.info('listen', config.port);
       },
       end() {
          if (server) {
+            logger.info('end', Object.keys(server));
             server.close();
             logger.info('end');
          } else {
