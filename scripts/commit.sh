@@ -11,10 +11,12 @@ c1commit() {
   git add --all 
   git commit -m "$message" 
   git push
+  git status
   cd ..
   git add --all  
   git commit -m "$message" 
   git push
+  git status
 }
 
 
