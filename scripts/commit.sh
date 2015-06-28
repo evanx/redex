@@ -8,18 +8,16 @@ fi
 c1commit() {
   message="$1"
   cd util 
-  pwd
   git add --all 
   git commit -m "$message" 
   git push
   git status
+  pwd
   cd ..
-  echo
   pwd
   git add --all  
   git commit -m "$message" 
   git push
-  echo; pwd
   git status
 }
 
