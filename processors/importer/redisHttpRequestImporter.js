@@ -76,10 +76,10 @@ export default function redisHttpRequestImporter(config, redex, logger) {
          return { config: config.summary, count: count };
       },
       start() {
-         redis.start();
+         redis.init();
          setTimeout(() => run(), 0);
       },
-      stop() {
+      end() {
          redis.end();
       }
    };

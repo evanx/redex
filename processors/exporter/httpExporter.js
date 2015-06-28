@@ -23,7 +23,7 @@ export default function httpExporter(config, redex, logger) {
       start() {
          redis = new Redis();
       },
-      stop() {
+      end() {
          redis.end();
       },
       async process(message, meta, route) {

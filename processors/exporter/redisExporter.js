@@ -28,7 +28,7 @@ export default function redisExporter(config, redex, logger) {
          assert(!config.route, 'route');
          redis = new Redis();
       },
-      stop() {
+      end() {
          redis.end();
       },
       async process(message, meta, route) {
