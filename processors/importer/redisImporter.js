@@ -33,12 +33,14 @@ export default function redisImporter(config, redex, logger) {
    }
 
    async function pop() {
-      count += 1;
-      let messageId = count;
       logger.warn('redis.brpoplpush', config.queue.in, config.queue.pending, popTimeout);
       const popReply = await redis.brpoplpush(config.queue.in,
          config.queue.pending, popTimeout);
-      logger.warn('popReply', popReply);
+      if (popReply === null) {
+         return;
+      }
+      count += 1;
+      const messageId = count;
       try {
          addedPending(popReply, messageId);
          let message = popReply;

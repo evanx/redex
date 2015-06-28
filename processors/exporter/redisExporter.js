@@ -6,13 +6,9 @@ import assert from 'assert';
 
 const Redis = RedexGlobal.require('util/Redis');
 
-const redis = new Redis();
-
 export default function redisExporter(config, redex, logger) {
 
-   assert(config.queue.out, 'queue.out');
-   assert(!config.queue.in, 'queue.in');
-   assert(!config.route, 'route');
+   let redis;
 
    function formatMessage(message) {
       if (config.json) {
@@ -26,11 +22,19 @@ export default function redisExporter(config, redex, logger) {
       get state() {
          return { config: config.summary };
       },
+      async start() {
+         assert(config.queue.out, 'queue.out');
+         assert(!config.queue.in, 'queue.in');
+         assert(!config.route, 'route');
+         redis = new Redis();
+      },
+      stop() {
+         redis.end();
+      },
       async process(message, meta, route) {
          let string = formatMessage(message);
          logger.debug('promise lpush:', meta, config.queue.out, string);
-         await redis.lpush(config.queue.out, string);
-         return;
+         return redis.lpush(config.queue.out, string);
       }
    };
 
