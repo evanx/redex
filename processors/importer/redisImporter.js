@@ -18,7 +18,7 @@ export default function redisImporter(config, redex, logger) {
    let count = 0;
    let cancelled = false;
    let popTimeout = 1; //config.popTimeout || 30;
-   const redis = new Redis(false);
+   const redis = new Redis({});
 
    function addedPending(popReply, messageId) {
       logger.debug('addPending', messageId);

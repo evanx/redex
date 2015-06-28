@@ -14,14 +14,17 @@ export default function httpExporter(config, redex, logger) {
    Asserts.assert(!config.route, 'route');
    Asserts.assert(config.queue.pending);
 
-   const redis = new Redis(false);
+   let redis;
 
    const service = {
       get state() {
          return { config: config.summary };
       },
       start() {
-         redis.start();
+         redis = new Redis();
+      },
+      stop() {
+         redis.end();
       },
       async process(message, meta, route) {
          try {

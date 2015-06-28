@@ -18,7 +18,7 @@ export default function redisHttpRequestImporter(config, redex, logger) {
 
    const popTimeout = config.popTimeout || 2;
    const errorWaitMillis = config.errorWaitMillis || 1000;
-   const redis = new Redis(false);
+   const redis = new Redis({});
    let cancelled = false;
    let count = 0;
 
