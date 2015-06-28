@@ -17,7 +17,7 @@ export default function createProcessor(config, redex, logger) {
 
    const service = {
       init() {
-         assert(config.);
+         assert(config.serviceType, 'serviceType');
       },
       start() {
          redis.init();

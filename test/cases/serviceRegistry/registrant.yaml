@@ -31,3 +31,4 @@ configs:
 - processorName: http.translator.file.singleton
 
 - processorName: service.registrant.singleton
+  serviceType: http
