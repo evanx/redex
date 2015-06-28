@@ -27,7 +27,6 @@ c0clear() {
 c0client() {
   c0clear
   sleep 4
-  echo :
   message="{
     \"method\": \"GET\",
     \"url\": \"${url}\",

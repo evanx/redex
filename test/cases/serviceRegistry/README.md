@@ -31,7 +31,7 @@ This processor introspects the state of the active components and returns as JSO
 <img src="http://evanx.github.io/images/redex/redex-state-expressRouter.png" width="500" border="1"/>
 <hr>
 
-### Running
+## Running
 
 We run this configuration using the following script:
 ```shell

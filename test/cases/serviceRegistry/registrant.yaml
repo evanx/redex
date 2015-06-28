@@ -31,4 +31,7 @@ configs:
 - processorName: http.translator.file.singleton
 
 - processorName: service.registrant.singleton
-  serviceType: http
+  namespace: redex:test:service:http
+  address: localhost:8881
+  timeout: 4000
+  
