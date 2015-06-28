@@ -18,7 +18,7 @@ c0client() {
   then
     if head -2 tmp/curl.txt | grep 'Redex'
     then
-      echo "${testName} OK"
+      echo "$testName $0 OK"
     else
       echo 'FAILED'
     fi

@@ -41,7 +41,8 @@ c0client() {
   echo 'redis-cli llen redex:test:redishttp:reply'
   redis-cli llen redex:test:redishttp:reply
   echo 'redis-cli lrange redex:test:redishttp:reply 0 -1'
-  redis-cli lrange redex:test:redishttp:reply 0 -1 | python -mjson.tool | (grep 'Valleywag' && echo "$testName: OK")
+  redis-cli lrange redex:test:redishttp:reply 0 -1 | python -mjson.tool |
+    (grep 'Valleywag' && echo "$testName: $0 OK")
   rm -f $pidFile
 }
 

@@ -34,7 +34,7 @@ c0client() {
   echo 'redis-cli llen redex:test:dispatcher:reply'
   redis-cli llen redex:test:dispatcher:reply
   echo 'redis-cli lrange redex:test:dispatcher:out 0 -1'
-  redis-cli lrange redex:test:dispatcher:out 0 -1 | grep "$message" && echo "$testName: OK"
+  redis-cli lrange redex:test:dispatcher:out 0 -1 | grep "$message" && echo "$testName: $0 OK"
   rm -f $pidFile
 }
 

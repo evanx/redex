@@ -19,7 +19,7 @@ pwd | grep -q '/redex$' || exit 1
     then
       if cat tmp/curl.out | head -1 | grep Redex
       then
-        echo 'OK'
+        echo "$testName $0 OK"
       else
         head -1 tmp/curl.out
         echo 'FAILED'

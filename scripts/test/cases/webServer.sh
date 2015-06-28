@@ -23,7 +23,7 @@ pwd | grep -q '/redex$' || exit 1
     echo "curl -s localhost:8888/test.txt"
     curl -I -s localhost:8888/test.txt
     echo
-    curl -s http://localhost:8888/test.txt && (echo; echo "$testName OK")
+    curl -s http://localhost:8888/test.txt && (echo; echo "$testName $0 OK")
     sleep 1
     rm -f $pidFile
   }

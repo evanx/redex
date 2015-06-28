@@ -50,14 +50,22 @@ c0clear
     exitCode=$?
     if [ $exitCode -eq 0 ]
     then
-      if tail -1 $out | grep -q 'OK$'
+      if tail -2 $out | grep "$script OK$"
       then
-        cat $out | sed -e 2b -e '$!d'
+        cat $out | head -2
+        echo '...'
+        cat $out | tail -2
       else
+        cat $out | head -5
+        echo '...'
+        cat $out | tail -5
         echo "$name: FAILED"
       fi
     else
       echo "error exit code: $exitCode"
+      cat $out | head -10
+      echo '...'
+      cat $out | tail -10
       cat $out
       break
     fi

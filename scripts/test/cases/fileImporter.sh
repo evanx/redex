@@ -25,7 +25,7 @@ c0client() {
   sleep 8
   ls -l tmp/fileImporter/reply/${item}*
   echo "grep Valleywag tmp/fileImporter/reply/${item}*"
-  grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: OK"
+  grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: $0 OK"
   rm -f $pidFile
 }
 
