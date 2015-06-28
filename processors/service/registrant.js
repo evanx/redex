@@ -9,6 +9,10 @@ import path from 'path';
 const Paths = RedexGlobal.require('util/Paths');
 //const RedexRegistry = RedexGlobal.require('lib/RedexRegistry');
 
+const Redis = RedexGlobal.require('util/Redis');
+
+const redis = new Redis();
+
 export default function createProcessor(config, redex, logger) {
 
    const service = {

@@ -4,6 +4,7 @@
 
 import assert from 'assert';
 
+const Promises = RedexGlobal.require('util/Promises');
 const Redis = RedexGlobal.require('util/Redis');
 
 const redis = new Redis();
@@ -19,8 +20,6 @@ export default function redisImporter(config, redex, logger) {
    let count = 0;
    let redis = new Redis();
    let popTimeout = config.popTimeout || 0;
-
-   pop();
 
    function addedPending(popReply, messageId) {
       logger.debug('addPending', messageId);
@@ -62,6 +61,16 @@ export default function redisImporter(config, redex, logger) {
       get state() {
          return { config: config.summary, count: count };
       },
+      async start() {
+         while (true) {
+            try {
+               pop();
+            } catch (err) {
+               logger.warn(err);
+               await Promises.delay(2000);
+            }
+         }
+      }
    };
 
    return service;
