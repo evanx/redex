@@ -18,7 +18,7 @@ where we configure:
 ### Implementation
 
 See the implementation of the `service.registry` processor:
-https://github.com/evanx/redex/blob/master/processors/service/registry/registrant.js
+https://github.com/evanx/redex/blob/master/processors/service/registrant.js
 
 ```javascript
 
