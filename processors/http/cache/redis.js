@@ -18,6 +18,13 @@ export default function httpCacheRedis(config, redex, logger) {
    logger.info('started', config.redisKey, Seconds.format(config.expire), config.expire);
 
    const service = {
+      init() {
+      },
+      start() {
+      },
+      end() {
+         redis.end();
+      },
       get state() {
          return { config: config.summary };
       },

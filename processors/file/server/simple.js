@@ -15,7 +15,7 @@ const Files = RedexGlobal.require('util/Files');
 
 const { redex } = RedexGlobal;
 
-export default function create(config, redex) {
+export default function createProcessor(config, redex) {
 
    assert(config.root, 'root');
 

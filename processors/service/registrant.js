@@ -12,21 +12,18 @@ const Redis = RedexGlobal.require('util/Redis');
 const Seconds = RedexGlobal.require('util/Seconds');
 const Millis = RedexGlobal.require('util/Millis');
 
-export default function createProcessor(config, redex, logger) {
-
-   logger.debug('config', config);
+export default function createRegistrant(config, redex, logger) {
 
    assert(config.namespace, 'namespace');
    assert(config.address, 'address');
-   Millis.assert(config.timeout, 'timeout');
-   logger.info('timeout', typeof config.timeout, lodash.isNumber(config.timeout));
-   const timeout = Millis.parse(config.timeout)/1000;
-   assert(timeout > 1, 'timeout: ' + timeout);
-   assert(timeout < 90, 'timeout: ' + timeout);
 
+   const ttl = Seconds.parse(config.ttl);
+   let shutdown = false;
    let cancelled = false;
    let count = 0;
    let registration;
+
+   assert(ttl > 0, 'ttl');
 
    const redis = new Redis({});
    const popTimeout = config.popTimeout || 1;
@@ -34,44 +31,78 @@ export default function createProcessor(config, redex, logger) {
    const registerDelay = config.registerDelay || 2000;
    const monitorInterval = config.monitorInterval || 1000;
 
-   function addedPending(popReply, messageId) {
-      logger.debug('addPending', messageId);
+   async function addedPending(id) {
+      while (true) {
+         const lid = await redis.rpop(config.namespace + ':p', 0, -1);
+         if (lid) {
+            const reply = await redis.sadd(config.namespace + ':ps', lid);
+            if (lid !== id) {
+               logger.warn('addPending lpop', id, lid, reply);
+            } else {
+               logger.debug('addPending lpop', id, reply);
+            }
+         } else {
+            return;
+         }
+      }
    }
 
-   function removePending(popReply, messageId) {
-      logger.debug('removePending', messageId);
+   async function removePending(id) {
+      const remCount = await redis.srem(config.namespace + ':ps', id);
+      if (remCount !== 1) {
+         logger.warn('removePending', id, remCount);
+      } else {
+         logger.debug('removePending', id);
+      }
    }
 
-   function revertPending(popReply, messageId, error) {
-      logger.warn('revertPending:', messageId, error, error.stack);
+   async function revertPending(id, error) {
+      const pushLength = await redis.lpush(config.namespace + ':q', id);
+      logger.warn('revertPending', id, pushLength, error, error.stack);
    }
 
    async function pop() {
-      const popReply = await redis.brpoplpush(config.namespace + ':in',
-      config.namespace + ':pending', popTimeout);
-      if (popReply === null) {
+      if (cancelled) {
+         logger.warn('pop: cancelled');
+         returnl
+      }
+      assert(!shutdown);
+      const id = await redis.brpoplpush(config.namespace + ':q',
+         config.namespace + ':p', popTimeout);
+      if (lodash.isEmpty(id)) {
          return null;
       }
-      let message = JSON.parse(popReply);
-      count += 1;
-      const messageId = count;
+      addedPending(id);
       try {
-         logger.debug('pop', message);
-         assert(message.id, 'id');
-         let setReply = await redis.sadd(config.namespace + ':ids', message.id);
-         if (setReply !== 1) {
-            logger.warn('setReply', setReply);
+         assert(!shutdown);
+         if (cancelled) {
+            return null;
          }
-         let hashesReply = await redis.hmset(config.namespace + ':' + message.id, message);
-         removePending(popReply, messageId);
-         return message;
+         logger.debug('pop', id);
+         let addCount = await redis.sadd(config.namespace + ':ids', id);
+         if (addCount !== 1) {
+            logger.warn('sadd', id, addCount);
+         }
+         let setCount = await redis.hset(config.namespace + ':' + id, id);
+         if (setCount != 1) {
+            logger.warn('hset', id, setCount);
+         }
+         //throw new Error('test');
+         return id;
       } catch (err) {
-         revertPending(popReply, messageId, err);
+         revertPending(id, err);
          throw err;
+      } finally {
+         removePending(id);
       }
    }
 
    async function monitor() {
+      if (cancelled) {
+         logger.warn('monitor: cancelled');
+         return;
+      }
+      assert(!shutdown);
       if (!registration) {
          logger.debug('unregistered');
       } else if (!registration.id) {
@@ -80,29 +111,24 @@ export default function createProcessor(config, redex, logger) {
          try {
             let sismemberReply = await redis.sismember(config.namespace + ':ids', registration.id);
             if (sismemberReply) {
-               let serverTime = await redis.time();
-               let time = serverTime[0];
-               if (registration.deadline) {
-                  if (time > registration.deadline) {
+               let time = await redis.timeSeconds();
+               if (registration.ttd) {
+                  if (time > registration.ttd) {
                      logger.warn('expired', registration, time);
                      if (config.shutdown) {
                         cancelled = true;
-                        redex.end();
                      }
-                  } else if (time > registration.deadline - timeout*2) {
-                     logger.info('expiring', registration, time, timeout);
                   } else {
-                     let ttl = registration.deadline - time;
-                     logger.debug('registered', registration, time, ttl);
+                     let ttl = registration.ttd - time;
+                     logger.debug('registered', {registration, time, ttl});
                   }
                } else {
-                  logger.debug('no deadline', registration);
+                  logger.warn('no ttd', registration);
                }
             } else {
                deregister();
                if (config.shutdown) {
                   cancelled = true;
-                  redex.end();
                }
             }
          } catch (err) {
@@ -117,10 +143,14 @@ export default function createProcessor(config, redex, logger) {
    }
 
    async function register() {
-      registration = await pop();
-      if (!registration) {
+      assert(!registration, 'unregistered');
+      let id = await pop();
+      if (!id) {
          return;
       }
+      let time = await redis.timeSeconds();
+      let ttd = ttl + time;
+      registration = { id, ttd };
    }
 
    async function run() {
@@ -136,7 +166,14 @@ export default function createProcessor(config, redex, logger) {
             await Promises.delay(errorDelay);
          }
       }
+      shutdown = true;
+      redis.end();
+      if (config.shutdown) {
+         redex.end();
+      }
    }
+
+   let monitorId;
 
    const service = {
       init() {
@@ -144,12 +181,17 @@ export default function createProcessor(config, redex, logger) {
       async start() {
          redis.init();
          setTimeout(() => run(), 0);
-         setInterval(() => monitor(), monitorInterval);
-         logger.info('start', config);
+         monitorId = setInterval(() => monitor(), monitorInterval);
+         logger.info('start', config.address, ttl);
       },
       end() {
          cancelled = true;
-         redis.end();
+         if (monitorId) {
+            clearInterval(monitorId);
+            logger.info('end');
+         } else {
+            logger.warn('end');
+         }
       },
       get state() {
          return { config: config.summary };

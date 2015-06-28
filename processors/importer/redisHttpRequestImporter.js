@@ -6,8 +6,6 @@ import assert from 'assert';
 
 const Redis = RedexGlobal.require('util/Redis');
 
-const redis = new Redis();
-
 export default function redisHttpRequestImporter(config, redex, logger) {
 
    assert(config.queue.in, 'queue.in');

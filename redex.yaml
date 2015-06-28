@@ -1,0 +1,4 @@
+label: Config for testing cancelled start
+logLevel: debug
+configs:
+- processorName: redex.state.singleton

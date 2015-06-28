@@ -12,7 +12,7 @@ c0rm() {
 }
 
 c0client() {
-  nodejs index.js none | bunyan -o short # warmup
+  nodejs index.js cancel | bunyan -o short # warmup
   sleep 4
   if curl -s http://localhost:8880/README.md > tmp/curl.txt
   then

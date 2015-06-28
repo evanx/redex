@@ -25,8 +25,7 @@ My rationale for this project is:
 - create a platform for rapid prototyping of application backends
 - emulate some functionality of Nginx using Node, Redis and ExpressJS
 - because I love Nginx, Node, Redis, ES7 and ReactJS
-- because IT is about developers empowering non-developers
-- because assembling useful back-end stuff through configuration is fun
+- because assembling back-end stuff through configuration is useful
 
 ### Installing
 

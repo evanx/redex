@@ -29,7 +29,7 @@ c0clear() {
 
 c0clear
 
-  node index.js none # warmup
+  node index.js cancel # warmup
 
   for script in cli.http.simple.sh
   do

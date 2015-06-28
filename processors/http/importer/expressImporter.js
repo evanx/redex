@@ -21,24 +21,34 @@ export default function expressImporter(config, redex, logger) {
    logger.info('start', config);
 
    let count = 0;
-
-   let app = express();
-   app.listen(config.port);
-   logger.info('listen', config.port);
-   app.get('/*', async (req, res) => {
-      logger.info('req', req.url);
-      try {
-         count += 1;
-         let id = redex.startTime + count;
-         let meta = {type: 'express', id: id, host: req.hostname};
-         let response = await redex.import(req, meta, config);
-         ExpressResponses.sendResponse(req, res, response);
-      } catch (error) {
-         ExpressResponses.sendError(req, res, error);
-      }
-   });
+   let app, server;
 
    const service = {
+      start() {
+         let app = express();
+         app.get('/*', async (req, res) => {
+            logger.info('req', req.url);
+            try {
+               count += 1;
+               let id = redex.startTime + count;
+               let meta = {type: 'express', id: id, host: req.hostname};
+               let response = await redex.import(req, meta, config);
+               ExpressResponses.sendResponse(req, res, response);
+            } catch (error) {
+               ExpressResponses.sendError(req, res, error);
+            }
+         });
+         server = app.listen(config.port);
+         logger.info('listen', config.port);
+      },
+      end() {
+         if (server) {
+            server.close();
+            logger.info('end');
+         } else {
+            logger.warn('end');
+         }
+      },
       get state() {
          return { config: config.summary, count: count };
       },

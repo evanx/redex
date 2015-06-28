@@ -26,37 +26,67 @@ c0clear() {
   done
 }
 
-c0client() {
-  ns='redex:test:service:http'
-  id=123
-  ttl=10
-  time=`redis-cli time | head -1`
-  deadline=`echo "$time + $ttl" | bc`
-  echo "time $time, ttl $ttl, deadline $deadline"
-  message="{ id: $id, deadline: $deadline }"
-  message=`echo "$message" | sed 's/ \(\w*\): / "\1": /g'`
-  echo "message $message"
-  echo "redis-cli lpush $ns:in '$message'"
-  redis-cli lpush $ns:in "$message"
-  sleep 1
+ns='redex:test:service:http'
+
+c0redis() {
+  echo -n "redis-cli scard $ns:ids "
+  redis-cli scard $ns:ids
   echo "redis-cli keys $ns:*"
   redis-cli keys '$ns:*'
   echo "redis-cli smembers $ns:ids"
   redis-cli smembers $ns:ids
   echo "redis-cli hgetall $ns:$id"
   redis-cli hgetall "$ns:$id"
-  echo "message $message"
-  sleep 2
+}
+
+c1remove() {
+  id=$1
+  echo "redis-cli scard $ns:ids"
+  redis-cli scard $ns:ids
   echo "redis-cli srem $ns:ids $id"
   redis-cli srem $ns:ids "$id"
   echo "redis-cli smembers $ns:ids"
   redis-cli smembers $ns:ids
+  c0redis
+}
+
+c1push() {
+  id=$1
+  echo "redis-cli lpush $ns:q '$id'"
+  redis-cli lpush $ns:q "$id"
+  sleep 1
+}
+
+c1client() {
+  id=$1
+  c1push $id
+  c0redis
+  sleep 4
+  c1remove $id
+}
+
+c0client() {
+  c1client 123
+  sleep 4
+  c1client 124
 }
 
 c0server() {
   nodejs index.js test/cases/serviceRegistry/registrant.yaml | bunyan -o short
 }
 
+c0default() {
   c0assert
   c0clear
   c0client & c0server
+}
+
+if [ $# -gt 1 ]
+then
+  command=$1
+  shift
+  c$#$command $@
+else
+  c0default
+fi 
+

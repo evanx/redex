@@ -11,8 +11,12 @@ const RedexState = RedexGlobal.require('lib/RedexState');
 export default function state(config, redex, logger) {
 
    const service = {
+      init() {
+      },
       start() {
          logger.info('start', config);
+      },
+      end() {
       },
       get state() {
          return { config: config.summary };

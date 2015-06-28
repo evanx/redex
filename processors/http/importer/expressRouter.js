@@ -16,7 +16,7 @@ export default function expressRouter(config, redex, logger) {
 
    let count = 0;
    let gets;
-   let app;
+   let app, server;
 
    function initPath(item) {
       if (item.route) {
@@ -87,9 +87,17 @@ export default function expressRouter(config, redex, logger) {
                logger.error('add', e);
             }
          });
-         app.listen(config.port);
+         server = app.listen(config.port);
          logger.info('listen', config.port);
-      }
+      },
+      end() {
+         if (server) {
+            server.close();
+            logger.info('end');
+         } else {
+            logger.warn('end');
+         }
+      },
    };
 
    return methods;

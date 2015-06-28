@@ -10,6 +10,7 @@ const Asserts = RedexGlobal.require('util/Asserts');
 export default function rateLimiter(config, redex, logger) {
 
    let count = 0;
+   let monitorId;
 
    function formatExceeded() {
       return util.format('%d exceeds %d in %sms',
@@ -24,7 +25,7 @@ export default function rateLimiter(config, redex, logger) {
       start() {
          count = 0;
          if (config.periodMillis) {
-            setInterval(() => {
+            monitorId = setInterval(() => {
                count = 0;
             }, config.periodMillis);
          }
@@ -32,6 +33,11 @@ export default function rateLimiter(config, redex, logger) {
       },
       get state() {
          return { config: config.summary };
+      },
+      end() {
+         if (monitorId) {
+            clearInterval(monitorId);
+         }
       },
       async process(message, meta, route) {
          logger.debug('count', count);

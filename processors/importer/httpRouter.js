@@ -18,55 +18,64 @@ export default function httpImporter(config, redex, logger) {
    assert(config.routes, 'routes');
 
    let count = 0;
-
-   let app = express();
-   app.get('/*', async (req, res) => {
-      logger.info('req', req.url, Object.keys(req).toString());
-      try {
-        count += 1;
-         let meta = {type: 'express', id: count, host: req.hostname};
-         let response = await redex.import(req, meta, config);
-         assert(response, 'no response');
-         assert(response.statusCode, 'no statusCode');
-         res.status(response.statusCode);
-         if (response.content) {
-            if (!response.contentType) {
-               response.contentType = Paths.defaultContentType;
-            }
-            logger.debug('contentType', response.contentType);
-            if (/json$/.test(response.contentType)) {
-               res.json(response.content);
-            } else {
-               res.contentType(response.contentType);
-               if (lodash.isString(response.content)) {
-                  logger.debug('string content:', response.statusCode, response.content);
-                  res.send(response.content);
-               } else {
-                  res.send(response.content);
-               }
-            }
-         } else if (response.statusCode === 200) {
-            logger.debug('no content');
-            res.send();
-         } else {
-            logger.debug('statusCode', response.statusCode);
-            res.send();
-         }
-      } catch (err) {
-         if (err.name === 'AssertionError') {
-            logger.warn(err.name + ': ' + err.message);
-            res.status(500).send({name: err.name, message: err.message});
-         } else {
-            logger.warn(err);
-            res.status(500).send(err);
-         }
-      }
-   });
-
-   app.listen(config.port);
-   logger.info('listen', config.port);
+   let app, server;
 
    const service = { // public methods
+      start() {
+         app = express();
+         app.get('/*', async (req, res) => {
+            logger.info('req', req.url, Object.keys(req).toString());
+            try {
+              count += 1;
+               let meta = {type: 'express', id: count, host: req.hostname};
+               let response = await redex.import(req, meta, config);
+               assert(response, 'no response');
+               assert(response.statusCode, 'no statusCode');
+               res.status(response.statusCode);
+               if (response.content) {
+                  if (!response.contentType) {
+                     response.contentType = Paths.defaultContentType;
+                  }
+                  logger.debug('contentType', response.contentType);
+                  if (/json$/.test(response.contentType)) {
+                     res.json(response.content);
+                  } else {
+                     res.contentType(response.contentType);
+                     if (lodash.isString(response.content)) {
+                        logger.debug('string content:', response.statusCode, response.content);
+                        res.send(response.content);
+                     } else {
+                        res.send(response.content);
+                     }
+                  }
+               } else if (response.statusCode === 200) {
+                  logger.debug('no content');
+                  res.send();
+               } else {
+                  logger.debug('statusCode', response.statusCode);
+                  res.send();
+               }
+            } catch (err) {
+               if (err.name === 'AssertionError') {
+                  logger.warn(err.name + ': ' + err.message);
+                  res.status(500).send({name: err.name, message: err.message});
+               } else {
+                  logger.warn(err);
+                  res.status(500).send(err);
+               }
+            }
+         });
+         server = app.listen(config.port);
+         logger.info('listen', config.port);
+      },
+      end() {
+         if (server) {
+            server.close();
+            logger.info('end');
+         } else {
+            logger.warn('end');
+         }
+      },
       get state() {
          return { config: config.summary, count: count };
       },
