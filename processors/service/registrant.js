@@ -11,13 +11,20 @@ const Paths = RedexGlobal.require('util/Paths');
 
 const Redis = RedexGlobal.require('util/Redis');
 
-const redis = new Redis();
-
 export default function createProcessor(config, redex, logger) {
 
+   const redis = new Redis({});
+
    const service = {
+      init() {
+         assert(config.);
+      },
       start() {
+         redis.init();
          logger.info('start', config);
+      },
+      end() {
+         redis.end();
       },
       get state() {
          return { config: config.summary };
