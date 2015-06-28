@@ -7,8 +7,6 @@ import assert from 'assert';
 const Promises = RedexGlobal.require('util/Promises');
 const Redis = RedexGlobal.require('util/Redis');
 
-const redis = new Redis();
-
 export default function redisImporter(config, redex, logger) {
 
    assert(config.queue.in, 'queue.in');
@@ -18,8 +16,9 @@ export default function redisImporter(config, redex, logger) {
    assert(config.route, 'route');
 
    let count = 0;
-   let redis = new Redis();
-   let popTimeout = config.popTimeout || 0;
+   let cancelled = false;
+   let popTimeout = 1; //config.popTimeout || 30;
+   const redis = new Redis(false);
 
    function addedPending(popReply, messageId) {
       logger.debug('addPending', messageId);
@@ -36,17 +35,19 @@ export default function redisImporter(config, redex, logger) {
    async function pop() {
       count += 1;
       let messageId = count;
+      logger.warn('redis.brpoplpush', config.queue.in, config.queue.pending, popTimeout);
       const popReply = await redis.brpoplpush(config.queue.in,
          config.queue.pending, popTimeout);
+      logger.warn('popReply', popReply);
       try {
          addedPending(popReply, messageId);
          let message = popReply;
          if (config.json) {
             message = JSON.parse(popReply);
          }
-         logger.debug('pop:', message);
+         logger.debug('pop', message);
          let reply = await redex.import(message, {messageId}, config);
-         logger.debug('ok', messageId, reply);
+         logger.debug('imported', messageId, reply);
          if (reply) {
             redis.lpush(config.queue.reply, reply);
          }
@@ -57,19 +58,27 @@ export default function redisImporter(config, redex, logger) {
       }
    }
 
+   async function run() {
+      while (!cancelled) {
+         try {
+            await pop();
+         } catch (err) {
+            logger.warn(err);
+            await Promises.delay(errorWaitMillis);
+         }
+      }
+   }
+
    const service = {
       get state() {
          return { config: config.summary, count: count };
       },
-      async start() {
-         while (true) {
-            try {
-               pop();
-            } catch (err) {
-               logger.warn(err);
-               await Promises.delay(2000);
-            }
-         }
+      start() {
+         redis.start();
+         setTimeout(() => run(), 0);
+      },
+      stop() {
+         redis.end();
       }
    };
 

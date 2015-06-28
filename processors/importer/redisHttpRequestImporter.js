@@ -16,45 +16,58 @@ export default function redisHttpRequestImporter(config, redex, logger) {
    assert(config.timeout, 'timeout');
    assert(config.route, 'route');
 
+   const popTimeout = config.popTimeout || 2;
+   const errorWaitMillis = config.errorWaitMillis || 1000;
+   const redis = new Redis(false);
+   let cancelled = false;
    let count = 0;
-   let popTimeout = config.popTimeout || 0;
-   let redis = new Redis();
 
-   pop();
-
-   function addedPending(messageId, redisReply) {
+   async function addedPending(messageId, redisReply) {
       logger.debug('addPending', messageId);
    }
 
-   function removePending(messageId, redisReply) {
+   async function removePending(messageId, redisReply) {
       logger.debug('removePending', messageId);
    }
 
-   function revertPending(messageId, redisReply, error) {
+   async function revertPending(messageId, redisReply, error) {
       logger.warn('revertPending:', messageId, error, error.stack);
    }
 
    async function pop() {
+      logger.debug('pop', config.queue.in, config.queue.pending, popTimeout);
+      const redisReply = await redis.brpoplpush(config.queue.in, config.queue.pending, popTimeout);
+      if (redisReply === null) {
+         return;
+      }
+      count += 1;
+      const messageId = count;
       try {
-         logger.debug('pop', config.queue.in);
-         var redisReply = await redis.brpoplpush(config.queue.in, config.queue.pending, popTimeout);
-         count += 1;
-         var messageId = count;
          var expiryTime = new Date().getTime() + config.timeout;
-         addedPending(messageId, redisReply);
+         await addedPending(messageId, redisReply);
          logger.debug('redisReply', redisReply);
          let message = JSON.parse(redisReply);
          logger.info('pop:', message);
          let reply = await redex.import(message, {messageId}, config);
          logger.info('reply:', reply);
          await redis.lpush(config.queue.reply, JSON.stringify(reply));
-         removePending(messageId, redisReply);
+         await removePending(messageId, redisReply);
          //throw new Error('test');
-         pop();
       } catch (error) {
-         redis.lpush(config.queue.error, JSON.stringify(error));
-         revertPending(messageId, redisReply, error);
-         setTimeout(() => pop(), config.errorWaitMillis || 1000);
+         await redis.lpush(config.queue.error, JSON.stringify(error));
+         await revertPending(messageId, redisReply, error);
+         throw error;
+      }
+   }
+
+   async function run() {
+      while (!cancelled) {
+         try {
+            await pop();
+         } catch (error) {
+            logger.warn(error);
+            await Promises.delay(errorWaitMillis);
+         }
       }
    }
 
@@ -62,6 +75,13 @@ export default function redisHttpRequestImporter(config, redex, logger) {
       get state() {
          return { config: config.summary, count: count };
       },
+      start() {
+         redis.start();
+         setTimeout(() => run(), 0);
+      },
+      stop() {
+         redis.end();
+      }
    };
 
    return service;

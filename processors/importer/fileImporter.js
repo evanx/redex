@@ -67,7 +67,7 @@ export default function fileImporter(config, redex, logger) {
          assert(config.route, 'route');
       },
       start() {
-         watch();
+         setTimeout(() => watch(), 0);
       },
       get state() {
          return { config: config.summary, count: count };

@@ -9,16 +9,19 @@ const Redis = RedexGlobal.require('util/Redis');
 const Asserts = RedexGlobal.require('util/Asserts');
 const { request } = RedexGlobal.require('util/Requests');
 
-const redis = new Redis();
-
 export default function httpExporter(config, redex, logger) {
 
    Asserts.assert(!config.route, 'route');
    Asserts.assert(config.queue.pending);
 
+   const redis = new Redis(false);
+
    const service = {
       get state() {
          return { config: config.summary };
+      },
+      start() {
+         redis.start();
       },
       async process(message, meta, route) {
          try {
