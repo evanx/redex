@@ -52,7 +52,7 @@ c0clear
     then
       if tail -1 $out | grep -q 'OK$'
       then
-        cat $out | sed -e 1b -e '$!d'
+        cat $out | sed -e 2b -e '$!d'
       else
         echo "$name: FAILED"
       fi
