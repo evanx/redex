@@ -17,10 +17,11 @@ where we configure:
 
 ### Implementation
 
-See the implementation of the `http.registry` processor:
-https://github.com/evanx/redex/blob/master/processors/http/registry/registrant.js
+See the implementation of the `service.registry` processor:
+https://github.com/evanx/redex/blob/master/processors/service/registry/registrant.js
 
 ```javascript
+
 ```
 
 #### Redex state

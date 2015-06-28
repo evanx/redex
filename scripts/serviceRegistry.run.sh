@@ -19,9 +19,8 @@ c1client() {
 }
 
 c0server() {
-  nodejs index.js test/cases/serviceRegistry/redex.yaml | bunyan -o short
+  nodejs index.js test/cases/serviceRegistry/registrant.yaml | bunyan -o short
 }
 
   c0assert
   c1client 2 & c1client 4 & c0server
-

@@ -27,3 +27,7 @@ configs:
 - processorName: redex.state.singleton
 
 - processorName: http.renderer.markdown.singleton
+
+- processorName: http.translator.file.singleton
+
+- processorName: service.registrant.singleton
