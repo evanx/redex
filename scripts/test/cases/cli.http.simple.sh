@@ -13,7 +13,7 @@ c0rm() {
 
 c0client() {
   nodejs index.js none | bunyan -o short # warmup
-  sleep 2
+  sleep 4
   if curl -s http://localhost:8880/README.md > tmp/curl.txt
   then
     if head -2 tmp/curl.txt | grep 'Redex'
