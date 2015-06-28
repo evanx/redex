@@ -7,11 +7,9 @@ import lodash from 'lodash';
 import path from 'path';
 
 const Paths = RedexGlobal.require('util/Paths');
-const RedexState = RedexGlobal.require('lib/RedexState');
+//const RedexRegistry = RedexGlobal.require('lib/RedexRegistry');
 
-const { redex } = RedexGlobal;
-
-export default function state(config, redex, logger) {
+export default function createProcessor(config, redex, logger) {
 
    const service = {
       start() {
