@@ -34,4 +34,4 @@ configs:
   namespace: redex:test:service:http
   address: localhost:8881
   timeout: 4000
-  
+  shutdown: true

@@ -85,6 +85,10 @@ export default function createProcessor(config, redex, logger) {
                if (registration.deadline) {
                   if (time > registration.deadline) {
                      logger.warn('expired', registration, time);
+                     if (config.shutdown) {
+                        cancelled = true;
+                        redex.end();
+                     }
                   } else if (time > registration.deadline - timeout*2) {
                      logger.info('expiring', registration, time, timeout);
                   } else {
@@ -96,6 +100,10 @@ export default function createProcessor(config, redex, logger) {
                }
             } else {
                deregister();
+               if (config.shutdown) {
+                  cancelled = true;
+                  redex.end();
+               }
             }
          } catch (err) {
             logger.warn(err);
@@ -140,6 +148,7 @@ export default function createProcessor(config, redex, logger) {
          logger.info('start', config);
       },
       end() {
+         cancelled = true;
          redis.end();
       },
       get state() {
