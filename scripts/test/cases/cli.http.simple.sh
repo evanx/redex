@@ -1,17 +1,21 @@
 
+set -u 
+
 pwd | grep -q '/redex$' || exit 1
 
-mkdir -p tmp
-
 testName=cli.http.simple
+tmp=tmp/redex/$testName
 
-nodejs index.js http cancel | bunyan -o short # warmup
+mkdir -p $tmp
 
-export pidFile=tmp/redex.${testName}.pid
+export pidFile=$tmp/pid
+export clientFile=$tmp/client
 
 c0server() {
   rm -f $pidFile
+  rm -f $clientFile
   nodejs index.js http | bunyan -o short
+  cat $clientFile
 }
 
 c0client() {
@@ -20,15 +24,15 @@ c0client() {
   then
     if head -2 tmp/curl.txt | grep 'Redex'
     then
-      echo "$testName $0 OK"
+      echo "$testName $0 OK" > $clientFile
     else
-      echo 'FAILED'
+      echo 'response match failed' > $clientFile
     fi
   else
-    echo "exit code: $?"
+    echo "curl failed with exit code: $?" > $clientFile
   fi
-  echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }
 
   c0client & c0server
+

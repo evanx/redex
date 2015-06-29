@@ -55,6 +55,7 @@ c0clear
         cat $out | head -2
         echo '...'
         cat $out | tail -2
+        sleep 2
       else
         cat $out | head -5
         echo '...'

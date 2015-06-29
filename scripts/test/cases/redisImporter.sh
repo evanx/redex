@@ -1,4 +1,6 @@
 
+set -u
+
 pwd | grep -q '/redex$' || exit 1
 
 testName=redisImporter
@@ -14,10 +16,14 @@ echo "url $url"
 nodejs index.js cancel | bunyan -o short
 
 export pidFile=tmp/redex.${testName}.pid
+export clientFile=tmp/redex.${testName}.client
 
 c0run() {
+  rm -f $pidFile
+  rm -f $clientFile
   echo "$testName configFir $configDir"
   nodejs index.js | bunyan -o short
+  tail -1 $clientFile
 }
 
 c0clear() {
@@ -45,7 +51,7 @@ c0client() {
   redis-cli llen redex:test:redishttp:reply
   echo 'redis-cli lrange redex:test:redishttp:reply 0 -1'
   redis-cli lrange redex:test:redishttp:reply 0 -1 | python -mjson.tool |
-    ( grep 'Valleywag' && echo "$testName: $0 OK" )
+    ( grep 'Valleywag' && echo "$testName: $0 OK" > $clientFile )
   echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }

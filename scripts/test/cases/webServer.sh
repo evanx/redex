@@ -5,9 +5,13 @@ pwd | grep -q '/redex$' || exit 1
 
   export baseDir=test/cases/${testName}
   export pidFile=tmp/redex.${testName}.pid
+  export clientFile=tmp/redex.${testName}.client
 
   c0run() {
+    rm -f $pidFile
+    rm -f $clientFile
     nodejs index.js | bunyan -o short
+    cat $clientFile
   }
 
   c0client() {
@@ -23,9 +27,8 @@ pwd | grep -q '/redex$' || exit 1
     echo "curl -s localhost:8888/test.txt"
     curl -I -s localhost:8888/test.txt
     echo
-    curl -s http://localhost:8888/test.txt && (echo; echo "$testName $0 OK")
+    curl -s http://localhost:8888/test.txt && ( echo "$testName $0 OK" > $clientFile )
     sleep 1
-    echo "rm $pidFile to shutdown Redex"
     rm -f $pidFile
   }
 
