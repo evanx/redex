@@ -29,7 +29,7 @@ c0clear() {
 
 c0clear
 
-  node index.js cancel # warmup
+  node index.js http cancel | bunyan -o short # warmup
 
   for script in cli.http.simple.sh
   do
