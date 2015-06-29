@@ -26,7 +26,7 @@ c0clear() {
 
 c0client() {
   c0clear
-  sleep 4
+  sleep 6
   message="{
     \"method\": \"GET\",
     \"url\": \"${url}\",
@@ -46,4 +46,5 @@ c0client() {
   rm -f $pidFile
 }
 
-c0client & c0run
+  c0client & c0run
+

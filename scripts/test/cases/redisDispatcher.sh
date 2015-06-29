@@ -7,6 +7,7 @@ export baseDir=test/cases/${testName}
 export pidFile=tmp/redex.${testName}.pid
 
 c0run() {
+  echo "$testName baseDir $baseDir"
   nodejs index.js | bunyan -o short
 }
 
@@ -20,7 +21,7 @@ c0clear() {
 
 c0client() {
   c0clear
-  sleep 2
+  sleep 6
   message='a test message'
   echo 'redis-cli llen redex:test:dispatcher:out'
   redis-cli llen redex:test:dispatcher:out

@@ -12,8 +12,11 @@ c0rm() {
   rm -f $pidFile
 }
 
+c0warm() {
+  nodejs index.js none | bunyan -o short # warmup
+}
+
 c0client() {
-  nodejs index.js cancel | bunyan -o short # warmup
   sleep 4
   if curl -s http://localhost:8880/README.md > tmp/curl.txt
   then
@@ -34,4 +37,6 @@ c0server() {
   nodejs index.js http | bunyan -o short
 }
 
-c0client & c0server
+  c0warm
+  c0client & c0server
+

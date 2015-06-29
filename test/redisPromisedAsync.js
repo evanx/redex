@@ -9,6 +9,7 @@ import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
+global.Loggers = require('../util/Loggers');
 global.RedexGlobal = require('../lib/RedexGlobal');
 
 const logger = global.RedexGlobal.logger('redisPromised');
