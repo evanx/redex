@@ -312,10 +312,11 @@ We wish to introduce a processor factory e.g. `builtin/fileImporter.factory.json
 Redex routing:
 - https://github.com/evanx/redex/blob/master/docs/redexRouting.md
 
-HTTP request example:
-- https://github.com/evanx/redex/tree/master/test/cases/httpRequest/
-
-Static web server examples:
+Web server examples:
 - https://github.com/evanx/redex/tree/master/config/
 - https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
 - https://github.com/evanx/redex/tree/master/test/cases/webServer/
+- https://github.com/evanx/redex/tree/master/test/cases/httpRequest/
+
+Redex processor implementations:
+- https://github.com/evanx/redex/tree/master/processors/
