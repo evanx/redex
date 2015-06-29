@@ -112,6 +112,7 @@ export default function createRegistrant(config, redex, logger) {
             await Promises.delay(config.errorDelay);
          }
       }
+      logger.info('cancelled');
       if (config.shutdown) {
          redex.end();
       }
