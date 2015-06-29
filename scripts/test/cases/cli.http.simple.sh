@@ -5,7 +5,7 @@ mkdir -p tmp
 
 testName=cli.http.simple
 
-export pidFile=redex.${testName}.pid
+export pidFile=tmp/redex.${testName}.pid
 
 c0rm() {
   echo "rm $pidFile to shutdown Redex"
