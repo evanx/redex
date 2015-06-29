@@ -5,15 +5,13 @@ mkdir -p tmp
 
 testName=cli.http.simple
 
+nodejs index.js http cancel | bunyan -o short # warmup
+
 export pidFile=tmp/redex.${testName}.pid
 
-c0rm() {
-  echo "rm $pidFile to shutdown Redex"
+c0server() {
   rm -f $pidFile
-}
-
-c0warm() {
-  nodejs index.js http cancel | bunyan -o short # warmup
+  nodejs index.js http | bunyan -o short
 }
 
 c0client() {
@@ -29,14 +27,8 @@ c0client() {
   else
     echo "exit code: $?"
   fi
-  c0rm
+  echo "rm $pidFile to shutdown Redex"
+  rm -f $pidFile
 }
 
-c0server() {
-  c0rm
-  nodejs index.js http | bunyan -o short
-}
-
-  c0warm
   c0client & c0server
-

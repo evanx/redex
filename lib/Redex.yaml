@@ -1,2 +1,5 @@
 default:
   monitorInterval: 1000
+global:
+  popTimeout: 5
+  errorDelay: 5

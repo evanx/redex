@@ -11,12 +11,14 @@ export default function redisHttpRequestImporter(config, redex, logger) {
    assert(config.queue.in, 'queue.in');
    assert(config.queue.reply, 'queue.reply');
    assert(config.queue.pending, 'queue.pending');
-   assert(config.timeout, 'timeout');
-   assert(config.route, 'route');
-   assert(config.popTimeout, 'popTimeout');
-   assert(config.errorDelay, 'errorDelay');
+   if (true) {
+      assert(config.timeout, 'timeout');
+      assert(config.route, 'route');
+      assert(config.popTimeout, 'popTimeout');
+      assert(config.errorDelay, 'errorDelay');
+   }
 
-   const redis = new Redis({});
+   let redis;
    let cancelled = false;
    let count = 0;
 
@@ -70,15 +72,17 @@ export default function redisHttpRequestImporter(config, redex, logger) {
    }
 
    const service = {
-      get state() {
-         return { config: config.summary, count: count };
+      init() {
       },
       start() {
-         redis.init();
+         redis = new Redis();
          setTimeout(() => run(), 0);
       },
       end() {
          redis.end();
+      },
+      get state() {
+         return { config: config.summary, count: count };
       }
    };
 

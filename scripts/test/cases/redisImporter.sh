@@ -7,14 +7,13 @@ mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 
 export configDir=test/cases/httpRequest/config
-export pidFile=tmp/redex.${testName}.pid
 
 url="https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
 echo "url $url"
 
-c0warm() {
-  nodejs index.js http cancel | bunyan -o short
-}
+nodejs index.js cancel | bunyan -o short
+
+export pidFile=tmp/redex.${testName}.pid
 
 c0run() {
   echo "$testName configFir $configDir"
@@ -52,4 +51,3 @@ c0client() {
 }
 
   c0client & c0run
-

@@ -1,5 +1,5 @@
 
-  if pwd | grep -qv '/redex$' 
+  if pwd | grep -qv '/redex$'
   then
     pwd
     echo "ERROR: not in 'redex' subdirectory"
@@ -11,20 +11,23 @@
   testName=httpFileServer.default
 
   export configFile=config/configurator.${testName}.yaml
-  export pidFile=tmp/redex.${testName}.pid
 
-  if [ ! -f $configFile ] 
+  if [ ! -f $configFile ]
   then
     echo "ERROR: invalid configFile $configFile"
     exit 1
   fi
+
+  nodejs index.js cancel | bunyan -o short # warm
+
+  export pidFile=tmp/redex.${testName}.pid
 
   c0run() {
     nodejs index.js | bunyan -o short
   }
 
   c0client() {
-    sleep 2
+    sleep 5
     echo 'curl -s http://localhost:8880/README.md'
     if curl -s http://localhost:8880/README.md > tmp/curl.out
     then
