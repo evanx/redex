@@ -17,6 +17,8 @@ export default function httpExporter(config, redex, logger) {
    let redis;
 
    const service = {
+      init() {         
+      },
       start() {
          redis = new Redis();
       },

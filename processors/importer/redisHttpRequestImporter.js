@@ -69,6 +69,7 @@ export default function redisHttpRequestImporter(config, redex, logger) {
             await Promises.delay(config.errorDelay);
          }
       }
+      logger.info('cancelled');
    }
 
    const service = {
@@ -79,6 +80,7 @@ export default function redisHttpRequestImporter(config, redex, logger) {
          setTimeout(() => run(), 0);
       },
       end() {
+         cancelled = true;
          redis.end();
       },
       get state() {
