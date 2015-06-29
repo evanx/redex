@@ -19,9 +19,8 @@ My rationale for this project is:
 - favour Redis, Node and ES7
 - favour the Actor message-passing model of concurrency
 - favour configuration via YAML, for processors and their assembly
-- produce a framework that is flexible and extensible by developers
+- produce a extensible platform for messaging and orchestration 
 - produce a distributed (resilient, scalable) web server
-- produce a composable solution for messaging and orchestration
 - learn about message queuing for enterprise consulting gigs
 - gain proficiency in ES7 for my job
 
