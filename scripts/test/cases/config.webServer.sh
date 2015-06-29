@@ -1,5 +1,10 @@
 
-pwd | grep -q '/redex$' || exit 1
+  if pwd | grep -qv '/redex$' 
+  then
+    pwd
+    echo "ERROR: not in 'redex' subdirectory"
+    exit 1
+  fi
 
   mkdir -p tmp
 
@@ -7,6 +12,12 @@ pwd | grep -q '/redex$' || exit 1
 
   export configFile=config/configurator.${testName}.yaml
   export pidFile=tmp/redex.${testName}.pid
+
+  if [ ! -f $configFile ] 
+  then
+    echo "ERROR: invalid configFile $configFile"
+    exit 1
+  fi
 
   c0run() {
     nodejs index.js | bunyan -o short
