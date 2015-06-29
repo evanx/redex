@@ -12,7 +12,12 @@ export pidFile=tmp/redex.${testName}.pid
 url="https://hacker-news.firebaseio.com/v0/item/160705.json?print=pretty"
 echo "url $url"
 
+c0warm() {
+  nodejs index.js http cancel | bunyan -o short
+}
+
 c0run() {
+  echo "$testName configFir $configDir"
   nodejs index.js | bunyan -o short
 }
 

@@ -13,7 +13,7 @@ c0rm() {
 }
 
 c0warm() {
-  nodejs index.js none | bunyan -o short # warmup
+  nodejs index.js http cancel | bunyan -o short # warmup
 }
 
 c0client() {
