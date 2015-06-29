@@ -14,7 +14,6 @@ const Millis = RedexGlobal.require('util/Millis');
 
 export default function createRegistrant(config, redex, logger) {
 
-   let shutdown = false;
    let cancelled = false;
    let count = 0;
    let registration;
@@ -123,7 +122,6 @@ export default function createRegistrant(config, redex, logger) {
          logger.warn('monitor: cancelled');
          return;
       }
-      assert(!shutdown);
       if (!registration) {
          logger.debug('unregistered');
       } else if (!registration.id) {
