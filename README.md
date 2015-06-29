@@ -16,6 +16,7 @@ Redex is a Node framework for building:
 - custom messaging middleware to integrate services via Redis
 
 My rationale for this project is:
+- favour Redis, Node and ES7
 - favour the Actor message-passing model of concurrency
 - favour configuration via YAML, for processors and their assembly
 - produce a framework that is flexible and extensible by developers
