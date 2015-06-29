@@ -17,15 +17,13 @@ Redex is a Node framework for building:
 
 My rationale for this project is:
 - do fun and interesting things with Node and Redis
+- enable the assembly of brokers and servers through configuration
 - produce a tool that ops people can configure and deploy
 - produce a framework that is flexible and extensible by developers
 - gain proficiency in ES7 for my job
 - learn about message queuing for enterprise consulting gigs
-- create a platform for blogging and news sites
 - create a platform for rapid prototyping of application backends
 - emulate some functionality of Nginx using Node, Redis and ExpressJS
-- because I love Nginx, Node, Redis, ES7 and ReactJS
-- because assembling back-end stuff through configuration is useful
 
 ### Installing
 
@@ -221,7 +219,7 @@ Next work:
 - redis query server with joins
 - fanout dispatcher (for parallel pipelines)
 
-July 2015 - PoC:
+July 2015:
 - basic processors for HTTP and Redis queues
 - web server with proxy and caching
 - redis query server with joins
@@ -248,6 +246,8 @@ Unscheduled:
 - analytics server for web apps
 - centralised logging server using TCP/IP sockets
 - outgoing email server using SMTP over TCP/IP sockets
+- file-based blogging using Ghost templates
+
 
 ### Concurrency
 
@@ -291,7 +291,9 @@ Assuming the required processors are available in the Redex deployment, this app
 
 ## Configuration
 
-Each processor is configured via a YAML file in the Redex `config` directory. (Such configuration should be managed using a private git repository, for versioning, with Redex as a dependency.)
+Each processor is configured via a YAML file e.g. in a `config` directory for the Redex instance. (Such configuration should be managed using a private git repository, for versioning, with Redex as a dependency.)
+
+Alternatively, a single YAML config file can be used for all processors for a specific deployment.
 
 The name of each processor (and its configuration file) is an "instance URI" e.g. `builtin/importer.fileImporter.singleton.json.`
 
