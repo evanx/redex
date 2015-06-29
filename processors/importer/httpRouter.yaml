@@ -1,0 +1,7 @@
+default:
+  popTimeout: 5
+  errorDelay: 5000
+asserts:
+- port
+- timeout
+- routes

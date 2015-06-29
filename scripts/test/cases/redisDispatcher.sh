@@ -35,6 +35,7 @@ c0client() {
   redis-cli llen redex:test:dispatcher:reply
   echo 'redis-cli lrange redex:test:dispatcher:out 0 -1'
   redis-cli lrange redex:test:dispatcher:out 0 -1 | grep "$message" && echo "$testName: $0 OK"
+  echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }
 

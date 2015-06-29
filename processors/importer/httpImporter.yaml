@@ -1,0 +1,3 @@
+default:
+  popTimeout: 5
+  errorDelay: 5000

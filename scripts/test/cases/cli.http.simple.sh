@@ -8,6 +8,7 @@ testName=cli.http.simple
 export pidFile=redex.${testName}.pid
 
 c0rm() {
+  echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }
 

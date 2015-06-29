@@ -14,22 +14,17 @@ const Millis = RedexGlobal.require('util/Millis');
 
 export default function createRegistrant(config, redex, logger) {
 
-   assert(config.namespace, 'namespace');
-   assert(config.address, 'address');
-
-   const ttl = Seconds.parse(config.ttl);
    let shutdown = false;
    let cancelled = false;
    let count = 0;
    let registration;
+   let monitorId;
+
+   const ttl = Seconds.parse(config.ttl);
 
    assert(ttl > 0, 'ttl');
 
    const redis = new Redis({});
-   const popTimeout = config.popTimeout || 1;
-   const errorDelay = config.errorDelay || 2000;
-   const registerDelay = config.registerDelay || 2000;
-   const monitorInterval = config.monitorInterval || 1000;
 
    async function addedPending(id) {
       while (true) {
@@ -68,7 +63,7 @@ export default function createRegistrant(config, redex, logger) {
       }
       assert(!shutdown);
       const id = await redis.brpoplpush(config.namespace + ':q',
-         config.namespace + ':p', popTimeout);
+         config.namespace + ':p', config.popTimeout);
       if (lodash.isEmpty(id)) {
          return null;
       }
@@ -78,22 +73,52 @@ export default function createRegistrant(config, redex, logger) {
          if (cancelled) {
             return null;
          }
-         logger.debug('pop', id);
-         let addCount = await redis.sadd(config.namespace + ':ids', id);
-         if (addCount !== 1) {
-            logger.warn('sadd', id, addCount);
-         }
-         let setCount = await redis.hset(config.namespace + ':' + id, id);
-         if (setCount != 1) {
-            logger.warn('hset', id, setCount);
-         }
-         //throw new Error('test');
-         return id;
+         register(id);
       } catch (err) {
          revertPending(id, err);
          throw err;
       } finally {
          removePending(id);
+      }
+   }
+
+   async function register(id) {
+      logger.debug('register', id);
+      let addCount = await redis.sadd(config.namespace + ':ids', id);
+      if (addCount !== 1) {
+         logger.warn('sadd', id, addCount);
+      }
+      let time = await redis.timeSeconds();
+      let expiry = ttl + time;
+      registration = { id, expiry };
+      let setCount = await redis.hmset(config.namespace + ':' + id, registration);
+      if (setCount != 1) {
+         logger.debug('hmset', id, setCount);
+      }
+   }
+
+   async function deregister() {
+      logger.debug('deregister', registration);
+      registration = null;
+   }
+
+   async function run() {
+      while (!cancelled) {
+         try {
+            if (!registration) {
+               await pop();
+            } else {
+               await Promises.delay(config.registerDelay);
+            }
+         } catch (err) {
+            logger.warn(err);
+            await Promises.delay(config.errorDelay);
+         }
+      }
+      shutdown = true;
+      redis.end();
+      if (config.shutdown) {
+         redex.end();
       }
    }
 
@@ -112,18 +137,18 @@ export default function createRegistrant(config, redex, logger) {
             let sismemberReply = await redis.sismember(config.namespace + ':ids', registration.id);
             if (sismemberReply) {
                let time = await redis.timeSeconds();
-               if (registration.ttd) {
-                  if (time > registration.ttd) {
+               if (registration.expiry) {
+                  if (time > registration.expiry) {
                      logger.warn('expired', registration, time);
                      if (config.shutdown) {
                         cancelled = true;
                      }
                   } else {
-                     let ttl = registration.ttd - time;
+                     let ttl = registration.expiry - time;
                      logger.debug('registered', {registration, time, ttl});
                   }
                } else {
-                  logger.warn('no ttd', registration);
+                  logger.warn('no expiry', registration);
                }
             } else {
                deregister();
@@ -137,51 +162,13 @@ export default function createRegistrant(config, redex, logger) {
       }
    }
 
-   async function deregister() {
-      logger.debug('deregister', registration);
-      registration = null;
-   }
-
-   async function register() {
-      assert(!registration, 'unregistered');
-      let id = await pop();
-      if (!id) {
-         return;
-      }
-      let time = await redis.timeSeconds();
-      let ttd = ttl + time;
-      registration = { id, ttd };
-   }
-
-   async function run() {
-      while (!cancelled) {
-         try {
-            if (!registration) {
-               await register();
-            } else {
-               await Promises.delay(registerDelay);
-            }
-         } catch (err) {
-            logger.warn(err);
-            await Promises.delay(errorDelay);
-         }
-      }
-      shutdown = true;
-      redis.end();
-      if (config.shutdown) {
-         redex.end();
-      }
-   }
-
-   let monitorId;
-
    const service = {
       init() {
       },
       async start() {
          redis.init();
          setTimeout(() => run(), 0);
-         monitorId = setInterval(() => monitor(), monitorInterval);
+         monitorId = setInterval(() => monitor(), config.monitorInterval);
          logger.info('start', config.address, ttl);
       },
       end() {

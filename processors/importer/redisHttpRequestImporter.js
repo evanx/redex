@@ -13,9 +13,9 @@ export default function redisHttpRequestImporter(config, redex, logger) {
    assert(config.queue.pending, 'queue.pending');
    assert(config.timeout, 'timeout');
    assert(config.route, 'route');
+   assert(config.popTimeout, 'popTimeout');
+   assert(config.errorDelay, 'errorDelay');
 
-   const popTimeout = config.popTimeout || 2;
-   const errorWaitMillis = config.errorWaitMillis || 1000;
    const redis = new Redis({});
    let cancelled = false;
    let count = 0;
@@ -33,8 +33,8 @@ export default function redisHttpRequestImporter(config, redex, logger) {
    }
 
    async function pop() {
-      logger.debug('pop', config.queue.in, config.queue.pending, popTimeout);
-      const redisReply = await redis.brpoplpush(config.queue.in, config.queue.pending, popTimeout);
+      logger.debug('pop', config.queue.in, config.queue.pending, config.popTimeout);
+      const redisReply = await redis.brpoplpush(config.queue.in, config.queue.pending, config.popTimeout);
       if (redisReply === null) {
          return;
       }
@@ -64,7 +64,7 @@ export default function redisHttpRequestImporter(config, redex, logger) {
             await pop();
          } catch (error) {
             logger.warn(error);
-            await Promises.delay(errorWaitMillis);
+            await Promises.delay(config.errorDelay);
          }
       }
    }

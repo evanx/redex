@@ -13,6 +13,7 @@ const Files = RedexGlobal.require('util/Files');
 export default function fileImporter(config, redex, logger) {
 
    let count = 0;
+   let cancelled = false;
 
    function formatReplyFilePath(messageId) {
       return config.replyDir + messageId + '.json';
@@ -31,33 +32,40 @@ export default function fileImporter(config, redex, logger) {
          let message = yaml.safeLoad(await Files.readFile(filePath));
          logger.debug('message:', filePath, message);
          var replyFilePath = formatReplyFilePath(messageId);
-         let exists = await Files.exists(replyFilePath);
+         let exists = await Files.existsFile(replyFilePath);
          assert.equal(exists, false, 'File already exists: ' + replyFilePath);
          let reply = await redex.import(message, {messageId}, config);
-         Files.writeFile(replyFilePath, formatJsonContent(reply));
+         Files.writeFile(replyFilePath, formatJsonContent(reply)).catch(logger.warn);
          logger.debug('replyFilePath', replyFilePath);
       } catch (err) {
-        logger.warn('fileChanged error:', err);
-         Files.writeFile(replyFilePath, formatJsonContent(error));
+         logger.warn('fileChanged error:', err);
+         Files.writeFile(replyFilePath, formatJsonContent(error)).catch(logger.warn);
+         throw err;
       }
    }
 
    async function watch() {
       logger.debug('watch', config.watchDir);
-      try {
-         let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
-         if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
-            logger.debug('File changed:', fileEvent, fileName, config.route);
-            fileChanged(fileName);
-         } else {
-            logger.debug('Ignore file event:', fileEvent, fileName);
-         }
-         setTimeout(() => watch(), 0);
-      } catch (err) {
-         logger.warn('watch error:', err.stack);
-         setTimeout(() => watch(), 1000);
+      let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
+      if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
+         logger.debug('File changed:', fileEvent, fileName, config.route);
+         await fileChanged(fileName);
+      } else {
+         logger.debug('Ignore file event:', fileEvent, fileName);
       }
-   };
+   }
+
+   async function run() {
+      while (!cancelled) {
+         try {
+            await watch();
+         } catch (err) {
+            logger.warn(err);
+            await Promises.delay(config.errorDelay);
+         }
+      }
+      logger.warn('cancelled');
+   }
 
    const service = {
       init() {
@@ -67,7 +75,10 @@ export default function fileImporter(config, redex, logger) {
          assert(config.route, 'route');
       },
       start() {
-         setTimeout(() => watch(), 0);
+         setTimeout(() => run(), 0);
+      },
+      end() {
+         cancelled = true;
       },
       get state() {
          return { config: config.summary, count: count };

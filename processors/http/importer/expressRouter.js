@@ -85,7 +85,6 @@ export default function expressRouter(config, redex, logger) {
       },
       end() {
          if (server) {
-            logger.info('end', Object.keys(server));
             server.close();
             logger.info('end');
          } else {

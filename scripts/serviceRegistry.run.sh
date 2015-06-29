@@ -1,8 +1,8 @@
 
 
-export pidFile=tmp/redex.${testName}.pid
-
 testName=serviceRegistry
+
+export pidFile=tmp/redex.${testName}.pid
 
 c0assert() {
   which 'nodejs' || exit 1
@@ -29,31 +29,21 @@ c0clear() {
 ns='redex:test:service:http'
 
 c0redis() {
-  echo -n "redis-cli scard $ns:ids "
-  redis-cli scard $ns:ids
-  echo "redis-cli keys $ns:*"
-  redis-cli keys '$ns:*'
-  echo "redis-cli smembers $ns:ids"
-  redis-cli smembers $ns:ids
-  echo "redis-cli hgetall $ns:$id"
-  redis-cli hgetall "$ns:$id"
+  echo "redis-cli scard $ns:ids" `redis-cli scard $ns:ids`
+  echo "redis-cli keys $ns:*" `redis-cli keys '$ns:*'`
+  echo "redis-cli smembers $ns:ids" `redis-cli smembers $ns:ids`
+  echo "redis-cli hgetall $ns:$id" `redis-cli hgetall "$ns:$id"`
 }
 
 c1remove() {
-  id=$1
-  echo "redis-cli scard $ns:ids"
-  redis-cli scard $ns:ids
-  echo "redis-cli srem $ns:ids $id"
-  redis-cli srem $ns:ids "$id"
-  echo "redis-cli smembers $ns:ids"
-  redis-cli smembers $ns:ids
+  id="$1"
+  echo "redis-cli srem $ns:ids $id" `redis-cli srem $ns:ids "$id"`
   c0redis
 }
 
 c1push() {
   id=$1
-  echo "redis-cli lpush $ns:q '$id'"
-  redis-cli lpush $ns:q "$id"
+  echo "redis-cli lpush $ns:q '$id'" `redis-cli lpush $ns:q "$id"`
   sleep 1
 }
 
@@ -93,5 +83,4 @@ then
   c$#$command $@
 else
   c0default
-fi 
-
+fi

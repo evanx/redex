@@ -28,6 +28,7 @@ pwd | grep -q '/redex$' || exit 1
       head -1 tmp/curl.out
       echo 'FAILED'
     fi
+    echo "rm $pidFile to shutdown Redex"
     rm -f $pidFile
   }
 

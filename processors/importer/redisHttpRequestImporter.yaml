@@ -1,0 +1,9 @@
+default:
+  popTimeout: 5
+  errorDelay: 5000
+asserts:
+- queue.in
+- queue.pending
+- queue.reply
+- timeout
+- route

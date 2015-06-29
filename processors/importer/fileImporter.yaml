@@ -1,0 +1,8 @@
+default:
+  watchTimeout: 5000
+  errorDelay: 5000
+asserts:
+- watchDir
+- replyDir
+- timeout
+- route

@@ -49,7 +49,7 @@ async fileChanged(fileName) {
    try {
       let message = yaml.safeLoad(await Files.readFile(filePath));
       var replyFilePath = this.formatReplyFilePath(messageId);
-      let exists = await Files.exists(replyFilePath);
+      let exists = await Files.existsFile(replyFilePath);
       assert.equal(exists, false, 'Reply file already exists: ' + replyFilePath);
       let reply = await redex.import(message, {messageId}, this.config);
       Files.writeFile(replyFilePath, this.formatJsonContent(reply));
@@ -177,7 +177,7 @@ async pop() {
    } catch (error) {
       this.redis.lpush(this.config.queue.error, JSON.stringify(error));
       this.revertPending(messageId, redisReply, error);
-      setTimeout(() => this.pop(), config.errorWaitMillis || 1000);
+      setTimeout(() => this.pop(), config.errorDelay || 1000);
    }
 }
 ```

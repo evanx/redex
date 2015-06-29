@@ -25,6 +25,7 @@ pwd | grep -q '/redex$' || exit 1
     echo
     curl -s http://localhost:8888/test.txt && (echo; echo "$testName $0 OK")
     sleep 1
+    echo "rm $pidFile to shutdown Redex"
     rm -f $pidFile
   }
 

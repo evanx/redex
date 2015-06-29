@@ -26,6 +26,7 @@ c0client() {
   ls -l tmp/fileImporter/reply/${item}*
   echo "grep Valleywag tmp/fileImporter/reply/${item}*"
   grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: $0 OK"
+  echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }
 

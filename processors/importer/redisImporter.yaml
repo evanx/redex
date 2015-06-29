@@ -1,0 +1,8 @@
+default:
+  popTimeout: 5
+assert:
+- queue.in
+- queue.pending
+- queue.reply
+- timeout
+- route

@@ -1,0 +1,8 @@
+default:
+  popTimeout: 1
+  errorDelay: 2000
+  registerDelay: 2000
+  monitorInterval: 1000
+asserts:
+- namespace
+- address

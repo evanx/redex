@@ -14,10 +14,10 @@ export default function redisImporter(config, redex, logger) {
    assert(config.queue.reply, 'queue.reply');
    assert(config.timeout, 'timeout');
    assert(config.route, 'route');
+   assert(config.popTimeout, 'popTimeout');
 
    let count = 0;
    let cancelled = false;
-   let popTimeout = 1; //config.popTimeout || 30;
    const redis = new Redis({});
 
    function addedPending(popReply, messageId) {
@@ -33,9 +33,9 @@ export default function redisImporter(config, redex, logger) {
    }
 
    async function pop() {
-      logger.warn('redis.brpoplpush', config.queue.in, config.queue.pending, popTimeout);
+      logger.warn('redis.brpoplpush', config.queue.in, config.queue.pending, config.popTimeout);
       const popReply = await redis.brpoplpush(config.queue.in,
-         config.queue.pending, popTimeout);
+         config.queue.pending, config.popTimeout);
       if (popReply === null) {
          return;
       }
@@ -66,9 +66,10 @@ export default function redisImporter(config, redex, logger) {
             await pop();
          } catch (err) {
             logger.warn(err);
-            await Promises.delay(errorWaitMillis);
+            await Promises.delay(errorDelay);
          }
       }
+      logger.warn('cancelled');
    }
 
    const service = {
