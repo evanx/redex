@@ -59,19 +59,17 @@ export default function createRegistrant(config, redex, logger) {
    async function pop() {
       if (cancelled) {
          logger.warn('pop: cancelled');
-         returnl
+         return;
       }
-      assert(!shutdown);
       const id = await redis.brpoplpush(config.namespace + ':q',
          config.namespace + ':p', config.popTimeout);
       if (lodash.isEmpty(id)) {
-         return null;
+         return;
       }
       addedPending(id);
       try {
-         assert(!shutdown);
          if (cancelled) {
-            return null;
+            return;
          }
          register(id);
       } catch (err) {
@@ -115,8 +113,6 @@ export default function createRegistrant(config, redex, logger) {
             await Promises.delay(config.errorDelay);
          }
       }
-      shutdown = true;
-      redis.end();
       if (config.shutdown) {
          redex.end();
       }
@@ -179,6 +175,7 @@ export default function createRegistrant(config, redex, logger) {
          } else {
             logger.warn('end');
          }
+         redis.end();
       },
       get state() {
          return { config: config.summary };
