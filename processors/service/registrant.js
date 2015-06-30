@@ -6,12 +6,6 @@ import assert from 'assert';
 import lodash from 'lodash';
 import path from 'path';
 
-const Paths = RedexGlobal.require('util/Paths');
-const Promises = RedexGlobal.require('util/Promises');
-const Redis = RedexGlobal.require('util/Redis');
-const Seconds = RedexGlobal.require('util/Seconds');
-const Millis = RedexGlobal.require('util/Millis');
-
 export default function createRegistrant(config, redex, logger) {
 
    let cancelled = false;
@@ -124,7 +118,7 @@ export default function createRegistrant(config, redex, logger) {
          return;
       }
       if (!registration) {
-         logger.debug('unregistered');
+         logger.digest('unregistered');
       } else if (!registration.id) {
          logger.error('unregistered', registered);
       } else {
