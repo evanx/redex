@@ -1,42 +1,42 @@
 
 ## Service registry
 
-This processor registers itself as a service.
+The `server.registrant` processor registers itself as a service.
+
+See https://github.com/evanx/redex/blob/master/processors/service/registrants.yaml
 
 In this case, we have chosen to configure all the processors' `configs` in a single YAML file as follows:
 
 ```yaml
-label:
-loggerLevel: debug
-configs: # for collaborating processors for this use-case
-- processorName: http.registry
-  label:
+- processorName: service.registrant.singleton1
+  namespace: redex:test:service:http
+  address: localhost:8881
+  timeout: 4s # subtracted from deadline
+  ttl: 10s
+
+- processorName: service.registrant.singleton2
+  namespace: redex:test:service:http
+  address: localhost:8882
+  ttl: 20s
+  shutdown: true
 ```
-where we configure:
--
+where we configure two registrants.
 
 ### Implementation
 
-See the implementation of the `service.registry` processor:
+See the implementation of the `service.registrant` processor:
 https://github.com/evanx/redex/blob/master/processors/service/registrant.js
 
 ```javascript
 
 ```
 
-#### Redex state
-
-This processor introspects the state of the active components and returns as JSON:
-
-<img src="http://evanx.github.io/images/redex/redex-state-expressRouter.png" width="500" border="1"/>
-<hr>
-
 ## Running
 
 We run this configuration using the following script:
 ```shell
 evans@boromir:~/redex$ cat scripts/registry.run.sh
-  nodejs index.js test/cases/serviceRegistry/registrant.yaml | bunyan -o short
+  nodejs index.js test/cases/serviceRegistry/registrants.yaml | bunyan -o short
 ```
 
 Then try the following in your browser:

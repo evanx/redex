@@ -62,7 +62,7 @@ c0client() {
 }
 
 c0server() {
-  nodejs index.js test/cases/serviceRegistry/registrant.yaml | bunyan -o short
+  nodejs index.js test/cases/serviceRegistry/registrants.yaml | bunyan -o short
 }
 
 c0default() {
@@ -72,7 +72,7 @@ c0default() {
 }
 
 c0cancel() {
-  nodejs index.js test/cases/serviceRegistry/registrant.yaml cancel | bunyan -o short
+  nodejs index.js test/cases/serviceRegistry/registrants.yaml cancel | bunyan -o short
 }
 
 if [ $# -eq 1 ]
