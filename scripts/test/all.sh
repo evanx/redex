@@ -29,7 +29,7 @@ c0clear() {
 
 c0clear
 
-  node index.js cancel # warmup
+  node index.js http cancel | bunyan -o short # warmup
 
   for script in cli.http.simple.sh
   do
@@ -55,6 +55,7 @@ c0clear
         cat $out | head -2
         echo '...'
         cat $out | tail -2
+        sleep 2
       else
         cat $out | head -5
         echo '...'

@@ -17,14 +17,16 @@ export default function httpExporter(config, redex, logger) {
    let redis;
 
    const service = {
-      get state() {
-         return { config: config.summary };
+      init() {         
       },
       start() {
          redis = new Redis();
       },
       end() {
          redis.end();
+      },
+      get state() {
+         return { config: config.summary };
       },
       async process(message, meta, route) {
          try {

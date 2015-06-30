@@ -7,3 +7,5 @@ asserts:
 - queue.reply
 - timeout
 - route
+- popTimeout
+- errorDelay

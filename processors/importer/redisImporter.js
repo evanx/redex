@@ -78,9 +78,10 @@ export default function redisImporter(config, redex, logger) {
       },
       start() {
          redis.init();
-         setTimeout(() => run(), 0);
+         setTimeout(() => run(), 4000);
       },
       end() {
+         cancelled = true;
          redis.end();
       }
    };

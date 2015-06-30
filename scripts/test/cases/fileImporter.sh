@@ -1,4 +1,6 @@
 
+set -u
+
 pwd | grep -q '/redex$' || exit 1
 
 mkdir -p tmp/fileImporter/watched
@@ -8,9 +10,13 @@ testName=fileImporter
 
 export baseDir=test/cases/httpRequest
 export pidFile=tmp/redex.$testName.pid
+export clientFile=tmp/redex.$testName.client
 
 c0run() {
+  rm -f $pidFile
+  rm -f $clientFile
   nodejs index.js | bunyan -o short
+  cat $clientFile
 }
 
 c0client() {
@@ -25,7 +31,7 @@ c0client() {
   sleep 8
   ls -l tmp/fileImporter/reply/${item}*
   echo "grep Valleywag tmp/fileImporter/reply/${item}*"
-  grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: $0 OK"
+  grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: $0 OK" > $clientFile
   echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }
