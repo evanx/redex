@@ -9,13 +9,11 @@ import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-global.Loggers = require('../util/Loggers');
-global.RedexGlobal = require('../lib/RedexGlobal');
-
-const logger = global.RedexGlobal.logger('redisPromised');
-
+import Loggers from '../util/Loggers';
 import Redis from '../util/Redis';
 import Promises from '../util/Promises';
+
+const logger = Loggers.create('redisPromised');
 
 const redis = new Redis();
 

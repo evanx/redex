@@ -5,10 +5,9 @@
 // see alternative reimplementation using ES7 async functions (with await keyword):
 // https://github.com/evanx/redex/blob/master/test/redisPromisedAsync.js
 
-global.Loggers = require('../util/Loggers');
-global.RedexGlobal = require('../lib/RedexGlobal');
+import Loggers from '../util/Loggers';
 
-const logger = RedexGlobal.logger('redisPromised');
+const logger = Loggers.create('redisPromised');
 
 import assert from 'assert';
 import async from 'async';
@@ -17,7 +16,6 @@ import lodash from 'lodash';
 import Redis from '../util/Redis';
 
 const redis = new Redis();
-
 const redisClient = redis.client;
 
 var tests = {
