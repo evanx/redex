@@ -50,10 +50,6 @@ export default function createRegistrant(config, redex, logger) {
    }
 
    async function pop() {
-      if (cancelled) {
-         logger.warn('pop: cancelled');
-         return;
-      }
       const id = await redis.brpoplpush(config.namespace + ':q',
          config.namespace + ':p', config.popTimeout);
       if (lodash.isEmpty(id)) {
@@ -75,16 +71,16 @@ export default function createRegistrant(config, redex, logger) {
 
    async function register(id) {
       logger.debug('register', id);
-      let addCount = await redis.sadd(config.namespace + ':ids', id);
-      if (addCount !== 1) {
-         logger.warn('sadd', id, addCount);
-      }
       let time = await redis.timeSeconds();
       let expiry = ttl + time;
       registration = { id, expiry };
       let setCount = await redis.hmset(config.namespace + ':' + id, registration);
       if (setCount != 1) {
          logger.debug('hmset', id, setCount);
+      }
+      let addCount = await redis.sadd(config.namespace + ':ids', id);
+      if (addCount !== 1) {
+         logger.warn('sadd', id, addCount);
       }
    }
 

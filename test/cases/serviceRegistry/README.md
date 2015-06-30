@@ -27,13 +27,30 @@ In this case, we have chosen to configure all the processors' `configs` in a sin
 See the implementation of the `service.registrant` processor:
 https://github.com/evanx/redex/blob/master/processors/service/registrant.js
 
+This processor pops an available registry `id:`
+```javascript
+async function pop() {
+   const id = await redis.brpoplpush(config.namespace + ':q',
+      config.namespace + ':p', config.popTimeout);
+   if (lodash.isEmpty(id)) {
+      return;
+   }
+   addedPending(id);
+   try {
+      register(id);
+   } catch (err) {
+      revertPending(id, err);
+      throw err;
+   } finally {
+      removePending(id);
+   }
+}
+```
+
+We register our service instance for this `id:`
 ```javascript
 async function register(id) {
    logger.debug('register', id);
-   let addCount = await redis.sadd(config.namespace + ':ids', id);
-   if (addCount !== 1) {
-      logger.warn('sadd', id, addCount);
-   }
    let time = await redis.timeSeconds();
    let expiry = ttl + time;
    registration = { id, expiry };
@@ -41,8 +58,15 @@ async function register(id) {
    if (setCount != 1) {
       logger.debug('hmset', id, setCount);
    }
+   let addCount = await redis.sadd(config.namespace + ':ids', id);
+   if (addCount !== 1) {
+      logger.warn('sadd', id, addCount);
+   }
 }
 ```
+- register information in the hashes for our adopted unique `id` e.g. `expiry` time
+- add the `id` to the Redis set of available instances e.g for discovery by load balancer
+
 
 ## Running
 
