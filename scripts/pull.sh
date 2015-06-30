@@ -17,4 +17,7 @@ c0assert() {
   git pull 
   [ -d util/.git ] || git submodule init
   git submodule update
+  cd util 
+  git checkout master
+  git pull
 
