@@ -3,9 +3,10 @@
 
 The `server.registrant` processor registers itself as a service.
 
-See https://github.com/evanx/redex/blob/master/processors/service/registrants.yaml
+See the test case configuration:
+https://github.com/evanx/redex/blob/master/test/cases/serviceRegistry/registrants.yaml
 
-In this case, we have chosen to configure all the processors' `configs` in a single YAML file as follows:
+In this case, we have chosen to configure all the processors' `configs` in a single YAML file, including two registrants as follows:
 
 ```yaml
 - processorName: service.registrant.singleton1
@@ -18,9 +19,8 @@ In this case, we have chosen to configure all the processors' `configs` in a sin
   namespace: redex:test:service:http
   address: localhost:8882
   ttl: 20s
-  shutdown: true
+  shutdown: true # shutdown on deregister
 ```
-where we configure two registrants.
 
 ### Implementation
 
@@ -28,7 +28,20 @@ See the implementation of the `service.registrant` processor:
 https://github.com/evanx/redex/blob/master/processors/service/registrant.js
 
 ```javascript
-
+async function register(id) {
+   logger.debug('register', id);
+   let addCount = await redis.sadd(config.namespace + ':ids', id);
+   if (addCount !== 1) {
+      logger.warn('sadd', id, addCount);
+   }
+   let time = await redis.timeSeconds();
+   let expiry = ttl + time;
+   registration = { id, expiry };
+   let setCount = await redis.hmset(config.namespace + ':' + id, registration);
+   if (setCount != 1) {
+      logger.debug('hmset', id, setCount);
+   }
+}
 ```
 
 ## Running
@@ -45,11 +58,7 @@ Then try the following in your browser:
 Notes:
 - the `/redex` route is configured to serve the state of the Redex instance
 
-Resources:
--
-
 ## Learn more
 
 Other examples:
-- https://github.com/evanx/redex/tree/master/config/
 - https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
