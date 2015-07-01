@@ -73,7 +73,7 @@ export default function createRegistrant(config, redex, logger) {
       logger.debug('register', id);
       let time = await redis.timeSeconds();
       let expiry = ttl + time;
-      registration = { id, expiry };
+      registration = { address, expiry };
       let setCount = await redis.hmset(config.namespace + ':' + id, registration);
       if (setCount != 1) {
          logger.debug('hmset', id, setCount);

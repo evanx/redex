@@ -1,4 +1,5 @@
 default:
+  shutdownTimeout: 2000
   monitorInterval: 1000
 global:
   popTimeout: 5
