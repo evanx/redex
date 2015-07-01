@@ -120,7 +120,12 @@ export default function createRegistrant(config, redex, logger) {
       } else {
          try {
             let sismemberReply = await redis.sismember(config.namespace + ':ids', registration.id);
-            if (sismemberReply) {
+            if (!sismemberReply) {
+               deregister();
+               if (config.shutdown) {
+                  cancelled = true;
+               }
+            } else {
                let time = await redis.timeSeconds();
                if (registration.expiry) {
                   if (time > registration.expiry) {
@@ -134,11 +139,6 @@ export default function createRegistrant(config, redex, logger) {
                   }
                } else {
                   logger.warn('no expiry', registration);
-               }
-            } else {
-               deregister();
-               if (config.shutdown) {
-                  cancelled = true;
                }
             }
          } catch (err) {

@@ -70,6 +70,18 @@ This performs the following steps:
 
 Note that we `hmset` the registration first, and then add the `id` to the discovery set. Therefore when the service instance `id` is discovered by another processor, it is sure to find the address in the registration map for this instance.
 
+When the `id` is removed from the set, we can deregister and shutdown this instance.
+```javascript
+let sismemberReply = await redis.sismember(config.namespace + ':ids', registration.id);
+if (!sismemberReply) {
+   deregister();
+} else {
+   let time = await redis.timeSeconds();
+   if (registration.expiry) {
+      if (time > registration.expiry) {
+         logger.warn('expired', registration, time);
+```
+Note that we might self-shutdown when expired. This is acceptable if the load balancer takes care not send requests to expired services, and we synchronise by the same Redis server time.
 
 ## Running
 
