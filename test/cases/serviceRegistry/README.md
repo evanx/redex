@@ -70,6 +70,7 @@ This performs the following steps:
 
 Note that we `hmset` the registration first, and then add the `id` to the discovery set. Therefore when the service instance `id` is discovered by another processor, it is sure to find the address in the registration map for this instance.
 
+
 ## Running
 
 We run this configuration using the following script:

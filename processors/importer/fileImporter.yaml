@@ -1,6 +1,6 @@
 default:
-  watchTimeout: 5000
-  errorDelay: 5000
+  watchTimeout: 2000
+  errorDelay: 2000
 asserts:
 - watchDir
 - replyDir
