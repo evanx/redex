@@ -24,13 +24,13 @@ export default function fileImporter(config, redex, logger) {
    }
 
    async function fileChanged(fileName) {
-      let filePath = config.watchDir + fileName;
+      let file = config.watchDir + fileName;
       count += 1;
       let messageId = path.basename(fileName, '.yaml') + '-' + count;
-      logger.debug('fileChanged', filePath, messageId);
+      logger.debug('fileChanged', file, messageId);
       try {
-         let message = yaml.safeLoad(await Files.readFile(filePath));
-         logger.debug('message:', filePath, message);
+         let message = yaml.safeLoad(await Files.readFile(file));
+         logger.debug('message:', file, message);
          var replyFilePath = formatReplyFilePath(messageId);
          let exists = await Files.existsFile(replyFilePath);
          assert.equal(exists, false, 'File already exists: ' + replyFilePath);
@@ -45,8 +45,9 @@ export default function fileImporter(config, redex, logger) {
    }
 
    async function watch() {
-      logger.debug('watch', config.watchDir);
-      let [ fileEvent, fileName ] = await Files.watch(config.watchDir);
+      logger.info('watch', config.watchDir);
+      let { fileEvent, fileName } = await Files.watch(config.watchDir, config.watchTimeout);
+      logger.debug('watch', fileEvent, fileName);
       if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
          logger.debug('File changed:', fileEvent, fileName, config.route);
          await fileChanged(fileName);

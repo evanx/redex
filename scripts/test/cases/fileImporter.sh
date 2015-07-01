@@ -7,10 +7,15 @@ mkdir -p tmp/fileImporter/watched
 mkdir -p tmp/fileImporter/reply
 
 testName=fileImporter
+tmp=tmp/redex/test/$testName
+mkdir -p $tmp
 
 export baseDir=test/cases/httpRequest
-export pidFile=tmp/redex.$testName.pid
-export clientFile=tmp/redex.$testName.client
+export pidFile=$tmp/pid
+export clientFile=$tmp/client
+
+echo "pidFile $pidFile"
+echo "clientFile $clientFile"
 
 c0run() {
   rm -f $pidFile
@@ -32,7 +37,6 @@ c0client() {
   ls -l tmp/fileImporter/reply/${item}*
   echo "grep Valleywag tmp/fileImporter/reply/${item}*"
   grep Valleywag tmp/fileImporter/reply/${item}* && echo "$testName: $0 OK" > $clientFile
-  echo "rm $pidFile to shutdown Redex"
   rm -f $pidFile
 }
 
