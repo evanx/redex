@@ -6,11 +6,14 @@ import assert from 'assert';
 import lodash from 'lodash';
 import path from 'path';
 
+const RedexProcessorConfigs = RedexGlobal.require('lib/RedexProcessorConfigs');
+
 export default function createRegistrant(config, redex, logger) {
 
    let cancelled = false;
    let count = 0;
    let registration;
+   let deregistration;
    let monitorId;
 
    const ttl = Seconds.parse(config.ttl);
@@ -73,7 +76,8 @@ export default function createRegistrant(config, redex, logger) {
       logger.debug('register', id);
       let time = await redis.timeSeconds();
       let expiry = ttl + time;
-      registration = { address, expiry };
+      registration = { id, address, expiry };
+      logger.debug('registration', registration);
       let setCount = await redis.hmset(config.namespace + ':' + id, registration);
       if (setCount != 1) {
          logger.debug('hmset', id, setCount);
@@ -86,6 +90,7 @@ export default function createRegistrant(config, redex, logger) {
 
    async function deregister() {
       logger.debug('deregister', registration);
+      deregistration = registration;
       registration = null;
    }
 
@@ -167,7 +172,12 @@ export default function createRegistrant(config, redex, logger) {
          redis.end();
       },
       get state() {
-         return { config: config.summary };
+         logger.info('state', registration, deregistration);
+         return {
+            config: RedexProcessorConfigs.summariseProcessorConfig(config),
+            registration: registration,
+            deregistration: deregistration
+         };
       }
    };
 

@@ -53,7 +53,7 @@ async function register(id) {
    logger.debug('register', id);
    let time = await redis.timeSeconds();
    let expiry = ttl + time;
-   registration = { address, expiry };
+   registration = { id, address, expiry };
    let setCount = await redis.hmset(config.namespace + ':' + id, registration);
    if (setCount != 1) {
       logger.debug('hmset', id, setCount);
