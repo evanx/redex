@@ -20,15 +20,15 @@ export default function redisImporter(config, redex, logger) {
    let cancelled = false;
    const redis = new Redis({});
 
-   function addedPending(popReply, messageId) {
+   async function addedPending(popReply, messageId) {
       logger.debug('addPending', messageId);
    }
 
-   function removePending(popReply, messageId, reply) {
+   async function removePending(popReply, messageId, reply) {
       logger.debug('removePending', messageId);
    }
 
-   function revertPending(popReply, messageId, error) {
+   async function revertPending(popReply, messageId, error) {
       logger.warn('revertPending:', messageId, error, error.stack);
    }
 
@@ -42,7 +42,7 @@ export default function redisImporter(config, redex, logger) {
       count += 1;
       const messageId = count;
       try {
-         addedPending(popReply, messageId);
+         await addedPending(popReply, messageId);
          let message = popReply;
          if (config.json) {
             message = JSON.parse(popReply);
@@ -53,9 +53,9 @@ export default function redisImporter(config, redex, logger) {
          if (reply) {
             redis.lpush(config.queue.reply, reply);
          }
-         removePending(popReply, messageId, reply);
+         await removePending(popReply, messageId, reply);
       } catch (err) {
-         revertPending(popReply, messageId, err);
+         await revertPending(popReply, messageId, err);
          throw err;
       }
    }

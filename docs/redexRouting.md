@@ -28,10 +28,10 @@ export default class redisImporter {
          this.addedPending(message, messageId);
          let reply = await redex.import(message, {messageId}, this.config);
          await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
-         this.removePending(message, messageId, reply);
+         await this.removePending(message, messageId, reply);
       } catch (err) {
          await this.redis.lpush(this.config.queue.error, message);
-         this.revertPending(message, messageId, err);
+         await this.revertPending(message, messageId, err);
          throw err;
       }
 ```
@@ -118,10 +118,10 @@ In the event of a timeout or some other error, this exception is caught by the i
       this.addedPending(message, messageId);
       let reply = await redex.import(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
-      this.removePending(message, messageId);
+      await this.removePending(message, messageId);
    } catch (err) {
       await this.redis.lpush(this.config.queue.error, message);
-      this.revertPending(message, messageId, err);
+      await this.revertPending(message, messageId, err);
       throw err;
    }
 ```

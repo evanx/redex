@@ -168,16 +168,15 @@ async pop() {
       let redisReply = await this.redis.brpoplpush(this.config.queue.in,
          this.config.queue.pending, this.popTimeout);
       messageId += 1;
-      this.addedPending(messageId, redisReply);
+      await this.addedPending(messageId, redisReply);
       let message = JSON.parse(redisReply);
       let reply = await redex.import(message, {messageId}, this.config);
       await this.redis.lpush(this.config.queue.out, JSON.stringify(reply));
-      this.removePending(messageId, redisReply);
-      this.pop();
+      await this.removePending(messageId, redisReply);
    } catch (error) {
-      this.redis.lpush(this.config.queue.error, JSON.stringify(error));
-      this.revertPending(messageId, redisReply, error);
-      setTimeout(() => this.pop(), config.errorDelay || 1000);
+      await this.redis.lpush(this.config.queue.error, JSON.stringify(error));
+      await this.revertPending(messageId, redisReply, error);
+      throw error;
    }
 }
 ```

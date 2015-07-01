@@ -15,7 +15,8 @@ export default function createRegistrant(config, redex, logger) {
    let registration;
    let deregistration;
    let monitorId;
-
+   
+   const address = config.address;
    const ttl = Seconds.parse(config.ttl);
 
    assert(ttl > 0, 'ttl');
@@ -48,6 +49,7 @@ export default function createRegistrant(config, redex, logger) {
    }
 
    async function revertPending(id, error) {
+      logger.warn('revertPending', id, error);
       const pushLength = await redis.lpush(config.namespace + ':q', id);
       logger.warn('revertPending', id, pushLength, error, error.stack);
    }
@@ -58,17 +60,17 @@ export default function createRegistrant(config, redex, logger) {
       if (lodash.isEmpty(id)) {
          return;
       }
-      addedPending(id);
+      await addedPending(id);
       try {
          if (cancelled) {
             return;
          }
-         register(id);
+         await register(id);
       } catch (err) {
-         revertPending(id, err);
+         await revertPending(id, err);
          throw err;
       } finally {
-         removePending(id);
+         await removePending(id);
       }
    }
 
@@ -78,14 +80,12 @@ export default function createRegistrant(config, redex, logger) {
       let expiry = ttl + time;
       registration = { id, address, expiry };
       logger.debug('registration', registration);
-      let setCount = await redis.hmset(config.namespace + ':' + id, registration);
-      if (setCount != 1) {
-         logger.debug('hmset', id, setCount);
-      }
-      let addCount = await redis.sadd(config.namespace + ':ids', id);
-      if (addCount !== 1) {
-         logger.warn('sadd', id, addCount);
-      }
+      let multi = redis.multi();
+      multi.hmset(config.namespace + ':' + id, registration);
+      multi.sadd(config.namespace + ':ids', id);
+      logger.info('register multi');
+      let results = await multi.exec();
+      logger.debug('register multi', results);
    }
 
    async function deregister() {

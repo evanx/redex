@@ -67,8 +67,6 @@ This performs the following steps:
 - register information in the map for our adopted unique `id,` especially the address e.g. `localhost:8080`
 - add the `id` to the Redis set of available instances e.g for discovery by load balancer
 
-Note that we `hmset` the registration first, and then add the `id` to the discovery set. Therefore when the service instance `id` is discovered by another processor, it is sure to find the address in the registration map for this instance.
-
 When the `id` is removed from the set, we can deregister and shutdown this instance.
 ```javascript
 let sismemberReply = await redis.sismember(config.namespace + ':ids', registration.id);
