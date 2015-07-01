@@ -18,7 +18,7 @@ Redex is a Node framework for building:
 My rationale for this project is:
 - favour Redis, Node, ES7, YAML for the assembly of CSPs
 - produce a framework for the Actor model of concurrency
-- produce a extensible platform for messaging and orchestration 
+- produce a extensible platform for messaging and orchestration
 - produce a distributed (resilient, scalable) web server
 - learn about message queuing for enterprise consulting gigs
 
@@ -317,3 +317,6 @@ Web server examples:
 
 Redex processor implementations:
 - https://github.com/evanx/redex/tree/master/processors/
+
+Service self-registration:
+- https://github.com/evanx/redex/tree/master/test/cases/serviceRegistry
