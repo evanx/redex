@@ -15,7 +15,7 @@ export default function expressRouter(config, redex, logger) {
 
    let count = 0;
    let gets;
-   let app, server;
+   let app, server, listening;
 
    function initPath(item) {
       if (item.route) {
@@ -80,8 +80,10 @@ export default function expressRouter(config, redex, logger) {
       async start() {
          app = express();
          gets.forEach(add);
-         server = app.listen(config.port);
-         logger.info('listen', config.port);
+         await Promises.create(cb => {
+            server = app.listen(config.port, cb);
+         });
+         logger.info('listening', config.port);
       },
       end() {
          if (server) {

@@ -9,7 +9,7 @@ import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
 
-const Paths = RedexGlobal.require('util/Paths');
+//const Paths = RedexGlobal.require('util/Paths');
 const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
 
 export default function expressImporter(config, redex, logger) {
@@ -23,7 +23,7 @@ export default function expressImporter(config, redex, logger) {
          assert(config.timeout, 'timeout');
          assert(config.route, 'route');
       },
-      start() {
+      async start() {
          let app = express();
          app.get('/*', async (req, res) => {
             logger.info('req', req.url);
@@ -37,8 +37,10 @@ export default function expressImporter(config, redex, logger) {
                ExpressResponses.sendError(req, res, error);
             }
          });
-         server = app.listen(config.port);
-         logger.info('listen', config.port);
+         await Promises.create(cb => {
+            server = app.listen(config.port, cb);
+         });
+         logger.info('listening', config.port);
       },
       end() {
          if (server) {
