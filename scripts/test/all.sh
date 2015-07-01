@@ -7,7 +7,7 @@ fi
 
 if nc -vz localhost 8880 2>/dev/null
 then
-  echo "WARNING: Redex integration tests use port 8880 which is currently in use, so test will not work"
+  echo "WARNING: Redex integration tests use port 8880 which is currently in use, so tests will not work"
   exit 1
 fi
 

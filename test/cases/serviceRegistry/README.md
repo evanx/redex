@@ -11,15 +11,14 @@ In this case, we have chosen to configure all the processors' `configs` in a sin
 ```yaml
 - processorName: service.registrant.singleton1
   namespace: redex:test:service:http
-  address: localhost:8881
-  timeout: 4s # subtracted from deadline
+  address: localhost:8881 # address of the server we register
   ttl: 10s
 
 - processorName: service.registrant.singleton2
   namespace: redex:test:service:http
   address: localhost:8882
   ttl: 20s
-  shutdown: true # shutdown on deregister
+  shutdown: true # shutdown this Redex after deregistering
 ```
 
 ### Implementation
@@ -81,7 +80,7 @@ if (!sismemberReply) {
       if (time > registration.expiry) {
          logger.warn('expired', registration, time);
 ```
-Note that we might self-shutdown when expired. This is acceptable if the load balancer takes care not send requests to expired services, and we synchronise by the same Redis server time.
+Note that we might self-shutdown when expired. This is acceptable if the load balancer takes care not send requests to expired services, and we synchronise by the same Redis server time. Actually the load balancer will have a request timeout of some seconds. It deducts this timeout from expiry time of the service, as its deadline. (It might deduct double the timeout for good measure.)
 
 ## Running
 
