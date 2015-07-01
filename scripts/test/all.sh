@@ -27,6 +27,12 @@ c0clear() {
   done
 }
 
+c2headtail() {
+   cat $1 | head -$2
+   echo '...'
+   cat $1 | tail -$2
+}
+
 c0clear
 
   node index.js http cancel | bunyan -o short # warmup
@@ -52,21 +58,14 @@ c0clear
     then
       if tail -2 $out | grep "$script OK$"
       then
-        cat $out | head -2
-        echo '...'
-        cat $out | tail -2
+        c2headtail $out 2
         sleep 2
       else
-        cat $out | head -5
-        echo '...'
-        cat $out | tail -5
+      c2headtail $out 5
         echo "$name: FAILED"
       fi
     else
       echo "error exit code: $exitCode"
-      cat $out | head -10
-      echo '...'
-      cat $out | tail -10
       cat $out
       break
     fi
