@@ -53,7 +53,7 @@ async function register(id) {
    logger.debug('register', id);
    let time = await redis.timeSeconds();
    let expiry = ttl + time;
-   registration = { id, expiry };
+   registration = { address, expiry };
    let setCount = await redis.hmset(config.namespace + ':' + id, registration);
    if (setCount != 1) {
       logger.debug('hmset', id, setCount);
@@ -64,9 +64,11 @@ async function register(id) {
    }
 }
 ```
-- register information in the hashes for our adopted unique `id` e.g. `expiry` time
+This performs the following steps:
+- register information in the map for our adopted unique `id,` especially the address e.g. `localhost:8080`
 - add the `id` to the Redis set of available instances e.g for discovery by load balancer
 
+Note that we `hmset` the registration first, and then add the `id` to the discovery set. Therefore when the service instance `id` is discovered by another processor, it is sure to find the address in the registration map for this instance.
 
 ## Running
 
