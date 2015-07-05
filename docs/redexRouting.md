@@ -25,7 +25,7 @@ export default class redisImporter {
          this.config.queue.pending, this.popTimeout);
       const messageId = this.getNextMessageId();
       try {
-         this.addedPending(message, messageId);
+         await this.addedPending(message, messageId);
          let reply = await redex.import(message, {messageId}, this.config);
          await this.redis.lpush(this.config.queue.reply, this.stringifyReply(reply));
          await this.removePending(message, messageId, reply);

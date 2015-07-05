@@ -13,9 +13,9 @@ export default function createRegistrant(config, redex, logger) {
    let cancelled = false;
    let count = 0;
    let registration;
-   let deregistration;
+   let deregistration; pull 
    let monitorId;
-   
+
    const address = config.address;
    const ttl = Seconds.parse(config.ttl);
 
