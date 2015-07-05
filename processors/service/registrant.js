@@ -13,7 +13,7 @@ export default function createRegistrant(config, redex, logger) {
    let cancelled = false;
    let count = 0;
    let registration;
-   let deregistration; pull 
+   let deregistration;
    let monitorId;
 
    const address = config.address;

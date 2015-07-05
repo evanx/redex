@@ -4,5 +4,6 @@
 
 require('babel/register')({stage: 0});
 Object.assign(global, require('./util/Utils'));
+global.Redis = require('./util/Redis');
 global.RedexGlobal = require('./lib/RedexGlobal');
 require('./lib/RedexStart');
