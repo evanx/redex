@@ -132,6 +132,8 @@ The core functionality of Redex is quite trivial:
 
 Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
 
+Arguable we are trading off performance in favour extensibility by a broader audience.
+
 We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
 
 
