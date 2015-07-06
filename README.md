@@ -123,6 +123,15 @@ We wish to leverage ES7, Node and Redis because:
 - ES7 sugars the synchronisation of async coroutines via the "await" keyword
 - ES7 sugars the error handling of chained promises via exceptions
 
+### Goals
+
+- commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
+- release version 1.0 in 2016 when ES7 is standardised
+- distributable via replicas running against the same Redis server
+- scalable and reliable, especially when using Redis Cluster
+- be inspired by functional programming (e.g. immutable state i.e. no side-effects)
+- stateless processors, otherwise explicit state mutation via Redis
+
 
 ### Node.js and its alternatives
 
@@ -135,16 +144,6 @@ Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would 
 Arguable we are trading off performance in favour extensibility by a broader audience.
 
 We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
-
-
-## Goals
-
-- commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
-- release version 1.0 in 2016 when ES7 is standardised
-- distributable via replicas running against the same Redis server
-- scalable and reliable, especially when using Redis Cluster
-- be inspired by functional programming (e.g. immutable state i.e. no side-effects)
-- stateless processors, otherwise explicit state mutation via Redis
 
 
 ## Redex and its alternatives
