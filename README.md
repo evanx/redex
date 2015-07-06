@@ -115,7 +115,7 @@ Cost mitigation:
 - "configurators" can automate the configuration of individual processors
 
 
-## Rationale
+### Rationale
 
 We wish to leverage ES7, Node and Redis because:
 - Redis is a high-performance server for persistent data structures
