@@ -147,7 +147,7 @@ We have chosen ES7 (via Babel), and might extend our implementation with TypeScr
 - stateless processors, otherwise explicit state mutation via Redis
 
 
-## Alternatives
+## Redex and its alternatives
 
 We implement a number of processors to support some use-cases, especially around HTTP and Redis. Consequently Redex is a ready-made implementation for some use-cases.
 
