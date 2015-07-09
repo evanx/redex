@@ -20,7 +20,7 @@ My rationale for this project is:
 - produce a framework for the Actor model of concurrency
 - produce a extensible platform for messaging and orchestration
 - produce a distributed (resilient, scalable) web server
-- learn about message queuing for enterprise consulting gigs
+- to study distributed computing patterns 
 
 ### Installing
 
@@ -141,7 +141,7 @@ The core functionality of Redex is quite trivial:
 
 Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would be a great idea. Still, having a Node implementation in plain JavaScript is useful, at least for JavaScript developers.
 
-Arguable we are trading off performance in favour extensibility by a broader audience.
+Arguably we are trading off performance in favour extensibility by a broader audience.
 
 We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
 
@@ -159,11 +159,10 @@ Redex can be configured as an HTTP gateway, and so is an alternative to Nginx fo
 
 Similarities:
 - Both can be configured as a static web server, proxy server
-- Both support caching
 
 Differences:
-- Redex is pre-alpha i.e. not ready for production
-- Redex has only a small subset of Nginx's features
+- Redex is an experimental, pre-alpha pet project for study purposes
+- Redex has only a tiny subset of Nginx's features
 - Redex uses YAML for configuration
 - Redex is extensible using JavaScript e.g. custom "processors" using Node middleware
 - Distributed Redex instances are intended to collaborate via Redis
@@ -177,6 +176,7 @@ See examples:
 - https://github.com/evanx/redex/tree/master/config/
 - https://github.com/evanx/redex/tree/master/test/cases/expressRouter/
 - https://github.com/evanx/redex/tree/master/test/cases/webServer/
+
 
 ### Alternative: js-csp
 
@@ -198,6 +198,11 @@ Analysis still required.
 Analysis still required.
 
 
+### AWS ELB
+
+Analysis still required.
+
+
 ## Road map
 
 We intend to implement processors to demonstrate various use-cases, roughly planned as follows:
@@ -214,17 +219,15 @@ Current work:
 - Service registry (for service orchestration)
 
 Next work:
+- Service discovery
 - redis query server with joins
 - fanout dispatcher (for parallel pipelines)
 
-July 2015:
-- basic processors for HTTP and Redis queues
-- web server with proxy and caching
-- redis query server with joins
+August 2015:
+- HTTP load balancer
 
-September 2015 - web:
-- sample configuration for reliable pubsub and work queues
-- simple HTTP load balancer
+September 2015:
+- auto scaler
 
 October 2015 - auth:
 - HTTPS termination
@@ -233,14 +236,8 @@ October 2015 - auth:
 November 2015 - websockets:
 - WebSocket server to push notications into the browser
 
-January 2016 - automation:
-- scheduler
-
-June 2016 - integration:
-- integration with ZeroMQ, RabbitMQ, Protobuf
-
 Unscheduled:
-- auto scaler
+- integration with ZeroMQ, RabbitMQ, Protobuf
 - analytics server for web apps
 - centralised logging server using TCP/IP sockets
 - outgoing email server using SMTP over TCP/IP sockets
