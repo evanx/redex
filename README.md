@@ -20,7 +20,7 @@ My rationale for this project is:
 - produce a framework for the Actor model of concurrency
 - produce a extensible platform for messaging and orchestration
 - produce a distributed (resilient, scalable) web server
-- to study distributed computing patterns 
+- to study distributed computing patterns
 
 ### Installing
 
@@ -318,3 +318,7 @@ Redex processor implementations:
 
 Service self-registration:
 - https://github.com/evanx/redex/tree/master/test/cases/serviceRegistry
+
+# Related
+
+See https://github.com/evanx/chronica which similarly has a configurable component model.
