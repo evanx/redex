@@ -321,4 +321,4 @@ Service self-registration:
 
 # Related
 
-See https://github.com/evanx/chronica which similarly has a configurable component model.
+See https://github.com/evanx/chronica which has similar configurable component model.
