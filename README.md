@@ -319,6 +319,6 @@ Redex processor implementations:
 Service self-registration:
 - https://github.com/evanx/redex/tree/master/test/cases/serviceRegistry
 
-# Related
+## Related
 
 See https://github.com/evanx/chronica which has similar configurable component model.
