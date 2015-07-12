@@ -1,7 +1,7 @@
 
 ## Service registry
 
-The `server.registrant` processor registers itself as a service.
+The `server.registrant` processor registers a service.
 
 See the test case configuration:
 https://github.com/evanx/redex/blob/master/test/cases/serviceRegistry/registrants.yaml
@@ -9,12 +9,12 @@ https://github.com/evanx/redex/blob/master/test/cases/serviceRegistry/registrant
 In this case, we have chosen to configure all the processors' `configs` in a single YAML file, including two registrants as follows:
 
 ```yaml
-- processorName: service.registrant.singleton1
+- processorName: service.registrant.http1
   namespace: redex:test:service:http
   address: localhost:8881 # address of the server we register
   ttl: 10s
 
-- processorName: service.registrant.singleton2
+- processorName: service.registrant.http2
   namespace: redex:test:service:http
   address: localhost:8882
   ttl: 20s

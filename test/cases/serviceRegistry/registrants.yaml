@@ -30,13 +30,13 @@ configs:
 
 - processorName: http.translator.file.singleton
 
-- processorName: service.registrant.singleton1
+- processorName: service.registrant.http1
   namespace: redex:test:service:http
   address: localhost:8881
   timeout: 4s # subtracted from deadline
   ttl: 10s
 
-- processorName: service.registrant.singleton2
+- processorName: service.registrant.http2
   namespace: redex:test:service:http
   address: localhost:8881
   ttl: 20s
