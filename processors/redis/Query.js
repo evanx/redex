@@ -29,10 +29,13 @@ export default class Query {
       return { config: this.config.summary, count: this.count };
    }
 
-   async process(message, meta) {
-      this.logger.debug('message', meta);
+   async process(req, meta) {
+      this.logger.debug('message', meta, req.url, req.method);
       this.count += 1;
       assert.equal(meta.type, 'express', 'supported message type: ' + meta.type);
+      if (req.method === 'POST') {
+         this.logger.warn('post', typeof req.body, req.body);
+      }
       try {
          return {
             statusCode: 200,

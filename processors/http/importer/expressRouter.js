@@ -8,13 +8,14 @@ import path from 'path';
 import yaml from 'js-yaml';
 import lodash from 'lodash';
 import express from 'express';
+import bodyParser from 'body-parser';
 
 const ExpressResponses = RedexGlobal.require('lib/ExpressResponses');
 
 export default function expressRouter(config, redex, logger) {
 
    let count = 0;
-   let gets;
+   let gets, posts;
    let app, server, listening;
 
    function initPath(item) {
@@ -25,19 +26,17 @@ export default function expressRouter(config, redex, logger) {
       } else {
          assert(false, 'item requires route or response: ' + item.label);
       }
-      if (item.path) {
-         logger.debug('item path', item.path, item);
-         return item;
-      } else {
-         assert(false, 'item requires path: ' + item.label);
-      }
+      assert(item.path, 'item requires path: ' + item.label);
+      logger.debug('item path', item.path, item);
+      return item;
    }
 
-   function add(item) {
+   function addEndpoint(method, item) {
       logger.info('path', item.path);
       assert(item.path, 'path: ' + item.label);
       assert.equal(item.path[0], '/', 'absolute path: ' + item.path);
-      app.get(item.path, async (req, res) => {
+      assert(lodash.includes(['get', 'post'], method), 'method: ' + method);
+      app[method](item.path, async (req, res) => {
          logger.info('req', req.url);
          try {
             count += 1;
@@ -68,18 +67,31 @@ export default function expressRouter(config, redex, logger) {
          return { config: config.summary, count: count };
       },
       init() {
-         assert(config.port, 'port');
-         assert(config.timeout, 'timeout');
-         assert(config.gets, 'config: gets');
-         assert(config.gets.length, 'config: gets length');
          gets = lodash(config.gets)
+            .filter(item => !item.disabled)
+            .map(initPath)
+            .value();
+         posts = lodash(config.posts)
             .filter(item => !item.disabled)
             .map(initPath)
             .value();
       },
       async start() {
          app = express();
-         gets.forEach(add);
+         if (config.bodyParsers) {
+            config.bodyParsers.forEach(parser => {
+               assert(lodash.includes(['json'], parser), 'body parser: ' + parser);
+               app.use(bodyParser[parser]());
+            });
+         } else {
+            logger.warn('no bodyParsers', config.name);
+         }
+         gets.forEach(endpoint => {
+            addEndpoint('get', endpoint);
+         });
+         posts.forEach(endpoint => {
+            addEndpoint('post', endpoint);
+         });
          await Promises.create(cb => {
             server = app.listen(config.port, cb);
          });

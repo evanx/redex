@@ -37,11 +37,12 @@ c0redis() {
 }
 
 c0client() {
-  sleep 4
+  sleep 3
+  curl -s -H 'Content-Type: application/json' -d '{"test": true}' http://localhost:8880/post
 }
 
 c0cancel() {
-   nodejs index.js test/redisQuery/redex.yaml cancel | bunyan -o short
+  nodejs index.js test/redisQuery/redex.yaml cancel | bunyan -o short
 }
 
 c0server() {

@@ -12,6 +12,7 @@ configs:
   label: Express HTTP importer with builtin router
   port: 8880
   timeout: 4000
+  bodyParsers: [json]
   gets:
   - label: Redex state
     path: /redex
@@ -20,17 +21,25 @@ configs:
   - label: Redis query
     path: /redis
     route:
-    - redis.Query.singleton
+    - redis.Query.get
   - label: Otherwise to file server
     path: /
     route:
     - http.renderer.markdown.singleton
     - http.translator.file.singleton
     - file.server.simple.singleton
+  posts:
+  - label: Redis query
+    path: /post
+    route:
+    - redis.Query.post
 
 - processorName: file.server.simple.singleton
   root: test/redisQuery
   index: README.md
 
-- processorName: redis.Query.singleton
+- processorName: redis.Query.get
+  namespace: redex:test:query
+
+- processorName: redis.Query.post
   namespace: redex:test:query
