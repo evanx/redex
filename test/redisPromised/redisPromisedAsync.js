@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
@@ -9,11 +8,11 @@ import async from 'async';
 import bunyan from 'bunyan';
 import lodash from 'lodash';
 
-import Loggers from '../util/Loggers';
-import Redis from '../util/Redis';
-import Promises from '../util/Promises';
+import Loggers from '../../util/Loggers';
+import Redis from '../../util/Redis';
+import Promises from '../../util/Promises';
 
-const logger = Loggers.create('redisPromised');
+const logger = Loggers.create(module.filename);
 
 const redis = new Redis();
 
