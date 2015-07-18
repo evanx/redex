@@ -13,8 +13,6 @@ import express from 'express';
 const Paths = RedexGlobal.require('util/Paths');
 const Files = RedexGlobal.require('util/Files');
 
-const { redex } = RedexGlobal;
-
 export default function createProcessor(config, redex) {
 
    assert(config.root, 'root');

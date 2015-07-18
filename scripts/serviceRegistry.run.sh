@@ -16,6 +16,11 @@ c0assert() {
     echo "Please run from redex directory"
     exit 1
   fi
+  if [ ! -d tmp ]
+  then
+    echo "Please create tmp/ directory"
+    exit 1
+  fi  
 }
 
 c0clear() {

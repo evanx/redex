@@ -1,0 +1,36 @@
+
+label: Redis query example
+loggerLevel: debug
+
+configs:
+
+- processorName: redex.state.singleton
+- processorName: http.renderer.markdown.singleton
+- processorName: http.translator.file.singleton
+
+- processorName: http.importer.expressRouter.singleton
+  label: Express HTTP importer with builtin router
+  port: 8880
+  timeout: 4000
+  gets:
+  - label: Redex state
+    path: /redex
+    route:
+    - redex.state.singleton
+  - label: Redis query
+    path: /redis
+    route:
+    - redis.Query.singleton
+  - label: Otherwise to file server
+    path: /
+    route:
+    - http.renderer.markdown.singleton
+    - http.translator.file.singleton
+    - file.server.simple.singleton
+
+- processorName: file.server.simple.singleton
+  root: test/redisQuery
+  index: README.md
+
+- processorName: redis.Query.singleton
+  namespace: redex:test:query
