@@ -4,7 +4,7 @@
 const Promises = RedexGlobal.require('util/Promises');
 const Redis = RedexGlobal.require('util/Redis');
 
-export default class Query {
+export default class PostQuery {
    redis = new Redis({});
    count = 0;
 
@@ -32,16 +32,14 @@ export default class Query {
    async process(req, meta) {
       this.logger.debug('message', meta, req.url, req.method);
       this.count += 1;
+      assert(req.method, 'POST');
       assert.equal(meta.type, 'express', 'supported message type: ' + meta.type);
-      if (req.method === 'POST') {
-         this.logger.warn('post', typeof req.body, req.body);
-      }
       try {
          return {
             statusCode: 200,
             contentType: 'application/json',
             dataType: 'object',
-            content: { test: 'message', count: this.count }
+            content: { req: req.body, count: this.count }
          };
       } catch (err) {
          this.logger.debug('error:', err);

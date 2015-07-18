@@ -21,7 +21,7 @@ configs:
   - label: Redis query
     path: /redis
     route:
-    - redis.Query.get
+    - redis.GetQuery.redis
   - label: Otherwise to file server
     path: /
     route:
@@ -32,14 +32,14 @@ configs:
   - label: Redis query
     path: /post
     route:
-    - redis.Query.post
+    - redis.PostQuery.redis
 
 - processorName: file.server.simple.singleton
   root: test/redisQuery
   index: README.md
 
-- processorName: redis.Query.get
+- processorName: redis.GetQuery.redis
   namespace: redex:test:query
 
-- processorName: redis.Query.post
+- processorName: redis.PostQuery.redis
   namespace: redex:test:query
