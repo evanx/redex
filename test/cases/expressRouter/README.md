@@ -146,7 +146,6 @@ async process(message, meta) {
       let data = await Files.readFile(filePath);
       return {
          type: 'data',
-         dataType: 'Buffer',
          data: data
       };
 ```

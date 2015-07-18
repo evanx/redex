@@ -4,8 +4,9 @@
 const Promises = RedexGlobal.require('util/Promises');
 const Redis = RedexGlobal.require('util/Redis');
 
+const RedisQuery = RedexGlobal.require('lib/RedisQuery');
+
 export default class PostQuery {
-   redis = new Redis({});
    count = 0;
 
    constructor(config, redex, logger) {
@@ -30,16 +31,16 @@ export default class PostQuery {
    }
 
    async process(req, meta) {
-      this.logger.debug('message', meta, req.url, req.method);
-      this.count += 1;
       assert(req.method, 'POST');
       assert.equal(meta.type, 'express', 'supported message type: ' + meta.type);
+      this.logger.debug('message', meta, req.url);
+      this.count += 1;
       try {
+         let reply = await RedisQuery.execute(req.body);
          return {
             statusCode: 200,
             contentType: 'application/json',
-            dataType: 'object',
-            content: { req: req.body, count: this.count }
+            content: reply
          };
       } catch (err) {
          this.logger.debug('error:', err);

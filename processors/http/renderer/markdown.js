@@ -42,7 +42,6 @@ export default function httpRendererMarkdown(config, redex, logger) {
                         let content = reply.content.toString();
                         reply.content = marked(content);
                         reply.contentType = 'text/html';
-                        reply.dataType = 'string';
                      } catch (e) {
                         let lines = e.message.split('\n');
                         if (lines.length) {

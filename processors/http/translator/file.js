@@ -46,17 +46,16 @@ export default function fileTranslator(config, redex, logger) {
          assert(reply, 'reply');
          assert(reply.type, 'reply type');
          assert(reply.type === 'data', 'reply type not data: ' + reply.type);
-         if (reply.dataType === 'string') {
-         } else if (reply.dataType === 'Buffer') {
+         if (typeof reply.data === 'string') {
+         } else if (reply.data.constructor.name === 'Buffer') {
          } else {
-            assert(false, 'reply data type unsupported: ' + reply.dataType);
+            assert(false, 'reply data type unsupported: ' + typeof reply.data);
          }
-         logger.debug('process reply:', {type: reply.type, dataType: reply.dataType, keys: Object.keys(reply)});
+         logger.debug('process reply:', reply.type);
          meta.filePath = fileMessage.path;
          let httpReply = {
             statusCode: 200,
             contentType: Paths.getContentType(path.extname(fileMessage.path)),
-            dataType: reply.dataType,
             content: reply.data
          }
          logger.debug('reply', httpReply.statusCode, httpReply.contentType, reply.data.length);

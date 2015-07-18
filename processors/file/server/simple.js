@@ -76,7 +76,6 @@ export default function createProcessor(config, redex) {
             logger.debug('filePath', filePath, data.constructor.name);
             return {
                type: 'data',
-               dataType: 'Buffer',
                data: data
             };
          } catch (e) {

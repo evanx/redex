@@ -49,7 +49,6 @@ export default function httpCacheRedis(config, redex, logger) {
             let cached = {
                statusCode: reply.statusCode,
                contentType: reply.contentType,
-               dataType: 'string',
                content: reply.content.toString()
             };
             logger.info('hmset', cached.contentType, cached.content.length);

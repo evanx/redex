@@ -28,7 +28,6 @@ export default function state(config, redex, logger) {
          return {
             statusCode: 200,
             contentType: 'application/json',
-            dataType: 'object',
             content: content
          }
       }

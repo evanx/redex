@@ -37,7 +37,6 @@ export default class Query {
          return {
             statusCode: 200,
             contentType: 'application/json',
-            dataType: 'object',
             content: { url: req.url, method: req.method, count: this.count }
          };
       } catch (err) {

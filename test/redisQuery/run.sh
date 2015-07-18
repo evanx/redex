@@ -38,7 +38,7 @@ c0redis() {
 
 c0client() {
   sleep 3
-  curl -s -H 'Content-Type: application/json' -d '{"test": true}' http://localhost:8880/post
+  curl -s -v -H 'Content-Type: application/json' -d '{"test": true}' http://localhost:8880/post
 }
 
 c0cancel() {

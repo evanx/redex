@@ -168,7 +168,6 @@ try {
    let data = await Files.readFile(filePath);
    return {
       type: 'data',
-      dataType: 'string',
       data: data
    };
 ```
@@ -196,11 +195,9 @@ async process(message, meta, route) {
    assert(reply, 'reply');
    assert(reply.type, 'reply type');
    assert(reply.type === 'data', 'reply type is not data: ' + reply.type);
-   assert(reply.dataType === 'blob', 'reply data type unsupported: ' + reply.dataType);
    return {
       statusCode: 200,
       contentType: Paths.getContentType(path.extname(transMessage.path)),
-      dataType: reply.dataType,
       content: reply.data
    }
 }
