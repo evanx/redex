@@ -1,4 +1,3 @@
-
 // Copyright (c) 2015, Evan Summers (twitter.com/evanxsummers)
 // ISC license, see http://github.com/evanx/redex/LICENSE
 
@@ -44,22 +43,21 @@ export default function fileImporter(config, redex, logger) {
       }
    }
 
-   async function watch() {
-      logger.info('watch', config.watchDir);
-      let { fileEvent, fileName } = await Files.watch(config.watchDir, config.watchTimeout);
-      logger.debug('watch', fileEvent, fileName);
-      if (fileEvent === 'change' && lodash.endsWith(fileName, '.yaml')) {
-         logger.debug('File changed:', fileEvent, fileName, config.route);
-         await fileChanged(fileName);
-      } else {
-         logger.debug('Ignore file event:', fileEvent, fileName);
-      }
+   async function watchChanged() {
+      return Files.watchChanged(config.watchDir, config.watchTimeout).then(fileName => {
+         if (lodash.endsWith(fileName, '.yaml')) {
+            logger.debug('File changed:', fileName, config.route);
+            return fileChanged(fileName);
+         } else {
+            logger.debug('Ignore file changed:', fileName);
+         }
+      });
    }
 
    async function run() {
       while (!cancelled) {
          try {
-            await watch();
+            await watchChanged();
          } catch (err) {
             logger.warn(err);
             await Promises.delay(config.errorDelay);

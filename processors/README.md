@@ -2,7 +2,7 @@
 
 This processor imports a message from a directory.
 
-Config: `fileImporter.singleton.yaml`
+Config: `file.importer.default.singleton.yaml`
 ```yaml
 label: Read a message from a file
 watched: fileImporter/watched/
@@ -33,7 +33,7 @@ Reply: `fileImporter/reply/hn160705.json`
 }
 ```
 
-Implementation snippet: `processors/fileImporter.js`
+Implementation snippet: `processors/file/importer/fileImporter.js`
 ```JavaScript
 formatReplyFilePath(messageId) {
    return this.config.replyDir + messageId + '.json';

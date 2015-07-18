@@ -45,7 +45,7 @@ c0cancel() {
 }
 
 c0server() {
-  nodejs index.js test/redisQuery/redex.yaml | bunyan -o short
+  nodejs index.js test/redisQuery/redex.yaml debug | bunyan -o short
 }
 
 c0default() {
