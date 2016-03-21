@@ -222,18 +222,9 @@ Next work:
 - Service discovery
 - redis query server with joins
 - fanout dispatcher (for parallel pipelines)
-
-August 2015:
 - HTTP load balancer
-
-September 2015:
-- auto scaler
-
-October 2015 - auth:
 - HTTPS termination
 - API gateway with authentication and authorisation
-
-November 2015 - websockets:
 - WebSocket server to push notications into the browser
 
 Unscheduled:
