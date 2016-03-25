@@ -12,7 +12,7 @@ Redex is a Node framework for building:
 - communicating sequential processors (CSP)
 - reusable processesors that are configurable and composable with YAML
 - reliable messaging through Redis queues
-- resilient web infrastructure (leveraging ExpressJS)
+- building distributed web infrastructure
 - custom messaging middleware to integrate services via Redis
 
 My rationale for this project is:
