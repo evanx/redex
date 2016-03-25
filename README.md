@@ -15,7 +15,7 @@ Redex is a Node framework for building:
 - distributed web infrastructure
 
 My rationale for this project is:
-- favour Redis, Node, ES2016, YAML for the assembly of CSPs
+- favour Redis, Node, ES'16, YAML for the assembly of CSPs
 - produce a framework for the Actor model of concurrency
 - produce a extensible platform for messaging and orchestration
 - produce a distributed (resilient, scalable) web server
@@ -116,16 +116,16 @@ Cost mitigation:
 
 ### Rationale
 
-We wish to leverage ES7, Node and Redis because:
+We wish to leverage ES'16, Node and Redis because:
 - Redis is a high-performance server for persistent data structures
 - Node is a popular platform for building asynchronous infrastructure
-- ES7 sugars the synchronisation of async coroutines via the "await" keyword
-- ES7 sugars the error handling of chained promises via exceptions
+- ES'16 sugars the synchronisation of async coroutines via the "await" keyword
+- ES'16 sugars the error handling of chained promises via exceptions
 
 ### Goals
 
-- commit to ES7 async functions i.e. await promise resolution, with try/catch for error handling
-- release version 1.0 in 2016 when ES7 is standardised
+- commit to ES'16 async functions i.e. await promise resolution, with try/catch for error handling
+- release version 1.0 in 2016 when ES'16 is standardised
 - distributable via replicas running against the same Redis server
 - scalable and reliable, especially when using Redis Cluster
 - be inspired by functional programming (e.g. immutable state i.e. no side-effects)
@@ -142,7 +142,7 @@ Someone might want to copy this in Go, Rust, D, Elixer, etc. I think that would 
 
 Arguably we are trading off performance in favour extensibility by a broader audience.
 
-We have chosen ES7 (via Babel), and might extend our implementation with TypeScript in future.
+We have chosen ES'16 (via Babel), and might extend our implementation with TypeScript in future.
 
 
 ## Redex and its alternatives
