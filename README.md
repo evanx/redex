@@ -9,14 +9,13 @@ Redex is a tool for:
 - orchestration of microservices
 
 Redex is a Node framework for building:
+- reliable messaging via Redis
 - communicating sequential processors (CSP)
 - reusable processesors that are configurable and composable with YAML
-- reliable messaging through Redis queues
-- building distributed web infrastructure
-- custom messaging middleware to integrate services via Redis
+- distributed web infrastructure
 
 My rationale for this project is:
-- favour Redis, Node, ES7, YAML for the assembly of CSPs
+- favour Redis, Node, ES2016, YAML for the assembly of CSPs
 - produce a framework for the Actor model of concurrency
 - produce a extensible platform for messaging and orchestration
 - produce a distributed (resilient, scalable) web server
