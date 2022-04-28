@@ -13,7 +13,7 @@
     "url": "https://github.com/evanx/redex.git"
   },
   "dependencies": {
-    "async": "~1.2.1",
+    "async": "~2.6.4",
     "babel": "^6.23.0",
     "babel-runtime": "^5.5.4",
     "body-parser": "^1.13.2",
